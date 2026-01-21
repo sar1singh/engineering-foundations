@@ -1,0 +1,13 @@
+{
+  "name": "engineering-foundations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test":"node ./hello.js",
+    "node": "node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
