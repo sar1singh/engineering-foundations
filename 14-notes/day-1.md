@@ -18,13 +18,15 @@
 `The event loop is a contant process that monitors the call stack and callback queue. If the call stack is empty, it pushes the first task from the queue into call stack allowing JS to perform Non-Blocking I/O operations despite being single threaded.`
 
 ## How does the V8 Engine optimize Javascript at runtime ?
-`V8 optimize Javascript through a speculative, multi-tiered JIT (Just-in Time) compilation pipeline that balances fast startup with peak runtime performance. Its works by transitioning code through four main stages:
+`V8 optimize Javascript through a speculative, multi-tiered JIT (Just-in Time) compilation pipeline that balances fast startup with peak runtime performance. Its works by transitioning code through four main stages:`
+1. **Baseline Execution**:  The *Ignition* interpreter quickly converts source code to byte code for immediate execution.
 
-1. **Baseline Execution**: The *Ignition* interpreter quickly converts source code to byte code for immediate execution.
 2.  **Tiered Optimizaiton**: As code 'warms-up', V8 uses the SparkPlug (non-optimizing) and maglev (mid-tier) compilers to generate faster machine code without the heavy overhead of full optimization.
+
 3. **Hot Path Optimization**: For 'hot' functions, the TurboFan compiler performs aggressive, high-level optimizations - Such as function inlining and escape analysis based on collected type feedback.
+
 4. **Speculative Guarding**: V8 assumes dynamic types will remain stable. It uses Hidden Classes (Shapes) and Inline Caching (IC) to bypass expensive property lookups. If a type assumption is violated, the engine performs a *__de-optimization__*(bailout), reverting to bytecode to ensure correctness.
-`
+
 
 What happens to the call stack step-by-step?
 
