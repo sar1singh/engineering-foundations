@@ -1,5 +1,5 @@
 ## What is Javascript?
-`Javascript is a High-Level, single threaded, interpreted language. While it started for web interactivity, but its Non-Blocking I/O nature makes it a powerhouse for scalable backend systems via NodeJS.`
+Javascript is a High-Level, single threaded, interpreted language. While it started for web interactivity, but its Non-Blocking I/O nature makes it a powerhouse for scalable backend systems via NodeJS.
 
 
 ## What is an execution context?
@@ -26,6 +26,9 @@
 3. **Hot Path Optimization**: For 'hot' functions, the TurboFan compiler performs aggressive, high-level optimizations - Such as function inlining and escape analysis based on collected type feedback.
 
 4. **Speculative Guarding**: V8 assumes dynamic types will remain stable. It uses Hidden Classes (Shapes) and Inline Caching (IC) to bypass expensive property lookups. If a type assumption is violated, the engine performs a *__de-optimization__*(bailout), reverting to bytecode to ensure correctness.
+
+## What is the difference between microtasks and macrotasks?
+`This is about the Event Loop's priority. macrotasks include things like ==setTimeout==, ==I/O==, ==UI Rendering==. Microtasks include ==promise==, callbacks, and process.nextTick. The rule is: all microtakss are executed immediately after the current script or before the next macrotask. If we infinetly queue microtasks, we will starve the I/O and freeze the process.`
 
 
 What happens to the call stack step-by-step?
