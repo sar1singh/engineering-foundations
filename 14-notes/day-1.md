@@ -30,6 +30,13 @@ V8 optimize Javascript through a speculative, multi-tiered JIT (Just-in Time) co
 ## What is the difference between microtasks and macrotasks?
 This is about the Event Loop's priority. macrotasks include things like `setTimeout`, `I/O`, `UI Rendering`. Microtasks include `promise`, `callbacks`, and `process.nextTick`. The rule is: all microtakss are executed immediately after the current script or before the next macrotask. If we infinetly queue microtasks, we will starve the I/O and freeze the process.
 
+## How does Node.js handle CPU-intensive tasks, and what are the architectural trade-offs?
+Node.js is traditionally optimized for I/O, but for CPU-bound tasks, we have three distinct architectural layers:
+
+1. **The Cluster Module**: This is the first line of defense for multi-core utilization. It uses a `Master-Worker` pattern to fork multiple instances of the same application, sharing the same server port and distributing load via Round-Robin.
+
+`_Note: Round-Robin method is a fair and simple scheduling algorithm that assigns a fixes time unit(a "quantum") to each process or task in a rotating, circular order._`
+
 
 What happens to the call stack step-by-step?
 
