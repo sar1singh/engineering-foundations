@@ -1,4 +1,4 @@
-### Task 1:
+### Task 1: Hoisting
 #### 1. Write down the output.
 #### 2. Explain exactly what happens in the Memory Creation Phase for the test() function's execution context.
 
@@ -27,7 +27,7 @@ Next, Once `test()` EC will complete its task, control will be given to the GEC 
 
 ---
 
-### Task 2:
+### Task 2: Event Loop & Task Priority
 #### 1.  List the output in the correct order.
 #### 2.  Principal Challenge: Explain why process.nextTick behaves differently than a standard Promise in Node.js, even though both are often called "microtasks."
 
@@ -55,7 +55,7 @@ console.log("End");
 **Outut:** 
 `Start,End, "Next Tick 1", "Promise 1", Timeout 1`
 
-**Reasoning: Event Loop & Task Priority**
+**Reasoning:**
 
 1. Synchronous Execution Phase:
 
@@ -79,7 +79,7 @@ _Architectural Note: process.nextTick is not technically part of the Event Loop;
 
 ---
 
-### Task 3:
+### Task 3: Promise Starvation
 1. Predict the output sequence.
 2. The "Internal" Why: Explain what happens to the Microtask Queue and why the setTimeout callback behaves differently here than in our previous exercise.
 3. Architectural Impact: If this was a production Node.js API, how would it affect other users trying to connect to the server?
@@ -121,7 +121,7 @@ console.log("End");
 - **System Failure:** New incoming TCP connections cannot be accepted, I/O operations cannot complete, and health checks will fail. The server becomes a "zombie" process—it's running and consuming 100% CPU, but it's effectively dead to the outside world.
 
 ---
-### Task 4:
+### Task 4: Standard vs. Arrow
 
 1. Predict the 4 outputs.
 2. Internal Why: Explain the difference between how a standard function and an arrow function determine their this context during the Creation Phase of the Execution Context.
@@ -147,7 +147,7 @@ profile.printNameArrow.call(anotherProfile);
 
 ```
 
-### Answers: Standard vs. Arrow
+### Answers:
 **1. Output:**
 Gemini, Undefined, Architect, Undefined
 
