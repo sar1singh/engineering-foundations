@@ -13,7 +13,7 @@ test();
 console.log(a);
 ```
 
-### Answer:
+#### Answer:
 **Output:** 
 `undefined,20,10`
 
@@ -50,7 +50,7 @@ console.log("End");
 
 ```
 
-### Answer:
+#### Answer:
 
 **Outut:** 
 `Start,End, "Next Tick 1", "Promise 1", Timeout 1`
@@ -104,7 +104,7 @@ console.log("End");
 
 ```
 
-### Answer:
+#### Answer:
 **1. Output:** "start", "End",
 (The process then hangs indefinitely; "Timeout" is never printed)
 
@@ -121,6 +121,7 @@ console.log("End");
 - **System Failure:** New incoming TCP connections cannot be accepted, I/O operations cannot complete, and health checks will fail. The server becomes a "zombie" process—it's running and consuming 100% CPU, but it's effectively dead to the outside world.
 
 ---
+
 ### Task 4: Standard vs. Arrow
 
 1. Predict the 4 outputs.
@@ -147,7 +148,7 @@ profile.printNameArrow.call(anotherProfile);
 
 ```
 
-### Answers:
+#### Answers:
 **1. Output:**
 Gemini, Undefined, Architect, Undefined
 
@@ -165,3 +166,39 @@ Arrow functions do not have their own this binding. Instead, they capture the th
 - The "Gotcha": Because arrow functions have a "hard-bound" lexical this, methods like `.call(), .apply(), and .bind()` are completely ignored. They cannot change an arrow function's context.
 
 ---
+
+### Task 5: Prototypes & Memory
+
+1. If I create 10,000 users using each approach, which one consumes more Memory (Heap) and why?
+2. Internal Why: Explain the "Prototype Chain" lookup process when u3.sayHi() is called.
+3. Internal Prediction: What is the output of `console.log(u3.__proto__ === UserB.prototype)`?
+
+**Question:**
+Look at these two ways of creating "User" objects.
+
+**Approach A:**
+```
+function UserA(name) {
+    this.name = name;
+    this.sayHi = function() {
+        console.log(this.name);
+    };
+}
+const u1 = new UserA("Alice");
+const u2 = new UserA("Bob");
+
+```
+**Approach B:**
+```
+function UserB(name) {
+    this.name = name;
+}
+UserB.prototype.sayHi = function() {
+    console.log(this.name);
+};
+const u3 = new UserB("Charlie");
+const u4 = new UserB("David");
+
+```
+
+#### Answeers:
