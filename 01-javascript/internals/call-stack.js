@@ -9,6 +9,15 @@
     - Function Execution Context (FEC): Created every time a function is called, with its own scope, variables, and this
  */
 
+    /**
+     * 1. The Call Stack & Execution Context Track
+          Scope Chain & Shadowing: Predict output when variables are shadowed across multiple nested functional contexts.
+
+          TDZ (Temporal Dead Zone): Coding snippets involving typeof checks or early access to let/const in complex blocks.
+
+          The this Keyword context: Predicting this in arrow functions vs. regular functions within object methods and classes.
+     */
+
 
 function third() {
   console.log("Inside third");
@@ -25,3 +34,4 @@ function first() {
 }
 
 first();
+
