@@ -94,3 +94,8 @@ Since JS is dynamic, V8 creates "Hidden Classes" (Shapes) at runtime to track pr
 TDZ is the gap between scope entry and variable declaration for let/const. Internally, the engine allocates memory during the "Creation Phase" but marks the variable as "uninitialized," throwing a ReferenceError if accessed before the "Execution Phase" reaches that line.
 
 ## Explain Prototypes and Prototypal Inheritance.
+In JavaScript, every object has a private property called [[Prototype]] (accessible via __proto__ or Object.getPrototypeOf). When we try to access a property on an object and it’s not found, the engine looks at its prototype, and then the prototype's prototype, creating a Prototype Chain.
+
+As a Principal Engineer, I use this for Memory Efficiency. Instead of every instance of a class having its own copy of a method (which wastes RAM), we attach methods to the .prototype object. All instances then share a single reference to that method in memory.
+
+
