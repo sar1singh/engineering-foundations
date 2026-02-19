@@ -1,4 +1,4 @@
-### Task:
+### Task 1:
 #### 1. Write down the output.
 #### 2. Explain exactly what happens in the Memory Creation Phase for the test() function's execution context.
 
@@ -27,7 +27,7 @@ Next, Once `test()` EC will complete its task, control will be given to the GEC 
 
 ---
 
-### Task:
+### Task 2:
 #### 1.  List the output in the correct order.
 #### 2.  Principal Challenge: Explain why process.nextTick behaves differently than a standard Promise in Node.js, even though both are often called "microtasks."
 
@@ -79,8 +79,7 @@ _Architectural Note: process.nextTick is not technically part of the Event Loop;
 
 ---
 
-### **Question:** Analyze the code below. If you run this in a Chrome browser tab or a Node.js process, what will happen to the "End" log and any other subsequent tasks (like UI clicks or other timers)?
-### Task:
+### Task 3:
 1. Predict the output sequence.
 2. The "Internal" Why: Explain what happens to the Microtask Queue and why the setTimeout callback behaves differently here than in our previous exercise.
 3. Architectural Impact: If this was a production Node.js API, how would it affect other users trying to connect to the server?
@@ -120,3 +119,49 @@ console.log("End");
 - In a production Node.js environment, this results in Event Loop Blockage.
 - **Single Thread Consequences:** Since Node.js uses a single thread for the Event Loop, this recursive loop will prevent the heart of the application from beating.
 - **System Failure:** New incoming TCP connections cannot be accepted, I/O operations cannot complete, and health checks will fail. The server becomes a "zombie" process—it's running and consuming 100% CPU, but it's effectively dead to the outside world.
+
+---
+### Task 4:
+
+1. Predict the 4 outputs.
+2. Internal Why: Explain the difference between how a standard function and an arrow function determine their this context during the Creation Phase of the Execution Context.
+
+```
+const profile = {
+    name: "Gemini",
+    printName: function() {
+        console.log(this.name);
+    },
+    printNameArrow: () => {
+        console.log(this.name);
+    }
+};
+
+const anotherProfile = { name: "Architect" };
+
+profile.printName(); 
+profile.printNameArrow(); 
+
+profile.printName.call(anotherProfile); 
+profile.printNameArrow.call(anotherProfile);
+
+```
+
+### Answers: Standard vs. Arrow
+**1. Output:**
+Gemini, Undefined, Architect, Undefined
+
+**2. Internal Why:** 
+**Standard Functions (this is Dynamic):**
+In the Creation Phase, this is not assigned yet. It is determined at Execution Time based on how the function is called.
+- When called as `profile.printName()`, the engine sets this to the object before the dot (profile).
+- When called with `.call(anotherProfile)`, the engine explicitly overrides the context to anotherProfile.
+
+**Arrow Functions (this is Lexical):**
+Arrow functions do not have their own this binding. Instead, they capture the this value of the enclosing lexical context at the time they are created.
+
+- Since profile is an object literal, it does not create a new local scope (only functions and classes do). Therefore, the "enclosing context" is the Global Execution Context (GEC).
+
+- The "Gotcha": Because arrow functions have a "hard-bound" lexical this, methods like `.call(), .apply(), and .bind()` are completely ignored. They cannot change an arrow function's context.
+
+---
