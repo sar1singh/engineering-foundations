@@ -201,4 +201,27 @@ const u4 = new UserB("David");
 
 ```
 
-#### Answeers:
+#### Answers:
+**1. Memory Analysis (Heap Allocation)**
+Approach A consumes significantly more memory.
+
+**Approach A (The "Heavy" Way):** Every time you call new UserA(), V8 allocates memory for a new string (name) AND a new function object (sayHi). If you have 10,000 users, you have 10,000 unique function objects sitting in the heap, even though the code inside them is identical.
+
+**Approach B (The "Flyweight" Way):** Every instance (u3, u4) only stores the name property. The sayHi function exists in exactly one place in memory: UserB.prototype. 10,000 users now share a single reference to one function.
+
+**2. The Prototype Chain Lookup (Internal Mechanics)**
+When you call u3.sayHi():
+
+- The engine looks at the own properties of the u3 object. It finds name, but it does not find sayHi.
+- It then follows the `[[Prototype]]` link (the __proto__ pointer) to UserB.prototype.
+- It finds sayHi there and executes it.
+
+_Crucial Detail: During execution, the this keyword inside sayHi still points to u3 (the object that initiated the call), which is why it correctly prints "Charlie"._
+
+**3. Internal Prediction**
+u3.__proto__ === UserB.prototype is true.
+- UserB.prototype is the "blueprint" object.
+- u3.__proto__ is the "link" the instance uses to look back at that blueprint.
+
+---
+
