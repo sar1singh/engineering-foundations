@@ -1,4 +1,4 @@
-### Task: 
+### Task:
 #### 1. Write down the output.
 #### 2. Explain exactly what happens in the Memory Creation Phase for the test() function's execution context.
 
@@ -75,3 +75,48 @@ console.log("End");
 - It checks for expired timers. Since the setTimeout was set to 0ms, it is ready. Its callback is pushed to the Call Stack. "Timeout 1" is printed.
 
 _Architectural Note: process.nextTick is not technically part of the Event Loop; it is a way to "interrupt" the loop and execute a callback immediately after the current operation, before the loop continues._
+
+
+---
+
+### **Question:** Analyze the code below. If you run this in a Chrome browser tab or a Node.js process, what will happen to the "End" log and any other subsequent tasks (like UI clicks or other timers)?
+### Task:
+1. Predict the output sequence.
+2. The "Internal" Why: Explain what happens to the Microtask Queue and why the setTimeout callback behaves differently here than in our previous exercise.
+3. Architectural Impact: If this was a production Node.js API, how would it affect other users trying to connect to the server?
+
+```
+console.log("Start");
+
+function starve() {
+    Promise.resolve().then(() => {
+        // Recursive microtask
+        starve();
+    });
+}
+
+starve();
+
+setTimeout(() => {
+    console.log("Timeout: Am I ever going to run?");
+}, 0);
+
+console.log("End");
+
+```
+
+### Answer:
+**1. Output:** "start", "End",
+(The process then hangs indefinitely; "Timeout" is never printed)
+
+**2. The "Internal" Why:**
+- **Synchronous Block:** Start and End execute and are popped from the Call Stack.
+- **Microtask Priority:** The engine sees the starve() call. Each time a Promise resolves, it adds a new task to the Microtask Queue.
+- **The Loop Hole:** The Event Loop is designed to completely drain the Microtask Queue before moving to the next phase (Timers). Because starve() recursively adds a new microtask before the current one finishes, the Microtask Queue never becomes empty.
+
+**The Result:** The Event Loop is "starved." It can never reach the Timer Phase to execute the setTimeout, nor can it reach the Render Phase (in browsers), causing the UI to freeze.
+
+**3. Architectural Impact (The Principal Perspective):**
+- In a production Node.js environment, this results in Event Loop Blockage.
+- **Single Thread Consequences:** Since Node.js uses a single thread for the Event Loop, this recursive loop will prevent the heart of the application from beating.
+- **System Failure:** New incoming TCP connections cannot be accepted, I/O operations cannot complete, and health checks will fail. The server becomes a "zombie" process—it's running and consuming 100% CPU, but it's effectively dead to the outside world.
