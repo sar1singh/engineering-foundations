@@ -1,226 +1,264 @@
-# Engineering Foundations
-### Principal Engineer / Solution Architect Mastery System
+````markdown
+# Engineering OS
 
-This repository is a **long-term engineering knowledge system** designed to take an engineer from fundamentals to **Senior / Principal Engineer or Solution Architect level**.
+A structured operating system for elite engineering growth, interview readiness, and long-term career acceleration.
 
-This is **not** a tutorial dump.
-This is **not** a LeetCode-only repo.
-This is a **thinking system** for:
-- problem solving
-- system design
-- cloud architecture
-- communication
-- career growth
-
-The goal is **interview readiness + on-the-job excellence**, not short-term cramming.
-
----
-
-## 🎯 Goals of This Repository
-
-- Build **deep fundamentals** that never expire
-- Convert learning into **portfolio artifacts**
-- Develop **principal-level judgment**
-- Prepare for **global interviews (FAANG / top product companies)**
-- Support **long-term career growth and promotions**
+Primary focus:
+- Senior Backend Engineering
+- FAANG / Top Product Company preparation
+- 60–90+ LPA career jump
+- JavaScript / Node.js depth
+- DSA mastery
+- System Design
+- AWS Architecture
+- Portfolio proof of competence
 
 ---
 
-## 🧭 How to Use This Repository
+# Current Mission
 
-### Core Principles
-- One topic = one file
-- Empty file = not covered yet
-- Filled file = understood and practiced
-- README files = summaries and mental models
-- Notes = reflections, not copy-paste theory
+Convert 10 years of experience into high-leverage interview performance and stronger market positioning.
 
-You don’t “finish” this repo.
-You **grow with it**.
+Immediate target:
+- Strong interview readiness in next 4 months
+- High-quality opportunities
+- Better compensation band
+- Stronger engineering depth
 
 ---
 
-## 🗂️ Repository Structure (High-Level)
+# Core Principles
 
-| Folder | Purpose |
-|-----|------|
-| `01-javascript/` | JS fundamentals, internals, async, patterns |
-| `02-dsa/` | Data structures and problem-solving |
-| `03-algorithms/` | Core algorithmic patterns |
-| `04-design-patterns/` | Engineering design patterns |
-| `05-system-design/` | LLD, HLD, real case studies |
-| `06-projects/` | Mini projects and large systems |
-| `07-cloud/` | AWS + GCP + Azure + trade-offs |
-| `08-databases/` | SQL, NoSQL, distributed data |
-| `09-messaging/` | Kafka, SQS, RabbitMQ |
-| `10-backend/` | API design, scaling, observability |
-| `12-devops/` | Docker, CI/CD, infra basics |
-| `13-interview-prep/` | DSA, system design, behavioral |
-| `15–19` | Principal-level skills (problem solving, communication, career) |
+- Execution over planning
+- Consistency over intensity
+- Proof over claims
+- Systems over motivation
+- High ROI learning only
+- Track milestones, not days
 
 ---
 
-## 🧠 PRINCIPAL ENGINEER READINESS AUDIT (SELF-CHECK)
+# Repo Structure
 
-Use this section **monthly** or before interviews.
-
-### A. Technical Depth
-You are principal-ready if you can:
-- Explain JS event loop and async behavior clearly
-- Debug memory leaks and performance issues
-- Explain trade-offs between data structures
-- Design systems starting from requirements, not tools
-
-**Red flags**
-- Tool-first thinking
-- Buzzword-heavy explanations
-- Panic during open-ended problems
+```text
+00-control/      -> planning, tracking, roadmap, prompts
+01-learning/     -> notes, concepts, architecture learning
+02-practice/     -> DSA, JS, Node, SQL hands-on practice
+03-projects/     -> real portfolio projects
+04-portfolio/    -> resume assets, case studies, proof
+99-archive/      -> deprecated / old material
+````
 
 ---
 
-### B. DSA & Algorithms
-You are ready if:
-- You can classify problems into patterns quickly
-- You explain *why* a solution works
-- You defend data structure choices
-- You stay calm with LeetCode mediums
+# Master Roadmap
 
-Score yourself (1–5): ⬜⬜⬜⬜⬜
+Primary source of truth:
 
----
+```text
+00-control/master-roadmap/
+```
 
-### C. System Design
-You are ready if:
-- You clarify requirements explicitly
-- You discuss failure modes early
-- You mention cost and operability naturally
-- You avoid premature microservices
+Contains domain roadmaps for:
 
-Score yourself (1–5): ⬜⬜⬜⬜⬜
+* Foundations
+* JavaScript
+* Node.js
+* DSA
+* Databases
+* System Design
+* LLD
+* Tradeoffs
+* AWS
+* Security
+* Performance
+* Case Studies
+* Senior Skills
+* Interviews
+* Career Assets
+* AI Expansion
 
----
+Start here:
 
-### D. Cloud & Distributed Systems
-You are ready if:
-- You understand limits, quotas, and costs
-- You can design without managed services
-- You justify managed services anyway
-- You compare AWS vs GCP vs Azure conceptually
-
-Score yourself (1–5): ⬜⬜⬜⬜⬜
-
----
-
-### E. Communication & Leadership
-You are ready if:
-- You explain systems to juniors and executives
-- You disagree calmly with data
-- You summarize designs in 5 bullet points
-- You focus on impact, not effort
-
-Score yourself (1–5): ⬜⬜⬜⬜⬜
+```text
+00-control/master-roadmap/MASTER_INDEX.md
+```
 
 ---
 
-### F. Career & Impact
-You are ready if:
-- You understand promotion mechanics
-- You quantify your impact
-- You create leverage for other engineers
-- You document decisions proactively
+# Current Priority Order (4-Month Sprint)
 
-Score yourself (1–5): ⬜⬜⬜⬜⬜
-
----
-
-## 🗺️ MAP: REPO → REAL INTERVIEW QUESTIONS
-
-This is the **most important section**.
-
-### Problem Solving (`15-problem-solving/`)
-Interview questions:
-- “Requirements are unclear. What do you do?”
-- “System is slow in production. Where do you start?”
-- “Why did you choose X over Y?”
-
-Expectation:
-- Structured thinking
-- Assumptions
-- Trade-offs
+1. DSA
+2. JavaScript Internals
+3. Node.js Backend Depth
+4. SQL / Databases
+5. System Design
+6. Interviews
+7. AWS Basics
+8. Portfolio Proof
 
 ---
 
-### Communication (`16-communication/`)
-Interview questions:
-- “Explain this system to a non-technical person”
-- “Defend your design decision”
-- “How do you handle disagreements?”
+# Practice Rules
 
-Expectation:
-- Clarity
-- Calmness
-- Business alignment
+## DSA
 
----
+```text
+02-practice/dsa/<topic>/
+```
 
-### Career Growth (`17-career-growth/`)
-Behavioral questions:
-- “Tell me about your impact”
-- “How do you influence without authority?”
-- “Why should we level you as principal?”
+Example:
 
-Expectation:
-- System-level thinking
-- Ownership
-- Measurable outcomes
+```text
+02-practice/dsa/arrays/two-sum.js
+```
 
----
+## JavaScript
 
-### Certifications (`18-certifications/`)
-Architecture questions:
-- “You have AWS certs. Design this system.”
-- “What are the limits of this service?”
+```text
+02-practice/javascript/<topic>/
+```
 
-Expectation:
-- Depth, not memorization
-- Failure awareness
-- Cost understanding
+Example:
 
----
+```text
+02-practice/javascript/closures/memoize.js
+```
 
-### Long-Term Mastery (`19-long-term-mastery/`)
-Meta questions:
-- “How do you stay sharp?”
-- “How do you avoid burnout?”
+## Node.js
 
-Expectation:
-- Structured learning
-- Selective depth
-- Sustainability
+```text
+02-practice/nodejs/<topic>/
+```
+
+## SQL
+
+```text
+02-practice/sql/<topic>/
+```
+
+## System Design
+
+```text
+01-learning/system-design/
+02-practice/system-design/
+```
 
 ---
 
-## 🧠 How This Repo Evolves
+# Control Files
 
-- During learning → fill code + notes
-- During interviews → review audit + mappings
-- During job → add real-world lessons
-- During promotion cycles → update impact & stories
+```text
+00-control/STATE.md
+00-control/KPI.md
+00-control/MILESTONES.md
+00-control/PLAN_4_MONTH.md
+00-control/PROMPTS.md
+```
 
-This repo should **outlive any single interview**.
-
----
-
-## ✅ Final Reminder
-
-At principal level:
-- Coding gets attention
-- System design gets respect
-- Communication gets trust
-- Impact gets promotion
-
-This repository is built to support **all four**.
+Use these to track real progress.
 
 ---
 
-_Last updated_: 21-Jan-2026
+# Milestone Model
+
+## Milestone 1 — Foundation Ready
+
+* 20 DSA solved
+* Closures + Promises complete
+* SQL joins complete
+* Node basics complete
+
+## Milestone 2 — Backend Ready
+
+* 50 DSA solved
+* Event loop mastered
+* PostgreSQL indexing complete
+* HLD basics complete
+
+## Milestone 3 — Interview Ready
+
+* 100 DSA solved
+* 10 design mocks
+* 5 coding mocks
+* Resume finalized
+
+## Milestone 4 — Offer Ready
+
+* Active interview pipeline
+* Final round confidence
+* Negotiation ready
+
+---
+
+# How To Use Daily
+
+## Start of Day
+
+Use AI to generate:
+
+* highest ROI task
+* study plan based on available time
+* exact problems
+* folder path
+* milestone update
+
+## End of Day
+
+Update:
+
+* what completed
+* blockers
+* confidence
+* next availability
+
+---
+
+# AI Usage Rules
+
+GitHub = source of truth
+AI = operator layer
+
+Use AI for:
+
+* planning
+* mocks
+* explanations
+* code review
+* weekly audits
+* recovery plans
+
+Do not use AI as fake productivity.
+
+---
+
+# Definition of Progress
+
+Real progress is:
+
+* solved problems
+* completed topics
+* improved speed
+* better explanations
+* stronger interviews
+* shipped projects
+* more opportunities
+
+Not:
+
+* reorganizing folders
+* collecting resources
+* endless planning
+
+---
+
+# Current Status
+
+System built.
+Roadmap active.
+Execution phase begins now.
+
+---
+
+
+_Last updated_: 29-April-2026
