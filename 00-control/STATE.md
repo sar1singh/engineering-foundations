@@ -1,43 +1,25 @@
-# STATE.md
-Last Updated: 2026-04-20
+# STATE
 
-## Purpose
-Career-focused skill execution repo linked to lifeos goals.
+Current Role: Lead Software Engineer
+Target: FAANG L5 / 60-90+ LPA
 
-## Current Level
+Strengths:
+- Node.js delivery
+- Team leadership
+- Backend ownership
 
-### DSA
-Beginner restart
+Weaknesses:
+- DSA speed
+- System design confidence
+- JS internals depth
+- SQL tuning
 
-### System Design
-Beginner theory
+Current Phase:
+Phase 1 Foundation Sprint
 
-### Node.js / Backend
-Intermediate practical
-
-### AWS / Cloud
-Basic practical exposure
-
-### HLD / LLD
-Low formal knowledge
-
-### Interview Readiness
-Low
-
-## Available Capacity
-10 hrs/week target
-
-## Current Priorities
-1. DSA patterns
-2. System Design basics
-3. Backend depth
-4. AWS fundamentals
-
-## Current Risks
-- Inconsistency
-- Overplanning
-- Low energy after work
-- Skipping weekends
-
-## Next Milestone
-Complete Week 1 roadmap
+Current Focus:
+1. DSA
+2. JavaScript internals
+3. Node depth
+4. SQL
+5. HLD basics

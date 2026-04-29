@@ -1,0 +1,358 @@
+Folder PATH listing for volume OS
+Volume serial number is C0ED-5E9F
+C:.
+|   hello.js
+|   package.json
+|   README.md
+|   structure.txt
+|   structure.txtv
+|   
++---00-control
+|       KPI.md
+|       ROADMAP.md
+|       STATE.md
+|       
++---01-javascript
+|   +---async
+|   |       async-await.js
+|   |       callbacks.js
+|   |       concurrency.js
+|   |       error-handling.js
+|   |       promises.js
+|   |       
+|   +---experiments
+|   |       blocking-code.js
+|   |       memory-leak.js
+|   |       performance.js
+|   |       
+|   +---fundamentals
+|   |       arrays-objects.js
+|   |       closures.js
+|   |       equality.js
+|   |       hoisting.js
+|   |       scope.js
+|   |       this-keyword.js
+|   |       variables.js
+|   |       
+|   +---internals
+|   |       call-stack.js
+|   |       closures-prototype.js
+|   |       event-loop.js
+|   |       execution-context.js
+|   |       garbage-collection.js
+|   |       internals-coding-drills.md
+|   |       memory-heap.js
+|   |       microtasks-macrotasks.js
+|   |       
+|   \---patterns
+|           factory-pattern.js
+|           module-pattern.js
+|           observer.js
+|           pub-sub.js
+|           singleton.js
+|           
++---02-dsa
+|   +---arrays
+|   |       max-subarray.js
+|   |       product-except-self.js
+|   |       two-sum.js
+|   |       
+|   +---graphs
+|   |       bfs.js
+|   |       dfs.js
+|   |       number-of-islands.js
+|   |       
+|   +---hashing
+|   |       anagram.js
+|   |       frequency-map.js
+|   |       
+|   +---heaps
+|   |       kth-largest.js
+|   |       top-k-elements.js
+|   |       
+|   +---linked-list
+|   |       detect-cycle.js
+|   |       reverse-list.js
+|   |       
+|   +---stacks-queues
+|   |       min-stack.js
+|   |       valid-parentheses.js
+|   |       
+|   +---strings
+|   |       longest-substring.js
+|   |       valid-palindrome.js
+|   |       
+|   +---trees
+|   |       inorder.js
+|   |       level-order.js
+|   |       preorder.js
+|   |       validate-bst.js
+|   |       
+|   \---tries
+|           implement-trie.js
+|           word-search.js
+|           
++---03-algorithms
+|   +---backtracking
+|   |       permutations.js
+|   |       subsets.js
+|   |       
+|   +---bfs-dfs
+|   |       graph-traversal.js
+|   |       tree-traversal.js
+|   |       
+|   +---dp
+|   |       fibonacci.js
+|   |       knapsack.js
+|   |       
+|   +---greedy
+|   |       interval-scheduling.js
+|   |       jump-game.js
+|   |       
+|   +---recursion
+|   |       {basic-recursion.js}
+|   |       
+|   +---searching
+|   |       {binary-search.js}
+|   |       
+|   +---sliding-window
+|   |       max-window.js
+|   |       min-window.js
+|   |       
+|   +---sorting
+|   |       merge-sort.js
+|   |       quick-sort.js
+|   |       
+|   \---two-pointers
+|           remove-duplicates.js
+|           two-sum-sorted.js
+|           
++---04-design-patterns
+|   +---behavioral
+|   |       command.js
+|   |       observer.js
+|   |       strategy.js
+|   |       
+|   +---creational
+|   |       builder.js
+|   |       factory.js
+|   |       singleton.js
+|   |       
+|   \---structural
+|           adapter.js
+|           decorator.js
+|           proxy.js
+|           
++---05-system-design
+|   +---case-studies
+|   |       amazon.md
+|   |       instagram.md
+|   |       netflix.md
+|   |       whatsapp.md
+|   |       
+|   +---diagrams
+|   |       {README.md}
+|   |       
+|   +---hld
+|   |       cost.md
+|   |       reliability.md
+|   |       scalability.md
+|   |       
+|   \---lld
+|           class-design.md
+|           service-design.md
+|           
++---06-projects
+|   +---backend
+|   +---frontend
+|   \---mini-projects
++---07-cloud
+|   +---aws
+|   |       alb.md
+|   |       autoscaling.md
+|   |       dynamodb.md
+|   |       ec2.md
+|   |       iam.md
+|   |       rds.md
+|   |       s3.md
+|   |       vpc.md
+|   |       
+|   +---azure
+|   |       blob-storage.md
+|   |       cosmos-db.md
+|   |       vm.md
+|   |       
+|   +---cloud-concepts
+|   |       iaas-paas-saas.md
+|   |       regions-zones.md
+|   |       scalability.md
+|   |       
+|   +---comparisons
+|   |       aws-vs-azure.md
+|   |       aws-vs-gcp.md
+|   |       
+|   \---gcp
+|           bigquery.md
+|           cloud-storage.md
+|           compute-engine.md
+|           
++---08-databases
+|   +---comparisons
+|   |       mongo-vs-postgres.md
+|   |       sql-vs-nosql.md
+|   |       
+|   +---distributed
+|   |       consistency.md
+|   |       replication.md
+|   |       sharding.md
+|   |       
+|   +---nosql
+|   |       cassandra.md
+|   |       dynamodb.md
+|   |       mongodb.md
+|   |       
+|   \---sql
+|           indexes.md
+|           mysql.md
+|           postgresql.md
+|           transactions.md
+|           
++---09-messaging
+|   +---comparisons
+|   |       {kafka-vs-sqs.md}
+|   |       
+|   +---kafka
+|   |       basics.md
+|   |       offsets.md
+|   |       partitions.md
+|   |       
+|   +---pubsub
+|   |       {basics.md}
+|   |       
+|   +---rabbitmq
+|   |       exchanges.md
+|   |       queues.md
+|   |       
+|   \---sqs
+|           {basics.md}
+|           
++---10-backend
+|   +---api-design
+|   |       idempotency.md
+|   |       pagination.md
+|   |       rest.md
+|   |       
+|   +---auth
+|   |       jwt.md
+|   |       oauth.md
+|   |       
+|   +---caching
+|   |       cache-patterns.md
+|   |       redis.md
+|   |       
+|   +---nodejs
+|   |       event-loop.md
+|   |       streams.md
+|   |       
+|   +---observability
+|   |       logging.md
+|   |       metrics.md
+|   |       tracing.md
+|   |       
+|   \---scaling
+|           load-balancing.md
+|           rate-limiting.md
+|           
++---11-frontend
+|   +---architecture
+|   +---basics
+|   \---performance
++---12-devops
+|   +---ci-cd
+|   |       {github-actions.md}
+|   |       
+|   +---docker
+|   |       docker-basics.md
+|   |       docker-compose.md
+|   |       
+|   +---infra-basics
+|   |       cloudformation.md
+|   |       terraform.md
+|   |       
+|   \---observability
+|           grafana.md
+|           prometheus.md
+|           
++---13-interview-prep
+|   +---behavioral
+|   |       conflict.md
+|   |       leadership.md
+|   |       
+|   +---dsa
+|   |       {revision.md}
+|   |       
+|   +---mock-interviews
+|   |       {notes.md}
+|   |       
+|   +---resume
+|   |       projects.md
+|   |       resume.md
+|   |       
+|   \---system-design
+|           {templates.md}
+|           
++---14-notes
+|   |   day-2.md
+|   |   day-3.md
+|   |   patterns.md
+|   |   tradeoffs.md
+|   |   
+|   +---01-JS-Internals
+|   |       execution-and-memory.md
+|   |       
+|   +---02-NodeJS-Engineering
+|   |       runtime-and-scalability.md
+|   |       
+|   +---03-DSA-Mechanical-Mastery
+|   |       arrays-hashing.md
+|   |       recursion-backtracking.md
+|   |       
+|   +---04-System-Design
+|   |       hld-fundamentals.md
+|   |       lld-patterns-and-principles.md
+|   |       
+|   \---05-Distributed-Systems
+|           concurrency-and-messaging.md
+|           
++---15-problem-solving
+|       ambiguous-problems.md
+|       debugging-at-scale.md
+|       performance-investigation.md
+|       tradeoff-decision-frameworks.md
+|       
++---16-communication
+|       design-review-presentations.md
+|       disagreement-handling.md
+|       executive-summaries.md
+|       explaining-tradeoffs.md
+|       technical-storytelling.md
+|       
++---17-career-growth
+|       measuring-impact.md
+|       principal-engineer-expectations.md
+|       promotion-frameworks.md
+|       staff-vs-principal.md
+|       visibility-without-politics.md
+|       
++---18-certifications
+|       aws-saa-strategy.md
+|       aws-sap-strategy.md
+|       cert-to-interview-mapping.md
+|       cert-vs-real-world.md
+|       
+\---19-long-term-mastery
+        daily-30-min-practice.md
+        keeping-skills-sharp.md
+        leetcode-maintenance-list.md
+        system-design-refresh.md
+        

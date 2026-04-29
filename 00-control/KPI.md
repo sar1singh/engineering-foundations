@@ -1,11 +1,11 @@
-# KPI.md
-Last Updated: 2026-04-20
+# KPI
 
-| Metric | Target | Current |
-|---|---|---|
-| Study Hours / Week | 10 | 0 |
-| DSA Problems Solved | 5/week | 0 |
-| System Design Sessions | 3/week | 0 |
-| Projects Built | 3 total | 0 |
-| Mock Interviews | 1/month | 0 |
-| AWS Progress | Weekly | 0 |
+Weekly Targets
+
+- DSA Problems: 10
+- JS Labs: 3
+- Node Labs: 2
+- SQL Drills: 3
+- HLD Sessions: 2
+- Mock Interviews: 1
+- Applications: 5
