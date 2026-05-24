@@ -1,6 +1,8 @@
 # MILESTONES
 
 ## Milestone 1 - Foundation Ready
+- Big-O basics complete
+- Arrays/Hashing first 3 problems complete
 - 20 DSA solved
 - Closures complete
 - Promises complete
