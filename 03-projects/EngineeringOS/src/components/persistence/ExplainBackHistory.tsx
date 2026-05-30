@@ -2,7 +2,12 @@ import type { ExplainBackAttempt } from "@/types/progress";
 
 export function ExplainBackHistory({ attempts }: { attempts: ExplainBackAttempt[] }) {
   if (attempts.length === 0) {
-    return null;
+    return (
+      <div className="mt-4 rounded-md border border-dashed border-[var(--border)] p-3">
+        <p className="text-sm font-medium">Saved attempts</p>
+        <p className="mt-1 text-sm text-[var(--muted)]">No explain-back attempts saved yet.</p>
+      </div>
+    );
   }
 
   return (

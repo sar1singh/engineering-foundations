@@ -308,7 +308,73 @@ npm run build
 NEXT_PUBLIC_ENGINEERINGOS_DATA_SOURCE=prisma npm run build
 ```
 
+## Phase 19 Route and Interaction Automation
+
+Phase 19 added reusable route smoke scripts:
+
+```bash
+npm run smoke:mock
+npm run smoke:prisma
+```
+
+Both scripts verify:
+
+```txt
+/dashboard
+/graph
+/topics/javascript
+/practice/practice-javascript
+/progress
+/content
+/settings
+```
+
+Phase 19 also added persistence form interaction tests for:
+
+- Explain-back text entry.
+- Mock evaluation text entry.
+- Reset local progress form rendering.
+
+Validation:
+
+```bash
+npm run test
+npm run typecheck
+npm run lint
+npm run build
+npm run smoke:mock
+npm run smoke:prisma
+```
+
 `npm install` reported 4 moderate audit vulnerabilities. No automatic audit fix was run because dependency rewrites should be approved separately.
+
+## Phase 20 Persistence Polish and Audit Triage
+
+Persistence polish:
+
+- Explain-back history shows an empty state when no attempts exist.
+- Mock evaluation history shows an empty state when no notes exist.
+- Settings explains that `mock` is the default data source and Prisma is local-only opt-in.
+
+Audit triage:
+
+```bash
+npm audit --json
+```
+
+Findings:
+
+- `dompurify`: moderate, transitive through `monaco-editor`.
+- `monaco-editor`: moderate, affected by transitive `dompurify`.
+- `next`: moderate, affected by bundled `postcss`.
+- `postcss`: moderate, transitive through `next`.
+
+No automatic fixes were applied.
+
+Reason:
+
+- The audit suggestion for `next` points to a semver-major downgrade to `next@9.3.3`, which is not appropriate for the current App Router implementation.
+- Dependency remediation should be approved as a separate phase.
 
 ## Safety Notes
 

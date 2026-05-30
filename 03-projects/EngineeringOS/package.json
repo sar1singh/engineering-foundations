@@ -7,6 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint .",
+    "smoke:mock": "node scripts/smoke-routes.mjs",
+    "smoke:prisma": "node scripts/smoke-routes.mjs --prisma",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

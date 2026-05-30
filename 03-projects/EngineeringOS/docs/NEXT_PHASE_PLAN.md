@@ -2,11 +2,11 @@
 
 ## Recommended Next Phase
 
-Phase 19: Persistence Route and Interaction Test Automation.
+Phase 21: Audit Remediation Decision + Release Checklist.
 
 Do not implement this phase without explicit approval.
 
-## Current Phase 18 Outcome
+## Current Phase 20 Outcome
 
 EngineeringOS now has:
 
@@ -38,23 +38,29 @@ EngineeringOS now has:
 - Expanded regression tests for persistence repositories, revision service, server actions, submit button, and completion forms
 - Compact persistence history lists for explain-back attempts and mock evaluations
 - Prisma-mode route smoke passed for dashboard, graph, topic, practice, progress, content, and settings
+- Reusable route smoke scripts for mock and Prisma modes
+- Persistence form interaction tests for explain-back, mock evaluation, and reset progress
+- Persistence history empty states
+- Settings copy clarifying mock default and local-only Prisma opt-in
+- Audit findings triaged without automatic fixes
 
-Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope. Phase 15A added the non-destructive local persistence foundation. Phase 15B wired the UI to server actions in mock-default mode. Phase 15C safely applied the local schema and verified Prisma persistence without using `prisma migrate dev`. Phase 16A hardened the persistence UX. Phase 16B added automated test tooling and first regression tests. Phase 17 expanded regression coverage across persistence paths. Phase 18 smoke-tested Prisma-mode UI routes and improved persistence history display.
+Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope. Phase 15A added the non-destructive local persistence foundation. Phase 15B wired the UI to server actions in mock-default mode. Phase 15C safely applied the local schema and verified Prisma persistence without using `prisma migrate dev`. Phase 16A hardened the persistence UX. Phase 16B added automated test tooling and first regression tests. Phase 17 expanded regression coverage across persistence paths. Phase 18 smoke-tested Prisma-mode UI routes and improved persistence history display. Phase 19 automated mock/prisma route smoke and added interaction tests. Phase 20 polished persistence copy/empty states and triaged npm audit findings.
 
-## Why Route And Interaction Automation Comes Next
+## Why Audit Remediation Decision Comes Next
 
-The next useful local-first step is automating route and interaction checks so Prisma-mode confidence is repeatable. This should remain separate from Supabase or production backend work.
+The next useful local-first step is deciding whether and how to remediate audit findings without destabilizing Next, Monaco, or the current test stack. This should remain separate from Supabase or production backend work.
 
 Candidate areas:
 
-- Add scripted route smoke checks for mock and Prisma modes.
-- Add interaction-level tests for persistence forms where feasible.
-- Add regression checks for history list rendering after saved records.
+- Decide whether audit fixes are safe and in scope.
+- Review whether Monaco can be pinned or deferred.
+- Review whether Next/PostCSS fixes require waiting for upstream compatible releases.
+- Create a release checklist for the local MVP state.
 - Keep Prisma mode opt-in.
 
 Supabase planning can happen later as a separate phase. Do not combine local Prisma schema additions and Supabase planning in one implementation pass.
 
-## Required Phase 19 Work
+## Required Phase 21 Work
 
 - Keep `dataSource: "mock"` as the default.
 - Keep Prisma mode opt-in only.
@@ -62,20 +68,22 @@ Supabase planning can happen later as a separate phase. Do not combine local Pri
 - Do not switch the default data source.
 - Do not run destructive database commands.
 - Do not add Supabase, OpenAI, auth, billing, deployment, or production database behavior.
-- Do not add more test dependencies without explicit approval.
+- Do not change dependency versions without explicit approval.
 
 ## Risks
 
-- Route smoke checks are currently manual command snippets, not reusable scripts.
+- Audit fixes may change dependency trees and should be reviewed before applying.
+- The current audit-recommended Next fix points to an unsafe semver-major downgrade.
 - Supabase design decisions should not leak into local SQLite implementation prematurely.
 - Missing tests could let repository/provider wiring regress.
 
 ## Approval Needed
 
-Before Phase 19 starts, request approval to:
+Before Phase 21 starts, request approval to:
 
-- Add reusable smoke scripts or additional interaction test tooling if needed.
-- Add automated mock/prisma route checks.
+- Apply any dependency changes from audit fixes.
+- Pin or replace dependencies if needed.
+- Draft the local MVP release checklist.
 - Keep Supabase, OpenAI, auth, billing, and deployment out of scope unless separately approved.
 
 ## Future Prompt
@@ -83,5 +91,5 @@ Before Phase 19 starts, request approval to:
 Use this prompt when ready:
 
 ```txt
-Implement Phase 19: Persistence Route and Interaction Test Automation for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, add reusable route smoke checks and interaction regression coverage, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
+Implement Phase 21: Audit Remediation Decision + Release Checklist for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, do not change dependency versions without explicit approval, decide how to handle audit findings, draft a local MVP release checklist, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
 ```

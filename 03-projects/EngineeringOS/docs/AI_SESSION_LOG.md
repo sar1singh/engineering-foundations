@@ -423,3 +423,95 @@
 ### Next Action
 
 - Phase 19: Persistence Route and Interaction Test Automation.
+
+## 2026-05-30 - Phase 19 Persistence Route and Interaction Test Automation
+
+### Completed
+
+- Added reusable route smoke automation for mock and Prisma modes.
+- Added persistence form interaction tests for explain-back, mock evaluation, and reset progress forms.
+- Verified smoke scripts do not leave Node/Next dev-server processes running.
+
+### Files Created
+
+- `scripts/smoke-routes.mjs`
+- `src/components/persistence/PersistenceFormsInteraction.test.tsx`
+
+### Files Updated
+
+- `package.json`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test`: passed, 10 files and 27 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+### Notes
+
+- No new dependencies were added.
+- No Supabase, OpenAI, auth, billing, deployment, production database, migrations, or destructive commands were added.
+- Mock remains the default data source.
+
+### Next Action
+
+- Phase 20: Persistence Polish + Audit Triage.
+
+## 2026-05-30 - Phase 20 Persistence Polish + Audit Triage
+
+### Completed
+
+- Added empty states for explain-back history and mock evaluation history.
+- Added settings copy clarifying that mock is the default data source and Prisma is local-only opt-in.
+- Ran `npm audit --json` and triaged findings without applying fixes.
+- Re-ran full validation and route smoke checks.
+
+### Files Updated
+
+- `src/components/persistence/ExplainBackHistory.tsx`
+- `src/components/persistence/EvaluationHistory.tsx`
+- `src/components/persistence/PersistenceHistory.test.tsx`
+- `src/app/settings/page.tsx`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Audit Findings
+
+- `dompurify`: moderate, transitive through `monaco-editor`.
+- `monaco-editor`: moderate, affected by transitive `dompurify`.
+- `next`: moderate, affected by bundled `postcss`.
+- `postcss`: moderate, transitive through `next`.
+
+### Audit Decision
+
+- No automatic fixes were applied.
+- The suggested Next remediation points to a semver-major downgrade to `next@9.3.3`, which is not appropriate for the current App Router app.
+- Dependency remediation should be handled in a separate approved phase.
+
+### Validation
+
+- `npm run test`: passed, 10 files and 29 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+### Notes
+
+- The first Prisma smoke run failed because mock and Prisma smoke scripts were run in parallel; running them sequentially passed.
+- A leftover dev-server process was stopped during cleanup.
+- No Supabase, OpenAI, auth, billing, deployment, production database, migrations, destructive DB commands, or dependency fixes were added.
+
+### Next Action
+
+- Phase 21: Audit Remediation Decision + Release Checklist.

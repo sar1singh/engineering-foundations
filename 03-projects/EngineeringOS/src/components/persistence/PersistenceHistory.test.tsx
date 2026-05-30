@@ -4,6 +4,12 @@ import { EvaluationHistory } from "@/components/persistence/EvaluationHistory";
 import { ExplainBackHistory } from "@/components/persistence/ExplainBackHistory";
 
 describe("persistence history panels", () => {
+  it("renders explain-back empty state", () => {
+    render(<ExplainBackHistory attempts={[]} />);
+
+    expect(screen.getByText("No explain-back attempts saved yet.")).toBeInTheDocument();
+  });
+
   it("renders compact explain-back history", () => {
     render(
       <ExplainBackHistory
@@ -21,6 +27,12 @@ describe("persistence history panels", () => {
 
     expect(screen.getByText("Saved attempts")).toBeInTheDocument();
     expect(screen.getByText("Closures keep lexical scope.")).toBeInTheDocument();
+  });
+
+  it("renders evaluation empty state", () => {
+    render(<EvaluationHistory results={[]} />);
+
+    expect(screen.getByText("No mock evaluation notes saved yet.")).toBeInTheDocument();
   });
 
   it("renders compact evaluation history", () => {

@@ -12,6 +12,9 @@ export default function SettingsPage() {
       </div>
       <section className="rounded-lg border border-[var(--border)] bg-white p-5">
         <h2 className="text-xl font-semibold">App config</h2>
+        <p className="mt-2 text-sm text-[var(--muted)]">
+          Mock remains the default source. Prisma is local-only and must be enabled explicitly with `NEXT_PUBLIC_ENGINEERINGOS_DATA_SOURCE=prisma`.
+        </p>
         <div className="mt-4 grid gap-3 md:grid-cols-2">
           <Setting label="App name" value={config.appName} />
           <Setting label="Version" value={config.appVersion} />

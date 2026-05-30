@@ -23,6 +23,8 @@
 - Phase 16B: Automated test setup with Vitest, Testing Library, repository/service/component tests, and `npm run test`.
 - Phase 17: Persistence regression expansion across mock persistence repositories, revision service, server actions, submit button, and completion forms.
 - Phase 18: Prisma-mode UI smoke plus compact persistence history panels for explain-back attempts and mock evaluations.
+- Phase 19: Persistence route and interaction test automation with reusable mock/prisma route smoke scripts and form interaction tests.
+- Phase 20: Persistence polish and audit triage with clearer empty states, settings copy, and documented moderate audit findings.
 
 ## Current Features
 
@@ -40,6 +42,10 @@
 - Prisma-mode route smoke passed for `/dashboard`, `/graph`, `/topics/javascript`, `/practice/practice-javascript`, `/progress`, `/content`, and `/settings`.
 - Topic Studio now shows a compact explain-back history list.
 - Practice Lab now shows a compact mock evaluation history list.
+- `npm run smoke:mock` and `npm run smoke:prisma` now automate route smoke checks.
+- Persistence form interaction tests cover explain-back, mock evaluation, and reset progress forms.
+- Persistence history panels now render useful empty states.
+- Settings now documents that mock is default and Prisma is explicitly opt-in.
 - `/content` searches mock roadmaps, topics, tasks, and references.
 - `/settings` shows app config and disabled feature flags.
 
@@ -96,8 +102,8 @@ Backend-ready layers now exist for:
 - Prisma persistence models such as `UserTopicProgress`, `UserTaskProgress`, `ExplainBackAttempt`, `AIEvaluationResult`, `RevisionQueueItem`, and `UserWeakArea` are now defined in the schema, but no migration has been applied yet.
 - Prisma persistence verification wrote and read topic completion, task completion, weak areas, revision queue items, explain-back attempts, and mock evaluation results using the fixed local user ID.
 - `prisma migrate dev` still remains avoided because of the previous local Windows/Node schema-engine issue; additive SQL application with `prisma db execute` worked.
-- npm reported 4 moderate audit vulnerabilities after adding test dependencies; no automatic audit fix was run.
+- `npm audit --json` reports 4 moderate vulnerabilities: DOMPurify via Monaco, Monaco through DOMPurify, Next via bundled PostCSS, and PostCSS through Next. No automatic audit fix was run because the suggested Next fix is a semver-major downgrade and dependency rewrites need explicit approval.
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 19: Persistence Route and Interaction Test Automation, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
+The next phase should be Phase 21: Audit Remediation Decision + Release Checklist, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.

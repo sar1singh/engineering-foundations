@@ -2,7 +2,12 @@ import type { SavedEvaluationResult } from "@/types/progress";
 
 export function EvaluationHistory({ results }: { results: SavedEvaluationResult[] }) {
   if (results.length === 0) {
-    return null;
+    return (
+      <div className="mt-4 rounded-md border border-dashed border-[var(--border)] p-3">
+        <p className="text-sm font-medium">Saved mock evaluations</p>
+        <p className="mt-1 text-sm text-[var(--muted)]">No mock evaluation notes saved yet.</p>
+      </div>
+    );
   }
 
   return (
