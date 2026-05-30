@@ -105,12 +105,50 @@ Missing or invalid values fall back to `mock`.
 
 The next phase should choose either local Prisma write/persistence planning or Supabase planning. Do not combine both in one phase.
 
+## Phase 14 Persistence Planning
+
+Phase 14 is documentation-only. It defines local Prisma persistence scope in `docs/PRISMA_PERSISTENCE_PLAN.md` without changing the schema, running migrations, or adding write behavior.
+
+Planned Prisma writes for later approval:
+
+- User progress.
+- Topic completion.
+- Task completion.
+- Explain-back attempts.
+- Mock AI evaluations.
+- Weak area updates.
+- Revision queue updates.
+
+Seeded curriculum content should remain read-only for now:
+
+- Roadmaps.
+- Domains, categories, and modules.
+- Topics and subtopics.
+- Practice tasks and subtasks.
+- Problem statements and test cases.
+- Interview questions.
+- Reference links.
+- Revision prompts.
+- Evaluation rubrics.
+
+Documented future schema gaps:
+
+- `UserTopicProgress`
+- `UserTaskProgress`
+- `ExplainBackAttempt`
+- `AIEvaluationResult`
+- `RevisionQueueItem`
+- `UserWeakArea`
+
+The recommended next phase is Phase 15: Prisma Persistence Schema Additions. Phase 15 should add approved local schema models only. It should not implement UI writes, Supabase, OpenAI, auth, billing, deployment, or production database behavior.
+
 ## Safety Notes
 
 - Do not commit `.env`, `.env.local`, or real secrets.
 - `.env.example` may contain only safe local placeholders.
 - Do not point `DATABASE_URL` at production.
 - Do not run destructive reset commands without approval.
+- Do not run schema changes or migrations without approval.
 - Do not add Supabase yet.
 - Do not deploy.
 - Do not add OpenAI or real auth in this phase.

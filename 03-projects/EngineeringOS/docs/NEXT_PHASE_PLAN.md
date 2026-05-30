@@ -2,11 +2,11 @@
 
 ## Recommended Next Phase
 
-Phase 14: Prisma Write/Persistence Planning.
+Phase 15: Prisma Persistence Schema Additions.
 
 Do not implement this phase without explicit approval.
 
-## Current Phase 13 Outcome
+## Current Phase 14 Outcome
 
 EngineeringOS now has:
 
@@ -21,47 +21,52 @@ EngineeringOS now has:
 - Prisma repository implementations
 - Opt-in Prisma read mode through `NEXT_PUBLIC_ENGINEERINGOS_DATA_SOURCE=prisma`
 - Mock mode as the default data source
+- A documented local persistence plan in `docs/PRISMA_PERSISTENCE_PLAN.md`
 
-Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Progress remains local/mock-backed and is not written to Prisma yet.
+Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope without implementing writes. Progress remains local/mock-backed and is not written to Prisma yet.
 
-## Why Prisma Write Planning Comes Next
+## Why Prisma Schema Additions Come Next
 
-The next useful local-first step is deciding which user actions should persist to SQLite before implementing writes. This should be planned separately from Supabase or production backend work.
+The next useful local-first step is adding the approved Prisma schema models for durable local progress. This should be planned and implemented separately from Supabase or production backend work.
 
-Candidate planning areas:
+Candidate schema areas:
 
-- Progress write ownership and local persistence rules.
-- Practice task completion and readiness score update flow.
-- Revision queue state changes.
-- Topic notes or bookmarks, if they remain in scope.
-- Repository write interface naming and error handling.
-- Migration path from local SQLite persistence to future Supabase/PostgreSQL.
+- `UserTopicProgress`
+- `UserTaskProgress`
+- `ExplainBackAttempt`
+- `AIEvaluationResult`
+- `RevisionQueueItem`
+- `UserWeakArea`
 
-Supabase planning can happen later as a separate phase. Do not combine local Prisma write work and Supabase planning in one implementation pass.
+Supabase planning can happen later as a separate phase. Do not combine local Prisma schema additions and Supabase planning in one implementation pass.
 
-## Required Phase 14 Planning Work
+## Required Phase 15 Work
 
 - Keep `dataSource: "mock"` as the default.
 - Keep Prisma mode opt-in only.
-- Decide exactly which write paths are allowed locally.
-- Preserve read-only UI safety until write scope is approved.
-- Define write repository interfaces before adding Prisma write implementation.
+- Add only approved local persistence models.
+- Preserve seeded roadmap/topic/task content as read-only.
+- Do not implement UI writes yet.
+- Do not switch the default data source.
+- Do not run destructive database commands.
 - Keep progress local storage/mock-backed unless explicitly moved into Prisma.
 
 ## Risks
 
-- Local writes can blur the current read-only safety boundary.
+- Schema changes can accidentally imply write behavior before repositories and services are approved.
 - Progress persistence needs clear ownership between local storage, mock repositories, and Prisma.
 - Supabase design decisions should not leak into local SQLite implementation prematurely.
 - Missing transaction/error rules could make later sync harder.
+- The previous Windows/Node Prisma schema-engine issue means migration commands require explicit approval and a safe fallback plan.
 
 ## Approval Needed
 
-Before Phase 14 starts, request approval to:
+Before Phase 15 starts, request approval to:
 
-- Plan local Prisma write scope.
-- Update repository interfaces for approved write operations.
-- Implement only the approved local persistence path.
+- Modify `prisma/schema.prisma`.
+- Create or apply a new local migration.
+- Generate Prisma Client after schema changes.
+- Update docs for the new schema.
 - Keep Supabase, OpenAI, auth, billing, and deployment out of scope unless separately approved.
 
 ## Future Prompt
@@ -69,5 +74,5 @@ Before Phase 14 starts, request approval to:
 Use this prompt when ready:
 
 ```txt
-Implement Phase 14: Prisma Write/Persistence Planning for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, define the approved local write scope before coding, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
+Implement Phase 15: Prisma Persistence Schema Additions for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, add only the approved local persistence schema models from PRISMA_PERSISTENCE_PLAN.md, and do not implement UI writes, Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
 ```

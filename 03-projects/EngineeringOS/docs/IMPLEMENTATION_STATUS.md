@@ -15,6 +15,7 @@
 - Phase 11: Documentation and progress update.
 - Phase 12: Local Prisma + SQLite schema, migration SQL, seed script, Prisma client helper, and Prisma repository implementations.
 - Phase 13: Opt-in Prisma data source wiring, safe mock fallback defaults, and read-only UI verification.
+- Phase 14: Prisma write and persistence planning documentation. No writes, schema changes, migrations, or default data source changes were added.
 
 ## Current Features
 
@@ -64,6 +65,7 @@ Backend-ready layers now exist for:
 - DB: disabled mock abstraction only
 - Storage: in-memory mock abstraction only
 - Progress: still local/mock-backed in Prisma mode; no Prisma progress writes yet
+- Persistence planning: `docs/PRISMA_PERSISTENCE_PLAN.md` defines future local write scope and schema gaps
 
 ## Known Gaps
 
@@ -73,7 +75,8 @@ Backend-ready layers now exist for:
 - No real AI evaluation yet.
 - No user accounts or cloud progress yet.
 - Mock content is representative, not complete curriculum-grade content.
+- Planned Prisma persistence models such as `UserTopicProgress`, `UserTaskProgress`, `ExplainBackAttempt`, `AIEvaluationResult`, `RevisionQueueItem`, and `UserWeakArea` are documented but not implemented.
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 14: Prisma Write/Persistence Planning, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma write planning.
+The next phase should be Phase 15: Prisma Persistence Schema Additions, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence schema work.
