@@ -454,6 +454,137 @@
 - `npm run smoke:mock`: passed.
 - `npm run smoke:prisma`: passed.
 
+## 2026-05-31 - DSA Phase 1 Syllabus Import
+
+### Completed
+
+- Imported DSA Phase 1 Foundations from `00-control/master-roadmap/04-dsa/INDEX.md`.
+- Added Arrays, Strings, Hashing, Stack, and Queue to the mock syllabus catalog.
+- Added interview-ready definitions, mental models, visual model descriptions, theory, runnable JavaScript code examples, easy/medium/hard practice problems, interview questions, common mistakes, production use cases, revision prompts, mentor/self review prompts, progress signals, and source references for each DSA topic.
+- Extended the syllabus model with explicit `references`.
+- Updated syllabus tests to verify DSA source path, topic order, difficulty coverage, visual explanation text, runnable examples, references, mentor review prompts, and progress signals.
+- Updated the mock syllabus/backend schema planning doc with DSA imported scope and public references used.
+
+### External References Used
+
+- GeeksforGeeks Array Data Structure: `https://www.geeksforgeeks.org/dsa/array-data-structure/`
+- GeeksforGeeks String Data Structure: `https://www.geeksforgeeks.org/dsa/string-data-structure/`
+- GeeksforGeeks Hash Table Data Structure: `https://www.geeksforgeeks.org/hash-table-data-structure/`
+- GeeksforGeeks Stack Data Structure: `https://www.geeksforgeeks.org/stack`
+- GeeksforGeeks Queue Data Structure: `https://www.geeksforgeeks.org/dsa/queue-data-structure/`
+- LeetCode problem lists for Array, String, Hash Table, Stack, and Queue.
+- NeetCode roadmap: `https://neetcode.io/roadmap`
+
+### Notes
+
+- No real backend was added.
+- No Prisma schema changes or migrations were added.
+- No Supabase, OpenAI, auth, billing, deployment, production database behavior, dependency changes, or destructive database commands were added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+- The next recommended import slice is DSA Phase 2 Core Patterns.
+
+### Validation
+
+- `npm run test -- syllabus-service`: failed once because of a duplicate test variable, then passed after cleanup with 1 file and 5 tests.
+- `npm run lint`: passed.
+- `npm run typecheck`: passed.
+- `npm run test`: passed, 13 files and 40 tests.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+## 2026-05-31 - DSA Phase 2 Core Patterns Import
+
+### Completed
+
+- Imported DSA Phase 2 Core Patterns from `00-control/master-roadmap/04-dsa/INDEX.md`.
+- Added Two Pointers, Sliding Window, Prefix Sum, and Binary Search to the mock syllabus catalog as a separate DSA module.
+- Added definitions, mental models, visual model descriptions, theory, runnable JavaScript examples, easy/medium/hard practice problems, interview questions, common mistakes, production use cases, revision prompts, mentor/self review prompts, progress signals, and source references for each pattern.
+- Updated syllabus tests to verify DSA Phase 2 source path, topic order, visual explanation text, runnable examples, difficulty coverage, NeetCode references, mentor review prompts, and progress signals.
+- Updated implementation status and the mock syllabus/backend schema planning doc.
+
+### Notes
+
+- No real backend was added.
+- No Prisma schema changes or migrations were added.
+- No Supabase, OpenAI, auth, billing, deployment, production database behavior, dependency changes, or destructive database commands were added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+- The next recommended import slice is DSA Phase 3 Structures.
+
+### Validation
+
+- `npm run test -- syllabus-service`: passed, 1 file and 7 tests.
+- `npm run lint`: passed.
+- `npm run typecheck`: passed.
+- `npm run test`: passed, 13 files and 42 tests.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: failed once with a transient `ECONNRESET` after several routes returned 200, then passed on rerun.
+
+## 2026-05-31 - DSA Phase 3 Structures Import
+
+### Completed
+
+- Confirmed backend status: EngineeringOS has backend-ready local layers, but no production backend/API/deploy infrastructure yet.
+- Documented current backend status and future backend/API/DB/deploy plan in the mock syllabus/backend schema planning doc.
+- Imported DSA Phase 3 Structures from `00-control/master-roadmap/04-dsa/INDEX.md`.
+- Added Linked List, Trees, Heap, Trie, and Graphs to the mock syllabus catalog as a separate DSA module.
+- Added definitions, mental models, visual model descriptions, theory, runnable JavaScript examples, easy/medium/hard practice problems, interview questions, common mistakes, production use cases, revision prompts, mentor/self review prompts, progress signals, and source references for each structure.
+- Updated syllabus tests to verify DSA Phase 3 source path, topic order, visual explanation text, runnable examples, difficulty coverage, roadmap references, mentor review prompts, and progress signals.
+
+### Notes
+
+- No real backend was added.
+- No Prisma schema changes or migrations were added.
+- No API routes, Supabase, OpenAI, auth, billing, deployment, production database behavior, dependency changes, or destructive database commands were added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+- The next recommended import slice is DSA Phase 4 Advanced.
+
+### Validation
+
+- `npm run test -- syllabus-service`: passed, 1 file and 9 tests.
+- `npm run lint`: passed.
+- `npm run typecheck`: passed.
+- `npm run test`: passed, 13 files and 44 tests.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+## 2026-05-31 - DSA Phase 4 Advanced Import and Mock Data Split
+
+### Completed
+
+- Confirmed the single mock syllabus file should not keep growing indefinitely.
+- Added `src/data/syllabus/dsa-phase-4.ts` as the first split syllabus data module.
+- Kept `src/data/mock-syllabus.ts` as the catalog aggregator.
+- Imported DSA Phase 4 Advanced from `00-control/master-roadmap/04-dsa/INDEX.md`.
+- Added Greedy, Backtracking, and Dynamic Programming.
+- Added definitions, mental models, visual model descriptions, theory, runnable JavaScript examples, easy/medium/hard practice problems, interview questions, common mistakes, production use cases, revision prompts, proof/strategy review prompts, progress signals, and source references for each advanced topic.
+- Updated tests for DSA Phase 4 order, split-module import, difficulty coverage, proof/review prompts, references, and hard-problem progress signals.
+- Updated implementation status and the mock syllabus/backend schema planning doc.
+
+### Notes
+
+- No real backend was added.
+- No Prisma schema changes or migrations were added.
+- No API routes, Supabase, OpenAI, auth, billing, deployment, production database behavior, dependency changes, or destructive database commands were added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+- The next recommended import slice is JavaScript Phase 2 Async.
+
+### Validation
+
+- `npm run test -- syllabus-service`: passed, 1 file and 11 tests.
+- `npm run lint`: passed.
+- `npm run typecheck`: passed.
+- `npm run test`: passed, 13 files and 46 tests.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
 ### Notes
 
 - No new dependencies were added.
@@ -712,3 +843,52 @@
 ### Next Action
 
 - Phase 25: continue the Curriculum Content Depth Pass with another high-signal JavaScript topic, preferably `js-promises` or `js-event-loop`, unless dependency maintenance is explicitly prioritized first.
+
+## 2026-05-31 - Mock Syllabus Import Structure
+
+### Completed
+
+- Read `00-control/master-roadmap/MASTER_INDEX.md`.
+- Read `00-control/master-roadmap/02-javascript/INDEX.md`.
+- Read `00-control/master-roadmap/04-dsa/INDEX.md`.
+- Checked `01-learning`; no importable files are currently present.
+- Added a mock syllabus content model for domains, modules, topics, definitions, theory, code examples, practice problems by difficulty, interview questions, revision prompts, review prompts, and progress signals.
+- Added a local mock syllabus catalog sourced from the master roadmap.
+- Imported the first small source slice: JavaScript Phase 1 Fundamentals with Scope, Hoisting, Closures, this, and Prototype Chain.
+- Added a syllabus service and exposed it through `appServices`.
+- Added tests for source roots, JavaScript fundamentals order, closures difficulty coverage, review prompts, and progress signals.
+- Added a backend schema planning doc for future normalized storage, code runs, reviews, explain-back attempts, and progress tracking.
+
+### Files Created
+
+- `src/types/syllabus.ts`
+- `src/data/mock-syllabus.ts`
+- `src/lib/services/syllabus-service.ts`
+- `src/lib/services/syllabus-service.test.ts`
+- `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`
+
+### Files Updated
+
+- `src/lib/providers/app-services.ts`
+- `src/lib/services/index.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Notes
+
+- No real backend was added.
+- No Prisma schema changes or migrations were added.
+- No Supabase, OpenAI, auth, billing, deployment, production database behavior, dependency changes, or destructive database commands were added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+- The next recommended import slice is DSA Phase 1 Foundations from `00-control/master-roadmap/04-dsa/INDEX.md`.
+
+### Validation
+
+- `npm run test -- syllabus-service`: passed, 1 file and 3 tests.
+- `npm run lint`: failed once on a local variable named `module`, then passed after renaming it to `syllabusModule`.
+- `npm run typecheck`: passed.
+- `npm run test`: passed, 13 files and 38 tests.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.

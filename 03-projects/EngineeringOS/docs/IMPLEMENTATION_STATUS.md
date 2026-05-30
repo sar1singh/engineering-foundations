@@ -29,6 +29,7 @@
 - Phase 22: Local MVP checkpoint review. Full validation and mock/prisma route smoke passed, and the checkpoint decision was documented.
 - Phase 23: Local MVP polish and content expansion. Added guided next-step navigation across core screens and content search suggestions.
 - Phase 24: Curriculum content depth pass for JavaScript closures and the linked counter practice task, with focused service/search regression tests.
+- Phase 25: Mock syllabus import structure for master-roadmap content, starting with JavaScript Phase 1 fundamentals, DSA Phase 1 foundations, DSA Phase 2 core patterns, DSA Phase 3 structures, DSA Phase 4 advanced topics, and future backend schema planning.
 
 ## Current Features
 
@@ -53,6 +54,8 @@
 - `/content` searches mock roadmaps, topics, tasks, and references.
 - Guided next-step cards connect Dashboard, Topic Studio, Practice Lab, Progress, Content, and Learning Graph into a clearer learning loop.
 - JavaScript closures now has deeper seeded mock content across Topic Studio, Practice Lab, problem statement, revision prompt, interview question, reference metadata, and Content search.
+- A separate mock syllabus catalog now represents imported master-roadmap source structure, topic definitions, theory, visual models, code examples, practice problems by difficulty, source references, review prompts, and progress signals.
+- New larger syllabus slices should live in split files under `src/data/syllabus/`, with `src/data/mock-syllabus.ts` acting as the catalog aggregator.
 - `/settings` shows app config and disabled feature flags.
 
 ## Current Architecture
@@ -114,7 +117,8 @@ Backend-ready layers now exist for:
 - Local MVP checkpoint review is documented in `docs/LOCAL_MVP_CHECKPOINT_REVIEW.md`.
 - Local MVP polish notes are documented in `docs/LOCAL_MVP_POLISH_NOTES.md`.
 - Phase 24 content scope is documented in `docs/PHASE_24_CURRICULUM_CONTENT_DEPTH.md`.
+- Mock syllabus import and future backend schema planning are documented in `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`.
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 25: continue the Curriculum Content Depth Pass with another high-signal JavaScript topic, preferably `js-promises` or `js-event-loop`, unless dependency maintenance is explicitly prioritized first. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
+The next phase should import another small syllabus slice, preferably JavaScript Phase 2 Async from `00-control/master-roadmap/02-javascript/INDEX.md`, unless UI stabilization or dependency maintenance is explicitly prioritized first. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.

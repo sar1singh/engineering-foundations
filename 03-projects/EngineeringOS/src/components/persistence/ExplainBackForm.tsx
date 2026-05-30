@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 import { ActionMessage } from "@/components/persistence/ActionMessage";
 import { SubmitButton } from "@/components/persistence/SubmitButton";
-import { initialPersistenceActionState, saveTopicExplainBackStateAction } from "@/lib/actions/progress-actions";
+import { initialPersistenceActionState } from "@/lib/actions/persistence-action-state";
+import { saveTopicExplainBackStateAction } from "@/lib/actions/progress-actions";
 
 export function ExplainBackForm({ topicId }: { topicId: string }) {
   const [state, formAction] = useActionState(saveTopicExplainBackStateAction.bind(null, topicId), initialPersistenceActionState);

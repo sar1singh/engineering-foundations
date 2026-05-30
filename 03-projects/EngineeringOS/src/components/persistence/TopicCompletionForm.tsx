@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 import { ActionMessage } from "@/components/persistence/ActionMessage";
 import { SubmitButton } from "@/components/persistence/SubmitButton";
-import { initialPersistenceActionState, markTopicCompleteFormAction } from "@/lib/actions/progress-actions";
+import { initialPersistenceActionState } from "@/lib/actions/persistence-action-state";
+import { markTopicCompleteFormAction } from "@/lib/actions/progress-actions";
 
 export function TopicCompletionForm({ topicId, isComplete }: { topicId: string; isComplete: boolean }) {
   const [state, formAction] = useActionState(markTopicCompleteFormAction.bind(null, topicId), initialPersistenceActionState);

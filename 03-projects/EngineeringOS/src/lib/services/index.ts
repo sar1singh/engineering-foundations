@@ -9,5 +9,6 @@ export { RevisionService } from "@/lib/services/revision-service";
 export { RoadmapTreeService } from "@/lib/services/roadmap-tree-service";
 export { SearchService } from "@/lib/services/search-service";
 export type { SearchResults } from "@/lib/services/search-service";
+export { SyllabusService, syllabusService } from "@/lib/services/syllabus-service";
 export { TopicContentService } from "@/lib/services/topic-content-service";
 export type { TopicContent } from "@/lib/services/topic-content-service";

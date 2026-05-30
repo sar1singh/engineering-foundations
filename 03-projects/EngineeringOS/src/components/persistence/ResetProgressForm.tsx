@@ -3,7 +3,8 @@
 import { useActionState } from "react";
 import { ActionMessage } from "@/components/persistence/ActionMessage";
 import { SubmitButton } from "@/components/persistence/SubmitButton";
-import { initialPersistenceActionState, resetLocalProgressFormAction } from "@/lib/actions/progress-actions";
+import { initialPersistenceActionState } from "@/lib/actions/persistence-action-state";
+import { resetLocalProgressFormAction } from "@/lib/actions/progress-actions";
 
 export function ResetProgressForm() {
   const [state, formAction] = useActionState(resetLocalProgressFormAction, initialPersistenceActionState);

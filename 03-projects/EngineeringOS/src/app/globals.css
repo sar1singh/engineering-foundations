@@ -1,13 +1,41 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f8f5;
-  --foreground: #17201b;
-  --muted: #66736d;
-  --surface: #ffffff;
-  --border: #dfe6df;
-  --accent: #0f766e;
-  --accent-strong: #134e4a;
+  --background: #f3f7f2;
+  --foreground: #17211d;
+  --muted: #62716b;
+  --surface: #fffdf8;
+  --surface-soft: #eef5ed;
+  --surface-strong: #e4efe5;
+  --border: #d8e3d8;
+  --accent: #14746f;
+  --accent-strong: #0f4f4c;
+  --accent-soft: #dff4ed;
+  --focus: #6d5dfc;
+  --focus-soft: #ebe8ff;
+  --warm: #b97a31;
+  --warm-soft: #fff0d6;
+  --shadow-soft: 0 18px 55px rgba(24, 54, 42, 0.08);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --background: #101715;
+  --foreground: #edf5ef;
+  --muted: #a7b8af;
+  --surface: #17231f;
+  --surface-soft: #1d2d28;
+  --surface-strong: #243832;
+  --border: #31463f;
+  --accent: #58c7b2;
+  --accent-strong: #a6f0df;
+  --accent-soft: #183a35;
+  --focus: #b8adff;
+  --focus-soft: #2c2852;
+  --warm: #f3bd72;
+  --warm-soft: #3e2c18;
+  --shadow-soft: 0 18px 55px rgba(0, 0, 0, 0.28);
+  color-scheme: dark;
 }
 
 * {
@@ -24,9 +52,56 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+::selection {
+  background: var(--focus-soft);
+  color: var(--foreground);
+}
+
+.bg-white {
+  background-color: var(--surface) !important;
+}
+
+.bg-slate-50 {
+  background-color: var(--surface-soft) !important;
+}
+
+.bg-teal-50 {
+  background-color: var(--accent-soft) !important;
+}
+
+.bg-teal-700 {
+  background-color: var(--accent) !important;
+}
+
+.text-teal-700,
+.text-teal-800 {
+  color: var(--accent-strong) !important;
+}
+
+.border-teal-700 {
+  border-color: var(--accent) !important;
+}
+
+:root[data-theme="dark"] .bg-slate-950 {
+  background-color: #07100d !important;
+}
+
+:root[data-theme="dark"] .text-slate-100 {
+  color: #ecfdf5 !important;
+}
+
+:root[data-theme="dark"] .hover\:bg-slate-50:hover {
+  background-color: var(--surface-soft) !important;
+}
+
+:root[data-theme="dark"] .hover\:bg-teal-50:hover {
+  background-color: var(--accent-soft) !important;
 }

@@ -55,6 +55,21 @@ describe("progress actions", () => {
     expect(result.status).toBe("error");
   });
 
+  it("revalidates the visible practice slug route after marking a task complete", async () => {
+    const { markTaskCompleteFormAction } = await import("@/lib/actions/progress-actions");
+
+    const result = await markTaskCompleteFormAction(
+      "task-js-closures-core",
+      "/practice/implement-counter-with-closure",
+      { status: "idle", message: "" },
+      new FormData()
+    );
+
+    expect(result.status).toBe("success");
+    expect(completeTask).toHaveBeenCalledWith("task-js-closures-core");
+    expect(revalidatePath).toHaveBeenCalledWith("/practice/implement-counter-with-closure");
+  });
+
   it("validates explain-back form content before saving", async () => {
     const { saveTopicExplainBackStateAction } = await import("@/lib/actions/progress-actions");
 

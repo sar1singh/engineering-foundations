@@ -1,6 +1,6 @@
 "use client";
 
-import type { PersistenceActionState } from "@/lib/actions/progress-actions";
+import type { PersistenceActionState } from "@/lib/actions/persistence-action-state";
 
 export function ActionMessage({ state }: { state: PersistenceActionState }) {
   if (!state.message) {

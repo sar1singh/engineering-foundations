@@ -38,6 +38,7 @@ import { ReadinessScoreService } from "@/lib/services/readiness-score-service";
 import { RevisionService } from "@/lib/services/revision-service";
 import { RoadmapTreeService } from "@/lib/services/roadmap-tree-service";
 import { SearchService } from "@/lib/services/search-service";
+import { syllabusService } from "@/lib/services/syllabus-service";
 import { TopicContentService } from "@/lib/services/topic-content-service";
 import { mockStorageService } from "@/lib/storage";
 
@@ -406,7 +407,8 @@ export const appServices = {
     repositories.topicRepository,
     repositories.practiceRepository,
     repositories.referenceRepository
-  )
+  ),
+  syllabusService
 };
 
 export type AppServices = typeof appServices;

@@ -17,13 +17,13 @@ describe("completion forms", () => {
   });
 
   it("renders task completion action", () => {
-    render(<TaskCompletionForm isComplete={false} taskId="task-js-fundamentals-core" />);
+    render(<TaskCompletionForm isComplete={false} routePath="/practice/practice-javascript" taskId="task-js-fundamentals-core" />);
 
     expect(screen.getByRole("button", { name: "Mark task complete" })).toBeEnabled();
   });
 
   it("disables completed task action", () => {
-    render(<TaskCompletionForm isComplete taskId="task-js-fundamentals-core" />);
+    render(<TaskCompletionForm isComplete routePath="/practice/practice-javascript" taskId="task-js-fundamentals-core" />);
 
     expect(screen.getByRole("button", { name: "Task complete" })).toBeDisabled();
   });

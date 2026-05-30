@@ -2,19 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { appServices } from "@/lib/providers";
+import type { PersistenceActionState } from "@/lib/actions/persistence-action-state";
 import type { SaveEvaluationResultInput } from "@/lib/repositories/evaluation-result-repository";
 import type { SaveExplainBackAttemptInput } from "@/lib/repositories/explain-back-repository";
 import type { RevisionQueueItem, UserWeakArea } from "@/types/progress";
-
-export type PersistenceActionState = {
-  status: "idle" | "success" | "error";
-  message: string;
-};
-
-export const initialPersistenceActionState: PersistenceActionState = {
-  status: "idle",
-  message: ""
-};
 
 export async function markTopicCompleteAction(topicId: string) {
   await appServices.topicContentService.completeTopic(topicId);
@@ -23,11 +14,14 @@ export async function markTopicCompleteAction(topicId: string) {
   revalidatePath(`/topics/${topicId}`);
 }
 
-export async function markTaskCompleteAction(taskId: string) {
+export async function markTaskCompleteAction(taskId: string, routePath?: string) {
   await appServices.practiceContentService.completeTask(taskId);
   revalidatePath("/dashboard");
   revalidatePath("/progress");
   revalidatePath(`/practice/${taskId}`);
+  if (routePath) {
+    revalidatePath(routePath);
+  }
 }
 
 export async function updateWeakAreasAction(weakAreas: UserWeakArea[]) {
@@ -74,6 +68,7 @@ export async function markTopicCompleteFormAction(
 
 export async function markTaskCompleteFormAction(
   taskId: string,
+  routePath: string,
   _previousState: PersistenceActionState,
   _formData: FormData
 ): Promise<PersistenceActionState> {
@@ -81,7 +76,7 @@ export async function markTaskCompleteFormAction(
   void _formData;
 
   try {
-    await markTaskCompleteAction(taskId);
+    await markTaskCompleteAction(taskId, routePath);
     return { status: "success", message: "Task marked complete." };
   } catch {
     return { status: "error", message: "Could not mark this task complete." };

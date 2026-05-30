@@ -43,7 +43,7 @@ export default async function PracticePage({ params }: PracticePageProps) {
             </Link>
           ) : null}
         </div>
-        <TaskCompletionForm isComplete={isComplete} taskId={content.task.id} />
+        <TaskCompletionForm isComplete={isComplete} routePath={`/practice/${taskId}`} taskId={content.task.id} />
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         <Metric label="Difficulty" value={content.task.difficulty} />
