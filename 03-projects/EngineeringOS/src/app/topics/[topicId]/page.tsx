@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { markTopicCompleteAction, saveTopicExplainBackFormAction } from "@/lib/actions/progress-actions";
+import { ExplainBackForm } from "@/components/persistence/ExplainBackForm";
+import { TopicCompletionForm } from "@/components/persistence/TopicCompletionForm";
 import { appServices } from "@/lib/providers";
 
 type TopicPageProps = {
@@ -25,8 +26,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
   }
 
   const isComplete = progress.completedTopicIds.includes(content.topic.id);
-  const completeTopic = markTopicCompleteAction.bind(null, content.topic.id);
-  const saveExplainBack = saveTopicExplainBackFormAction.bind(null, content.topic.id);
+  const latestExplainBackAttempt = await appServices.repositories.explainBackRepository.getLatestExplainBackAttempt(content.topic.id);
 
   return (
     <section className="space-y-6">
@@ -36,15 +36,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
           <h1 className="text-3xl font-semibold">{content.topic.title}</h1>
           <p className="mt-2 max-w-3xl text-[var(--muted)]">{content.topic.summary}</p>
         </div>
-        <form action={completeTopic}>
-          <button
-            className="rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600"
-            disabled={isComplete}
-            type="submit"
-          >
-            {isComplete ? "Topic complete" : "Mark topic complete"}
-          </button>
-        </form>
+        <TopicCompletionForm isComplete={isComplete} topicId={content.topic.id} />
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         <Metric label="Difficulty" value={content.topic.difficulty} />
@@ -105,16 +97,13 @@ export default async function TopicPage({ params }: TopicPageProps) {
       <section className="rounded-lg border border-[var(--border)] bg-white p-5">
         <h2 className="text-xl font-semibold">Explain-back attempt</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">{content.topic.explainBackPrompt}</p>
-        <form action={saveExplainBack} className="mt-4 space-y-3">
-          <textarea
-            className="min-h-32 w-full rounded-md border border-[var(--border)] p-3 text-sm outline-none focus:border-teal-700"
-            name="answer"
-            placeholder="Write your explanation in your own words."
-          />
-          <button className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white" type="submit">
-            Save explain-back
-          </button>
-        </form>
+        <ExplainBackForm topicId={content.topic.id} />
+        {latestExplainBackAttempt ? (
+          <div className="mt-4 rounded-md bg-slate-50 p-3">
+            <p className="text-sm font-medium">Latest saved attempt</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">{latestExplainBackAttempt.answer}</p>
+          </div>
+        ) : null}
       </section>
       <section className="rounded-lg border border-[var(--border)] bg-white p-5">
         <h2 className="text-xl font-semibold">References and rubric</h2>

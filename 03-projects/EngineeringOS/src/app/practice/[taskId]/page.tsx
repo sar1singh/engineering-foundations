@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { markTaskCompleteAction, savePracticeMockEvaluationFormAction } from "@/lib/actions/progress-actions";
+import { MockEvaluationForm } from "@/components/persistence/MockEvaluationForm";
+import { TaskCompletionForm } from "@/components/persistence/TaskCompletionForm";
 import { appServices } from "@/lib/providers";
 
 type PracticePageProps = {
@@ -25,8 +26,8 @@ export default async function PracticePage({ params }: PracticePageProps) {
   }
 
   const isComplete = progress.completedTaskIds.includes(content.task.id);
-  const completeTask = markTaskCompleteAction.bind(null, content.task.id);
-  const saveMockEvaluation = savePracticeMockEvaluationFormAction.bind(null, content.task.id, content.task.topicId);
+  const evaluationResults = await appServices.repositories.evaluationResultRepository.getEvaluationResultsByTaskId(content.task.id);
+  const latestEvaluation = evaluationResults[0] ?? null;
 
   return (
     <section className="space-y-6">
@@ -41,15 +42,7 @@ export default async function PracticePage({ params }: PracticePageProps) {
             </Link>
           ) : null}
         </div>
-        <form action={completeTask}>
-          <button
-            className="rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600"
-            disabled={isComplete}
-            type="submit"
-          >
-            {isComplete ? "Task complete" : "Mark task complete"}
-          </button>
-        </form>
+        <TaskCompletionForm isComplete={isComplete} taskId={content.task.id} />
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         <Metric label="Difficulty" value={content.task.difficulty} />
@@ -104,20 +97,16 @@ export default async function PracticePage({ params }: PracticePageProps) {
             </div>
           ))}
         </div>
-        <form action={saveMockEvaluation} className="mt-5 space-y-3 border-t border-[var(--border)] pt-4">
-          <label className="block text-sm font-medium" htmlFor="mock-evaluation-summary">
-            Mock evaluation note
-          </label>
-          <textarea
-            className="min-h-24 w-full rounded-md border border-[var(--border)] p-3 text-sm outline-none focus:border-teal-700"
-            id="mock-evaluation-summary"
-            name="summary"
-            placeholder="Capture a short self-review for this task."
-          />
-          <button className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white" type="submit">
-            Save mock evaluation
-          </button>
-        </form>
+        <MockEvaluationForm taskId={content.task.id} topicId={content.task.topicId} />
+        {latestEvaluation ? (
+          <div className="mt-4 rounded-md bg-slate-50 p-3">
+            <p className="text-sm font-medium">Latest saved mock evaluation</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">{latestEvaluation.summary}</p>
+            <p className="mt-2 text-sm text-teal-700">
+              {latestEvaluation.score}/{latestEvaluation.maxScore} pts
+            </p>
+          </div>
+        ) : null}
       </section>
     </section>
   );

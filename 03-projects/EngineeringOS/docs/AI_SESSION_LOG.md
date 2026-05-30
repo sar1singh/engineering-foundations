@@ -222,3 +222,57 @@
 ### Next Action
 
 - Phase 16: Persistence UX Hardening + Automated Test Setup.
+
+## 2026-05-30 - Phase 16A Persistence UX Hardening
+
+### Completed
+
+- Hardened persistence UI without adding new dependencies.
+- Added reusable persistence form components with pending, success, and error feedback.
+- Updated Topic Studio to use a hardened topic completion form and explain-back form.
+- Updated Topic Studio to show the latest saved explain-back attempt.
+- Updated Practice Lab to use a hardened task completion form and mock evaluation form.
+- Updated Practice Lab to show the latest saved mock evaluation.
+- Updated Progress to use a hardened reset local progress form.
+
+### Files Created
+
+- `src/components/persistence/ActionMessage.tsx`
+- `src/components/persistence/SubmitButton.tsx`
+- `src/components/persistence/TopicCompletionForm.tsx`
+- `src/components/persistence/TaskCompletionForm.tsx`
+- `src/components/persistence/ExplainBackForm.tsx`
+- `src/components/persistence/MockEvaluationForm.tsx`
+- `src/components/persistence/ResetProgressForm.tsx`
+
+### Files Updated
+
+- `src/lib/actions/progress-actions.ts`
+- `src/app/topics/[topicId]/page.tsx`
+- `src/app/practice/[taskId]/page.tsx`
+- `src/app/progress/page.tsx`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+
+### Test Dependency Status
+
+- No test dependencies were added.
+- Required for Phase 16B, pending approval:
+  - `vitest`
+  - `@vitejs/plugin-react`
+  - `@testing-library/react`
+  - `@testing-library/jest-dom`
+  - `@testing-library/user-event`
+  - `jsdom`
+
+### Next Action
+
+- Phase 16B: Automated Test Setup after dependency approval.

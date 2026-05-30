@@ -222,6 +222,19 @@ Verification:
 
 The next recommended phase is Phase 16: Persistence UX Hardening + Automated Test Setup.
 
+## Phase 16A Persistence UX Hardening
+
+Phase 16A hardened the persistence UI without adding dependencies:
+
+- Replaced plain persistence forms with client components using `useActionState`.
+- Added pending labels for write actions.
+- Added accessible success/error feedback with `aria-live`.
+- Added a latest explain-back attempt panel in Topic Studio.
+- Added a latest mock evaluation panel in Practice Lab.
+- Kept all writes flowing through server actions, services, and repositories.
+
+No test dependencies were added. Automated test setup is pending explicit approval for the dependency list.
+
 ## Safety Notes
 
 - Do not commit `.env`, `.env.local`, or real secrets.
