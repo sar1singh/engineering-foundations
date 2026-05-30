@@ -2,11 +2,11 @@
 
 ## Recommended Next Phase
 
-Phase 15: Prisma Persistence Schema Additions.
+Phase 16: Persistence UX Hardening + Automated Test Setup.
 
 Do not implement this phase without explicit approval.
 
-## Current Phase 14 Outcome
+## Current Phase 15C Outcome
 
 EngineeringOS now has:
 
@@ -22,51 +22,56 @@ EngineeringOS now has:
 - Opt-in Prisma read mode through `NEXT_PUBLIC_ENGINEERINGOS_DATA_SOURCE=prisma`
 - Mock mode as the default data source
 - A documented local persistence plan in `docs/PRISMA_PERSISTENCE_PLAN.md`
+- Additive Prisma persistence models in `prisma/schema.prisma`
+- Repository interfaces and implementations for local persistence writes
+- Service methods for topic/task completion, weak areas, revision queue, explain-back attempts, and evaluation results
+- Server actions as the backend boundary for future UI write wiring
+- Server-action forms wired into Topic Studio, Practice Lab, and Progress
+- Fixed local user ID: `engineeringos-local-user`
+- Applied local SQLite persistence schema via additive SQL and `prisma db execute`
+- Verified Prisma persistence repositories against the local database
 
-Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope without implementing writes. Progress remains local/mock-backed and is not written to Prisma yet.
+Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope. Phase 15A added the non-destructive local persistence foundation. Phase 15B wired the UI to server actions in mock-default mode. Phase 15C safely applied the local schema and verified Prisma persistence without using `prisma migrate dev`.
 
-## Why Prisma Schema Additions Come Next
+## Why UX Hardening And Tests Come Next
 
-The next useful local-first step is adding the approved Prisma schema models for durable local progress. This should be planned and implemented separately from Supabase or production backend work.
+The next useful local-first step is making the persistence UI more informative and adding an approved test setup. This should remain separate from Supabase or production backend work.
 
-Candidate schema areas:
+Candidate areas:
 
-- `UserTopicProgress`
-- `UserTaskProgress`
-- `ExplainBackAttempt`
-- `AIEvaluationResult`
-- `RevisionQueueItem`
-- `UserWeakArea`
+- Add pending/success/error UI states for server-action forms.
+- Add accessible feedback after save actions.
+- Show persisted explain-back and mock evaluation history.
+- Add approved test dependencies such as Vitest, React Testing Library, and jsdom.
+- Add repository/service/component regression tests.
+- Keep Prisma mode opt-in.
 
 Supabase planning can happen later as a separate phase. Do not combine local Prisma schema additions and Supabase planning in one implementation pass.
 
-## Required Phase 15 Work
+## Required Phase 16 Work
 
 - Keep `dataSource: "mock"` as the default.
 - Keep Prisma mode opt-in only.
-- Add only approved local persistence models.
 - Preserve seeded roadmap/topic/task content as read-only.
-- Do not implement UI writes yet.
 - Do not switch the default data source.
 - Do not run destructive database commands.
-- Keep progress local storage/mock-backed unless explicitly moved into Prisma.
+- Do not add Supabase, OpenAI, auth, billing, deployment, or production database behavior.
+- Do not add test dependencies without explicit approval.
 
 ## Risks
 
-- Schema changes can accidentally imply write behavior before repositories and services are approved.
-- Progress persistence needs clear ownership between local storage, mock repositories, and Prisma.
+- UI forms currently submit without rich success/error feedback.
+- Progress persistence needs automated regression coverage.
 - Supabase design decisions should not leak into local SQLite implementation prematurely.
-- Missing transaction/error rules could make later sync harder.
-- The previous Windows/Node Prisma schema-engine issue means migration commands require explicit approval and a safe fallback plan.
+- Missing tests could let repository/provider wiring regress.
 
 ## Approval Needed
 
-Before Phase 15 starts, request approval to:
+Before Phase 16 starts, request approval to:
 
-- Modify `prisma/schema.prisma`.
-- Create or apply a new local migration.
-- Generate Prisma Client after schema changes.
-- Update docs for the new schema.
+- Add any test dependencies.
+- Add UX state components around server actions.
+- Add automated repository, service, and component tests.
 - Keep Supabase, OpenAI, auth, billing, and deployment out of scope unless separately approved.
 
 ## Future Prompt
@@ -74,5 +79,5 @@ Before Phase 15 starts, request approval to:
 Use this prompt when ready:
 
 ```txt
-Implement Phase 15: Prisma Persistence Schema Additions for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, add only the approved local persistence schema models from PRISMA_PERSISTENCE_PLAN.md, and do not implement UI writes, Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
+Implement Phase 16: Persistence UX Hardening + Automated Test Setup for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, add approved test tooling only after listing dependencies, improve persistence UI feedback, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
 ```

@@ -102,6 +102,11 @@ model Topic {
   referenceLinks       ReferenceLink[]
   revisionPrompts      RevisionPrompt[]
   evaluationRubrics    EvaluationRubric[]
+  userTopicProgress    UserTopicProgress[]
+  explainBackAttempts  ExplainBackAttempt[]
+  aiEvaluationResults  AIEvaluationResult[]
+  revisionQueueItems   RevisionQueueItem[]
+  userWeakAreas        UserWeakArea[]
   sourceRelations      TopicRelation[] @relation("SourceTopic")
   targetRelations      TopicRelation[] @relation("TargetTopic")
 
@@ -161,6 +166,9 @@ model PracticeTask {
   problemStatement    ProblemStatement? @relation(fields: [problemStatementId], references: [id])
   subtasks            PracticeSubtask[]
   evaluationRubrics   EvaluationRubric[]
+  userTaskProgress    UserTaskProgress[]
+  explainBackAttempts ExplainBackAttempt[]
+  aiEvaluationResults AIEvaluationResult[]
 
   @@index([topicId])
   @@index([subtopicId])
@@ -253,6 +261,7 @@ model RevisionPrompt {
   frequency String
 
   topic     Topic @relation(fields: [topicId], references: [id])
+  queueItems RevisionQueueItem[]
 
   @@index([topicId])
 }
@@ -284,7 +293,7 @@ model EvaluationCriterion {
 
 model UserProgress {
   id                       String   @id
-  userId                   String
+  userId                   String   @unique
   completedTopicIds         String
   completedTaskIds          String
   weakAreas                 String
@@ -294,4 +303,111 @@ model UserProgress {
   interviewReadinessPercent Int
   createdAt                 DateTime @default(now())
   updatedAt                 DateTime @updatedAt
+}
+
+model UserTopicProgress {
+  id          String    @id
+  userId      String
+  topicId     String
+  status      String
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  topic       Topic     @relation(fields: [topicId], references: [id])
+
+  @@unique([userId, topicId])
+  @@index([topicId])
+  @@index([userId])
+}
+
+model UserTaskProgress {
+  id          String       @id
+  userId      String
+  taskId      String
+  status      String
+  completedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  task        PracticeTask @relation(fields: [taskId], references: [id])
+
+  @@unique([userId, taskId])
+  @@index([taskId])
+  @@index([userId])
+}
+
+model ExplainBackAttempt {
+  id        String       @id
+  userId    String
+  topicId   String
+  taskId    String?
+  answer    String
+  createdAt DateTime     @default(now())
+
+  topic     Topic        @relation(fields: [topicId], references: [id])
+  task      PracticeTask? @relation(fields: [taskId], references: [id])
+
+  @@index([userId])
+  @@index([topicId])
+  @@index([taskId])
+}
+
+model AIEvaluationResult {
+  id               String       @id
+  userId           String
+  topicId          String?
+  taskId           String?
+  explainBackId    String?
+  score            Int
+  maxScore         Int
+  summary          String
+  strengths        String
+  improvements     String
+  evaluationSource String
+  createdAt        DateTime     @default(now())
+
+  topic            Topic?       @relation(fields: [topicId], references: [id])
+  task             PracticeTask? @relation(fields: [taskId], references: [id])
+
+  @@index([userId])
+  @@index([topicId])
+  @@index([taskId])
+  @@index([explainBackId])
+}
+
+model RevisionQueueItem {
+  id               String          @id
+  userId           String
+  topicId          String
+  revisionPromptId String?
+  status           String
+  nextReviewAt     DateTime?
+  completedAt      DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  topic            Topic           @relation(fields: [topicId], references: [id])
+  revisionPrompt   RevisionPrompt? @relation(fields: [revisionPromptId], references: [id])
+
+  @@index([userId])
+  @@index([topicId])
+  @@index([revisionPromptId])
+}
+
+model UserWeakArea {
+  id        String   @id
+  userId    String
+  topicId   String
+  reason    String
+  source    String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  topic     Topic    @relation(fields: [topicId], references: [id])
+
+  @@unique([userId, topicId, source])
+  @@index([topicId])
+  @@index([userId])
 }

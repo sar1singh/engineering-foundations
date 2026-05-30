@@ -9,17 +9,24 @@ import { mockReferenceRepository } from "@/lib/repositories/mock-reference-repos
 import { mockRoadmapRepository } from "@/lib/repositories/mock-roadmap-repository";
 import {
   mockEvaluationRubricRepository,
+  mockEvaluationResultRepository,
+  mockExplainBackRepository,
   mockInterviewQuestionRepository,
   mockProgressRepository,
+  mockRevisionQueueRepository,
   mockRevisionPromptRepository,
   mockSubtopicRepository
 } from "@/lib/repositories/mock-support-repositories";
 import { mockTopicRepository } from "@/lib/repositories/mock-topic-repository";
+import type { EvaluationResultRepository } from "@/lib/repositories/evaluation-result-repository";
 import type { EvaluationRubricRepository } from "@/lib/repositories/evaluation-rubric-repository";
+import type { ExplainBackRepository } from "@/lib/repositories/explain-back-repository";
 import type { InterviewQuestionRepository } from "@/lib/repositories/interview-question-repository";
 import type { PracticeRepository } from "@/lib/repositories/practice-repository";
 import type { ProblemRepository } from "@/lib/repositories/problem-repository";
+import type { ProgressRepository } from "@/lib/repositories/progress-repository";
 import type { ReferenceRepository } from "@/lib/repositories/reference-repository";
+import type { RevisionQueueRepository } from "@/lib/repositories/revision-queue-repository";
 import type { RevisionPromptRepository } from "@/lib/repositories/revision-prompt-repository";
 import type { RoadmapRepository } from "@/lib/repositories/roadmap-repository";
 import type { SubtopicRepository } from "@/lib/repositories/subtopic-repository";
@@ -44,7 +51,10 @@ const mockRepositories = {
   interviewQuestionRepository: mockInterviewQuestionRepository,
   revisionPromptRepository: mockRevisionPromptRepository,
   evaluationRubricRepository: mockEvaluationRubricRepository,
-  progressRepository: mockProgressRepository
+  progressRepository: mockProgressRepository,
+  explainBackRepository: mockExplainBackRepository,
+  evaluationResultRepository: mockEvaluationResultRepository,
+  revisionQueueRepository: mockRevisionQueueRepository
 };
 
 type ReadRepositories = {
@@ -57,7 +67,10 @@ type ReadRepositories = {
   interviewQuestionRepository: InterviewQuestionRepository;
   revisionPromptRepository: RevisionPromptRepository;
   evaluationRubricRepository: EvaluationRubricRepository;
-  progressRepository: typeof mockProgressRepository;
+  progressRepository: ProgressRepository;
+  explainBackRepository: ExplainBackRepository;
+  evaluationResultRepository: EvaluationResultRepository;
+  revisionQueueRepository: RevisionQueueRepository;
 };
 
 function withReadFallback<TRepository extends object>(
@@ -200,6 +213,78 @@ function createPrismaRepositories(): ReadRepositories {
     }
   };
 
+  const progressRepository: ProgressRepository = {
+    async getCurrentProgress() {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.getCurrentProgress();
+    },
+    async getProgress() {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.getProgress();
+    },
+    async getCompletedTopicIds() {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.getCompletedTopicIds();
+    },
+    async getCompletedTaskIds() {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.getCompletedTaskIds();
+    },
+    async getWeakAreas() {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.getWeakAreas();
+    },
+    async markTopicComplete(topicId) {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.markTopicComplete(topicId);
+    },
+    async markTaskComplete(taskId) {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.markTaskComplete(taskId);
+    },
+    async updateWeakAreas(weakAreas) {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.updateWeakAreas(weakAreas);
+    },
+    async updateRevisionQueue(items) {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.updateRevisionQueue(items);
+    },
+    async resetLocalProgress() {
+      return (await import("@/lib/repositories/prisma-progress-repository")).prismaProgressRepository.resetLocalProgress();
+    }
+  };
+
+  const explainBackRepository: ExplainBackRepository = {
+    async saveExplainBackAttempt(input) {
+      return (await import("@/lib/repositories/prisma-explain-back-repository")).prismaExplainBackRepository.saveExplainBackAttempt(input);
+    },
+    async getExplainBackAttemptsByTopicId(topicId) {
+      return (await import("@/lib/repositories/prisma-explain-back-repository")).prismaExplainBackRepository.getExplainBackAttemptsByTopicId(topicId);
+    },
+    async getLatestExplainBackAttempt(topicId) {
+      return (await import("@/lib/repositories/prisma-explain-back-repository")).prismaExplainBackRepository.getLatestExplainBackAttempt(topicId);
+    }
+  };
+
+  const evaluationResultRepository: EvaluationResultRepository = {
+    async saveEvaluationResult(input) {
+      return (await import("@/lib/repositories/prisma-evaluation-result-repository")).prismaEvaluationResultRepository.saveEvaluationResult(input);
+    },
+    async getEvaluationResultsByTopicId(topicId) {
+      return (await import("@/lib/repositories/prisma-evaluation-result-repository")).prismaEvaluationResultRepository.getEvaluationResultsByTopicId(topicId);
+    },
+    async getEvaluationResultsByTaskId(taskId) {
+      return (await import("@/lib/repositories/prisma-evaluation-result-repository")).prismaEvaluationResultRepository.getEvaluationResultsByTaskId(taskId);
+    }
+  };
+
+  const revisionQueueRepository: RevisionQueueRepository = {
+    async getRevisionQueue() {
+      return (await import("@/lib/repositories/prisma-revision-queue-repository")).prismaRevisionQueueRepository.getRevisionQueue();
+    },
+    async updateRevisionQueue(items) {
+      return (await import("@/lib/repositories/prisma-revision-queue-repository")).prismaRevisionQueueRepository.updateRevisionQueue(items);
+    },
+    async markRevisionItemComplete(itemId) {
+      return (await import("@/lib/repositories/prisma-revision-queue-repository")).prismaRevisionQueueRepository.markRevisionItemComplete(itemId);
+    },
+    async deferRevisionItem(itemId, nextReviewAt) {
+      return (await import("@/lib/repositories/prisma-revision-queue-repository")).prismaRevisionQueueRepository.deferRevisionItem(itemId, nextReviewAt);
+    }
+  };
+
   return {
     roadmapRepository: withReadFallback("roadmapRepository", roadmapRepository, {
     getAllRoadmaps: [],
@@ -248,15 +333,27 @@ function createPrismaRepositories(): ReadRepositories {
     getRubricByTopicId: null,
     getRubricByTaskId: null
     }),
-    // Progress remains local/mock in Phase 13. Prisma writes are intentionally out of scope.
-    progressRepository: mockProgressRepository
+    progressRepository: withReadFallback("progressRepository", progressRepository, {
+    getCurrentProgress: mockProgressRepository.getCurrentProgress(),
+    getProgress: mockProgressRepository.getProgress(),
+    getCompletedTopicIds: [],
+    getCompletedTaskIds: [],
+    getWeakAreas: []
+    }),
+    explainBackRepository,
+    evaluationResultRepository,
+    revisionQueueRepository
   };
 }
 
 const repositories: ReadRepositories = appConfig.dataSource === "prisma" ? createPrismaRepositories() : mockRepositories;
 
 const roadmapTreeService = new RoadmapTreeService(repositories.roadmapRepository);
-const revisionService = new RevisionService(repositories.revisionPromptRepository, repositories.progressRepository);
+const revisionService = new RevisionService(
+  repositories.revisionPromptRepository,
+  repositories.progressRepository,
+  repositories.revisionQueueRepository
+);
 const readinessScoreService = new ReadinessScoreService(repositories.progressRepository);
 
 export const appServices = {
@@ -286,13 +383,18 @@ export const appServices = {
     repositories.interviewQuestionRepository,
     repositories.referenceRepository,
     repositories.revisionPromptRepository,
-    repositories.evaluationRubricRepository
+    repositories.evaluationRubricRepository,
+    repositories.progressRepository,
+    repositories.explainBackRepository,
+    repositories.evaluationResultRepository
   ),
   practiceContentService: new PracticeContentService(
     repositories.practiceRepository,
     repositories.topicRepository,
     repositories.problemRepository,
-    repositories.evaluationRubricRepository
+    repositories.evaluationRubricRepository,
+    repositories.progressRepository,
+    repositories.evaluationResultRepository
   ),
   progressSummaryService: new ProgressSummaryService(
     repositories.progressRepository,

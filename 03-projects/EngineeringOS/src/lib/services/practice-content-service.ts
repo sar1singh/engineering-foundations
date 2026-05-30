@@ -1,10 +1,13 @@
+import type { EvaluationResultRepository, SaveEvaluationResultInput } from "@/lib/repositories/evaluation-result-repository";
 import type { EvaluationRubricRepository } from "@/lib/repositories/evaluation-rubric-repository";
 import type { PracticeRepository } from "@/lib/repositories/practice-repository";
 import type { ProblemRepository } from "@/lib/repositories/problem-repository";
+import type { ProgressRepository } from "@/lib/repositories/progress-repository";
 import type { TopicRepository } from "@/lib/repositories/topic-repository";
 import type { EvaluationRubric } from "@/types/evaluation";
 import type { PracticeTask } from "@/types/practice";
 import type { ProblemStatement } from "@/types/problem";
+import type { ProgressOperationResult, SavedEvaluationResult } from "@/types/progress";
 import type { Topic } from "@/types/topic";
 
 export type PracticeContent = {
@@ -19,7 +22,9 @@ export class PracticeContentService {
     private readonly practiceRepository: PracticeRepository,
     private readonly topicRepository: TopicRepository,
     private readonly problemRepository: ProblemRepository,
-    private readonly evaluationRubricRepository: EvaluationRubricRepository
+    private readonly evaluationRubricRepository: EvaluationRubricRepository,
+    private readonly progressRepository?: ProgressRepository,
+    private readonly evaluationResultRepository?: EvaluationResultRepository
   ) {}
 
   async getPracticeContentById(taskId: string): Promise<PracticeContent | null> {
@@ -46,5 +51,21 @@ export class PracticeContentService {
       problemStatement,
       evaluationRubric: taskRubric ?? topicRubric
     };
+  }
+
+  async completeTask(taskId: string): Promise<ProgressOperationResult> {
+    if (!this.progressRepository) {
+      throw new Error("Progress repository is not configured.");
+    }
+
+    return this.progressRepository.markTaskComplete(taskId);
+  }
+
+  async saveTaskEvaluation(input: SaveEvaluationResultInput): Promise<SavedEvaluationResult> {
+    if (!this.evaluationResultRepository) {
+      throw new Error("Evaluation result repository is not configured.");
+    }
+
+    return this.evaluationResultRepository.saveEvaluationResult(input);
   }
 }

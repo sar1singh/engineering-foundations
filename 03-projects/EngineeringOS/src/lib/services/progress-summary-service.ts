@@ -2,7 +2,7 @@ import type { PracticeRepository } from "@/lib/repositories/practice-repository"
 import type { ProgressRepository } from "@/lib/repositories/progress-repository";
 import type { TopicRepository } from "@/lib/repositories/topic-repository";
 import type { PracticeTask } from "@/types/practice";
-import type { UserProgress } from "@/types/progress";
+import type { ProgressOperationResult, UserProgress, UserWeakArea } from "@/types/progress";
 import type { Topic } from "@/types/topic";
 
 export type ProgressSummary = {
@@ -36,5 +36,21 @@ export class ProgressSummaryService {
       totalTopics: topics.length,
       totalTasks: tasks.length
     };
+  }
+
+  async markTopicComplete(topicId: string): Promise<ProgressOperationResult> {
+    return this.progressRepository.markTopicComplete(topicId);
+  }
+
+  async markTaskComplete(taskId: string): Promise<ProgressOperationResult> {
+    return this.progressRepository.markTaskComplete(taskId);
+  }
+
+  async updateWeakAreas(weakAreas: UserWeakArea[]): Promise<ProgressOperationResult> {
+    return this.progressRepository.updateWeakAreas(weakAreas);
+  }
+
+  async resetLocalProgress(): Promise<ProgressOperationResult> {
+    return this.progressRepository.resetLocalProgress();
   }
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { resetLocalProgressAction } from "@/lib/actions/progress-actions";
 import { appServices } from "@/lib/providers";
 
 export default async function ProgressPage() {
@@ -8,10 +9,17 @@ export default async function ProgressPage() {
 
   return (
     <section className="space-y-6">
-      <div>
-        <p className="text-sm font-medium text-teal-700">Progress</p>
-        <h1 className="text-3xl font-semibold">Progress summary</h1>
-        <p className="mt-2 text-[var(--muted)]">Local progress is currently backed by mock repository data.</p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-teal-700">Progress</p>
+          <h1 className="text-3xl font-semibold">Progress summary</h1>
+          <p className="mt-2 text-[var(--muted)]">Local progress is tracked through the configured repository source.</p>
+        </div>
+        <form action={resetLocalProgressAction}>
+          <button className="rounded-md border border-[var(--border)] px-4 py-2 text-sm font-medium text-slate-700 hover:border-teal-700" type="submit">
+            Reset local progress
+          </button>
+        </form>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <Metric label="Readiness" value={`${summary.progress.readinessScore}%`} />

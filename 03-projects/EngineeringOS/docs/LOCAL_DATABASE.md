@@ -142,6 +142,86 @@ Documented future schema gaps:
 
 The recommended next phase is Phase 15: Prisma Persistence Schema Additions. Phase 15 should add approved local schema models only. It should not implement UI writes, Supabase, OpenAI, auth, billing, deployment, or production database behavior.
 
+## Phase 15A Local Persistence Foundation
+
+Phase 15A added the non-destructive persistence foundation:
+
+- Additive Prisma schema models for local user persistence.
+- Write-ready repository interfaces.
+- Mock and Prisma persistence repository implementations.
+- Service methods for local progress operations.
+- Server actions as the future UI write boundary.
+- Fixed local user ID: `engineeringos-local-user`.
+
+Phase 15A did not:
+
+- Change the default data source.
+- Run migrations.
+- Run destructive database commands.
+- Add Supabase.
+- Add auth.
+- Add OpenAI.
+- Add billing.
+- Add deployment.
+- Add production database behavior.
+
+New schema models are present in `prisma/schema.prisma`, but the local SQLite database will not contain those tables until an approved Phase 15B schema application step runs.
+
+## Phase 15B Persistence UI Wiring
+
+Phase 15B wired the persistence foundation into the UI with server-action forms:
+
+- Topic Studio can mark a topic complete.
+- Topic Studio can save an explain-back attempt.
+- Practice Lab can mark a task complete.
+- Practice Lab can save a mock evaluation note.
+- Progress can reset local progress.
+
+These actions use the existing UI -> server action -> service -> repository flow. React components still do not import Prisma directly.
+
+Phase 15B did not:
+
+- Change the default data source.
+- Run migrations.
+- Run destructive database commands.
+- Add Supabase.
+- Add auth.
+- Add OpenAI.
+- Add billing.
+- Add deployment.
+- Add production database behavior.
+
+The recommended next phase is Phase 15C: Safe Local Schema Application + Persistence Verification.
+
+## Phase 15C Safe Schema Application
+
+Phase 15C safely applied the local persistence schema to SQLite.
+
+Applied file:
+
+```txt
+prisma/migrations/20260530010000_add_local_persistence_foundation/migration.sql
+```
+
+Application command:
+
+```bash
+npx prisma db execute --file prisma/migrations/20260530010000_add_local_persistence_foundation/migration.sql --schema prisma/schema.prisma
+```
+
+Verification:
+
+- `npx prisma validate`: passed.
+- `npx prisma migrate diff --from-url "file:./prisma/dev.db" --to-schema-datamodel prisma/schema.prisma --script`: returned an empty migration after application.
+- `npx prisma generate`: passed.
+- Prisma persistence repository checks passed for topic completion, task completion, weak areas, revision queue, explain-back attempts, and mock evaluation results.
+- Default mock-mode build passed.
+- Prisma-mode build passed.
+
+`prisma migrate dev` was not used because of the previously documented Windows/Node schema-engine issue.
+
+The next recommended phase is Phase 16: Persistence UX Hardening + Automated Test Setup.
+
 ## Safety Notes
 
 - Do not commit `.env`, `.env.local`, or real secrets.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { markTaskCompleteAction, savePracticeMockEvaluationFormAction } from "@/lib/actions/progress-actions";
 import { appServices } from "@/lib/providers";
 
 type PracticePageProps = {
@@ -8,6 +9,7 @@ type PracticePageProps = {
 export default async function PracticePage({ params }: PracticePageProps) {
   const { taskId } = await params;
   const content = await appServices.practiceContentService.getPracticeContentBySlug(taskId);
+  const progress = await appServices.repositories.progressRepository.getCurrentProgress();
 
   if (!content) {
     return (
@@ -22,17 +24,32 @@ export default async function PracticePage({ params }: PracticePageProps) {
     );
   }
 
+  const isComplete = progress.completedTaskIds.includes(content.task.id);
+  const completeTask = markTaskCompleteAction.bind(null, content.task.id);
+  const saveMockEvaluation = savePracticeMockEvaluationFormAction.bind(null, content.task.id, content.task.topicId);
+
   return (
     <section className="space-y-6">
-      <div>
-        <p className="text-sm font-medium text-teal-700">Practice Lab</p>
-        <h1 className="text-3xl font-semibold">{content.task.title}</h1>
-        <p className="mt-2 max-w-3xl text-[var(--muted)]">{content.task.statement}</p>
-        {content.topic ? (
-          <Link className="mt-3 inline-block text-sm font-medium text-teal-700" href={`/topics/${content.topic.slug}`}>
-            Back to {content.topic.title}
-          </Link>
-        ) : null}
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-teal-700">Practice Lab</p>
+          <h1 className="text-3xl font-semibold">{content.task.title}</h1>
+          <p className="mt-2 max-w-3xl text-[var(--muted)]">{content.task.statement}</p>
+          {content.topic ? (
+            <Link className="mt-3 inline-block text-sm font-medium text-teal-700" href={`/topics/${content.topic.slug}`}>
+              Back to {content.topic.title}
+            </Link>
+          ) : null}
+        </div>
+        <form action={completeTask}>
+          <button
+            className="rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-600"
+            disabled={isComplete}
+            type="submit"
+          >
+            {isComplete ? "Task complete" : "Mark task complete"}
+          </button>
+        </form>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         <Metric label="Difficulty" value={content.task.difficulty} />
@@ -87,6 +104,20 @@ export default async function PracticePage({ params }: PracticePageProps) {
             </div>
           ))}
         </div>
+        <form action={saveMockEvaluation} className="mt-5 space-y-3 border-t border-[var(--border)] pt-4">
+          <label className="block text-sm font-medium" htmlFor="mock-evaluation-summary">
+            Mock evaluation note
+          </label>
+          <textarea
+            className="min-h-24 w-full rounded-md border border-[var(--border)] p-3 text-sm outline-none focus:border-teal-700"
+            id="mock-evaluation-summary"
+            name="summary"
+            placeholder="Capture a short self-review for this task."
+          />
+          <button className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white" type="submit">
+            Save mock evaluation
+          </button>
+        </form>
       </section>
     </section>
   );

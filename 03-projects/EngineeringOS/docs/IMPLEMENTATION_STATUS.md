@@ -16,6 +16,9 @@
 - Phase 12: Local Prisma + SQLite schema, migration SQL, seed script, Prisma client helper, and Prisma repository implementations.
 - Phase 13: Opt-in Prisma data source wiring, safe mock fallback defaults, and read-only UI verification.
 - Phase 14: Prisma write and persistence planning documentation. No writes, schema changes, migrations, or default data source changes were added.
+- Phase 15A: Local persistence foundation with additive Prisma models, repository write interfaces, Prisma/mock persistence repositories, service write methods, and server-action boundaries. No migration was run and mock remains default.
+- Phase 15B: Persistence UI wiring for topic completion, task completion, explain-back attempts, mock evaluation notes, and local progress reset through server-action forms. No migration was run and mock remains default.
+- Phase 15C: Safe local schema application and persistence verification. The additive persistence SQL was applied with `prisma db execute`; `prisma migrate dev` was not used.
 
 ## Current Features
 
@@ -24,7 +27,9 @@
 - `/graph` renders the roadmap tree from `RoadmapTreeService`.
 - `/topics/[topicId]` renders full topic content from `TopicContentService`.
 - `/practice/[taskId]` renders task details from `PracticeContentService`.
-- `/progress` renders local progress summary from `ProgressSummaryService`.
+- `/topics/[topicId]` includes a server-action form for marking a topic complete and saving an explain-back attempt.
+- `/practice/[taskId]` includes a server-action form for marking a task complete and saving a mock evaluation note.
+- `/progress` renders local progress summary from `ProgressSummaryService` and includes a server-action form for local progress reset.
 - `/content` searches mock roadmaps, topics, tasks, and references.
 - `/settings` shows app config and disabled feature flags.
 
@@ -65,7 +70,10 @@ Backend-ready layers now exist for:
 - DB: disabled mock abstraction only
 - Storage: in-memory mock abstraction only
 - Progress: still local/mock-backed in Prisma mode; no Prisma progress writes yet
-- Persistence planning: `docs/PRISMA_PERSISTENCE_PLAN.md` defines future local write scope and schema gaps
+- Persistence foundation: Prisma and mock write-ready repositories exist for local progress, topic/task completion, weak areas, revision queue, explain-back attempts, and mock evaluation results
+- Fixed local user ID: `engineeringos-local-user` until auth exists
+- Persistence UI: wired through server actions, not client-side direct repository calls
+- Local SQLite schema: now includes Phase 15A persistence tables and indexes
 
 ## Known Gaps
 
@@ -75,8 +83,10 @@ Backend-ready layers now exist for:
 - No real AI evaluation yet.
 - No user accounts or cloud progress yet.
 - Mock content is representative, not complete curriculum-grade content.
-- Planned Prisma persistence models such as `UserTopicProgress`, `UserTaskProgress`, `ExplainBackAttempt`, `AIEvaluationResult`, `RevisionQueueItem`, and `UserWeakArea` are documented but not implemented.
+- Prisma persistence models such as `UserTopicProgress`, `UserTaskProgress`, `ExplainBackAttempt`, `AIEvaluationResult`, `RevisionQueueItem`, and `UserWeakArea` are now defined in the schema, but no migration has been applied yet.
+- Prisma persistence verification wrote and read topic completion, task completion, weak areas, revision queue items, explain-back attempts, and mock evaluation results using the fixed local user ID.
+- `prisma migrate dev` still remains avoided because of the previous local Windows/Node schema-engine issue; additive SQL application with `prisma db execute` worked.
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 15: Prisma Persistence Schema Additions, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence schema work.
+The next phase should be Phase 16: Persistence UX Hardening + Automated Test Setup, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
