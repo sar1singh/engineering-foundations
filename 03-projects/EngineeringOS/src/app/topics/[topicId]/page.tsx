@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GuidedNextSteps } from "@/components/learning/GuidedNextSteps";
 import { ExplainBackForm } from "@/components/persistence/ExplainBackForm";
 import { ExplainBackHistory } from "@/components/persistence/ExplainBackHistory";
 import { TopicCompletionForm } from "@/components/persistence/TopicCompletionForm";
@@ -28,6 +29,8 @@ export default async function TopicPage({ params }: TopicPageProps) {
 
   const isComplete = progress.completedTopicIds.includes(content.topic.id);
   const explainBackAttempts = await appServices.repositories.explainBackRepository.getExplainBackAttemptsByTopicId(content.topic.id);
+  const primaryPracticeTask = content.practiceTasks[0];
+  const nextRelatedTopic = content.relatedTopics[0] ?? content.advancedTopics[0];
 
   return (
     <section className="space-y-6">
@@ -101,6 +104,29 @@ export default async function TopicPage({ params }: TopicPageProps) {
         <ExplainBackForm topicId={content.topic.id} />
         <ExplainBackHistory attempts={explainBackAttempts} />
       </section>
+      <GuidedNextSteps
+        steps={[
+          primaryPracticeTask
+            ? {
+                href: `/practice/${primaryPracticeTask.slug}`,
+                label: `Practice ${content.topic.title}`,
+                description: "Apply the mental model before moving to the next topic."
+              }
+            : null,
+          nextRelatedTopic
+            ? {
+                href: `/topics/${nextRelatedTopic.slug}`,
+                label: `Continue to ${nextRelatedTopic.title}`,
+                description: "Follow the roadmap sequence while this topic is fresh."
+              }
+            : null,
+          {
+            href: "/progress",
+            label: "Check progress",
+            description: "Review completion, weak areas, and readiness after this study session."
+          }
+        ].filter((step): step is { href: string; label: string; description: string } => step !== null)}
+      />
       <section className="rounded-lg border border-[var(--border)] bg-white p-5">
         <h2 className="text-xl font-semibold">References and rubric</h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-2">

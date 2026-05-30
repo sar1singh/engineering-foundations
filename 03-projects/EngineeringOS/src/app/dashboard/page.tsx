@@ -1,10 +1,32 @@
 import Link from "next/link";
+import { GuidedNextSteps } from "@/components/learning/GuidedNextSteps";
 import { appServices } from "@/lib/providers";
 
 export default async function DashboardPage() {
   const dashboard = await appServices.dashboardService.getDashboard();
   const activeRoadmap = dashboard.roadmapTree?.roadmap;
   const activeDomains = dashboard.roadmapTree?.domains.slice(0, 6) ?? [];
+  const nextSteps = [
+    dashboard.currentTopic
+      ? {
+          href: `/topics/${dashboard.currentTopic.slug}`,
+          label: `Study ${dashboard.currentTopic.title}`,
+          description: "Review the theory, mental model, and explain-back prompt."
+        }
+      : null,
+    dashboard.todayMission
+      ? {
+          href: `/practice/${dashboard.todayMission.slug}`,
+          label: "Open today's practice",
+          description: "Turn the active topic into a focused coding or design rep."
+        }
+      : null,
+    {
+      href: "/progress",
+      label: "Review progress",
+      description: "Check completion, weak areas, and local readiness signals."
+    }
+  ].filter((step): step is { href: string; label: string; description: string } => step !== null);
 
   return (
     <section className="space-y-8">
@@ -92,6 +114,7 @@ export default async function DashboardPage() {
           ))}
         </div>
       </section>
+      <GuidedNextSteps steps={nextSteps} title="Continue the loop" />
     </section>
   );
 }

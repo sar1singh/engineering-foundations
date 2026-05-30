@@ -25,6 +25,9 @@
 - Phase 18: Prisma-mode UI smoke plus compact persistence history panels for explain-back attempts and mock evaluations.
 - Phase 19: Persistence route and interaction test automation with reusable mock/prisma route smoke scripts and form interaction tests.
 - Phase 20: Persistence polish and audit triage with clearer empty states, settings copy, and documented moderate audit findings.
+- Phase 21: Audit remediation decision and local MVP release checklist. No dependency versions were changed.
+- Phase 22: Local MVP checkpoint review. Full validation and mock/prisma route smoke passed, and the checkpoint decision was documented.
+- Phase 23: Local MVP polish and content expansion. Added guided next-step navigation across core screens and content search suggestions.
 
 ## Current Features
 
@@ -47,6 +50,7 @@
 - Persistence history panels now render useful empty states.
 - Settings now documents that mock is default and Prisma is explicitly opt-in.
 - `/content` searches mock roadmaps, topics, tasks, and references.
+- Guided next-step cards connect Dashboard, Topic Studio, Practice Lab, Progress, Content, and Learning Graph into a clearer learning loop.
 - `/settings` shows app config and disabled feature flags.
 
 ## Current Architecture
@@ -103,7 +107,11 @@ Backend-ready layers now exist for:
 - Prisma persistence verification wrote and read topic completion, task completion, weak areas, revision queue items, explain-back attempts, and mock evaluation results using the fixed local user ID.
 - `prisma migrate dev` still remains avoided because of the previous local Windows/Node schema-engine issue; additive SQL application with `prisma db execute` worked.
 - `npm audit --json` reports 4 moderate vulnerabilities: DOMPurify via Monaco, Monaco through DOMPurify, Next via bundled PostCSS, and PostCSS through Next. No automatic audit fix was run because the suggested Next fix is a semver-major downgrade and dependency rewrites need explicit approval.
+- Audit remediation is documented in `docs/AUDIT_REMEDIATION_DECISION.md`.
+- Local MVP checkpoint criteria are documented in `docs/LOCAL_MVP_RELEASE_CHECKLIST.md`.
+- Local MVP checkpoint review is documented in `docs/LOCAL_MVP_CHECKPOINT_REVIEW.md`.
+- Local MVP polish notes are documented in `docs/LOCAL_MVP_POLISH_NOTES.md`.
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 21: Audit Remediation Decision + Release Checklist, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
+The next phase should be Phase 24: Curriculum Content Depth Pass, unless dependency maintenance is explicitly prioritized first. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.

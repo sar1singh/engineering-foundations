@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GuidedNextSteps } from "@/components/learning/GuidedNextSteps";
 import { ResetProgressForm } from "@/components/persistence/ResetProgressForm";
 import { appServices } from "@/lib/providers";
 
@@ -6,6 +7,7 @@ export default async function ProgressPage() {
   const summary = await appServices.progressSummaryService.getProgressSummary();
   const topicPercent = summary.totalTopics > 0 ? Math.round((summary.completedTopics.length / summary.totalTopics) * 100) : 0;
   const taskPercent = summary.totalTasks > 0 ? Math.round((summary.completedTasks.length / summary.totalTasks) * 100) : 0;
+  const nextWeakTopic = summary.weakTopics[0];
 
   return (
     <section className="space-y-6">
@@ -52,6 +54,26 @@ export default async function ProgressPage() {
           )}
         </div>
       </section>
+      <GuidedNextSteps
+        steps={[
+          nextWeakTopic
+            ? {
+                href: `/topics/${nextWeakTopic.slug}`,
+                label: `Revisit ${nextWeakTopic.title}`,
+                description: "Use the weakest tracked area as the next deliberate practice target."
+              }
+            : {
+                href: "/graph",
+                label: "Choose the next topic",
+                description: "No weak areas are tracked yet, so continue through the roadmap."
+              },
+          {
+            href: "/dashboard",
+            label: "Return to mission",
+            description: "Resume the current topic and practice loop."
+          }
+        ]}
+      />
     </section>
   );
 }

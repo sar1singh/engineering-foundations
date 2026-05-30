@@ -515,3 +515,145 @@
 ### Next Action
 
 - Phase 21: Audit Remediation Decision + Release Checklist.
+
+## 2026-05-31 - Phase 21 Audit Remediation Decision + Release Checklist
+
+### Completed
+
+- Created an audit remediation decision document.
+- Created a local MVP release checklist.
+- Documented that automatic audit fixes are deferred.
+- Documented that the current Next audit remediation suggestion is not acceptable because it points to a semver-major downgrade.
+- Updated implementation status, next phase plan, and local database docs.
+
+### Files Created
+
+- `docs/AUDIT_REMEDIATION_DECISION.md`
+- `docs/LOCAL_MVP_RELEASE_CHECKLIST.md`
+
+### Files Updated
+
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test`: passed, 10 files and 29 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+### Notes
+
+- No dependency versions were changed.
+- No audit fixes were applied.
+- The first Prisma smoke run failed because mock and Prisma smoke were run in parallel; sequential reruns passed.
+- No Supabase, OpenAI, auth, billing, deployment, production database, migrations, or destructive commands were added.
+- Mock remains the default data source.
+
+### Next Action
+
+- Phase 22: Local MVP Checkpoint Review.
+
+## 2026-05-31 - Phase 22 Local MVP Checkpoint Review
+
+### Completed
+
+- Ran the local MVP release validation checklist.
+- Verified mock and Prisma route smoke sequentially.
+- Created a local MVP checkpoint review document.
+- Updated implementation status, next phase plan, and local database docs.
+- Confirmed the current state is ready to freeze as a local MVP checkpoint, but not as a production release.
+
+### Files Created
+
+- `docs/LOCAL_MVP_CHECKPOINT_REVIEW.md`
+
+### Files Updated
+
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test`: passed, 10 files and 29 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+### Route Smoke
+
+- Mock mode passed for `/dashboard`, `/graph`, `/topics/javascript`, `/practice/practice-javascript`, `/progress`, `/content`, and `/settings`.
+- Prisma mode passed for `/dashboard`, `/graph`, `/topics/javascript`, `/practice/practice-javascript`, `/progress`, `/content`, and `/settings`.
+
+### Notes
+
+- No dependency versions were changed.
+- No audit fixes were applied.
+- No Prisma migrations or destructive database commands were run.
+- No Supabase, OpenAI, auth, billing, deployment, production database, or external service integration was added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+
+### Next Action
+
+- Phase 23: Local MVP Polish and Content Expansion, unless dependency maintenance is explicitly prioritized first.
+
+## 2026-05-31 - Phase 23 Local MVP Polish and Content Expansion
+
+### Completed
+
+- Moved forward from checkpoint review into local MVP polish.
+- Added a reusable guided next-steps component.
+- Wired guided next steps into Dashboard, Topic Studio, Practice Lab, Progress, and Content.
+- Added content search suggestion links for common seeded topics.
+- Added regression tests for guided next-step rendering.
+- Documented Phase 23 polish notes.
+
+### Files Created
+
+- `src/components/learning/GuidedNextSteps.tsx`
+- `src/components/learning/GuidedNextSteps.test.tsx`
+- `docs/LOCAL_MVP_POLISH_NOTES.md`
+
+### Files Updated
+
+- `src/app/dashboard/page.tsx`
+- `src/app/content/page.tsx`
+- `src/app/progress/page.tsx`
+- `src/app/topics/[topicId]/page.tsx`
+- `src/app/practice/[taskId]/page.tsx`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test`: passed, 11 files and 31 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+### Notes
+
+- No dependency versions were changed.
+- No audit fixes were applied.
+- No Prisma migrations or destructive database commands were run.
+- No Supabase, OpenAI, auth, billing, deployment, production database, or external service integration was added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+
+### Next Action
+
+- Phase 24: Curriculum Content Depth Pass, unless dependency maintenance is explicitly prioritized first.

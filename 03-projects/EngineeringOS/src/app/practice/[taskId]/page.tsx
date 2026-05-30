@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GuidedNextSteps } from "@/components/learning/GuidedNextSteps";
 import { EvaluationHistory } from "@/components/persistence/EvaluationHistory";
 import { MockEvaluationForm } from "@/components/persistence/MockEvaluationForm";
 import { TaskCompletionForm } from "@/components/persistence/TaskCompletionForm";
@@ -100,6 +101,27 @@ export default async function PracticePage({ params }: PracticePageProps) {
         <MockEvaluationForm taskId={content.task.id} topicId={content.task.topicId} />
         <EvaluationHistory results={evaluationResults} />
       </section>
+      <GuidedNextSteps
+        steps={[
+          content.topic
+            ? {
+                href: `/topics/${content.topic.slug}`,
+                label: `Review ${content.topic.title}`,
+                description: "Use the topic page to tighten theory and explain-back gaps."
+              }
+            : null,
+          {
+            href: "/progress",
+            label: "Update your plan",
+            description: "Check whether this task changed completion, weak areas, or readiness."
+          },
+          {
+            href: "/content?q=practice",
+            label: "Find another task",
+            description: "Search for another focused repetition across the local content library."
+          }
+        ].filter((step): step is { href: string; label: string; description: string } => step !== null)}
+      />
     </section>
   );
 }

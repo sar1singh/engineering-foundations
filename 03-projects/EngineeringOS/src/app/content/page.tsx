@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GuidedNextSteps } from "@/components/learning/GuidedNextSteps";
 import { appServices } from "@/lib/providers";
 
 type ContentPageProps = {
@@ -36,7 +37,28 @@ export default async function ContentPage({ searchParams }: ContentPageProps) {
             Search
           </button>
         </div>
+        <div className="mt-3 flex flex-wrap gap-2 text-sm">
+          {["closures", "promises", "caching", "queues"].map((term) => (
+            <Link key={term} className="rounded-md bg-slate-50 px-3 py-1 text-[var(--muted)] hover:text-teal-700" href={`/content?q=${term}`}>
+              {term}
+            </Link>
+          ))}
+        </div>
       </form>
+      <GuidedNextSteps
+        steps={[
+          {
+            href: "/graph",
+            label: "Browse the roadmap",
+            description: "Use the graph when you are not sure what to search for."
+          },
+          {
+            href: "/dashboard",
+            label: "Return to mission",
+            description: "Jump back to the current topic and practice task."
+          }
+        ]}
+      />
       <div className="grid gap-4 md:grid-cols-4">
         <Metric label="Roadmaps" value={results.roadmaps.length} />
         <Metric label="Topics" value={results.topics.length} />

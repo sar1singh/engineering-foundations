@@ -2,11 +2,11 @@
 
 ## Recommended Next Phase
 
-Phase 21: Audit Remediation Decision + Release Checklist.
+Phase 24: Curriculum Content Depth Pass.
 
 Do not implement this phase without explicit approval.
 
-## Current Phase 20 Outcome
+## Current Phase 23 Outcome
 
 EngineeringOS now has:
 
@@ -43,24 +43,34 @@ EngineeringOS now has:
 - Persistence history empty states
 - Settings copy clarifying mock default and local-only Prisma opt-in
 - Audit findings triaged without automatic fixes
+- Audit remediation decision documented
+- Local MVP release checklist documented
+- Local MVP checkpoint review documented
+- Full local validation passed
+- Mock and Prisma route smoke passed
+- Guided next-step navigation added across core screens
+- Content search suggestions added
+- Local MVP polish notes documented
 
-Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope. Phase 15A added the non-destructive local persistence foundation. Phase 15B wired the UI to server actions in mock-default mode. Phase 15C safely applied the local schema and verified Prisma persistence without using `prisma migrate dev`. Phase 16A hardened the persistence UX. Phase 16B added automated test tooling and first regression tests. Phase 17 expanded regression coverage across persistence paths. Phase 18 smoke-tested Prisma-mode UI routes and improved persistence history display. Phase 19 automated mock/prisma route smoke and added interaction tests. Phase 20 polished persistence copy/empty states and triaged npm audit findings.
+Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope. Phase 15A added the non-destructive local persistence foundation. Phase 15B wired the UI to server actions in mock-default mode. Phase 15C safely applied the local schema and verified Prisma persistence without using `prisma migrate dev`. Phase 16A hardened the persistence UX. Phase 16B added automated test tooling and first regression tests. Phase 17 expanded regression coverage across persistence paths. Phase 18 smoke-tested Prisma-mode UI routes and improved persistence history display. Phase 19 automated mock/prisma route smoke and added interaction tests. Phase 20 polished persistence copy/empty states and triaged npm audit findings. Phase 21 documented the audit remediation decision and local MVP release checklist. Phase 22 reviewed the release checklist and documented the local MVP checkpoint decision. Phase 23 improved local navigation continuity with guided next steps and content search suggestions.
 
-## Why Audit Remediation Decision Comes Next
+## Why Curriculum Content Depth Comes Next
 
-The next useful local-first step is deciding whether and how to remediate audit findings without destabilizing Next, Monaco, or the current test stack. This should remain separate from Supabase or production backend work.
+The local MVP checkpoint now passes validation and has a clearer learning loop. The next useful local-first step is making the seeded curriculum content deeper and more useful without changing core architecture or adding external systems.
 
 Candidate areas:
 
-- Decide whether audit fixes are safe and in scope.
-- Review whether Monaco can be pinned or deferred.
-- Review whether Next/PostCSS fixes require waiting for upstream compatible releases.
-- Create a release checklist for the local MVP state.
+- Expand key topic theory, mental models, common mistakes, and production use cases.
+- Improve practice task statements, hints, edge cases, and completion criteria.
+- Improve problem statement examples for high-signal topics.
+- Improve reference metadata and revision prompts.
+- Add tests for content retrieval assumptions where useful.
+- Keep dependency maintenance as a separate approval path if prioritized.
 - Keep Prisma mode opt-in.
 
 Supabase planning can happen later as a separate phase. Do not combine local Prisma schema additions and Supabase planning in one implementation pass.
 
-## Required Phase 21 Work
+## Required Phase 24 Work
 
 - Keep `dataSource: "mock"` as the default.
 - Keep Prisma mode opt-in only.
@@ -72,18 +82,18 @@ Supabase planning can happen later as a separate phase. Do not combine local Pri
 
 ## Risks
 
-- Audit fixes may change dependency trees and should be reviewed before applying.
-- The current audit-recommended Next fix points to an unsafe semver-major downgrade.
+- Local MVP may still need copy/content polish before broader use.
+- Audit remediation remains deferred unless separately approved.
 - Supabase design decisions should not leak into local SQLite implementation prematurely.
 - Missing tests could let repository/provider wiring regress.
 
 ## Approval Needed
 
-Before Phase 21 starts, request approval to:
+Before Phase 24 starts, request approval to:
 
-- Apply any dependency changes from audit fixes.
-- Pin or replace dependencies if needed.
-- Draft the local MVP release checklist.
+- Define the curriculum depth scope.
+- Update seeded mock content.
+- Add or update tests for changed behavior.
 - Keep Supabase, OpenAI, auth, billing, and deployment out of scope unless separately approved.
 
 ## Future Prompt
@@ -91,5 +101,5 @@ Before Phase 21 starts, request approval to:
 Use this prompt when ready:
 
 ```txt
-Implement Phase 21: Audit Remediation Decision + Release Checklist for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, do not change dependency versions without explicit approval, decide how to handle audit findings, draft a local MVP release checklist, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
+Implement Phase 24: Curriculum Content Depth Pass for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, avoid dependency changes unless approved, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
 ```

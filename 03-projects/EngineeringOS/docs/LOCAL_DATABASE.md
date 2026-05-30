@@ -376,6 +376,78 @@ Reason:
 - The audit suggestion for `next` points to a semver-major downgrade to `next@9.3.3`, which is not appropriate for the current App Router implementation.
 - Dependency remediation should be approved as a separate phase.
 
+## Phase 21 Audit Decision and Release Checklist
+
+Phase 21 added:
+
+- `docs/AUDIT_REMEDIATION_DECISION.md`
+- `docs/LOCAL_MVP_RELEASE_CHECKLIST.md`
+
+Decision:
+
+- Do not apply automatic audit fixes.
+- Do not downgrade Next.
+- Do not change Monaco or DOMPurify paths in this phase.
+- Treat audit remediation as a future dependency maintenance phase.
+
+Local MVP status:
+
+- Ready for a local checkpoint review after validation.
+- Not ready for production deployment.
+
+## Phase 22 Local MVP Checkpoint Review
+
+Phase 22 validated the local MVP checkpoint.
+
+Validation passed:
+
+```bash
+npm run test
+npm run typecheck
+npm run lint
+npm run build
+npm run smoke:mock
+npm run smoke:prisma
+```
+
+Mock and Prisma route smoke both passed for:
+
+```txt
+/dashboard
+/graph
+/topics/javascript
+/practice/practice-javascript
+/progress
+/content
+/settings
+```
+
+Current checkpoint decision:
+
+- Ready to freeze as a local MVP checkpoint.
+- Not ready for production deployment.
+- Mock remains the default data source.
+- Prisma remains local-only and opt-in.
+- No database migrations or destructive database commands were run in Phase 22.
+- No Supabase, OpenAI, auth, billing, deployment, or production database behavior was added.
+
+## Phase 23 Local MVP Polish
+
+Phase 23 changed UI navigation polish only:
+
+- Added guided next-step navigation across core screens.
+- Added content search suggestions.
+- Added a regression test for guided next-step rendering.
+
+Database status did not change:
+
+- Default data source remains `mock`.
+- Prisma remains local-only and opt-in.
+- No schema changes were made.
+- No migrations were run.
+- No destructive database commands were run.
+- No Supabase, OpenAI, auth, billing, deployment, or production database behavior was added.
+
 ## Safety Notes
 
 - Do not commit `.env`, `.env.local`, or real secrets.
