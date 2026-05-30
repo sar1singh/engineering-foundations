@@ -1,37 +1,76 @@
-# Overview
+# Custom Roadmap
 
-The following roadmap breaks down the key domains—DSA, JavaScript/Node.js, SQL, system design, AWS/DevOps—and includes sub‑topics to learn in sequence. It’s optimised for a 2‑month sprint to secure a higher‑paying backend role while building assets for a digital business. Each bullet represents a small task you can study, practise and turn into a short educational video.
+This roadmap keeps the current sprint focused on becoming interview-ready for a higher-paying backend role while building small reusable learning assets. Engineering Foundations is the source of truth. LifeOS supports the routine. Digital Lab captures only lightweight content ideas and reflections.
 
-## Phase 1: Data Structures & Algorithms (Weeks 1–4)
-- **Week 1 – Fundamentals & Arrays**
-  - Review time/space complexity and Big‑O notation.
-  - Study arrays and dynamic arrays; practise basic operations (insert, delete, resize) in JavaScript.
-  - Implement common sorting algorithms: selection, bubble and insertion sort; compare their complexities.
-  - Record a video explaining Big‑O and array operations; demonstrate simple sorts.
-- **Week 2 – Linked Lists, Stacks & Queues**
-  - Learn singly and doubly linked lists; implement insert/delete/traverse functions.
-  - Understand stack and queue abstract data types and typical use‑cases (e.g., browser history, task scheduling).
-  - Write stack and queue implementations using arrays and linked lists in JavaScript.
-  - Solve problems involving parentheses matching, reversing a linked list and queue simulation.
-  - Publish a video on linked lists and the difference between stacks and queues.
-- **Week 3 – Trees, Recursion & Dynamic Programming**
-  - Explore tree terminology (root, leaf, height); implement binary trees and binary search trees (BSTs).
-  - Practise tree traversals: in‑order, pre‑order, post‑order and level‑order (BFS).
-  - Learn recursion principles and common patterns (divide‑and‑conquer). Implement merge sort and quicksort recursively.
-  - Study dynamic programming (DP): memoization vs. tabulation; solve classic DP problems (Fibonacci, knapsack, longest increasing subsequence).
-  - Create tutorial videos summarising tree traversals and a simple DP problem.
-- **Week 4 – Graphs & Advanced Algorithms**
-  - Understand graph representations (adjacency list vs. matrix) and terminology (vertices, edges, weighted/unweighted).
-  - Practise traversal algorithms: depth‑first search (DFS) and breadth‑first search (BFS).
-  - Learn shortest‑path algorithms (Dijkstra’s, BFS for unweighted graphs) and minimum spanning tree (Prim/Kruskal) concepts.
-  - Study problem‑solving patterns: sliding window, two pointers, prefix sums and binary search on answer.
-  - Record a video demonstrating BFS/DFS on a simple graph and solving a sliding‑window problem.
+## Current Active Foundation
 
-## Phase 2: JavaScript & Node.js (Weeks 5–6)
-- **Week 5 – JavaScript Fundamentals**
-  - Review JS data types, variables (var, let, const), scoping, hoisting and closures.
-  - Understand prototypal inheritance and the prototype chain.
-  - Practise functional programming concepts: pure functions, higher‑order functions, array methods (map, filter, reduce).
-  - Learn ES6 features: arrow functions, destructuring, spread/rest operators, classes and modules.
-  - Study asynchronous programming: event loop، callbacks، promises و async/await.
-   Record a series of short videos explaining closures، prototypes و async/await with code examples.
+**Topic:** Big-O Complexity + Arrays/Hashing  
+**Practice Path:** `02-practice/dsa/arrays/`  
+**Starter Problems:** Two Sum, Contains Duplicate, Valid Anagram
+
+## Learning Sequence
+
+1. Understand what Big-O measures: how work grows as input size grows.
+2. Learn the core complexities needed now: `O(1)`, `O(n)`, `O(n^2)`.
+3. Apply Big-O to arrays:
+   - One pass through an array is `O(n)`.
+   - Checking every pair with nested loops is `O(n^2)`.
+   - Hash map and set lookups are usually `O(1)`.
+4. Start with **Two Sum**:
+   - Brute force: check every pair.
+   - Optimized: use a hash map to remember numbers already seen.
+5. Write the explanation before moving on:
+   - What made brute force inefficient?
+   - What data structure removed repeated work?
+   - What are the time and space complexities?
+
+## Phase 1: Foundation Sprint
+
+### Week 1: Big-O + Arrays/Hashing
+
+- Study time and space complexity.
+- Practice array traversal, set membership, and hash map lookup.
+- Solve:
+  - Two Sum
+  - Contains Duplicate
+  - Valid Anagram
+- For each problem, capture brute force reasoning, optimized reasoning, time complexity, and space complexity.
+- Optional Digital Lab output: a short explainer called **"Big-O in plain English using Two Sum"**.
+
+### Week 2: Linked Lists, Stacks, and Queues
+
+- Learn singly linked lists and basic insert/delete/traverse operations.
+- Understand stacks and queues through real use cases such as browser history and task scheduling.
+- Solve starter problems involving parentheses matching, reversing a linked list, and queue simulation.
+
+### Week 3: Trees, Recursion, and Sorting
+
+- Learn tree terminology and binary tree traversals.
+- Practice recursion with merge sort and quicksort.
+- Explain recursive call stacks and base cases clearly.
+
+### Week 4: Graphs and Common Patterns
+
+- Learn graph representations: adjacency list and adjacency matrix.
+- Practice BFS and DFS.
+- Study sliding window, two pointers, prefix sums, and binary search on answer.
+
+## Repo Integration
+
+### Engineering Foundations
+
+- Track learning source of truth here.
+- Use `00-control/KPI.md` for weekly targets.
+- Use `00-control/DAILY_LOG.md` for daily execution.
+- Use `02-practice/dsa/arrays/` for the current starter practice.
+
+### LifeOS HQ
+
+- Use LifeOS to protect the routine: sleep, health, calendar pressure, and no-zero-days.
+- Keep the daily study target realistic: 30 minutes minimum, 60-90 minutes when energy allows.
+
+### Digital Lab
+
+- Keep Digital Lab secondary until the job-switch foundation is stronger.
+- Capture only one small content task per week.
+- Current content idea: **"Big-O in plain English using Two Sum"**.

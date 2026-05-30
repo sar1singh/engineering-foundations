@@ -9,6 +9,17 @@ Format:
 - Energy:
 - Next Action:
 
+## 2026-05-24
+- Planned:
+  - Study Big-O basics: `O(1)`, `O(n)`, and `O(n^2)`
+  - Apply Big-O to array traversal, nested loops, and hash map lookup
+  - Start Two Sum with brute force first, then optimized hash map approach
+- Completed:
+- Blockers:
+- Energy:
+- Next Action:
+  - Write the Two Sum brute force explanation before coding the optimized version
+
 ## 2026-05-15
 - Planned:
   - Start first engineering foundation: Big-O Complexity + Arrays/Hashing
