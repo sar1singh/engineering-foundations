@@ -235,6 +235,52 @@ Phase 16A hardened the persistence UI without adding dependencies:
 
 No test dependencies were added. Automated test setup is pending explicit approval for the dependency list.
 
+## Phase 16B Automated Test Setup
+
+Phase 16B added automated test tooling:
+
+- `vitest`
+- `@vitejs/plugin-react`
+- `@testing-library/react`
+- `@testing-library/jest-dom`
+- `@testing-library/user-event`
+- `jsdom`
+
+Added test command:
+
+```bash
+npm run test
+```
+
+Initial coverage:
+
+- Mock progress repository idempotency and reset behavior.
+- Progress summary service updates after topic/task completion.
+- Persistence action message rendering.
+
+## Phase 17 Persistence Regression Expansion
+
+Phase 17 expanded automated persistence coverage:
+
+- Mock explain-back repository save/read behavior.
+- Mock evaluation result repository save/read behavior.
+- Mock revision queue update, complete, and defer behavior.
+- Revision service persisted queue behavior.
+- Server-action success and error paths with mocked services.
+- Submit button enabled/disabled behavior.
+- Topic and task completion form states.
+
+Validation:
+
+```bash
+npm run test
+npm run typecheck
+npm run lint
+npm run build
+```
+
+`npm install` reported 4 moderate audit vulnerabilities. No automatic audit fix was run because dependency rewrites should be approved separately.
+
 ## Safety Notes
 
 - Do not commit `.env`, `.env.local`, or real secrets.

@@ -276,3 +276,98 @@
 ### Next Action
 
 - Phase 16B: Automated Test Setup after dependency approval.
+
+## 2026-05-30 - Phase 16B Automated Test Setup
+
+### Completed
+
+- Added Vitest and Testing Library test setup.
+- Added `npm run test`.
+- Added repository tests for mock progress idempotency, weak areas, and reset behavior.
+- Added service tests for progress summary updates.
+- Added component tests for persistence action feedback rendering.
+
+### Dependencies Added
+
+- `vitest`
+- `@vitejs/plugin-react`
+- `@testing-library/react`
+- `@testing-library/jest-dom`
+- `@testing-library/user-event`
+- `jsdom`
+
+### Files Created
+
+- `vitest.config.ts`
+- `vitest.setup.ts`
+- `src/lib/repositories/mock-support-repositories.test.ts`
+- `src/lib/services/progress-summary-service.test.ts`
+- `src/components/persistence/ActionMessage.test.tsx`
+
+### Files Updated
+
+- `package.json`
+- `package-lock.json`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test`: passed, 3 files and 6 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+
+### Notes
+
+- `npm install` reported 4 moderate audit vulnerabilities.
+- No `npm audit fix` was run.
+- No Supabase, OpenAI, auth, billing, deployment, production database, migrations, or destructive commands were added.
+
+### Next Action
+
+- Phase 17: Persistence Regression Expansion.
+
+## 2026-05-30 - Phase 17 Persistence Regression Expansion
+
+### Completed
+
+- Expanded persistence regression coverage without adding new dependencies.
+- Added mock persistence repository tests for explain-back attempts, evaluation results, and revision queue operations.
+- Added revision service tests for persisted queue behavior.
+- Added server-action tests for success, error, validation, and revalidation paths.
+- Added submit button and completion form component tests.
+
+### Files Created
+
+- `src/lib/repositories/mock-persistence-repositories.test.ts`
+- `src/lib/services/revision-service.test.ts`
+- `src/lib/actions/progress-actions.test.ts`
+- `src/components/persistence/SubmitButton.test.tsx`
+- `src/components/persistence/CompletionForms.test.tsx`
+
+### Files Updated
+
+- `src/lib/repositories/mock-persistence-repositories.test.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test`: passed, 8 files and 22 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+
+### Notes
+
+- No new dependencies were added.
+- No Supabase, OpenAI, auth, billing, deployment, production database, migrations, or destructive commands were added.
+
+### Next Action
+
+- Phase 18: Prisma-Mode UI Smoke + Persistence History Improvements.

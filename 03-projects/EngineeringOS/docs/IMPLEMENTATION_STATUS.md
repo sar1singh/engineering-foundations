@@ -20,6 +20,8 @@
 - Phase 15B: Persistence UI wiring for topic completion, task completion, explain-back attempts, mock evaluation notes, and local progress reset through server-action forms. No migration was run and mock remains default.
 - Phase 15C: Safe local schema application and persistence verification. The additive persistence SQL was applied with `prisma db execute`; `prisma migrate dev` was not used.
 - Phase 16A: Persistence UX hardening with pending, success, and error feedback for persistence forms, plus read-only latest explain-back/evaluation history panels. Automated test setup is pending dependency approval.
+- Phase 16B: Automated test setup with Vitest, Testing Library, repository/service/component tests, and `npm run test`.
+- Phase 17: Persistence regression expansion across mock persistence repositories, revision service, server actions, submit button, and completion forms.
 
 ## Current Features
 
@@ -32,6 +34,8 @@
 - `/practice/[taskId]` includes a server-action form for marking a task complete and saving a mock evaluation note.
 - `/progress` renders local progress summary from `ProgressSummaryService` and includes a server-action form for local progress reset.
 - Persistence forms now show pending, success, and error feedback through reusable client components.
+- Automated tests now cover mock progress repository idempotency, progress summary service updates, and persistence action feedback rendering.
+- Regression tests now cover explain-back attempts, evaluation result storage, revision queue operations, server-action success/error paths, and completion form states.
 - `/content` searches mock roadmaps, topics, tasks, and references.
 - `/settings` shows app config and disabled feature flags.
 
@@ -88,8 +92,8 @@ Backend-ready layers now exist for:
 - Prisma persistence models such as `UserTopicProgress`, `UserTaskProgress`, `ExplainBackAttempt`, `AIEvaluationResult`, `RevisionQueueItem`, and `UserWeakArea` are now defined in the schema, but no migration has been applied yet.
 - Prisma persistence verification wrote and read topic completion, task completion, weak areas, revision queue items, explain-back attempts, and mock evaluation results using the fixed local user ID.
 - `prisma migrate dev` still remains avoided because of the previous local Windows/Node schema-engine issue; additive SQL application with `prisma db execute` worked.
-- Automated tests are not configured yet; Phase 16 test setup requires approval to add Vitest and Testing Library dependencies.
+- npm reported 4 moderate audit vulnerabilities after adding test dependencies; no automatic audit fix was run.
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 16B: Automated Test Setup, only after explicit approval for test dependencies. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
+The next phase should be Phase 18: Prisma-Mode UI Smoke + Persistence History Improvements, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
