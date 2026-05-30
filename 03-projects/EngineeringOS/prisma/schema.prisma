@@ -1,0 +1,297 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Roadmap {
+  id                 String   @id
+  title              String
+  slug               String   @unique
+  description        String
+  targetRoles        String
+  targetLevels       String
+  targetCompanyTypes String
+  estimatedWeeks     Int
+  isActive           Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  domains            Domain[]
+}
+
+model Domain {
+  id          String @id
+  roadmapId   String
+  title       String
+  slug        String
+  description String
+  order       Int
+
+  roadmap     Roadmap @relation(fields: [roadmapId], references: [id])
+  categories  Category[]
+
+  @@unique([roadmapId, slug])
+  @@index([roadmapId])
+}
+
+model Category {
+  id          String @id
+  domainId    String
+  title       String
+  slug        String
+  description String
+  order       Int
+
+  domain      Domain @relation(fields: [domainId], references: [id])
+  modules     LearningModule[]
+
+  @@unique([domainId, slug])
+  @@index([domainId])
+}
+
+model LearningModule {
+  id          String @id
+  categoryId  String
+  title       String
+  slug        String
+  description String
+  order       Int
+
+  category    Category @relation(fields: [categoryId], references: [id])
+  topics      Topic[]
+
+  @@unique([categoryId, slug])
+  @@index([categoryId])
+}
+
+model Topic {
+  id                   String   @id
+  moduleId             String
+  title                String
+  slug                 String   @unique
+  summary              String
+  whyItMatters         String
+  difficulty           String
+  estimatedMinutes     Int
+  tags                 String
+  prerequisites        String
+  relatedTopics        String
+  advancedTopics       String
+  roleRelevance        String
+  companyRelevance     String
+  interviewRelevance   Int
+  learningModes        String
+  theory               String
+  mentalModel          String
+  codeExamples         String
+  productionUseCases   String
+  commonMistakes       String
+  explainBackPrompt    String
+  completionCriteria   String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  module               LearningModule @relation(fields: [moduleId], references: [id])
+  subtopics            Subtopic[]
+  practiceTasks        PracticeTask[]
+  interviewQuestions   InterviewQuestion[]
+  referenceLinks       ReferenceLink[]
+  revisionPrompts      RevisionPrompt[]
+  evaluationRubrics    EvaluationRubric[]
+  sourceRelations      TopicRelation[] @relation("SourceTopic")
+  targetRelations      TopicRelation[] @relation("TargetTopic")
+
+  @@index([moduleId])
+}
+
+model TopicRelation {
+  id             String @id
+  sourceTopicId  String
+  targetTopicId  String
+  relationType   String
+
+  sourceTopic     Topic @relation("SourceTopic", fields: [sourceTopicId], references: [id])
+  targetTopic     Topic @relation("TargetTopic", fields: [targetTopicId], references: [id])
+
+  @@index([sourceTopicId])
+  @@index([targetTopicId])
+}
+
+model Subtopic {
+  id                 String @id
+  topicId            String
+  title              String
+  slug               String
+  summary            String
+  order              Int
+  theory             String
+  examples           String
+  completionCriteria String
+
+  topic              Topic @relation(fields: [topicId], references: [id])
+  practiceTasks      PracticeTask[]
+
+  @@unique([topicId, slug])
+  @@index([topicId])
+}
+
+model PracticeTask {
+  id                 String @id
+  topicId            String
+  subtopicId          String?
+  title              String
+  slug               String @unique
+  difficulty          String
+  estimatedMinutes    Int
+  taskType            String
+  statement           String
+  starterCode         String?
+  solutionApproach    String?
+  hints               String
+  edgeCases           String
+  completionCriteria  String
+  problemStatementId  String?
+
+  topic               Topic @relation(fields: [topicId], references: [id])
+  subtopic            Subtopic? @relation(fields: [subtopicId], references: [id])
+  problemStatement    ProblemStatement? @relation(fields: [problemStatementId], references: [id])
+  subtasks            PracticeSubtask[]
+  evaluationRubrics   EvaluationRubric[]
+
+  @@index([topicId])
+  @@index([subtopicId])
+  @@index([problemStatementId])
+}
+
+model PracticeSubtask {
+  id             String  @id
+  practiceTaskId String
+  title          String
+  description    String
+  order          Int
+  isRequired     Boolean @default(true)
+
+  practiceTask   PracticeTask @relation(fields: [practiceTaskId], references: [id])
+
+  @@index([practiceTaskId])
+}
+
+model ProblemStatement {
+  id             String @id
+  title          String
+  slug           String @unique
+  source         String
+  externalUrl    String?
+  difficulty     String
+  topicIds       String
+  statement      String
+  constraints    String
+  expectedOutput String?
+
+  practiceTasks  PracticeTask[]
+  examples       ProblemExample[]
+  testCases      TestCase[]
+}
+
+model ProblemExample {
+  id                 String @id
+  problemStatementId  String
+  input              String
+  output             String
+  explanation        String
+
+  problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
+
+  @@index([problemStatementId])
+}
+
+model TestCase {
+  id                 String  @id
+  problemStatementId  String
+  input              String
+  expectedOutput     String
+  isHidden           Boolean @default(false)
+
+  problemStatement   ProblemStatement @relation(fields: [problemStatementId], references: [id])
+
+  @@index([problemStatementId])
+}
+
+model InterviewQuestion {
+  id       String @id
+  topicId  String
+  question String
+  answer   String?
+  level    String
+
+  topic    Topic @relation(fields: [topicId], references: [id])
+
+  @@index([topicId])
+}
+
+model ReferenceLink {
+  id         String @id
+  topicId    String
+  title      String
+  url        String
+  sourceType String
+  priority   String
+
+  topic      Topic @relation(fields: [topicId], references: [id])
+
+  @@index([topicId])
+}
+
+model RevisionPrompt {
+  id        String @id
+  topicId   String
+  prompt    String
+  frequency String
+
+  topic     Topic @relation(fields: [topicId], references: [id])
+
+  @@index([topicId])
+}
+
+model EvaluationRubric {
+  id       String @id
+  topicId  String?
+  taskId   String?
+
+  topic    Topic? @relation(fields: [topicId], references: [id])
+  task     PracticeTask? @relation(fields: [taskId], references: [id])
+  criteria EvaluationCriterion[]
+
+  @@index([topicId])
+  @@index([taskId])
+}
+
+model EvaluationCriterion {
+  id          String @id
+  rubricId    String
+  title       String
+  description String
+  maxScore    Int
+
+  rubric      EvaluationRubric @relation(fields: [rubricId], references: [id])
+
+  @@index([rubricId])
+}
+
+model UserProgress {
+  id                       String   @id
+  userId                   String
+  completedTopicIds         String
+  completedTaskIds          String
+  weakAreas                 String
+  streakCount               Int
+  lastActiveDate            DateTime?
+  readinessScore            Int
+  interviewReadinessPercent Int
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+}
