@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ExplainBackForm } from "@/components/persistence/ExplainBackForm";
+import { ExplainBackHistory } from "@/components/persistence/ExplainBackHistory";
 import { TopicCompletionForm } from "@/components/persistence/TopicCompletionForm";
 import { appServices } from "@/lib/providers";
 
@@ -26,7 +27,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
   }
 
   const isComplete = progress.completedTopicIds.includes(content.topic.id);
-  const latestExplainBackAttempt = await appServices.repositories.explainBackRepository.getLatestExplainBackAttempt(content.topic.id);
+  const explainBackAttempts = await appServices.repositories.explainBackRepository.getExplainBackAttemptsByTopicId(content.topic.id);
 
   return (
     <section className="space-y-6">
@@ -98,12 +99,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
         <h2 className="text-xl font-semibold">Explain-back attempt</h2>
         <p className="mt-2 text-sm text-[var(--muted)]">{content.topic.explainBackPrompt}</p>
         <ExplainBackForm topicId={content.topic.id} />
-        {latestExplainBackAttempt ? (
-          <div className="mt-4 rounded-md bg-slate-50 p-3">
-            <p className="text-sm font-medium">Latest saved attempt</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">{latestExplainBackAttempt.answer}</p>
-          </div>
-        ) : null}
+        <ExplainBackHistory attempts={explainBackAttempts} />
       </section>
       <section className="rounded-lg border border-[var(--border)] bg-white p-5">
         <h2 className="text-xl font-semibold">References and rubric</h2>

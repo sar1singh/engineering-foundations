@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EvaluationHistory } from "@/components/persistence/EvaluationHistory";
 import { MockEvaluationForm } from "@/components/persistence/MockEvaluationForm";
 import { TaskCompletionForm } from "@/components/persistence/TaskCompletionForm";
 import { appServices } from "@/lib/providers";
@@ -27,7 +28,6 @@ export default async function PracticePage({ params }: PracticePageProps) {
 
   const isComplete = progress.completedTaskIds.includes(content.task.id);
   const evaluationResults = await appServices.repositories.evaluationResultRepository.getEvaluationResultsByTaskId(content.task.id);
-  const latestEvaluation = evaluationResults[0] ?? null;
 
   return (
     <section className="space-y-6">
@@ -98,15 +98,7 @@ export default async function PracticePage({ params }: PracticePageProps) {
           ))}
         </div>
         <MockEvaluationForm taskId={content.task.id} topicId={content.task.topicId} />
-        {latestEvaluation ? (
-          <div className="mt-4 rounded-md bg-slate-50 p-3">
-            <p className="text-sm font-medium">Latest saved mock evaluation</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">{latestEvaluation.summary}</p>
-            <p className="mt-2 text-sm text-teal-700">
-              {latestEvaluation.score}/{latestEvaluation.maxScore} pts
-            </p>
-          </div>
-        ) : null}
+        <EvaluationHistory results={evaluationResults} />
       </section>
     </section>
   );

@@ -22,6 +22,7 @@
 - Phase 16A: Persistence UX hardening with pending, success, and error feedback for persistence forms, plus read-only latest explain-back/evaluation history panels. Automated test setup is pending dependency approval.
 - Phase 16B: Automated test setup with Vitest, Testing Library, repository/service/component tests, and `npm run test`.
 - Phase 17: Persistence regression expansion across mock persistence repositories, revision service, server actions, submit button, and completion forms.
+- Phase 18: Prisma-mode UI smoke plus compact persistence history panels for explain-back attempts and mock evaluations.
 
 ## Current Features
 
@@ -36,6 +37,9 @@
 - Persistence forms now show pending, success, and error feedback through reusable client components.
 - Automated tests now cover mock progress repository idempotency, progress summary service updates, and persistence action feedback rendering.
 - Regression tests now cover explain-back attempts, evaluation result storage, revision queue operations, server-action success/error paths, and completion form states.
+- Prisma-mode route smoke passed for `/dashboard`, `/graph`, `/topics/javascript`, `/practice/practice-javascript`, `/progress`, `/content`, and `/settings`.
+- Topic Studio now shows a compact explain-back history list.
+- Practice Lab now shows a compact mock evaluation history list.
 - `/content` searches mock roadmaps, topics, tasks, and references.
 - `/settings` shows app config and disabled feature flags.
 
@@ -96,4 +100,4 @@ Backend-ready layers now exist for:
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 18: Prisma-Mode UI Smoke + Persistence History Improvements, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
+The next phase should be Phase 19: Persistence Route and Interaction Test Automation, only after explicit approval. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.

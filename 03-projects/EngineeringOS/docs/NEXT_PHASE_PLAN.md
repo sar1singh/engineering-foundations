@@ -2,11 +2,11 @@
 
 ## Recommended Next Phase
 
-Phase 18: Prisma-Mode UI Smoke + Persistence History Improvements.
+Phase 19: Persistence Route and Interaction Test Automation.
 
 Do not implement this phase without explicit approval.
 
-## Current Phase 17 Outcome
+## Current Phase 18 Outcome
 
 EngineeringOS now has:
 
@@ -36,23 +36,25 @@ EngineeringOS now has:
 - Repository, service, and component smoke tests added
 - `npm run test` available
 - Expanded regression tests for persistence repositories, revision service, server actions, submit button, and completion forms
+- Compact persistence history lists for explain-back attempts and mock evaluations
+- Prisma-mode route smoke passed for dashboard, graph, topic, practice, progress, content, and settings
 
-Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope. Phase 15A added the non-destructive local persistence foundation. Phase 15B wired the UI to server actions in mock-default mode. Phase 15C safely applied the local schema and verified Prisma persistence without using `prisma migrate dev`. Phase 16A hardened the persistence UX. Phase 16B added automated test tooling and first regression tests. Phase 17 expanded regression coverage across persistence paths.
+Phase 13 verified that the existing UI can read through Prisma-backed repositories without changing page contracts. Phase 14 defined the future persistence write scope. Phase 15A added the non-destructive local persistence foundation. Phase 15B wired the UI to server actions in mock-default mode. Phase 15C safely applied the local schema and verified Prisma persistence without using `prisma migrate dev`. Phase 16A hardened the persistence UX. Phase 16B added automated test tooling and first regression tests. Phase 17 expanded regression coverage across persistence paths. Phase 18 smoke-tested Prisma-mode UI routes and improved persistence history display.
 
-## Why Prisma-Mode UI Smoke Comes Next
+## Why Route And Interaction Automation Comes Next
 
-The next useful local-first step is smoke-testing the UI in Prisma mode and improving read-only persistence history panels. This should remain separate from Supabase or production backend work.
+The next useful local-first step is automating route and interaction checks so Prisma-mode confidence is repeatable. This should remain separate from Supabase or production backend work.
 
 Candidate areas:
 
-- Add route smoke checks in mock and Prisma modes.
-- Improve explain-back and mock evaluation history from latest-only to compact history lists.
-- Add Prisma-mode checks for completion state display.
+- Add scripted route smoke checks for mock and Prisma modes.
+- Add interaction-level tests for persistence forms where feasible.
+- Add regression checks for history list rendering after saved records.
 - Keep Prisma mode opt-in.
 
 Supabase planning can happen later as a separate phase. Do not combine local Prisma schema additions and Supabase planning in one implementation pass.
 
-## Required Phase 18 Work
+## Required Phase 19 Work
 
 - Keep `dataSource: "mock"` as the default.
 - Keep Prisma mode opt-in only.
@@ -64,16 +66,16 @@ Supabase planning can happen later as a separate phase. Do not combine local Pri
 
 ## Risks
 
-- Prisma-mode UI flows need smoke coverage after schema application.
+- Route smoke checks are currently manual command snippets, not reusable scripts.
 - Supabase design decisions should not leak into local SQLite implementation prematurely.
 - Missing tests could let repository/provider wiring regress.
 
 ## Approval Needed
 
-Before Phase 18 starts, request approval to:
+Before Phase 19 starts, request approval to:
 
-- Add any additional test dependencies.
-- Add route smoke checks and persistence history UI improvements.
+- Add reusable smoke scripts or additional interaction test tooling if needed.
+- Add automated mock/prisma route checks.
 - Keep Supabase, OpenAI, auth, billing, and deployment out of scope unless separately approved.
 
 ## Future Prompt
@@ -81,5 +83,5 @@ Before Phase 18 starts, request approval to:
 Use this prompt when ready:
 
 ```txt
-Implement Phase 18: Prisma-Mode UI Smoke + Persistence History Improvements for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, add safe route smoke checks and compact persistence history UI, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
+Implement Phase 19: Persistence Route and Interaction Test Automation for EngineeringOS. Keep mock as the default data source, keep Prisma mode opt-in, add reusable route smoke checks and interaction regression coverage, and do not add Supabase, OpenAI, auth, billing, deployment, or paid infrastructure.
 ```

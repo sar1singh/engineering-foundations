@@ -279,6 +279,35 @@ npm run lint
 npm run build
 ```
 
+## Phase 18 Prisma-mode UI Smoke
+
+Phase 18 added compact persistence history UI:
+
+- Topic Studio shows up to three saved explain-back attempts.
+- Practice Lab shows up to three saved mock evaluations.
+
+Prisma-mode route smoke passed:
+
+```txt
+/dashboard 200
+/graph 200
+/topics/javascript 200
+/practice/practice-javascript 200
+/progress 200
+/content 200
+/settings 200
+```
+
+Validation:
+
+```bash
+npm run test
+npm run typecheck
+npm run lint
+npm run build
+NEXT_PUBLIC_ENGINEERINGOS_DATA_SOURCE=prisma npm run build
+```
+
 `npm install` reported 4 moderate audit vulnerabilities. No automatic audit fix was run because dependency rewrites should be approved separately.
 
 ## Safety Notes

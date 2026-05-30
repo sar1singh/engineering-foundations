@@ -371,3 +371,55 @@
 ### Next Action
 
 - Phase 18: Prisma-Mode UI Smoke + Persistence History Improvements.
+
+## 2026-05-30 - Phase 18 Prisma-Mode UI Smoke + Persistence History Improvements
+
+### Completed
+
+- Replaced latest-only explain-back display with a compact saved attempts history list.
+- Replaced latest-only mock evaluation display with a compact saved evaluations history list.
+- Added component tests for persistence history panels.
+- Smoke-tested key UI routes in Prisma mode.
+
+### Files Created
+
+- `src/components/persistence/ExplainBackHistory.tsx`
+- `src/components/persistence/EvaluationHistory.tsx`
+- `src/components/persistence/PersistenceHistory.test.tsx`
+
+### Files Updated
+
+- `src/app/topics/[topicId]/page.tsx`
+- `src/app/practice/[taskId]/page.tsx`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test`: passed, 9 files and 24 tests.
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- Prisma-mode `npm run build`: passed.
+
+### Prisma-mode Route Smoke
+
+- `/dashboard`: 200
+- `/graph`: 200
+- `/topics/javascript`: 200
+- `/practice/practice-javascript`: 200
+- `/progress`: 200
+- `/content`: 200
+- `/settings`: 200
+
+### Notes
+
+- No new dependencies were added.
+- No Supabase, OpenAI, auth, billing, deployment, production database, migrations, or destructive commands were added.
+- Mock remains the default data source.
+
+### Next Action
+
+- Phase 19: Persistence Route and Interaction Test Automation.
