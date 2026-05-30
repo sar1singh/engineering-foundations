@@ -448,6 +448,28 @@ Database status did not change:
 - No destructive database commands were run.
 - No Supabase, OpenAI, auth, billing, deployment, or production database behavior was added.
 
+## Phase 24 Curriculum Content Depth
+
+Phase 24 changed seeded mock curriculum content only:
+
+- Expanded the JavaScript closures topic with richer theory, mental model, code examples, use cases, mistakes, learning modes, explain-back prompt, and completion criteria.
+- Expanded the linked `implement-counter-with-closure` practice task and `Closure Counter Factory` problem statement.
+- Updated the linked closures reference, revision prompt, and interview question.
+- Added focused service/search tests for the closures content slice.
+
+Database status did not change:
+
+- Default data source remains `mock`.
+- Prisma remains local-only and opt-in.
+- No schema changes were made.
+- No migrations were run.
+- No destructive database commands were run.
+- No Supabase, OpenAI, auth, billing, deployment, or production database behavior was added.
+
+Prisma note:
+
+- The local SQLite seed was not refreshed in Phase 24. Prisma mode may still show older seeded content until a safe, approved seed refresh path is chosen.
+
 ## Safety Notes
 
 - Do not commit `.env`, `.env.local`, or real secrets.

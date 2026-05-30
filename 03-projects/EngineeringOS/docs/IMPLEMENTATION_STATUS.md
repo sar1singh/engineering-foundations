@@ -28,6 +28,7 @@
 - Phase 21: Audit remediation decision and local MVP release checklist. No dependency versions were changed.
 - Phase 22: Local MVP checkpoint review. Full validation and mock/prisma route smoke passed, and the checkpoint decision was documented.
 - Phase 23: Local MVP polish and content expansion. Added guided next-step navigation across core screens and content search suggestions.
+- Phase 24: Curriculum content depth pass for JavaScript closures and the linked counter practice task, with focused service/search regression tests.
 
 ## Current Features
 
@@ -51,6 +52,7 @@
 - Settings now documents that mock is default and Prisma is explicitly opt-in.
 - `/content` searches mock roadmaps, topics, tasks, and references.
 - Guided next-step cards connect Dashboard, Topic Studio, Practice Lab, Progress, Content, and Learning Graph into a clearer learning loop.
+- JavaScript closures now has deeper seeded mock content across Topic Studio, Practice Lab, problem statement, revision prompt, interview question, reference metadata, and Content search.
 - `/settings` shows app config and disabled feature flags.
 
 ## Current Architecture
@@ -111,7 +113,8 @@ Backend-ready layers now exist for:
 - Local MVP checkpoint criteria are documented in `docs/LOCAL_MVP_RELEASE_CHECKLIST.md`.
 - Local MVP checkpoint review is documented in `docs/LOCAL_MVP_CHECKPOINT_REVIEW.md`.
 - Local MVP polish notes are documented in `docs/LOCAL_MVP_POLISH_NOTES.md`.
+- Phase 24 content scope is documented in `docs/PHASE_24_CURRICULUM_CONTENT_DEPTH.md`.
 
 ## Next Phase Recommendation
 
-The next phase should be Phase 24: Curriculum Content Depth Pass, unless dependency maintenance is explicitly prioritized first. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
+The next phase should be Phase 25: continue the Curriculum Content Depth Pass with another high-signal JavaScript topic, preferably `js-promises` or `js-event-loop`, unless dependency maintenance is explicitly prioritized first. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.

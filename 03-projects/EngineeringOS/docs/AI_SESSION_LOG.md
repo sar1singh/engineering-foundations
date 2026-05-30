@@ -657,3 +657,58 @@
 ### Next Action
 
 - Phase 24: Curriculum Content Depth Pass, unless dependency maintenance is explicitly prioritized first.
+
+## 2026-05-31 - Phase 24 Curriculum Content Depth Pass
+
+### Completed
+
+- Started the curriculum depth pass with the JavaScript closures topic.
+- Expanded closures seeded mock content for Topic Studio: summary, why-it-matters, tags, prerequisites, related/advanced topics, learning modes, theory, mental model, code examples, production use cases, mistakes, explain-back prompt, and completion criteria.
+- Expanded the closures subtopic with focused lexical-environment guidance.
+- Expanded the linked `implement-counter-with-closure` task with a concrete `createCounter(start = 0)` assignment, richer subtasks, starter code, solution approach, hints, edge cases, and completion criteria.
+- Expanded the linked `Closure Counter Factory` problem statement with examples, constraints, expected output, and test cases.
+- Updated the closures reference, revision prompt, and interview question.
+- Added focused service/search regression tests for the closures content slice.
+- Documented Phase 24 scope and remaining gaps.
+
+### Files Created
+
+- `src/lib/services/curriculum-content-depth.test.ts`
+- `docs/PHASE_24_CURRICULUM_CONTENT_DEPTH.md`
+
+### Files Updated
+
+- `src/data/topics.ts`
+- `src/data/subtopics.ts`
+- `src/data/practice-tasks.ts`
+- `src/data/problem-statements.ts`
+- `src/data/reference-links.ts`
+- `src/data/revision-prompts.ts`
+- `src/data/interview-questions.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/NEXT_PHASE_PLAN.md`
+- `docs/LOCAL_DATABASE.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run lint`: passed.
+- `npm run typecheck`: passed.
+- `npm run test`: passed, 12 files and 34 tests.
+- `npm run build`: passed.
+- `npm run smoke:mock`: passed.
+- `npm run smoke:prisma`: passed.
+
+### Notes
+
+- No dependency versions were changed.
+- No audit fixes were applied.
+- No Prisma migrations or destructive database commands were run.
+- No Supabase, OpenAI, auth, billing, deployment, production database, or external service integration was added.
+- Mock remains the default data source.
+- Prisma remains opt-in only.
+- The local SQLite seed was not refreshed; Prisma mode may still show older seeded content until an approved seed refresh path is chosen.
+
+### Next Action
+
+- Phase 25: continue the Curriculum Content Depth Pass with another high-signal JavaScript topic, preferably `js-promises` or `js-event-loop`, unless dependency maintenance is explicitly prioritized first.
