@@ -12,6 +12,7 @@ export async function markTopicCompleteAction(topicId: string) {
   revalidatePath("/dashboard");
   revalidatePath("/progress");
   revalidatePath(`/topics/${topicId}`);
+  revalidatePath(`/syllabus/${topicId}`);
 }
 
 export async function markTaskCompleteAction(taskId: string, routePath?: string) {
@@ -125,6 +126,32 @@ export async function saveTopicExplainBackStateAction(
     return { status: "success", message: "Explain-back attempt saved." };
   } catch {
     return { status: "error", message: "Could not save this explain-back attempt." };
+  }
+}
+
+export async function saveSyllabusResponseStateAction(
+  topicId: string,
+  _previousState: PersistenceActionState,
+  formData: FormData
+): Promise<PersistenceActionState> {
+  try {
+    const promptType = String(formData.get("promptType") ?? "Syllabus response").trim();
+    const prompt = String(formData.get("prompt") ?? "").trim();
+    const answer = String(formData.get("answer") ?? "").trim();
+
+    if (!answer) {
+      return { status: "error", message: "Write a response before saving." };
+    }
+
+    const formattedAnswer = prompt ? `${promptType}: ${prompt}\n\n${answer}` : `${promptType}\n\n${answer}`;
+
+    await saveExplainBackAttemptAction({ topicId, answer: formattedAnswer });
+    revalidatePath(`/syllabus/${topicId}`);
+    revalidatePath("/progress");
+
+    return { status: "success", message: "Response saved." };
+  } catch {
+    return { status: "error", message: "Could not save this response." };
   }
 }
 

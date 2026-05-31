@@ -9,6 +9,7 @@ import {
   Gauge,
   GitBranch,
   LayoutDashboard,
+  Library,
   Settings
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ const navItems = [
   { label: "Learning Graph", href: "/graph", icon: GitBranch },
   { label: "Topic Studio", href: "/topics/closures", icon: Brain },
   { label: "Practice Lab", href: "/practice/implement-counter-with-closure", icon: BookOpen },
+  { label: "Syllabus", href: "/syllabus", icon: Library },
   { label: "Progress", href: "/progress", icon: BarChart3 },
   { label: "Content", href: "/content", icon: Gauge },
   { label: "Settings", href: "/settings", icon: Settings }

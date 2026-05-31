@@ -892,3 +892,248 @@
 - `npm run build`: passed.
 - `npm run smoke:mock`: passed.
 - `npm run smoke:prisma`: passed.
+
+## 2026-05-31 - AWS-First Architecture Direction
+
+### Completed
+
+- Captured the user's direction to focus on AWS, Solution Architect HLD, and LLD.
+- Removed Azure-oriented references from the newly imported System Design syllabus references.
+- Replaced them with AWS Well-Architected and AWS Reliability Pillar references.
+- Updated implementation status and mock syllabus planning docs to make AWS-first architecture the next direction.
+
+### Files Updated
+
+- `src/data/syllabus/system-design-topics.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### External References Used
+
+- AWS Well-Architected Framework: `https://aws.amazon.com/architecture/well-architected/`
+- AWS Well-Architected Reliability Pillar: `https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html`
+
+### Pending Next Action
+
+- Import AWS Solution Architect syllabus content from `00-control/master-roadmap/09-aws/INDEX.md`.
+- Add AWS-first HLD practice paths for common backend systems.
+- Inspect `00-control/master-roadmap/07-lld/INDEX.md` and import LLD/machine-coding topics if the roadmap has usable detail.
+
+## 2026-05-31 - AWS and LLD Syllabus Import
+
+### Completed
+
+- Imported AWS core services from `00-control/master-roadmap/09-aws/INDEX.md`.
+- Added IAM, EC2, S3, RDS, VPC, Lambda, SQS/SNS, and DynamoDB.
+- Added AWS Solution Architect-style practice problems and SAA-style decision prompts.
+- Added an LLD track because `00-control/master-roadmap/07-lld/INDEX.md` is currently empty.
+- Added LLD Foundations, Machine Coding, and Senior Design modules.
+- Used public guided-learning references to avoid missing crucial interview topics.
+
+### Files Created
+
+- `src/data/syllabus/aws-topics.ts`
+- `src/data/syllabus/lld-topics.ts`
+
+### Files Updated
+
+- `src/data/mock-syllabus.ts`
+- `src/lib/services/syllabus-service.test.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### External References Used
+
+- AWS SAA-C03 Exam Guide: `https://docs.aws.amazon.com/aws-certification/latest/solutions-architect-associate-03.html`
+- AWS Well-Architected Framework: `https://docs.aws.amazon.com/en_us/wellarchitected/latest/framework/welcome.html`
+- Official AWS IAM, EC2, S3, RDS, VPC, Lambda, SQS, SNS, and DynamoDB docs.
+- roadmap.sh AWS: `https://roadmap.sh/aws`
+- roadmap.sh Software Architect: `https://roadmap.sh/software-architect`
+- roadmap.sh Software Design and Architecture: `https://roadmap.sh/software-design-architecture`
+- Low Level Design Primer: `https://github.com/prasadgujar/low-level-design-primer`
+- System Design Primer OOD: `https://github.com/donnemartin/system-design-primer#object-oriented-design-interview-questions-with-solutions`
+- CodeZym: `https://codezym.com/`
+
+### Pending Next Action
+
+- Add case-study track for HLD mocks: URL shortener, chat, feed, booking, payment, notification, plus AWS deployment variants.
+- Add staff/principal/EM track: technical strategy, architecture review, incident leadership, execution planning, hiring/interview calibration, and stakeholder communication.
+- Continue keeping HLD cloud references AWS-first.
+
+## 2026-05-31 - Algorithms, HLD Case Studies, AWS HLD, and Staff EM Expansion
+
+### Completed
+
+- Added a deeper Algorithms track to cover gaps around search, hash maps, trees, graphs, graph algorithms, recursion/backtracking, dynamic programming, intervals, and bit manipulation.
+- Added HLD case-study mocks for URL shortener, chat, feed, booking, payment, and notification systems.
+- Added AWS deployment variants for every HLD case study.
+- Added AWS HLD deepening topics: Multi-AZ, Auto Scaling, Route 53, CloudFront, ElastiCache, API Gateway, Step Functions, ECS/EKS, KMS, CloudTrail, Backup/DR, and Cost Optimization.
+- Added Staff/Principal/EM leadership topics: Architecture Review, Technical Strategy, Incident Leadership, Roadmap Execution, Hiring/Interview Calibration, and Stakeholder Communication.
+- Added a linear learning roadmap from junior foundations to Staff/Principal/EM and surfaced it on `/syllabus`.
+
+### Files Created
+
+- `src/data/syllabus/algorithm-topics.ts`
+- `src/data/syllabus/hld-case-studies.ts`
+- `src/data/syllabus/aws-hld-deepening.ts`
+- `src/data/syllabus/staff-em-topics.ts`
+- `src/data/syllabus/linear-learning-roadmap.ts`
+
+### Files Updated
+
+- `src/data/mock-syllabus.ts`
+- `src/app/syllabus/page.tsx`
+- `src/lib/services/syllabus-service.test.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### External References Used
+
+- NeetCode Roadmap: `https://neetcode.io/roadmap`
+- CP-Algorithms: `https://cp-algorithms.com/`
+- The Algorithms JavaScript: `https://github.com/TheAlgorithms/JavaScript`
+- LeetCode Problem Set: `https://leetcode.com/problemset/`
+- System Design Primer: `https://github.com/donnemartin/system-design-primer`
+- roadmap.sh System Design: `https://roadmap.sh/system-design`
+- AWS Architecture Center: `https://aws.amazon.com/architecture/`
+- AWS Well-Architected Framework: `https://docs.aws.amazon.com/en_us/wellarchitected/latest/framework/welcome.html`
+- StaffEng: `https://staffeng.com/`
+- Google SRE Book: `https://sre.google/sre-book/introduction/`
+
+### Pending Next Action
+
+- Run topic-depth passes for graph algorithms, payment/booking HLD, AWS Multi-AZ/DR, and staff architecture-review prompts.
+- Add richer problem statements and rubric-level evaluation prompts for the highest-value interview paths.
+
+## 2026-05-31 - Syllabus Audit and Role-Based 80/20 Filtering
+
+### Completed
+
+- Audited current syllabus coverage and `/syllabus` UX.
+- Confirmed top-level syllabus coverage is now broad across JavaScript, DSA, Algorithms, Node.js, Databases, System Design, HLD case studies, AWS, LLD, and Staff/Principal/EM.
+- Identified the main remaining gap as lesson depth for selected high-value topics, not missing top-level domains.
+- Added role-based targeted roadmaps for Senior Backend Engineer, AWS Solution Architect, Staff/Principal Engineer, and Engineering Manager.
+- Added 80/20 core, depth, and expert focus filters to `/syllabus`.
+- Added role focus cards with direct links into topic detail pages.
+
+### Files Created
+
+- `src/data/syllabus/role-learning-roadmaps.ts`
+
+### Files Updated
+
+- `src/app/syllabus/page.tsx`
+- `src/lib/services/syllabus-service.test.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Current Missing or Pending Work
+
+- Topic-depth pass for graph algorithms: BFS, DFS, topological sort, Dijkstra, Union Find.
+- Topic-depth pass for AWS HLD: Multi-AZ, Backup/DR, Route 53, ECS/EKS, Step Functions.
+- Topic-depth pass for HLD case studies: payment, booking, chat, feed.
+- Topic-depth pass for Staff/Principal/EM interviews: architecture review, incident leadership, technical strategy.
+- Add stronger rubric/evaluation prompts and richer problem statements for role-filtered paths.
+
+### Next Recommended Action
+
+- Deepen the AWS Solution Architect 80/20 path first because it connects HLD, AWS infra, and staff-level architecture review.
+
+## 2026-05-31 - Syllabus Product Audit and SaaS Browse Improvements
+
+### Completed
+
+- Audited the syllabus and UI/UX from a senior product engineer, recruiter, and mentor perspective.
+- Added `docs/SYLLABUS_PRODUCT_AUDIT.md` with missing product capabilities, pending syllabus depth, and next recommended work.
+- Added `/syllabus` search.
+- Added card/table view toggle on `/syllabus`.
+- Added visible topic/domain/role/focus metrics.
+- Added service-level topic normalization so every rendered topic has at least 8 practice problems and 8 interview questions.
+- Added regression coverage for minimum practice/interview-question depth, references, and examples.
+
+### Files Created
+
+- `docs/SYLLABUS_PRODUCT_AUDIT.md`
+
+### Files Updated
+
+- `src/lib/services/syllabus-service.ts`
+- `src/app/syllabus/page.tsx`
+- `src/lib/services/syllabus-service.test.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Current Missing or Pending Work
+
+- Domain/level/difficulty/source-platform filters.
+- Role-readiness dashboard.
+- Weak-area heatmap.
+- Rich line-by-line lesson breakdowns for high-value topics.
+- Rubric-based answer review and mock interview mode.
+- Topic-depth passes for graph algorithms, AWS HLD, HLD case studies, and Staff/EM prompts.
+
+## 2026-05-31 - Role Readiness Dashboard and Advanced Syllabus Filters
+
+### Completed
+
+- Added role-readiness calculations for Senior Backend Engineer, AWS Solution Architect, Staff/Principal Engineer, and Engineering Manager.
+- Added domain-readiness calculations for syllabus domains.
+- Added dashboard panels for role readiness and domain readiness.
+- Added a targeted "Start today's lesson" action from the AWS Solution Architect path.
+- Added `/syllabus` filters for domain, difficulty, source platform, and interview frequency.
+- Added tests for role/domain readiness calculations.
+
+### Files Created
+
+- `src/lib/services/role-readiness-service.ts`
+- `src/lib/services/role-readiness-service.test.ts`
+
+### Files Updated
+
+- `src/app/dashboard/page.tsx`
+- `src/app/syllabus/page.tsx`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Pending Next Action
+
+- Add rubric-based review panels on syllabus topic pages.
+- Add mock interview mode.
+- Deepen graph algorithms, AWS Multi-AZ/DR, payment/booking HLD, and architecture-review topic lessons.
+
+## 2026-05-31 - Strict Master Roadmap Audit, Rubrics, Mock Interview, and Deep Lessons
+
+### Completed
+
+- Strictly audited current syllabus coverage against `00-control/master-roadmap`.
+- Documented that the app is broad but not fully complete against the entire master roadmap.
+- Wired `src/data/syllabus/topic-depth-overrides.ts` into `SyllabusService` so authored deep lessons render in the app.
+- Added deep lesson references and mentor review rubrics for graph algorithms, AWS Multi-AZ/DR, payment/booking HLD, architecture review, and incident leadership.
+- Added rubric-based review panels to `/syllabus/[topicId]`.
+- Added static mock interview mode to `/syllabus/[topicId]`.
+- Added regression coverage that verifies deep lesson overrides are applied.
+
+### Files Updated
+
+- `src/lib/services/syllabus-service.ts`
+- `src/data/syllabus/topic-depth-overrides.ts`
+- `src/app/syllabus/[topicId]/page.tsx`
+- `src/lib/services/syllabus-service.test.ts`
+- `docs/SYLLABUS_PRODUCT_AUDIT.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/MOCK_SYLLABUS_IMPORT_AND_BACKEND_SCHEMA_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Strict Coverage Finding
+
+- Covered strongly: JavaScript, DSA/Algorithms, Node.js, Databases, System Design/HLD, AWS, LLD, and Staff/Principal/EM role paths.
+- Still incomplete as first-class domains: foundations, tradeoffs, security, performance, case-study progression, interview operations, career assets, and AI expansion.
+
+### Validation
+
+- `npm run test -- src/lib/services/syllabus-service.test.ts src/lib/services/role-readiness-service.test.ts` passed.

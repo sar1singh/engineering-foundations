@@ -30,6 +30,21 @@
 - Phase 23: Local MVP polish and content expansion. Added guided next-step navigation across core screens and content search suggestions.
 - Phase 24: Curriculum content depth pass for JavaScript closures and the linked counter practice task, with focused service/search regression tests.
 - Phase 25: Mock syllabus import structure for master-roadmap content, starting with JavaScript Phase 1 fundamentals, DSA Phase 1 foundations, DSA Phase 2 core patterns, DSA Phase 3 structures, DSA Phase 4 advanced topics, and future backend schema planning.
+- Phase 26: Imported JavaScript Phase 2 Async into the split mock syllabus structure, covering Promises, Async Await, Event Loop, and Microtask vs Macrotask.
+- Phase 27: Split remaining embedded syllabus data into focused files and added a syllabus browser/detail UI with response submission and local progress tracking.
+- Phase 28: Imported JavaScript Phase 3 Senior Topics into the mock syllabus, covering Memory Leaks, Garbage Collection, Performance, and Modular Architecture.
+- Phase 29: Imported JavaScript Phase 4 Interview into the mock syllabus, covering Output Prediction and Debugging Scenarios with MDN, javascript.info, and local JS file practice references.
+- Phase 30: Imported Node.js Phase 1 Core Runtime into the mock syllabus, covering Event Loop in Node, Process Lifecycle, Buffers, and Streams with official Node docs, local lab, and mini backend project references.
+- Phase 31: Imported remaining Node.js phases for Backend Engineering, Scale Topics, and Senior Topics with official Node docs and OWASP references.
+- Phase 32: Imported the full Databases roadmap sequence, covering SQL Core, Performance, PostgreSQL, MongoDB, and Redis with SQLBolt, LeetCode SQL, PostgreSQL, MongoDB, and Redis references.
+- Phase 33: Imported the full System Design roadmap sequence, covering foundations, building blocks, capacity math, common systems, and advanced distributed topics with System Design Primer, Google SRE, and AWS architecture references.
+- Phase 34: Refocused architecture references away from Azure and toward AWS Solution Architect/HLD/LLD preparation.
+- Phase 35: Added AWS Solution Architect core services syllabus and an externally guided LLD/machine-coding track for OOP, SOLID, design patterns, common LLD problems, API contracts, module boundaries, and extensibility trade-offs.
+- Phase 36: Added a deeper Algorithms track, AWS HLD deepening topics, HLD case-study mocks with AWS variants, Staff/Principal/EM leadership topics, and a linear junior-to-staff learning path on `/syllabus`.
+- Phase 37: Added role-based roadmap filtering and explicit 80/20 focus paths for Senior Backend Engineer, AWS Solution Architect, Staff/Principal Engineer, and Engineering Manager.
+- Phase 38: Added syllabus product audit, search/table view on `/syllabus`, and service-level normalization so every rendered topic has at least 8 practice problems and 8 interview questions.
+- Phase 39: Added role-readiness and domain-readiness dashboard panels, today's lesson recommendation, and expanded `/syllabus` filters for domain, difficulty, source platform, and interview frequency.
+- Phase 40: Added strict master-roadmap coverage audit, rendered deep lesson overrides for graph algorithms, AWS Multi-AZ/DR, payment/booking HLD, architecture review, and incident leadership, plus rubric-based review panels and mock interview mode on syllabus topic pages.
 
 ## Current Features
 
@@ -55,7 +70,32 @@
 - Guided next-step cards connect Dashboard, Topic Studio, Practice Lab, Progress, Content, and Learning Graph into a clearer learning loop.
 - JavaScript closures now has deeper seeded mock content across Topic Studio, Practice Lab, problem statement, revision prompt, interview question, reference metadata, and Content search.
 - A separate mock syllabus catalog now represents imported master-roadmap source structure, topic definitions, theory, visual models, code examples, practice problems by difficulty, source references, review prompts, and progress signals.
-- New larger syllabus slices should live in split files under `src/data/syllabus/`, with `src/data/mock-syllabus.ts` acting as the catalog aggregator.
+- Syllabus slices now live in split files under `src/data/syllabus/`, with `src/data/mock-syllabus.ts` acting as the catalog aggregator.
+- JavaScript Phase 2 Async now lives in `src/data/syllabus/js-phase-2-async.ts` and is wired into the JavaScript syllabus domain.
+- JavaScript Phase 3 Senior Topics now lives in `src/data/syllabus/js-phase-3-senior.ts` and is wired into the JavaScript syllabus domain.
+- JavaScript Phase 4 Interview now lives in `src/data/syllabus/js-phase-4-interview.ts` and is wired into the JavaScript syllabus domain.
+- Node.js Phase 1 Core Runtime now lives in `src/data/syllabus/nodejs-phase-1-core-runtime.ts` and is wired into a Node.js syllabus domain.
+- Node.js Phases 2-4 now live in `src/data/syllabus/nodejs-phase-2-backend-engineering.ts`, `src/data/syllabus/nodejs-phase-3-scale.ts`, and `src/data/syllabus/nodejs-phase-4-senior.ts`.
+- Databases now live in `src/data/syllabus/database-topics.ts` and are wired into the syllabus catalog.
+- System Design now lives in `src/data/syllabus/system-design-topics.ts` and is wired into the syllabus catalog.
+- AWS now lives in `src/data/syllabus/aws-topics.ts` and is wired into the syllabus catalog.
+- LLD now lives in `src/data/syllabus/lld-topics.ts` and is wired into the syllabus catalog. The local LLD roadmap index is currently empty, so the first version is guided by public LLD/machine-coding references.
+- Algorithms now lives in `src/data/syllabus/algorithm-topics.ts` and deepens search, hash maps, trees, graphs, recursion, DP, intervals, and bit manipulation.
+- HLD case studies now live in `src/data/syllabus/hld-case-studies.ts` with AWS deployment variants.
+- AWS HLD deepening now lives in `src/data/syllabus/aws-hld-deepening.ts`.
+- Staff/Principal/EM topics now live in `src/data/syllabus/staff-em-topics.ts`.
+- The linear learning path now lives in `src/data/syllabus/linear-learning-roadmap.ts` and is visible on `/syllabus`.
+- Role-based targeted roadmaps now live in `src/data/syllabus/role-learning-roadmaps.ts` and are filterable on `/syllabus` by full path, 80/20 core, depth, and expert focus.
+- `/syllabus` now supports search and card/table views.
+- `/syllabus` now supports domain, difficulty, source-platform, and interview-frequency filters.
+- `/dashboard` now shows role readiness, domain readiness, and a targeted "Start today's lesson" action.
+- Role/domain readiness calculations live in `src/lib/services/role-readiness-service.ts`.
+- `SyllabusService` now normalizes rendered topics to at least 8 practice problems and 8 interview questions while preserving authored problems first.
+- The product/syllabus audit is documented in `docs/SYLLABUS_PRODUCT_AUDIT.md`.
+- `/syllabus` browses imported master-roadmap modules and topics.
+- `/syllabus/[topicId]` shows definitions, theory, mental models, working code examples, practice problems, interview questions, revision prompts, references, response forms, saved responses, and topic completion state.
+- `/syllabus/[topicId]` now also shows rubric-based review panels and a static mock interview mode using topic interview prompts.
+- `SyllabusService` now applies deep lesson overrides from `src/data/syllabus/topic-depth-overrides.ts` before normalizing practice and interview depth.
 - `/settings` shows app config and disabled feature flags.
 
 ## Current Architecture
@@ -121,4 +161,4 @@ Backend-ready layers now exist for:
 
 ## Next Phase Recommendation
 
-The next phase should import another small syllabus slice, preferably JavaScript Phase 2 Async from `00-control/master-roadmap/02-javascript/INDEX.md`, unless UI stabilization or dependency maintenance is explicitly prioritized first. Supabase planning should remain a separate future phase and should not be combined with local Prisma persistence work.
+Current audit: the syllabus is broad enough for the target roles, and the UI now has role, 80/20, search, table/card browsing, domain, difficulty, source, interview-frequency filters, rubric panels, and mock interview prompts. It is not complete against the whole master roadmap. Remaining first-class domains include foundations, tradeoffs, security, performance, case-study progression, interview operations, career assets, and AI expansion. HLD depth should remain AWS-first and should not add Azure-focused references.
