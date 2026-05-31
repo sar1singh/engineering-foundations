@@ -4,6 +4,7 @@ import { appConfig } from "@/lib/config";
 import { mockDbClient } from "@/lib/db";
 import { mockEvaluationService } from "@/lib/evaluation";
 import { mockPracticeRepository } from "@/lib/repositories/mock-practice-repository";
+import { mockLearnerPreferencesRepository } from "@/lib/repositories/mock-learner-preferences-repository";
 import { mockProblemRepository } from "@/lib/repositories/mock-problem-repository";
 import { mockReferenceRepository } from "@/lib/repositories/mock-reference-repository";
 import { mockRoadmapRepository } from "@/lib/repositories/mock-roadmap-repository";
@@ -22,6 +23,7 @@ import type { EvaluationResultRepository } from "@/lib/repositories/evaluation-r
 import type { EvaluationRubricRepository } from "@/lib/repositories/evaluation-rubric-repository";
 import type { ExplainBackRepository } from "@/lib/repositories/explain-back-repository";
 import type { InterviewQuestionRepository } from "@/lib/repositories/interview-question-repository";
+import type { LearnerPreferencesRepository } from "@/lib/repositories/learner-preferences-repository";
 import type { PracticeRepository } from "@/lib/repositories/practice-repository";
 import type { ProblemRepository } from "@/lib/repositories/problem-repository";
 import type { ProgressRepository } from "@/lib/repositories/progress-repository";
@@ -38,6 +40,7 @@ import { ReadinessScoreService } from "@/lib/services/readiness-score-service";
 import { RevisionService } from "@/lib/services/revision-service";
 import { RoadmapTreeService } from "@/lib/services/roadmap-tree-service";
 import { SearchService } from "@/lib/services/search-service";
+import { LearnerStateService } from "@/lib/services/learner-state-service";
 import { syllabusService } from "@/lib/services/syllabus-service";
 import { TopicContentService } from "@/lib/services/topic-content-service";
 import { mockStorageService } from "@/lib/storage";
@@ -55,7 +58,8 @@ const mockRepositories = {
   progressRepository: mockProgressRepository,
   explainBackRepository: mockExplainBackRepository,
   evaluationResultRepository: mockEvaluationResultRepository,
-  revisionQueueRepository: mockRevisionQueueRepository
+  revisionQueueRepository: mockRevisionQueueRepository,
+  learnerPreferencesRepository: mockLearnerPreferencesRepository
 };
 
 type ReadRepositories = {
@@ -72,6 +76,7 @@ type ReadRepositories = {
   explainBackRepository: ExplainBackRepository;
   evaluationResultRepository: EvaluationResultRepository;
   revisionQueueRepository: RevisionQueueRepository;
+  learnerPreferencesRepository: LearnerPreferencesRepository;
 };
 
 function withReadFallback<TRepository extends object>(
@@ -343,7 +348,8 @@ function createPrismaRepositories(): ReadRepositories {
     }),
     explainBackRepository,
     evaluationResultRepository,
-    revisionQueueRepository
+    revisionQueueRepository,
+    learnerPreferencesRepository: mockLearnerPreferencesRepository
   };
 }
 
@@ -365,6 +371,7 @@ export const appServices = {
   storageService: mockStorageService,
   evaluationService: mockEvaluationService,
   repositories,
+  learnerStateService: new LearnerStateService(mockAuthService, repositories.learnerPreferencesRepository),
   roadmapTreeService,
   revisionService,
   readinessScoreService,

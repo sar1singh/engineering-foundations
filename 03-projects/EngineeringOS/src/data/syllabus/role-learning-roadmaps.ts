@@ -20,7 +20,7 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
     slug: "backend-senior-engineer",
     title: "Senior Backend Engineer",
     audience: "Backend engineers moving from implementation ownership to system ownership.",
-    outcome: "Build reliable Node.js services, solve interview algorithms, reason about databases, and pass senior backend interviews.",
+    outcome: "Build reliable JavaScript and Node.js services, solve DSA interviews, reason about database and system design trade-offs, own API design, and pass senior backend interviews.",
     topicSlugs: [
       "closures",
       "promises",
@@ -36,7 +36,13 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
       "query-tuning",
       "redis-cache-patterns",
       "queue",
-      "api-design-contracts"
+      "api-design-contracts",
+      "security-threat-modeling",
+      "oauth-oidc-jwt",
+      "profiling-bottlenecks",
+      "observability-slo-tracing",
+      "coding-round-strategy",
+      "system-design-round-strategy"
     ],
     focus: [
       {
@@ -55,13 +61,13 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
         level: "advanced",
         priority: "depth",
         title: "Production backend decisions",
-        topicSlugs: ["validation", "logging", "config-management", "indexes", "query-tuning", "redis-cache-patterns"]
+        topicSlugs: ["validation", "logging", "config-management", "indexes", "query-tuning", "redis-cache-patterns", "profiling-bottlenecks", "observability-slo-tracing"]
       },
       {
         level: "expert",
         priority: "expert",
         title: "Senior ownership",
-        topicSlugs: ["api-design-contracts", "module-boundaries", "reliability-patterns", "incident-leadership"]
+        topicSlugs: ["api-design-contracts", "module-boundaries", "reliability-patterns", "security-threat-modeling", "coding-round-strategy", "incident-leadership"]
       }
     ]
   },
@@ -91,6 +97,10 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
       "cloudtrail",
       "backup-dr",
       "cost-optimization",
+      "security-threat-modeling",
+      "oauth-oidc-jwt",
+      "observability-slo-tracing",
+      "load-testing-capacity",
       "hld-payment-system",
       "hld-booking-system"
     ],
@@ -111,13 +121,13 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
         level: "advanced",
         priority: "depth",
         title: "Workflow, security, and operations",
-        topicSlugs: ["step-functions", "ecs-eks", "kms", "cloudtrail", "backup-dr", "cost-optimization"]
+        topicSlugs: ["step-functions", "ecs-eks", "kms", "cloudtrail", "backup-dr", "cost-optimization", "security-threat-modeling", "observability-slo-tracing"]
       },
       {
         level: "expert",
         priority: "expert",
         title: "Architecture case studies",
-        topicSlugs: ["hld-url-shortener", "hld-chat-system", "hld-booking-system", "hld-payment-system", "architecture-review"]
+        topicSlugs: ["hld-url-shortener", "hld-chat-system", "hld-booking-system", "hld-payment-system", "system-design-round-strategy", "architecture-review"]
       }
     ]
   },
@@ -140,7 +150,10 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
       "disaster-recovery",
       "reliability-patterns",
       "module-boundaries",
-      "extensibility-tradeoffs"
+      "extensibility-tradeoffs",
+      "system-design-round-strategy",
+      "behavioral-star-stories",
+      "mock-interview-calibration"
     ],
     focus: [
       {
@@ -159,13 +172,13 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
         level: "advanced",
         priority: "depth",
         title: "Staff execution scope",
-        topicSlugs: ["technical-strategy", "roadmap-execution", "incident-leadership", "stakeholder-communication"]
+        topicSlugs: ["technical-strategy", "roadmap-execution", "incident-leadership", "stakeholder-communication", "behavioral-star-stories"]
       },
       {
         level: "expert",
         priority: "expert",
         title: "Principal-level case reviews",
-        topicSlugs: ["hld-payment-system", "hld-booking-system", "hld-feed-system", "extensibility-tradeoffs"]
+        topicSlugs: ["hld-payment-system", "hld-booking-system", "hld-feed-system", "extensibility-tradeoffs", "mock-interview-calibration"]
       }
     ]
   },
@@ -183,32 +196,37 @@ export const roleLearningRoadmaps: RoleLearningRoadmap[] = [
       "technical-strategy",
       "reliability",
       "availability",
-      "cost-optimization"
+      "cost-optimization",
+      "behavioral-star-stories",
+      "mock-interview-calibration",
+      "system-design-round-strategy",
+      "observability-slo-tracing",
+      "security-threat-modeling"
     ],
     focus: [
       {
         level: "foundation",
         priority: "core-80-20",
         title: "Technical fluency",
-        topicSlugs: ["reliability", "availability", "latency", "architecture-review"]
+        topicSlugs: ["reliability", "availability", "latency", "architecture-review", "system-design-round-strategy"]
       },
       {
         level: "basic",
         priority: "core-80-20",
         title: "Execution systems",
-        topicSlugs: ["roadmap-execution", "stakeholder-communication", "incident-leadership"]
+        topicSlugs: ["roadmap-execution", "stakeholder-communication", "incident-leadership", "behavioral-star-stories"]
       },
       {
         level: "advanced",
         priority: "depth",
         title: "People and process signal",
-        topicSlugs: ["hiring-interview-calibration", "technical-strategy", "cost-optimization"]
+        topicSlugs: ["hiring-interview-calibration", "technical-strategy", "cost-optimization", "mock-interview-calibration", "observability-slo-tracing"]
       },
       {
         level: "expert",
         priority: "expert",
         title: "Org-level judgment",
-        topicSlugs: ["hld-payment-system", "disaster-recovery", "roadmap-execution"]
+        topicSlugs: ["hld-payment-system", "disaster-recovery", "roadmap-execution", "security-threat-modeling"]
       }
     ]
   }

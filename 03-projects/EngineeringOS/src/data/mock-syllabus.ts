@@ -22,7 +22,19 @@ import { nodejsPhaseFourSeniorTopics } from "@/data/syllabus/nodejs-phase-4-seni
 import { nodejsPhaseThreeScaleTopics } from "@/data/syllabus/nodejs-phase-3-scale";
 import { nodejsPhaseTwoBackendEngineeringTopics } from "@/data/syllabus/nodejs-phase-2-backend-engineering";
 import { lldFoundationTopics, lldMachineCodingTopics, lldSeniorDesignTopics } from "@/data/syllabus/lld-topics";
+import { interviewPreparationTopics } from "@/data/syllabus/interview-topics";
+import { performanceEngineeringTopics } from "@/data/syllabus/performance-topics";
+import { securityFoundationTopics } from "@/data/syllabus/security-topics";
 import { staffPrincipalEmTopics } from "@/data/syllabus/staff-em-topics";
+import {
+  aiExpansionTopics,
+  careerAssetTopics,
+  caseStudyTopics,
+  foundationTopics,
+  seniorSkillsTopics,
+  testingQualityTopics,
+  tradeoffTopics
+} from "@/data/syllabus/strategic-roadmap-topics";
 import {
   systemDesignAdvancedTopics,
   systemDesignBuildingBlockTopics,
@@ -417,6 +429,196 @@ export const mockSyllabusCatalog: MockSyllabusCatalog = {
           sourcePath: "00-control/master-roadmap/13-senior-skills/INDEX.md",
           goal: "Practice architecture review, strategy, incidents, execution, hiring, and stakeholder communication.",
           topics: staffPrincipalEmTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-security",
+      slug: "security",
+      title: "Security",
+      order: 10,
+      sourcePath: "00-control/master-roadmap/10-security/INDEX.md",
+      goal: "Build secure backend, HLD, and AWS architecture judgment for senior interviews and production reviews.",
+      modules: [
+        {
+          id: "syllabus-module-security-foundations",
+          slug: "security-foundations",
+          title: "Security and Auth Foundations",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/10-security/INDEX.md",
+          goal: "Explain threat modeling, OAuth/OIDC/JWT, sessions, CSRF, XSS, SSRF, secrets, injection, and AWS security controls.",
+          topics: securityFoundationTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-performance",
+      slug: "performance",
+      title: "Performance",
+      order: 11,
+      sourcePath: "00-control/master-roadmap/11-performance/INDEX.md",
+      goal: "Diagnose bottlenecks, design for SLOs, and explain performance trade-offs across backend and AWS systems.",
+      modules: [
+        {
+          id: "syllabus-module-performance-engineering",
+          slug: "performance-engineering",
+          title: "Performance Engineering",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/11-performance/INDEX.md",
+          goal: "Practice profiling, load testing, capacity planning, observability, SLOs, tracing, metrics, and caching decisions.",
+          topics: performanceEngineeringTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-interviews",
+      slug: "interviews",
+      title: "Interviews",
+      order: 14,
+      sourcePath: "00-control/master-roadmap/14-interviews/INDEX.md",
+      goal: "Convert learning into coding, system design, behavioral, mock interview, and calibration readiness.",
+      modules: [
+        {
+          id: "syllabus-module-interview-preparation",
+          slug: "interview-preparation",
+          title: "Interview Preparation",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/14-interviews/INDEX.md",
+          goal: "Practice coding rounds, system design rounds, behavioral STAR stories, mock interviews, and interviewer-style calibration.",
+          topics: interviewPreparationTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-foundations",
+      slug: "foundations",
+      title: "Foundations",
+      order: 1,
+      sourcePath: "00-control/master-roadmap/01-foundations/INDEX.md",
+      goal: "Build CS, OS, networking, Big-O, debugging, and request-lifecycle foundations for backend engineering.",
+      modules: [
+        {
+          id: "syllabus-module-foundations-core",
+          slug: "foundations-core",
+          title: "Core Engineering Foundations",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/01-foundations/INDEX.md",
+          goal: "Explain the core systems knowledge behind backend debugging, interviews, and production reasoning.",
+          topics: foundationTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-tradeoffs",
+      slug: "tradeoffs",
+      title: "Tradeoffs",
+      order: 8,
+      sourcePath: "00-control/master-roadmap/08-tradeoffs/INDEX.md",
+      goal: "Practice engineering decision-making across consistency, availability, cost, reliability, build/buy, and reversibility.",
+      modules: [
+        {
+          id: "syllabus-module-tradeoffs-decisions",
+          slug: "tradeoffs-decisions",
+          title: "Engineering Decisions",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/08-tradeoffs/INDEX.md",
+          goal: "Turn architecture choices into clear recommendations with constraints, risks, alternatives, and metrics.",
+          topics: tradeoffTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-case-studies",
+      slug: "case-studies",
+      title: "Case Studies",
+      order: 12,
+      sourcePath: "00-control/master-roadmap/12-case-studies/INDEX.md",
+      goal: "Study real-world-style systems such as chat and streaming to connect HLD, AWS, performance, reliability, and cost.",
+      modules: [
+        {
+          id: "syllabus-module-case-studies-famous-systems",
+          slug: "case-studies-famous-systems",
+          title: "Famous System Case Studies",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/12-case-studies/INDEX.md",
+          goal: "Practice interview-grade case studies with requirements, architecture, failure modes, AWS variants, and metrics.",
+          topics: caseStudyTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-senior-skills",
+      slug: "senior-skills",
+      title: "Senior Skills",
+      order: 13,
+      sourcePath: "00-control/master-roadmap/13-senior-skills/INDEX.md",
+      goal: "Represent the master-roadmap senior-skills router explicitly while Staff/EM remains the role-focused view.",
+      modules: [
+        {
+          id: "syllabus-module-senior-skills-operating",
+          slug: "senior-skills-operating",
+          title: "Leadership and Operating Skills",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/13-senior-skills/INDEX.md",
+          goal: "Practice leadership, incidents, architecture reviews, execution, hiring calibration, and stakeholder communication.",
+          topics: seniorSkillsTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-career-assets",
+      slug: "career-assets",
+      title: "Career Assets",
+      order: 15,
+      sourcePath: "00-control/master-roadmap/15-career-assets/INDEX.md",
+      goal: "Turn EngineeringOS learning into resume, LinkedIn, GitHub, portfolio, proof-of-work, promotion, and interview assets.",
+      modules: [
+        {
+          id: "syllabus-module-career-assets-proof",
+          slug: "career-assets-proof",
+          title: "Proof and Positioning",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/15-career-assets/INDEX.md",
+          goal: "Package skill into recruiter-readable and interviewer-credible artifacts.",
+          topics: careerAssetTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-ai-expansion",
+      slug: "ai-expansion",
+      title: "AI Expansion",
+      order: 16,
+      sourcePath: "00-control/master-roadmap/16-ai-expansion/INDEX.md",
+      goal: "Track future AI-assisted learning, evaluator, prompt, and product/system design expansion without enabling real AI prematurely.",
+      modules: [
+        {
+          id: "syllabus-module-ai-expansion-future",
+          slug: "ai-expansion-future",
+          title: "Future AI Learning Systems",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/16-ai-expansion/INDEX.md",
+          goal: "Plan AI-assisted evaluation with rubrics, sources, privacy, and human review boundaries.",
+          topics: aiExpansionTopics
+        }
+      ]
+    },
+    {
+      id: "syllabus-domain-testing-quality",
+      slug: "testing-quality",
+      title: "Testing and Quality",
+      order: 17,
+      sourcePath: "00-control/master-roadmap/01-foundations/INDEX.md",
+      goal: "Protect EngineeringOS and backend learning with unit-test, integration-test, contract-test, QA, and release-quality strategy.",
+      modules: [
+        {
+          id: "syllabus-module-testing-quality-strategy",
+          slug: "testing-quality-strategy",
+          title: "Quality Strategy",
+          order: 1,
+          sourcePath: "00-control/master-roadmap/01-foundations/INDEX.md",
+          goal: "Choose the right quality gate for logic, boundaries, contracts, workflows, and release confidence.",
+          topics: testingQualityTopics
         }
       ]
     }

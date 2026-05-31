@@ -2,14 +2,16 @@ import Link from "next/link";
 import { linearLearningRoadmap } from "@/data/syllabus/linear-learning-roadmap";
 import { roleLearningRoadmaps } from "@/data/syllabus/role-learning-roadmaps";
 import { appServices } from "@/lib/providers";
+import { getProductQualityStatus } from "@/lib/services/product-quality-service";
 
 type SyllabusPageProps = {
   searchParams: Promise<{ role?: string; priority?: string; q?: string; view?: string; domain?: string; difficulty?: string; source?: string; frequency?: string }>;
 };
 
 export default async function SyllabusPage({ searchParams }: SyllabusPageProps) {
-  const { role = "all", priority = "all", q = "", view = "cards", domain = "all", difficulty = "all", source = "all", frequency = "all" } = await searchParams;
+  const { role = "all", priority = "all", q = "", view = "table", domain = "all", difficulty = "all", source = "all", frequency = "all" } = await searchParams;
   const domains = appServices.syllabusService.getDomains();
+  const qualityStatus = getProductQualityStatus();
   const normalizedQuery = q.trim().toLowerCase();
   const selectedRole = roleLearningRoadmaps.find((item) => item.slug === role) ?? null;
   const priorityTopicSlugs = new Set(
@@ -100,7 +102,16 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
         </p>
       </div>
       <section className="rounded-lg border border-[var(--border)] bg-white p-5">
-        <h2 className="text-xl font-semibold">Role roadmap filters</h2>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-semibold">Syllabus command center</h2>
+            <span className="sr-only">Role roadmap filters</span>
+            <p className="mt-1 text-sm text-[var(--muted)]">Filter the master roadmap by role, 80/20 focus, domain, difficulty, source, and interview signal.</p>
+          </div>
+          <Link className="rounded-md border border-[var(--border)] px-3 py-2 text-sm font-medium text-[var(--muted)] hover:border-teal-700" href="/quality">
+            QA health {qualityStatus.coveragePercent}%
+          </Link>
+        </div>
         <form className="mt-4 grid gap-3 lg:grid-cols-[1fr_auto_auto]">
           <input name="role" type="hidden" value={role} />
           <input name="priority" type="hidden" value={priority} />
@@ -228,7 +239,7 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
       <section className="grid gap-3 md:grid-cols-4">
         <Metric label="Visible topics" value={visibleTopics.length} />
         <Metric label="Domains" value={fullyFilteredDomains.length} />
-        <Metric label="Role" value={selectedRole?.title ?? "All"} />
+        <Metric label="QA coverage" value={`${qualityStatus.coveragePercent}%`} />
         <Metric label="Focus" value={priority === "all" ? "Full path" : priority.replaceAll("-", " ")} />
       </section>
       <div className="flex flex-wrap items-center justify-between gap-3">

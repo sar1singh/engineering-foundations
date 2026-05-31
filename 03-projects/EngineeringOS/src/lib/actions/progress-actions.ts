@@ -1,10 +1,13 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { appServices } from "@/lib/providers";
 import type { PersistenceActionState } from "@/lib/actions/persistence-action-state";
 import type { SaveEvaluationResultInput } from "@/lib/repositories/evaluation-result-repository";
 import type { SaveExplainBackAttemptInput } from "@/lib/repositories/explain-back-repository";
+import { evaluateMockAnswer } from "@/lib/services/mock-assessment-service";
+import { learningPreferencesCookieName, serializeLearningPreferences } from "@/lib/services/onboarding-service";
 import type { RevisionQueueItem, UserWeakArea } from "@/types/progress";
 
 export async function markTopicCompleteAction(topicId: string) {
@@ -145,13 +148,61 @@ export async function saveSyllabusResponseStateAction(
 
     const formattedAnswer = prompt ? `${promptType}: ${prompt}\n\n${answer}` : `${promptType}\n\n${answer}`;
 
-    await saveExplainBackAttemptAction({ topicId, answer: formattedAnswer });
+    const attempt = await saveExplainBackAttemptAction({ topicId, answer: formattedAnswer });
+    const mockAssessment = evaluateMockAnswer({ answer, promptType });
+
+    await saveEvaluationResultAction({
+      topicId,
+      explainBackAttemptId: attempt.id,
+      score: mockAssessment.score,
+      maxScore: mockAssessment.maxScore,
+      summary: mockAssessment.summary,
+      strengths: mockAssessment.strengths,
+      improvements: mockAssessment.improvements,
+      evaluationSource: "mock"
+    });
+
     revalidatePath(`/syllabus/${topicId}`);
     revalidatePath("/progress");
 
-    return { status: "success", message: "Response saved." };
+    return { status: "success", message: `Response saved and scored ${mockAssessment.score}/${mockAssessment.maxScore}.` };
   } catch {
     return { status: "error", message: "Could not save this response." };
+  }
+}
+
+export async function saveLearningPreferencesStateAction(
+  _previousState: PersistenceActionState,
+  formData: FormData
+): Promise<PersistenceActionState> {
+  try {
+    const targetRole = String(formData.get("targetRole") ?? "solution-architect");
+    const currentLevel = String(formData.get("currentLevel") ?? "senior") as "junior" | "mid" | "senior" | "staff-em";
+    const hoursPerWeek = Number(formData.get("hoursPerWeek") ?? 8);
+    const deadlineWeeks = Number(formData.get("deadlineWeeks") ?? 16);
+    const learningMode = String(formData.get("learningMode") ?? "core-80-20") as "core-80-20" | "balanced" | "deep-mastery";
+    const weakAreas = String(formData.get("weakAreas") ?? "")
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    const cookieStore = await cookies();
+
+    const preferences = { targetRole, currentLevel, hoursPerWeek, deadlineWeeks, learningMode, weakAreas };
+
+    await appServices.learnerStateService.savePreferences(preferences);
+
+    cookieStore.set(
+      learningPreferencesCookieName,
+      serializeLearningPreferences(preferences),
+      { httpOnly: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 180 }
+    );
+
+    revalidatePath("/dashboard");
+    revalidatePath("/onboarding");
+
+    return { status: "success", message: "Learning plan saved." };
+  } catch {
+    return { status: "error", message: "Could not save learning preferences." };
   }
 }
 

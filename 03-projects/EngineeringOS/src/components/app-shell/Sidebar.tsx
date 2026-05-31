@@ -8,19 +8,23 @@ import {
   Brain,
   Gauge,
   GitBranch,
+  ShieldCheck,
   LayoutDashboard,
   Library,
+  SlidersHorizontal,
   Settings
 } from "lucide-react";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Onboarding", href: "/onboarding", icon: SlidersHorizontal },
   { label: "Learning Graph", href: "/graph", icon: GitBranch },
   { label: "Topic Studio", href: "/topics/closures", icon: Brain },
   { label: "Practice Lab", href: "/practice/implement-counter-with-closure", icon: BookOpen },
   { label: "Syllabus", href: "/syllabus", icon: Library },
   { label: "Progress", href: "/progress", icon: BarChart3 },
   { label: "Content", href: "/content", icon: Gauge },
+  { label: "Product QA", href: "/quality", icon: ShieldCheck },
   { label: "Settings", href: "/settings", icon: Settings }
 ];
 

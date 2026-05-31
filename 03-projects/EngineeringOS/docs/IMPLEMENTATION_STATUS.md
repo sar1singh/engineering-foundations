@@ -45,6 +45,14 @@
 - Phase 38: Added syllabus product audit, search/table view on `/syllabus`, and service-level normalization so every rendered topic has at least 8 practice problems and 8 interview questions.
 - Phase 39: Added role-readiness and domain-readiness dashboard panels, today's lesson recommendation, and expanded `/syllabus` filters for domain, difficulty, source platform, and interview frequency.
 - Phase 40: Added strict master-roadmap coverage audit, rendered deep lesson overrides for graph algorithms, AWS Multi-AZ/DR, payment/booking HLD, architecture review, and incident leadership, plus rubric-based review panels and mock interview mode on syllabus topic pages.
+- Phase 41: Added intentional red QA contract tests for CEO/CTO/Product-level mission alignment, master-roadmap coverage, syllabus content quality, role-readiness credibility, and product UX surfaces.
+- Phase 42: Added the six-phase quality-contract remediation plan and started Phase 1 with first-class Security, Performance, and Interviews syllabus domains, plus role-roadmap updates.
+- Phase 43: Completed the first-class router-domain remediation by adding Foundations, Tradeoffs, Case Studies, Senior Skills, Career Assets, AI Expansion, and Testing/Quality coverage. The executive quality contract suite now passes.
+- Phase 44: Started the SaaS Learning UX Upgrade with dashboard role onboarding, readiness breakdown v2, syllabus command-center QA health, topic page navigation/checklist, Product QA dashboard, and sidebar navigation.
+- Phase 45: Added the Assessment and Evaluation Layer with saved onboarding preferences, automatic mock rubric scoring for syllabus responses, topic evaluation history, local JavaScript runner, timed mock interview sessions, and weighted assessment readiness.
+- Phase 44/45 Plan: Formalized the combined implementation plan, acceptance criteria, verification commands, and production-hardening backlog in `docs/PHASE_44_45_IMPLEMENTATION_PLAN.md`.
+- Phase 46: Added final audit and hardening with expanded route smoke coverage, code-runner guardrails, production/alpha/beta readiness verdicts, and a Phase 46 quality contract.
+- Phase 47: Added the Production Foundation gate with a production-readiness service, Product QA readiness panel, explicit alpha/beta/production verdicts, and documented Phase 48 auth/persistent learner-state direction.
 
 ## Current Features
 
@@ -89,12 +97,28 @@
 - `/syllabus` now supports search and card/table views.
 - `/syllabus` now supports domain, difficulty, source-platform, and interview-frequency filters.
 - `/dashboard` now shows role readiness, domain readiness, and a targeted "Start today's lesson" action.
+- `/dashboard` now includes a role onboarding panel, product QA health, and DSA/Backend/System Design/AWS/Security/LLD/Staff-EM readiness breakdown.
+- `/dashboard` now uses saved onboarding preferences and shows weighted assessment readiness with next assessment actions.
+- `/onboarding` saves target role, current level, hours/week, deadline, weak areas, and learning mode through a local cookie.
+- `/quality` shows product quality contract health, missing router domains, thin role paths, shallow topic watchlist, and strategic content area coverage.
+- `/quality` now also shows production-readiness gates for alpha, beta, and production decisions.
 - Role/domain readiness calculations live in `src/lib/services/role-readiness-service.ts`.
+- Executive/product QA contracts live in `src/lib/quality/`. These tests intentionally fail until missing roadmap domains and strategic content gaps are filled.
+- The quality-contract remediation roadmap lives in `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`.
+- Security now lives in `src/data/syllabus/security-topics.ts`.
+- Performance now lives in `src/data/syllabus/performance-topics.ts`.
+- Interviews now lives in `src/data/syllabus/interview-topics.ts`.
+- Foundations, Tradeoffs, Case Studies, Senior Skills, Career Assets, AI Expansion, and Testing/Quality now live in `src/data/syllabus/strategic-roadmap-topics.ts`.
 - `SyllabusService` now normalizes rendered topics to at least 8 practice problems and 8 interview questions while preserving authored problems first.
 - The product/syllabus audit is documented in `docs/SYLLABUS_PRODUCT_AUDIT.md`.
 - `/syllabus` browses imported master-roadmap modules and topics.
+- `/syllabus` now defaults to table view and surfaces command-center QA health.
 - `/syllabus/[topicId]` shows definitions, theory, mental models, working code examples, practice problems, interview questions, revision prompts, references, response forms, saved responses, and topic completion state.
 - `/syllabus/[topicId]` now also shows rubric-based review panels and a static mock interview mode using topic interview prompts.
+- `/syllabus/[topicId]` now includes section navigation and a sticky topic checklist.
+- `/syllabus/[topicId]` now auto-scores saved syllabus responses with a mock evaluator and shows evaluation history.
+- `/syllabus/[topicId]` now includes a timed mock interview session for topic interview questions.
+- JavaScript syllabus examples and practice starter code now include a local browser-side runner.
 - `SyllabusService` now applies deep lesson overrides from `src/data/syllabus/topic-depth-overrides.ts` before normalizing practice and interview depth.
 - `/settings` shows app config and disabled feature flags.
 
@@ -161,4 +185,10 @@ Backend-ready layers now exist for:
 
 ## Next Phase Recommendation
 
-Current audit: the syllabus is broad enough for the target roles, and the UI now has role, 80/20, search, table/card browsing, domain, difficulty, source, interview-frequency filters, rubric panels, and mock interview prompts. It is not complete against the whole master roadmap. Remaining first-class domains include foundations, tradeoffs, security, performance, case-study progression, interview operations, career assets, and AI expansion. HLD depth should remain AWS-first and should not add Azure-focused references.
+Current audit: the syllabus now passes the executive quality contracts for master-roadmap domain coverage, role readiness, strategic content coverage, and product UX surfaces. HLD depth should remain AWS-first and should not add Azure-focused references.
+
+Current QA contract status: `npm run test:quality` passes. Phase 44 and Phase 45 have their first complete local/mock implementations, and Phase 46 has documented the final audit/hardening posture.
+
+Production readiness verdict: not ready for production deployment. The app is ready for controlled local/internal alpha only. Beta remains blocked by production auth, database-backed user state, deployment observability, backup/restore planning, Playwright/visual QA, calibrated evaluator reports, and hardened safe code execution.
+
+Next recommended phase: Phase 48 - Auth and Persistent Learner State. Focus on a real user profile model, database-backed onboarding preferences, learner-state repositories/services, dashboard/onboarding wiring, and fallback behavior for mock mode.

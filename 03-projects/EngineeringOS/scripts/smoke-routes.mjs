@@ -6,11 +6,15 @@ const port = mode === "prisma" ? 3111 : 3110;
 const baseUrl = `http://127.0.0.1:${port}`;
 const routes = [
   "/dashboard",
+  "/onboarding",
   "/graph",
+  "/syllabus",
+  "/syllabus/graph-bfs",
   "/topics/javascript",
   "/practice/practice-javascript",
   "/progress",
   "/content",
+  "/quality",
   "/settings"
 ];
 

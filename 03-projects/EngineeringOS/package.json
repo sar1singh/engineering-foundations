@@ -10,6 +10,7 @@
     "smoke:mock": "node scripts/smoke-routes.mjs",
     "smoke:prisma": "node scripts/smoke-routes.mjs --prisma",
     "test": "vitest run",
+    "test:quality": "vitest run src/lib/quality",
     "typecheck": "tsc --noEmit"
   },
   "prisma": {

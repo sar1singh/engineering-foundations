@@ -1137,3 +1137,310 @@
 ### Validation
 
 - `npm run test -- src/lib/services/syllabus-service.test.ts src/lib/services/role-readiness-service.test.ts` passed.
+
+## 2026-05-31 - Executive QA Contract Test Layer
+
+### Completed
+
+- Added intentional red QA contract tests for CEO/CTO/Product-level validation.
+- Added product objective tests that protect EngineeringOS mission, role outcomes, linear learning progression, and product capability expectations.
+- Added master-roadmap coverage tests that require first-class coverage for priority and router domains.
+- Added syllabus content quality tests that require topic teaching/practice/interview usefulness and strategic content coverage.
+- Added role-readiness contract tests for substantial role paths, valid topic links, capability alignment, and next-topic readiness actions.
+- Added product UX contract tests for dashboard, syllabus browsing, topic learning, assessment, and navigation surfaces.
+
+### Files Created
+
+- `src/lib/quality/product-objective-contract.test.ts`
+- `src/lib/quality/master-roadmap-coverage.test.ts`
+- `src/lib/quality/syllabus-content-quality.test.ts`
+- `src/lib/quality/role-readiness-contract.test.ts`
+- `src/lib/quality/product-ux-contract.test.ts`
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality` intentionally failed with 7 failures and 12 passing tests.
+
+### Intentional Red Findings
+
+- Missing first-class roadmap domains: foundations, tradeoffs, security, performance, case-studies, interviews, career-assets, and AI expansion.
+- Current syllabus has 9 domains, while the product contract expects at least 12.
+- Engineering Manager path has 9 topics, while the role-readiness contract expects at least 12.
+- Backend Senior Engineer role wording/content does not explicitly hit all expected capability keywords.
+- `recursion-backtracking` has a too-short mental model.
+- Security/Auth strategic coverage is too weak.
+
+## 2026-05-31 - Quality Contract Remediation Plan and Phase 1 Start
+
+### Completed
+
+- Added `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md` with the six-phase plan for resolving executive QA findings and UI/UX upgrades.
+- Started Phase 1 by adding first-class Security, Performance, and Interviews syllabus domains.
+- Added Security topics for threat modeling, OAuth/OIDC/JWT, sessions/CSRF/XSS, and SSRF/secrets/injection.
+- Added Performance topics for profiling/bottlenecks, load testing/capacity, observability/SLOs/tracing, and caching performance.
+- Added Interview topics for coding-round strategy, system-design-round strategy, behavioral STAR stories, and mock interview calibration.
+- Wired the new domains into `src/data/mock-syllabus.ts`.
+- Expanded role roadmaps with the new security, performance, observability, coding, system-design, behavioral, and mock-interview topics.
+- Fixed the `recursion-backtracking` mental model quality-contract failure.
+
+### Files Created
+
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+- `src/data/syllabus/security-topics.ts`
+- `src/data/syllabus/performance-topics.ts`
+- `src/data/syllabus/interview-topics.ts`
+
+### Files Updated
+
+- `src/data/mock-syllabus.ts`
+- `src/data/syllabus/role-learning-roadmaps.ts`
+- `src/data/syllabus/algorithm-topics.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/AI_SESSION_LOG.md`
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality` intentionally failed with 2 failures and 17 passing tests.
+
+### Remaining Red Findings
+
+- Missing first-class router domains: foundations, tradeoffs, case-studies, senior-skills, career-assets, and AI expansion.
+- Career Assets strategic keyword coverage is still weak.
+
+## 2026-05-31 - Quality Contract Router Domains Completed
+
+### Completed
+
+- Added first-class Foundations, Tradeoffs, Case Studies, Senior Skills, Career Assets, AI Expansion, and Testing/Quality domains.
+- Kept `staff-em` as the role-focused leadership track and added `senior-skills` as the master-router-compatible first-class domain.
+- Added Career Assets topics for Resume/LinkedIn/GitHub, Portfolio/Proof-of-Work, and Promotion Packet/STAR Stories.
+- Added Foundations topics for CS/OS/Networking and Big-O/Debugging.
+- Added Tradeoffs topics for consistency/availability and build/buy/cost/reliability decisions.
+- Added Case Study topics for WhatsApp-style chat and Netflix-style streaming.
+- Added AI Expansion topic for a future AI-assisted learning evaluator.
+- Added Testing/Quality strategy coverage for unit-test, integration-test, contract-test, QA, and release quality.
+- Wired all new domains into `src/data/mock-syllabus.ts`.
+- Updated the quality remediation plan and product audit to reflect resolved red findings.
+
+### Files Created
+
+- `src/data/syllabus/strategic-roadmap-topics.ts`
+
+### Files Updated
+
+- `src/data/mock-syllabus.ts`
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/SYLLABUS_PRODUCT_AUDIT.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test -- src/lib/quality` passed: 5 files, 19 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+
+### Next Recommended Work
+
+- Run the broader syllabus/readiness regression suite.
+- Move to UI/UX Phase 5: role onboarding wizard, role-readiness dashboard v2, syllabus command center, topic-page tabs, sticky progress/checklist sidebar, and product QA screen.
+
+## 2026-05-31 - Phase 44 SaaS Learning UX Upgrade Start
+
+### Completed
+
+- Added expert audit findings to the implementation plan and quality remediation plan.
+- Started Phase 44 with a product-operations layer for the learning app.
+- Added `src/lib/services/product-quality-service.ts` to compute product QA health from syllabus, role roadmap, and content-quality signals.
+- Added `/quality` as a Product QA dashboard with contract health, router-domain gaps, thin role paths, shallow topic watchlist, and strategic content coverage.
+- Added Product QA navigation to the sidebar.
+- Upgraded `/dashboard` with role onboarding entry points, Product QA health, and readiness breakdowns for DSA, Backend, System Design, AWS, Security, LLD, and Staff/EM.
+- Upgraded `/syllabus` into a stronger command center with table-first default and QA health.
+- Upgraded `/syllabus/[topicId]` with Learn/Code/Practice/Interview/Review/References anchors and a sticky topic checklist.
+
+### Files Created
+
+- `src/lib/services/product-quality-service.ts`
+- `src/app/quality/page.tsx`
+
+### Files Updated
+
+- `src/app/dashboard/page.tsx`
+- `src/app/syllabus/page.tsx`
+- `src/app/syllabus/[topicId]/page.tsx`
+- `src/components/app-shell/Sidebar.tsx`
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Remaining Phase 44 Work
+
+- Full onboarding wizard with saved target role, current level, hours/week, deadline, weak areas, and learning mode.
+- Rubric scoring panel with explicit scores and response history.
+- Interactive timed mock interview session mode.
+- Local code execution.
+- Mock evaluator scoring workflow.
+- Better readiness model using confidence, attempts, rubric scores, and revision freshness.
+
+## 2026-05-31 - Phase 44/45 Completion Pass
+
+### Completed
+
+- Added local saved onboarding preferences with `/onboarding`.
+- Added cookie-backed target role, current level, hours/week, deadline, weak areas, and learning mode.
+- Dashboard now uses saved onboarding preferences to bias the target role path.
+- Added automatic mock scoring for syllabus responses using `mock-assessment-service`.
+- Saved mock scores into the existing evaluation result repository.
+- Added evaluation history to syllabus topic pages.
+- Added a browser-side local JavaScript runner for runnable syllabus code examples and practice starter code.
+- Added timed mock interview sessions on syllabus topic pages.
+- Added weighted assessment readiness with role completion, core-domain balance, Product QA health, and study pace.
+
+### Files Created
+
+- `src/types/learning-preferences.ts`
+- `src/lib/services/onboarding-service.ts`
+- `src/lib/services/mock-assessment-service.ts`
+- `src/lib/services/assessment-readiness-service.ts`
+- `src/components/onboarding/OnboardingWizardForm.tsx`
+- `src/components/practice/LocalCodeRunner.tsx`
+- `src/components/interview/TimedMockInterview.tsx`
+- `src/app/onboarding/page.tsx`
+
+### Files Updated
+
+- `src/lib/actions/progress-actions.ts`
+- `src/app/dashboard/page.tsx`
+- `src/app/syllabus/[topicId]/page.tsx`
+- `src/app/practice/[taskId]/page.tsx`
+- `src/components/app-shell/Sidebar.tsx`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality src/lib/services/syllabus-service.test.ts src/lib/services/role-readiness-service.test.ts` passed.
+
+## 2026-05-31 - Phase 44/45 Plan Formalized
+
+### Completed
+
+- Added a dedicated Phase 44/45 implementation plan for the SaaS Learning UX Upgrade and Assessment/Evaluation Layer.
+- Reconciled the product audit so completed local/mock features are no longer listed as missing.
+- Updated the implementation status with the Phase 44/45 plan artifact and the recommended Phase 46 audit/hardening direction.
+- Updated the quality remediation plan with the Phase 44/45 plan reference and remaining production-hardening backlog.
+
+### Files Created
+
+- `docs/PHASE_44_45_IMPLEMENTATION_PLAN.md`
+
+### Files Updated
+
+- `docs/SYLLABUS_PRODUCT_AUDIT.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Validation
+
+- `npm run test -- src/lib/quality src/lib/services/syllabus-service.test.ts src/lib/services/role-readiness-service.test.ts` passed: 7 files, 53 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+
+## 2026-05-31 - Phase 46 Final Audit and Hardening
+
+### Completed
+
+- Implemented Phase 46 final audit and hardening.
+- Added the Phase 46 audit document with UX, mobile, route smoke, content depth, persistence, evaluator calibration, code-runner safety, and deployment-readiness verdicts.
+- Expanded route smoke coverage to include `/onboarding`, `/syllabus`, `/syllabus/graph-bfs`, and `/quality`.
+- Hardened the local JavaScript runner with guards for network calls, browser storage, DOM/global access, dynamic eval, dynamic imports, obvious infinite loops, and oversized snippets.
+- Added runner safety tests.
+- Added a Phase 46 quality contract to protect smoke coverage, code-runner safety, and honest production/alpha/beta readiness documentation.
+- Added `npm run test:quality`.
+
+### Files Created
+
+- `docs/PHASE_46_FINAL_AUDIT_AND_HARDENING.md`
+- `src/lib/quality/phase-46-readiness-contract.test.ts`
+- `src/components/practice/LocalCodeRunner.test.ts`
+
+### Files Updated
+
+- `package.json`
+- `scripts/smoke-routes.mjs`
+- `src/components/practice/LocalCodeRunner.tsx`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+- `docs/SYLLABUS_PRODUCT_AUDIT.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Verdict
+
+- Production: not ready.
+- Alpha: ready for controlled local/internal alpha.
+- Beta: not ready.
+
+### Validation
+
+- `npm run test -- src/components/practice/LocalCodeRunner.test.ts src/lib/services/syllabus-service.test.ts src/lib/services/role-readiness-service.test.ts` passed: 3 files, 37 tests.
+- `npm run test -- src/lib/quality` passed after rerunning through PowerShell because `npm run test:quality` hit a Windows sandbox spawn setup issue: 6 files, 22 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 11 routes.
+- `npm run smoke:prisma` passed across 11 routes.
+- `npm run test` passed: 21 files, 94 tests.
+
+## 2026-05-31 - Phase 47 Production Foundation
+
+### Completed
+
+- Implemented the Phase 47 production foundation gate.
+- Added a production-readiness service with explicit alpha, beta, and production verdicts.
+- Added Product QA readiness cards for auth, database-backed learner state, observability, safe code execution, evaluator calibration, visual/journey QA, and deployment operations.
+- Added `docs/PHASE_47_PRODUCTION_FOUNDATION.md`.
+- Added tests for the readiness verdict and updated the Phase 46 quality contract to require Product QA readiness wiring.
+
+### Files Created
+
+- `docs/PHASE_47_PRODUCTION_FOUNDATION.md`
+- `src/lib/services/production-readiness-service.ts`
+- `src/lib/services/production-readiness-service.test.ts`
+
+### Files Updated
+
+- `src/app/quality/page.tsx`
+- `src/lib/quality/phase-46-readiness-contract.test.ts`
+- `docs/IMPLEMENTATION_STATUS.md`
+- `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`
+- `docs/SYLLABUS_PRODUCT_AUDIT.md`
+- `docs/AI_SESSION_LOG.md`
+
+### Verdict
+
+- Alpha: ready for controlled local/internal alpha.
+- Beta: blocked.
+- Production: blocked.
+
+### Validation
+
+- `npm run test -- src/lib/services/production-readiness-service.test.ts src/lib/quality src/components/practice/LocalCodeRunner.test.ts` passed: 8 files, 27 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 11 routes.
+- `npm run smoke:prisma` passed across 11 routes.
+- `npm run test` passed: 22 files, 96 tests.

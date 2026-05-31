@@ -39,6 +39,32 @@ Recent high-ROI fixes:
 - Added a static mock interview mode on syllabus topic pages.
 - Attached additional public references to deep overrides: CP-Algorithms, NeetCode, AWS Well-Architected Reliability, AWS Architecture Center, System Design Primer, Amazon Builders' Library, StaffEng, and Google SRE.
 
+## Executive QA Contract Tests
+
+Added intentional red QA tests in `src/lib/quality/` to protect product ambition, not only implementation correctness.
+
+These contracts cover:
+
+- CEO/Product objective alignment.
+- CTO master-roadmap coverage.
+- Curriculum/content quality.
+- Role-readiness credibility.
+- SaaS learning UX surfaces.
+
+Current red findings:
+
+- Resolved: first-class Security, Performance, and Interviews domains are now present.
+- Resolved: current priority-domain coverage now includes DSA, JavaScript, Node.js, Databases, System Design, Interviews, AWS, Security, and Performance.
+- Resolved: Engineering Manager path now meets the minimum role-depth contract.
+- Resolved: Backend Senior Engineer capability wording now explicitly covers JavaScript, Node, DSA, database, system design, and API ownership.
+- Resolved: `recursion-backtracking` mental model is now strong enough for the topic-quality contract.
+- Resolved: first-class router domains now include foundations, tradeoffs, case-studies, senior-skills, career-assets, and AI expansion.
+- Resolved: Career Assets strategic coverage now includes resume, LinkedIn, GitHub, portfolio, proof-of-work, promotion packet, and STAR stories.
+- Resolved: Testing and Quality coverage now includes unit-test, integration-test, contract-test, QA, and release-quality strategy.
+- Current status: executive quality contracts pass. Phase 44 SaaS Learning UX Upgrade and Phase 45 Assessment/Evaluation Layer have a complete local/mock MVP. The detailed implementation plan and remaining hardening backlog are tracked in `docs/PHASE_44_45_IMPLEMENTATION_PLAN.md`.
+- Resolved in local/mock form: saved onboarding wizard, rubric scoring history, interactive timed mock interviews, local code execution, mock evaluator scoring, and a weighted assessment readiness model.
+- Remaining production-hardening work: database-backed preferences/evaluations, safer sandboxed code execution, richer rubric calibration, full mock interview session reports, confidence tracking, and readiness trends over time.
+
 ## Product Gaps Found
 
 ### Learning Roadmap
@@ -46,7 +72,7 @@ Recent high-ROI fixes:
 - Present: linear junior to Staff/Principal/EM path.
 - Present: role paths for Senior Backend Engineer, AWS Solution Architect, Staff/Principal Engineer, and Engineering Manager.
 - Present: 80/20 core, depth, and expert filtering.
-- Missing: role onboarding wizard that asks target role, current level, available hours, and interview timeline.
+- Present in local/mock form: role onboarding wizard that asks target role, current level, available hours, weak areas, learning mode, and deadline.
 - Missing: estimated duration per role path and per module.
 - Missing: lockstep "next lesson" progression with prerequisites and unlock logic.
 
@@ -56,18 +82,18 @@ Recent high-ROI fixes:
 - Present: 80/20 focus filter.
 - Present: search on `/syllabus`.
 - Present: cards/table view toggle.
-- Missing: domain, level, difficulty, and source-platform filters.
+- Present: domain, difficulty, and source-platform filters.
 - Missing: saved filter presets.
 - Missing: sorting by priority, difficulty, estimated effort, and interview frequency.
 
 ### SaaS Dashboard UX
 
 - Present: dashboard, progress page, syllabus page, topic detail pages.
-- Missing: role-readiness dashboard.
+- Present: role-readiness dashboard.
 - Missing: progress by role path.
 - Missing: weak-area heatmap.
-- Missing: "today's recommended lesson" from the selected role roadmap.
-- Missing: interview-readiness score broken down by DSA, HLD, LLD, AWS, system design, and leadership.
+- Present: "today's recommended lesson" from the selected role roadmap.
+- Present: interview-readiness score broken down by core role domains.
 
 ### Topic Detail Quality
 
@@ -76,15 +102,15 @@ Recent high-ROI fixes:
 - Missing: many topics still have short 80/20 theory rather than full lesson breakdowns.
 - Missing: code walkthrough sections are not structured into line-by-line explanations yet.
 - Missing: explicit quizzes, flashcards, and spaced repetition scheduling per topic.
-- Missing: runnable code execution and automated answer review.
+- Present in local/mock form: runnable JavaScript execution and automated mock answer review.
 
 ### Assessment
 
 - Present: response submission forms and saved response history.
 - Missing: problem submissions with structured answer review per problem.
 - Missing: rubric-based scoring per role path.
-- Missing: mock interview mode.
-- Missing: AI or mock evaluator integration.
+- Present in local/mock form: timed mock interview mode.
+- Present in local/mock form: heuristic mock evaluator integration.
 
 ## Pending Syllabus Content
 
@@ -120,8 +146,8 @@ Preferred reference sources:
 
 ## Next Recommended Product Work
 
-1. Add role-readiness dashboard cards.
-2. Add domain/level/difficulty filters.
-3. Add topic-depth pass for AWS Solution Architect 80/20 path.
-4. Add topic-depth pass for Graph Algorithms.
-5. Add rubric-based problem and interview answer review panels.
+1. Phase 48 Auth and Persistent Learner State: real user profile model, database-backed preferences/progress/evaluations, and mock fallback behavior.
+2. Add Playwright smoke journeys and visual/mobile QA for dashboard, onboarding, syllabus, topic, practice, quality, and progress flows.
+3. Calibrate evaluator rubrics for DSA, HLD, LLD, AWS, Staff/EM, and behavioral interviews.
+4. Decide whether public beta disables the browser code runner or replaces it with a hardened isolated execution service.
+5. Continue topic-depth passes for AWS Solution Architect, graph algorithms, HLD case studies, LLD machine coding, and Staff/EM leadership.
