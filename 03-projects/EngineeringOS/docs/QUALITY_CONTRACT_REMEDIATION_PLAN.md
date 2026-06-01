@@ -164,6 +164,95 @@ Next:
 
 - Phase 48 should implement auth and persistent learner state.
 
+## Phase 48 - Auth and Persistent Learner State
+
+Status: bridge implemented; real production auth still blocked.
+
+Delivered:
+
+- Added `docs/PHASE_48_AUTH_AND_PERSISTENT_LEARNER_STATE.md`.
+- Added `LearnerPreferencesRepository`.
+- Added `MockLearnerPreferencesRepository`.
+- Added `LearnerStateService`.
+- Wired learner state into `appServices`.
+- Updated dashboard and onboarding pages to read through the learner-state service.
+- Updated onboarding save action to write through the learner-state service.
+- Kept cookie fallback for local continuity.
+
+Verdict:
+
+- This is a real architecture step toward production learner state.
+- It is not full production auth.
+- Phase 49 should add database-backed learner profile/preferences schema and Prisma repository implementation.
+
+## Phase 49 - Database-backed Learner Profile
+
+Status: local Prisma foundation implemented.
+
+Delivered:
+
+- Added `docs/PHASE_49_DATABASE_BACKED_LEARNER_PROFILE.md`.
+- Added `docs/DEPLOYMENT_AND_CONTAINERIZATION_AUDIT.md`.
+- Added Prisma `LearnerProfile` model.
+- Added additive SQL migration `20260531010000_add_learner_profile`.
+- Added Prisma learner preferences repository.
+- Wired Prisma mode to use database-backed learner preferences.
+- Applied the additive SQL locally with `prisma db execute`.
+- Regenerated Prisma Client.
+- Verified local learner profile upsert/read through Prisma Client.
+
+Verdict:
+
+- Local Prisma learner profile persistence is ready.
+- Production deployment is still blocked until auth, Postgres, migration strategy, health checks, observability, and container/deployment hardening are implemented.
+
+## Phase 50 - Deployment Foundation
+
+Status: deployment foundation implemented; production remains blocked.
+
+Delivered:
+
+- Added `docs/SERVICE_SEGREGATION_AND_SAAS_SCALING_PLAN.md`.
+- Added `docs/PHASE_50_DEPLOYMENT_FOUNDATION.md`.
+- Added `Dockerfile`.
+- Added `.dockerignore`.
+- Added `/api/health`.
+- Added runtime config validation.
+- Added deployment quality contract tests.
+- Expanded smoke routes to include `/api/health`.
+
+Verdict:
+
+- Modular monolith deployment is the recommended MVP path.
+- UI/backend split should start with API adapter boundaries in Phase 51.
+- Managed Postgres is required before serious beta/prod SaaS scaling.
+
+## Phases 51-56 - Beta Segregation and Scale Execution
+
+Status: first parallel slice implemented.
+
+Delivered:
+
+- API contracts and API client.
+- API adapters for learner profile, progress summary, readiness, and quality status.
+- Database provider upgrade plan.
+- Auth and user ownership plan.
+- Observability and operations plan.
+- Beta manual testing program.
+- Expanded smoke routes for API adapters.
+- Deploy mode config and beta/prod runtime guards.
+- User ownership policy guard.
+- Structured API logging helper.
+- Beta manual testing tracker.
+
+Remaining beta blockers:
+
+- Real auth provider and session user ownership.
+- Managed Postgres migration strategy and verification.
+- External error monitoring/uptime checks.
+- API client adoption in selected UI flows.
+- Full founder manual testing week.
+
 ## Tracking Rule
 
 After each tranche:

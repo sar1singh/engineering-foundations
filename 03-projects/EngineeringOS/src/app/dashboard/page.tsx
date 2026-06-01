@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { ApiReadinessStrip } from "@/components/dashboard/ApiReadinessStrip";
 import { GuidedNextSteps } from "@/components/learning/GuidedNextSteps";
 import { appServices } from "@/lib/providers";
 import { getAssessmentReadiness } from "@/lib/services/assessment-readiness-service";
@@ -149,6 +150,7 @@ export default async function DashboardPage() {
           ))}
         </div>
       </section>
+      <ApiReadinessStrip />
       <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
         <div className="rounded-lg border border-[var(--border)] bg-white p-5">
           <h2 className="text-xl font-semibold">Assessment factors</h2>

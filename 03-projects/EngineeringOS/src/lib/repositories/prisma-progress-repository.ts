@@ -1,10 +1,12 @@
 import { prisma } from "@/lib/db/prisma";
-import { ENGINEERINGOS_LOCAL_USER_ID } from "@/lib/repositories/local-user";
+import { getRepositoryUserId } from "@/lib/repositories/local-user";
 import { parseJson } from "@/lib/repositories/prisma-mappers";
 import type { ProgressRepository } from "@/lib/repositories/progress-repository";
 import type { ProgressOperationResult, RevisionQueueItem, UserProgress, UserWeakArea } from "@/types/progress";
 
-const localProgressId = `progress-${ENGINEERINGOS_LOCAL_USER_ID}`;
+function progressId(userId: string) {
+  return `progress-${userId}`;
+}
 
 function now() {
   return new Date();
@@ -40,10 +42,11 @@ function toUserProgress(record: {
 
 function emptyProgress(): UserProgress {
   const createdAt = new Date(0).toISOString();
+  const userId = getRepositoryUserId();
 
   return {
-    id: localProgressId,
-    userId: ENGINEERINGOS_LOCAL_USER_ID,
+    id: progressId(userId),
+    userId,
     completedTopicIds: [],
     completedTaskIds: [],
     weakAreas: [],
@@ -56,8 +59,9 @@ function emptyProgress(): UserProgress {
 }
 
 async function getExistingProgress(): Promise<UserProgress> {
+  const userId = getRepositoryUserId();
   const record = await prisma.userProgress.findUnique({
-    where: { userId: ENGINEERINGOS_LOCAL_USER_ID }
+    where: { userId }
   });
 
   return record ? toUserProgress(record) : emptyProgress();
@@ -72,12 +76,13 @@ async function upsertProgress(input: {
   interviewReadinessPercent?: number;
 }): Promise<UserProgress> {
   const current = await getExistingProgress();
+  const userId = getRepositoryUserId();
   const lastActiveDate = now();
   const record = await prisma.userProgress.upsert({
-    where: { userId: ENGINEERINGOS_LOCAL_USER_ID },
+    where: { userId },
     create: {
-      id: localProgressId,
-      userId: ENGINEERINGOS_LOCAL_USER_ID,
+      id: progressId(userId),
+      userId,
       completedTopicIds: JSON.stringify(input.completedTopicIds ?? current.completedTopicIds),
       completedTaskIds: JSON.stringify(input.completedTaskIds ?? current.completedTaskIds),
       weakAreas: JSON.stringify(input.weakAreas ?? current.weakAreas),
@@ -126,18 +131,19 @@ export const prismaProgressRepository: ProgressRepository = {
   },
   async markTopicComplete(topicId) {
     const current = await getExistingProgress();
+    const userId = getRepositoryUserId();
     const completedTopicIds = Array.from(new Set([...current.completedTopicIds, topicId]));
 
     await prisma.userTopicProgress.upsert({
       where: {
-        userId_topicId: {
-          userId: ENGINEERINGOS_LOCAL_USER_ID,
+          userId_topicId: {
+          userId,
           topicId
         }
       },
       create: {
-        id: `topic-progress-${ENGINEERINGOS_LOCAL_USER_ID}-${topicId}`,
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        id: `topic-progress-${userId}-${topicId}`,
+        userId,
         topicId,
         status: "completed",
         completedAt: now()
@@ -152,18 +158,19 @@ export const prismaProgressRepository: ProgressRepository = {
   },
   async markTaskComplete(taskId) {
     const current = await getExistingProgress();
+    const userId = getRepositoryUserId();
     const completedTaskIds = Array.from(new Set([...current.completedTaskIds, taskId]));
 
     await prisma.userTaskProgress.upsert({
       where: {
-        userId_taskId: {
-          userId: ENGINEERINGOS_LOCAL_USER_ID,
+          userId_taskId: {
+          userId,
           taskId
         }
       },
       create: {
-        id: `task-progress-${ENGINEERINGOS_LOCAL_USER_ID}-${taskId}`,
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        id: `task-progress-${userId}-${taskId}`,
+        userId,
         taskId,
         status: "completed",
         completedAt: now()
@@ -177,19 +184,20 @@ export const prismaProgressRepository: ProgressRepository = {
     return result(await upsertProgress({ completedTaskIds }), `Task ${taskId} marked complete.`);
   },
   async updateWeakAreas(weakAreas: UserWeakArea[]) {
+    const userId = getRepositoryUserId();
     await Promise.all(
       weakAreas.map((weakArea) =>
         prisma.userWeakArea.upsert({
           where: {
             userId_topicId_source: {
-              userId: ENGINEERINGOS_LOCAL_USER_ID,
+              userId,
               topicId: weakArea.topicId,
               source: weakArea.source
             }
           },
           create: {
             id: weakArea.id,
-            userId: ENGINEERINGOS_LOCAL_USER_ID,
+            userId,
             topicId: weakArea.topicId,
             reason: weakArea.reason,
             source: weakArea.source,
@@ -207,13 +215,14 @@ export const prismaProgressRepository: ProgressRepository = {
     return result(await upsertProgress({ weakAreas: activeWeakAreas }), "Weak areas updated.");
   },
   async updateRevisionQueue(items: RevisionQueueItem[]) {
+    const userId = getRepositoryUserId();
     await Promise.all(
       items.map((item) =>
         prisma.revisionQueueItem.upsert({
           where: { id: item.id },
           create: {
             id: item.id,
-            userId: ENGINEERINGOS_LOCAL_USER_ID,
+            userId,
             topicId: item.topicId,
             revisionPromptId: item.revisionPromptId,
             status: item.status,
@@ -232,12 +241,13 @@ export const prismaProgressRepository: ProgressRepository = {
     return result(await upsertProgress({}), "Revision queue updated.");
   },
   async resetLocalProgress() {
-    await prisma.userTopicProgress.deleteMany({ where: { userId: ENGINEERINGOS_LOCAL_USER_ID } });
-    await prisma.userTaskProgress.deleteMany({ where: { userId: ENGINEERINGOS_LOCAL_USER_ID } });
-    await prisma.explainBackAttempt.deleteMany({ where: { userId: ENGINEERINGOS_LOCAL_USER_ID } });
-    await prisma.aIEvaluationResult.deleteMany({ where: { userId: ENGINEERINGOS_LOCAL_USER_ID } });
-    await prisma.revisionQueueItem.deleteMany({ where: { userId: ENGINEERINGOS_LOCAL_USER_ID } });
-    await prisma.userWeakArea.deleteMany({ where: { userId: ENGINEERINGOS_LOCAL_USER_ID } });
+    const userId = getRepositoryUserId();
+    await prisma.userTopicProgress.deleteMany({ where: { userId } });
+    await prisma.userTaskProgress.deleteMany({ where: { userId } });
+    await prisma.explainBackAttempt.deleteMany({ where: { userId } });
+    await prisma.aIEvaluationResult.deleteMany({ where: { userId } });
+    await prisma.revisionQueueItem.deleteMany({ where: { userId } });
+    await prisma.userWeakArea.deleteMany({ where: { userId } });
 
     return result(
       await upsertProgress({

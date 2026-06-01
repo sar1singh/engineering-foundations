@@ -22,7 +22,7 @@ export function getLocalRunnerSafetyError(code: string): string | null {
   return blockedPattern?.reason ?? null;
 }
 
-export function LocalCodeRunner({ initialCode }: { initialCode: string }) {
+export function LocalCodeRunner({ enabled = true, initialCode }: { enabled?: boolean; initialCode: string }) {
   const runnableCode = useMemo(() => initialCode || "// Write JavaScript here", [initialCode]);
   const [code, setCode] = useState(runnableCode);
   const [output, setOutput] = useState("Run code to see console output.");
@@ -53,14 +53,19 @@ export function LocalCodeRunner({ initialCode }: { initialCode: string }) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-sm font-medium">Local JavaScript runner</p>
-          <p className="text-xs text-[var(--muted)]">Learning sandbox: console-only examples, no network, DOM, storage, imports, or dynamic eval.</p>
+          <p className="text-xs text-[var(--muted)]">
+            {enabled
+              ? "Learning sandbox: console-only examples, no network, DOM, storage, imports, or dynamic eval."
+              : "Runner disabled for this deployment mode. Code remains available for read-only study."}
+          </p>
         </div>
-        <button className="rounded-md bg-teal-700 px-3 py-2 text-sm font-medium text-white" onClick={runCode} type="button">
+        <button className="rounded-md bg-teal-700 px-3 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:bg-slate-400" disabled={!enabled} onClick={runCode} type="button">
           Run
         </button>
       </div>
       <textarea
         className="mt-3 min-h-44 w-full rounded-md border border-[var(--border)] bg-white p-3 font-mono text-xs outline-none focus:border-teal-700"
+        disabled={!enabled}
         onChange={(event) => setCode(event.target.value)}
         value={code}
       />

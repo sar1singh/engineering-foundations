@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
 import type { EvaluationResultRepository, SaveEvaluationResultInput } from "@/lib/repositories/evaluation-result-repository";
-import { ENGINEERINGOS_LOCAL_USER_ID } from "@/lib/repositories/local-user";
+import { getRepositoryUserId } from "@/lib/repositories/local-user";
 import { parseJson } from "@/lib/repositories/prisma-mappers";
 import type { SavedEvaluationResult } from "@/types/progress";
 
@@ -36,10 +36,11 @@ function toSavedEvaluationResult(record: {
 
 export const prismaEvaluationResultRepository: EvaluationResultRepository = {
   async saveEvaluationResult(input: SaveEvaluationResultInput) {
+    const userId = getRepositoryUserId();
     const record = await prisma.aIEvaluationResult.create({
       data: {
-        id: `evaluation-${ENGINEERINGOS_LOCAL_USER_ID}-${Date.now()}`,
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        id: `evaluation-${userId}-${Date.now()}`,
+        userId,
         topicId: input.topicId,
         taskId: input.taskId,
         explainBackId: input.explainBackAttemptId,
@@ -55,9 +56,10 @@ export const prismaEvaluationResultRepository: EvaluationResultRepository = {
     return toSavedEvaluationResult(record);
   },
   async getEvaluationResultsByTopicId(topicId) {
+    const userId = getRepositoryUserId();
     const records = await prisma.aIEvaluationResult.findMany({
       where: {
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        userId,
         topicId
       },
       orderBy: { createdAt: "desc" }
@@ -66,9 +68,10 @@ export const prismaEvaluationResultRepository: EvaluationResultRepository = {
     return records.map(toSavedEvaluationResult);
   },
   async getEvaluationResultsByTaskId(taskId) {
+    const userId = getRepositoryUserId();
     const records = await prisma.aIEvaluationResult.findMany({
       where: {
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        userId,
         taskId
       },
       orderBy: { createdAt: "desc" }

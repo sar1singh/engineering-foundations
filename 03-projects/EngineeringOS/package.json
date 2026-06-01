@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "next start",
     "lint": "eslint .",
     "smoke:mock": "node scripts/smoke-routes.mjs",
     "smoke:prisma": "node scripts/smoke-routes.mjs --prisma",
+    "db:verify-target": "node scripts/verify-postgres-readiness.mjs",
+    "test:e2e": "playwright test",
     "test": "vitest run",
     "test:quality": "vitest run src/lib/quality",
     "typecheck": "tsc --noEmit"
@@ -31,6 +34,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "latest",
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "latest",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",

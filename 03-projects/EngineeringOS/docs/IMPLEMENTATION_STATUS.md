@@ -53,6 +53,16 @@
 - Phase 44/45 Plan: Formalized the combined implementation plan, acceptance criteria, verification commands, and production-hardening backlog in `docs/PHASE_44_45_IMPLEMENTATION_PLAN.md`.
 - Phase 46: Added final audit and hardening with expanded route smoke coverage, code-runner guardrails, production/alpha/beta readiness verdicts, and a Phase 46 quality contract.
 - Phase 47: Added the Production Foundation gate with a production-readiness service, Product QA readiness panel, explicit alpha/beta/production verdicts, and documented Phase 48 auth/persistent learner-state direction.
+- Phase 48: Added the Auth and Persistent Learner State bridge with learner preferences repository/service boundaries, dashboard/onboarding service reads, onboarding save-through-service behavior, cookie fallback continuity, and Phase 48 quality contracts.
+- Phase 49: Added database-backed learner profile/preferences foundation with Prisma `LearnerProfile`, additive SQL migration, Prisma learner preferences repository, Prisma-mode wiring, local SQLite verification, and deployment/containerization audit.
+- Phase 50: Added deployment foundation and segregation planning with Dockerfile, `.dockerignore`, health endpoint, runtime config validation, expanded smoke coverage, service segregation/SaaS scaling plan, and deployment quality contracts.
+- Beta Segregation Plan: Added an actionable beta-blocking segregation and scale plan that prioritizes API adapters, managed Postgres planning, auth/user ownership, observability, backend extraction readiness, and manual beta testing.
+- Phases 51-56 Parallel Start: Added API adapter routes, API contracts/client, DB provider upgrade plan, auth/user ownership plan, observability plan, beta manual testing program, and expanded smoke coverage for backend-separation readiness.
+- Phases 51-56 Parallel Hardening: Added deploy mode config, beta/prod runtime guards for Postgres/auth, user ownership policy, structured API logging, and beta manual testing tracker.
+- Phase 51-56 Completion Planning: Added the 100% completion plan for remaining beta blockers across API adapters, managed Postgres, real auth, user ownership, backend extraction readiness, observability, manual testing, and public-safe code execution.
+- External Decisions Plan: Added scheduled execution plan for auth provider, managed Postgres, monitoring/uptime, API client adoption, founder testing week, and optional isolated code execution service.
+- Phase 57 Plan: Added founder-success product experience plan covering Today cockpit, interview rounds, source consolidation, weak-area repair, crash-course modes, answer builders, motivational dark-mode UX, Playwright testing, and reviewer personas.
+- Phase 57 Start: Added dark-mode founder-success UX surfaces for Today cockpit, Interview Rounds, Sources, Weak Areas, Answer Builders, reviewer framework, and navigation.
 
 ## Current Features
 
@@ -99,9 +109,26 @@
 - `/dashboard` now shows role readiness, domain readiness, and a targeted "Start today's lesson" action.
 - `/dashboard` now includes a role onboarding panel, product QA health, and DSA/Backend/System Design/AWS/Security/LLD/Staff-EM readiness breakdown.
 - `/dashboard` now uses saved onboarding preferences and shows weighted assessment readiness with next assessment actions.
-- `/onboarding` saves target role, current level, hours/week, deadline, weak areas, and learning mode through a local cookie.
+- `/dashboard` now reads active learner preferences through the learner-state service instead of directly treating cookies as the primary state layer.
+- `/onboarding` saves target role, current level, hours/week, deadline, weak areas, and learning mode through `LearnerStateService`, with local cookie fallback retained.
 - `/quality` shows product quality contract health, missing router domains, thin role paths, shallow topic watchlist, and strategic content area coverage.
 - `/quality` now also shows production-readiness gates for alpha, beta, and production decisions.
+- Deployment and containerization audit is documented in `docs/DEPLOYMENT_AND_CONTAINERIZATION_AUDIT.md`.
+- Service segregation and SaaS scaling plan is documented in `docs/SERVICE_SEGREGATION_AND_SAAS_SCALING_PLAN.md`.
+- Actionable beta segregation and scale plan is documented in `docs/BETA_SEGREGATION_AND_SCALE_ACTION_PLAN.md`.
+- `/api/health` exposes runtime health and config checks for container/service probes.
+- API adapter routes now exist for learner profile, progress summary, readiness, and quality status.
+- API adapter routes now emit structured request logs.
+- Beta/production runtime config now requires Prisma with PostgreSQL and real auth.
+- User ownership policy now blocks local/fixed user IDs in beta/production mode.
+- Learner-owned Prisma repositories now use a repository user guard for learner preferences, explain-back attempts, and evaluation results.
+- Local browser code runner is disabled by default in beta/production deployment modes.
+- Progress and revision queue Prisma repositories now use the repository user guard.
+- Dashboard now includes an API-client readiness/quality strip.
+- Beta/production runtime config now requires external error monitoring and uptime check config.
+- `npm run db:verify-target` validates database target URL shape for beta/prod readiness.
+- Phase 51-56 completion plan is documented in `docs/PHASE_51_56_COMPLETION_PLAN.md`.
+- Pending external decisions and scheduled execution plan is documented in `docs/PENDING_EXTERNAL_DECISIONS_AND_SCHEDULED_EXECUTION_PLAN.md`.
 - Role/domain readiness calculations live in `src/lib/services/role-readiness-service.ts`.
 - Executive/product QA contracts live in `src/lib/quality/`. These tests intentionally fail until missing roadmap domains and strategic content gaps are filled.
 - The quality-contract remediation roadmap lives in `docs/QUALITY_CONTRACT_REMEDIATION_PLAN.md`.
@@ -191,4 +218,72 @@ Current QA contract status: `npm run test:quality` passes. Phase 44 and Phase 45
 
 Production readiness verdict: not ready for production deployment. The app is ready for controlled local/internal alpha only. Beta remains blocked by production auth, database-backed user state, deployment observability, backup/restore planning, Playwright/visual QA, calibrated evaluator reports, and hardened safe code execution.
 
-Next recommended phase: Phase 48 - Auth and Persistent Learner State. Focus on a real user profile model, database-backed onboarding preferences, learner-state repositories/services, dashboard/onboarding wiring, and fallback behavior for mock mode.
+Next recommended phase: continue Phases 52-56 hardening. Highest priorities are real auth provider implementation, managed Postgres migration execution, external monitoring provider wiring, onboarding/progress API-client adoption, and one full founder manual testing week.
+
+## Phase 57 Founder Success UX
+
+Status: complete and validated.
+
+Phase 57 turns the app toward the founder success definition: a low-confidence but experienced learner should be able to open the app, know what to study today, repair weak areas, prepare by real interview round, and use curated external sources without drowning in them.
+
+Implemented:
+
+- `/today` daily learning cockpit.
+- `/interview-rounds` round-based interview preparation.
+- `/sources` source consolidation surface.
+- `/weak-areas` weakness repair dashboard.
+- `/answer-builders` structured interview answer templates.
+- Dark-mode-first shell with calmer visual hierarchy, motivational ambient color, and subtle page transitions.
+- Sidebar navigation for Phase 57 surfaces.
+- Three-reviewer framework with P0 convergence rule.
+- Initial three-reviewer pass completed; shared P0 finding resolved by making `/today` the root landing route.
+- Playwright E2E coverage for desktop Chromium and mobile Pixel 5.
+- Complete Phase 57 content contract for crash-course modes, full interview-loop coverage, source consolidation, weak-area repair, answer-builder rubrics, and template-accelerated UX patterns.
+
+Validation:
+
+- `npm run test -- src/lib/quality/phase-57-founder-success-contract.test.ts` passed.
+- `npm run test -- src/lib/quality` passed.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+- `npm run test:e2e` passed across 12 desktop/mobile browser checks.
+- Expanded `npm run test:e2e` passed across 22 desktop/mobile browser checks.
+
+Known follow-up:
+
+- Run a live founder manual testing week and apply reviewer-agent critique to screenshots/real usage.
+- Add visual regression screenshots after the UI stabilizes.
+- Continue deeper content and evaluator calibration so the cockpit can assign truly personalized daily plans.
+
+Completion verdict:
+
+- Phase 57 is 100% complete as an implementation phase.
+- Product success is not yet proven because the founder manual testing week, real interview-readiness gains, and job-switch outcome require real usage time outside code implementation.
+
+Post-completion UX audit:
+
+- Playwright screenshot review found one shared P0 from the three-reviewer strategy: mobile navigation consumed the first viewport before the Today cockpit.
+- Fixed by hiding the desktop sidebar on mobile and adding compact sticky-header founder navigation.
+- Added Playwright guards for mobile content priority and page-wide horizontal overflow.
+- Closed the follow-up P1/P2 items that could be solved in code:
+  - mobile nav "More" affordance
+  - Answer Builder density controls through collapsible framework sections
+  - interaction-level disclosure tests
+  - visual snapshot baseline for the mobile Today cockpit
+- `npm run test:e2e` now passes 30 browser checks.
+- Detailed audit: `docs/PHASE_57_PLAYWRIGHT_UX_AUDIT.md`.
+
+Final Phase 57 status:
+
+- 100% complete for code, UI/UX, automated QA, visual baseline, and current implementation contract.
+- The only remaining work is real usage/outcome validation, which cannot be completed by code alone.
+
+Template acceleration update:
+
+- TailAdmin free Next.js dashboard was downloaded into `.tmp-templates/tailadmin-nextjs` and inspected as an MIT-licensed reference.
+- No TailAdmin dependency stack was imported.
+- EngineeringOS adopted only the reusable UI patterns: KPI cards, command panels, progress bars, active sidebar treatment, subtle motion, and polished dashboard surfaces.
+- `/today` is now the first upgraded cockpit using these patterns.

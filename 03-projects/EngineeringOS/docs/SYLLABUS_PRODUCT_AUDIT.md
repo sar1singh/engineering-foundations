@@ -6,6 +6,8 @@ EngineeringOS now has broad syllabus coverage and a usable role-filtered learnin
 
 The product is strong enough for local MVP curriculum browsing. The next quality bar is richer lesson depth, assessment loops, and dashboard analytics.
 
+The product success definition is strict: the founder must be able to personally use EngineeringOS, learn the roadmap end to end, become interview-ready, and get a job. If that does not happen, the product has not succeeded.
+
 Strict coverage verdict against `00-control/master-roadmap`: not fully covered. The interview-heavy backbone is present, but complete master-roadmap parity is not done until standalone Foundations, Tradeoffs, Security, Performance, Case Studies, Interview Ops, Career Assets, and AI Expansion become first-class syllabus domains instead of being partially represented inside other tracks.
 
 ## Master Roadmap Coverage
@@ -146,7 +148,7 @@ Preferred reference sources:
 
 ## Next Recommended Product Work
 
-1. Phase 48 Auth and Persistent Learner State: real user profile model, database-backed preferences/progress/evaluations, and mock fallback behavior.
+1. Phase 51 API Adapter Boundary: add learner/profile, progress summary, readiness, and quality-status API route handlers to prepare UI/backend separation.
 2. Add Playwright smoke journeys and visual/mobile QA for dashboard, onboarding, syllabus, topic, practice, quality, and progress flows.
 3. Calibrate evaluator rubrics for DSA, HLD, LLD, AWS, Staff/EM, and behavioral interviews.
 4. Decide whether public beta disables the browser code runner or replaces it with a hardened isolated execution service.

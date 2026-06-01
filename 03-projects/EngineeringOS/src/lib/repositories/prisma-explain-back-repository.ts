@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
 import type { ExplainBackRepository, SaveExplainBackAttemptInput } from "@/lib/repositories/explain-back-repository";
-import { ENGINEERINGOS_LOCAL_USER_ID } from "@/lib/repositories/local-user";
+import { getRepositoryUserId } from "@/lib/repositories/local-user";
 import type { ExplainBackAttempt } from "@/types/progress";
 
 function toExplainBackAttempt(record: {
@@ -23,10 +23,11 @@ function toExplainBackAttempt(record: {
 
 export const prismaExplainBackRepository: ExplainBackRepository = {
   async saveExplainBackAttempt(input: SaveExplainBackAttemptInput) {
+    const userId = getRepositoryUserId();
     const record = await prisma.explainBackAttempt.create({
       data: {
-        id: `explain-back-${ENGINEERINGOS_LOCAL_USER_ID}-${Date.now()}`,
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        id: `explain-back-${userId}-${Date.now()}`,
+        userId,
         topicId: input.topicId,
         taskId: input.taskId,
         answer: input.answer
@@ -36,9 +37,10 @@ export const prismaExplainBackRepository: ExplainBackRepository = {
     return toExplainBackAttempt(record);
   },
   async getExplainBackAttemptsByTopicId(topicId) {
+    const userId = getRepositoryUserId();
     const records = await prisma.explainBackAttempt.findMany({
       where: {
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        userId,
         topicId
       },
       orderBy: { createdAt: "desc" }
@@ -47,9 +49,10 @@ export const prismaExplainBackRepository: ExplainBackRepository = {
     return records.map(toExplainBackAttempt);
   },
   async getLatestExplainBackAttempt(topicId) {
+    const userId = getRepositoryUserId();
     const record = await prisma.explainBackAttempt.findFirst({
       where: {
-        userId: ENGINEERINGOS_LOCAL_USER_ID,
+        userId,
         topicId
       },
       orderBy: { createdAt: "desc" }

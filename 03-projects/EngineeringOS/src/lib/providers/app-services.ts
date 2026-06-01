@@ -349,7 +349,14 @@ function createPrismaRepositories(): ReadRepositories {
     explainBackRepository,
     evaluationResultRepository,
     revisionQueueRepository,
-    learnerPreferencesRepository: mockLearnerPreferencesRepository
+    learnerPreferencesRepository: {
+      async getPreferences(userId) {
+        return (await import("@/lib/repositories/prisma-learner-preferences-repository")).prismaLearnerPreferencesRepository.getPreferences(userId);
+      },
+      async savePreferences(userId, preferences) {
+        return (await import("@/lib/repositories/prisma-learner-preferences-repository")).prismaLearnerPreferencesRepository.savePreferences(userId, preferences);
+      }
+    }
   };
 }
 

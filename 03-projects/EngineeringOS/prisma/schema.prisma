@@ -305,6 +305,23 @@ model UserProgress {
   updatedAt                 DateTime @updatedAt
 }
 
+model LearnerProfile {
+  id              String   @id
+  userId          String   @unique
+  displayName     String?
+  email           String?
+  targetRole      String
+  currentLevel    String
+  hoursPerWeek    Int
+  deadlineWeeks   Int
+  weakAreas       String
+  learningMode    String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+}
+
 model UserTopicProgress {
   id          String    @id
   userId      String

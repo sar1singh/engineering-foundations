@@ -6,7 +6,17 @@ const port = mode === "prisma" ? 3111 : 3110;
 const baseUrl = `http://127.0.0.1:${port}`;
 const routes = [
   "/dashboard",
+  "/today",
+  "/api/health",
+  "/api/learner/profile",
+  "/api/progress/summary",
+  "/api/readiness",
+  "/api/quality/status",
   "/onboarding",
+  "/interview-rounds",
+  "/sources",
+  "/weak-areas",
+  "/answer-builders",
   "/graph",
   "/syllabus",
   "/syllabus/graph-bfs",
@@ -20,11 +30,12 @@ const routes = [
 
 const childEnv = {
   ...process.env,
-  NEXT_PUBLIC_ENGINEERINGOS_DATA_SOURCE: mode
+  NEXT_PUBLIC_ENGINEERINGOS_DATA_SOURCE: mode,
+  DATABASE_URL: mode === "prisma" ? process.env.DATABASE_URL ?? "file:./dev.db" : process.env.DATABASE_URL
 };
 
 const nextBin = fileURLToPath(new URL("../node_modules/next/dist/bin/next", import.meta.url));
-const server = spawn(process.execPath, [nextBin, "dev", "--hostname", "127.0.0.1", "--port", String(port)], {
+const server = spawn(process.execPath, [nextBin, "start", "--hostname", "127.0.0.1", "--port", String(port)], {
   env: childEnv,
   stdio: ["ignore", "pipe", "pipe"],
   windowsHide: true
@@ -43,7 +54,7 @@ try {
   const results = [];
 
   for (const route of routes) {
-    const response = await fetch(`${baseUrl}${route}`, { redirect: "manual" });
+    const response = await fetchWithTimeout(`${baseUrl}${route}`, { redirect: "manual" }, 30000);
     results.push(`${route} ${response.status}`);
 
     if (response.status < 200 || response.status >= 400) {
@@ -59,7 +70,7 @@ try {
   console.error(output);
   process.exitCode = 1;
 } finally {
-  stopServer(server);
+  await stopServer(server);
 }
 
 async function waitForServer(url) {
@@ -68,7 +79,7 @@ async function waitForServer(url) {
 
   while (Date.now() - startedAt < timeoutMs) {
     try {
-      const response = await fetch(url, { redirect: "manual" });
+      const response = await fetchWithTimeout(url, { redirect: "manual" }, 5000);
 
       if (response.status < 500) {
         return;
@@ -83,14 +94,36 @@ async function waitForServer(url) {
   throw new Error(`Timed out waiting for ${url}`);
 }
 
-function stopServer(child) {
+async function fetchWithTimeout(url, init, timeoutMs) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function stopServer(child) {
+  if (!child.pid || child.exitCode !== null) {
+    return;
+  }
+
+  const exited = new Promise((resolve) => {
+    child.once("exit", resolve);
+  });
+
   if (process.platform === "win32") {
-    spawn("taskkill", ["/pid", String(child.pid), "/T", "/F"], {
+    const killer = spawn("taskkill", ["/pid", String(child.pid), "/T", "/F"], {
       stdio: "ignore",
       windowsHide: true
     });
+    await new Promise((resolve) => killer.once("exit", resolve));
+    await Promise.race([exited, new Promise((resolve) => setTimeout(resolve, 5000))]);
     return;
   }
 
   child.kill("SIGTERM");
+  await Promise.race([exited, new Promise((resolve) => setTimeout(resolve, 5000))]);
 }

@@ -95,7 +95,7 @@ export default async function SyllabusTopicPage({ params }: SyllabusTopicPagePro
               <pre className="overflow-x-auto rounded-md bg-slate-950 p-4 text-sm text-slate-50">
                 <code>{example.code}</code>
               </pre>
-              {example.language === "javascript" && example.runnable ? <LocalCodeRunner initialCode={example.code} /> : null}
+              {example.language === "javascript" && example.runnable ? <LocalCodeRunner enabled={appServices.config.features.enableCodeRunner} initialCode={example.code} /> : null}
             </div>
           ))}
         </div>

@@ -87,7 +87,7 @@ export default async function PracticePage({ params }: PracticePageProps) {
         <pre className="mt-4 overflow-auto rounded-md bg-slate-950 p-4 text-sm text-slate-100">
           {content.task.starterCode ?? "// No starter code available for this task."}
         </pre>
-        <LocalCodeRunner initialCode={content.task.starterCode ?? ""} />
+        <LocalCodeRunner enabled={appServices.config.features.enableCodeRunner} initialCode={content.task.starterCode ?? ""} />
       </section>
       <section className="rounded-lg border border-[var(--border)] bg-white p-5">
         <h2 className="text-xl font-semibold">Evaluation rubric</h2>

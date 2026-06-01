@@ -6,6 +6,7 @@ export type { PracticeRepository } from "@/lib/repositories/practice-repository"
 export type { ProblemRepository } from "@/lib/repositories/problem-repository";
 export type { ReferenceRepository } from "@/lib/repositories/reference-repository";
 export type { InterviewQuestionRepository } from "@/lib/repositories/interview-question-repository";
+export type { LearnerPreferencesRepository } from "@/lib/repositories/learner-preferences-repository";
 export type { RevisionPromptRepository } from "@/lib/repositories/revision-prompt-repository";
 export type { EvaluationRubricRepository } from "@/lib/repositories/evaluation-rubric-repository";
 export type { EvaluationResultRepository } from "@/lib/repositories/evaluation-result-repository";

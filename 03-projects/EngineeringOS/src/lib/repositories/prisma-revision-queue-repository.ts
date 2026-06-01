@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
-import { ENGINEERINGOS_LOCAL_USER_ID } from "@/lib/repositories/local-user";
+import { getRepositoryUserId } from "@/lib/repositories/local-user";
 import type { RevisionQueueRepository } from "@/lib/repositories/revision-queue-repository";
 import type { RevisionQueueItem } from "@/types/progress";
 
@@ -29,21 +29,23 @@ function toRevisionQueueItem(record: {
 
 export const prismaRevisionQueueRepository: RevisionQueueRepository = {
   async getRevisionQueue() {
+    const userId = getRepositoryUserId();
     const records = await prisma.revisionQueueItem.findMany({
-      where: { userId: ENGINEERINGOS_LOCAL_USER_ID },
+      where: { userId },
       orderBy: [{ nextReviewAt: "asc" }, { createdAt: "desc" }]
     });
 
     return records.map(toRevisionQueueItem);
   },
   async updateRevisionQueue(items) {
+    const userId = getRepositoryUserId();
     await Promise.all(
       items.map((item) =>
         prisma.revisionQueueItem.upsert({
           where: { id: item.id },
           create: {
             id: item.id,
-            userId: ENGINEERINGOS_LOCAL_USER_ID,
+            userId,
             topicId: item.topicId,
             revisionPromptId: item.revisionPromptId,
             status: item.status,
@@ -62,10 +64,11 @@ export const prismaRevisionQueueRepository: RevisionQueueRepository = {
     return this.getRevisionQueue();
   },
   async markRevisionItemComplete(itemId) {
+    const userId = getRepositoryUserId();
     const existing = await prisma.revisionQueueItem.findFirst({
       where: {
         id: itemId,
-        userId: ENGINEERINGOS_LOCAL_USER_ID
+        userId
       }
     });
 
@@ -84,10 +87,11 @@ export const prismaRevisionQueueRepository: RevisionQueueRepository = {
     return toRevisionQueueItem(record);
   },
   async deferRevisionItem(itemId, nextReviewAt) {
+    const userId = getRepositoryUserId();
     const existing = await prisma.revisionQueueItem.findFirst({
       where: {
         id: itemId,
-        userId: ENGINEERINGOS_LOCAL_USER_ID
+        userId
       }
     });
 
