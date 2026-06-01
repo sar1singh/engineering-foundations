@@ -1,3 +1,5 @@
+import type { EnrichedTopicContent } from "@/types/enriched-content";
+
 export type SyllabusDifficulty = "easy" | "medium" | "hard";
 
 export type SyllabusProgressSignal =
@@ -65,6 +67,7 @@ export type SyllabusTopic = {
   reviewPrompts: SyllabusReviewPrompt[];
   references: SyllabusReference[];
   progressSignals: SyllabusProgressSignal[];
+  enrichedContent?: EnrichedTopicContent;
 };
 
 export type SyllabusModule = {

@@ -2199,3 +2199,210 @@
 
 - Phase 57 is now 100% complete for implementation, UI/UX polish, automated browser coverage, visual baseline coverage, and current QA contract.
 - The remaining validation is real-world founder outcome validation: study consistency, interview readiness, and job-switch success.
+
+## 2026-06-01 - Phase 58 Syllabus Three-Reviewer Evaluation and Expansion Plan
+
+### Completed
+
+- Evaluated the syllabus through the three-reviewer approach:
+  - skeptical user
+  - domain expert
+  - target audience
+- Compared current syllabus coverage against the local master roadmap and external benchmarks:
+  - roadmap.sh
+  - NeetCode
+  - LeetCode
+  - TheAlgorithms/JavaScript
+  - CP-Algorithms
+  - System Design Primer
+  - AWS Architecture Center
+  - AWS Well-Architected
+  - Google SRE
+  - OWASP
+  - StaffEng
+- Created the Phase 58 syllabus expansion implementation plan.
+
+### Verdict
+
+- Current syllabus breadth is strong.
+- Current syllabus depth is not yet enough to claim full MVP content success for the founder job-switch goal.
+- The main risk is not missing domains anymore; it is uneven depth, insufficient capstone assessment, and not enough role-specific problem/case-study practice.
+
+### Files Created
+
+- `docs/PHASE_58_SYLLABUS_EXPANSION_AND_CONTENT_SUCCESS_PLAN.md`
+
+### Files Updated
+
+- `docs/AI_SESSION_LOG.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+
+### Next Action
+
+- Start Phase 58A: add syllabus depth contract tests.
+- Then Phase 58B: expand DSA/Algorithms problem coverage with source-backed pattern mapping.
+
+## 2026-06-01 - Phase 58A/58B Syllabus Depth Contract and Algorithms Expansion
+
+### Completed
+
+- Added the Phase 58 syllabus depth quality contract.
+- The contract verifies rendered topic depth across the whole syllabus.
+- The contract also verifies dedicated Algorithm topics have real source-backed problem sets instead of generated filler.
+- Expanded every topic in `src/data/syllabus/algorithm-topics.ts` to 8-10 mapped problems.
+- Added problem mapping tags for:
+  - NeetCode
+  - LeetCode
+  - TheAlgorithms/JavaScript
+- Added service-level normalization for older compact topics that had fewer than three common mistakes or production use cases.
+
+### Files Updated
+
+- `src/lib/quality/phase-58-syllabus-depth-contract.test.ts`
+- `src/data/syllabus/algorithm-topics.ts`
+- `src/lib/services/syllabus-service.ts`
+- `docs/PHASE_58_SYLLABUS_EXPANSION_AND_CONTENT_SUCCESS_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+
+### Validation
+
+- `npm run test -- src/lib/quality/phase-58-syllabus-depth-contract.test.ts` passed: 1 file, 2 tests.
+- `npm run test -- src/lib/quality` passed: 11 files, 41 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+
+### Note
+
+- Initial smoke commands failed when run in parallel with `next build` because `.next` was being replaced during production server startup. Rerunning smoke sequentially after build passed.
+
+### Next Action
+
+- Continue Phase 58B by expanding the separate `DSA` domain phase files with the same source-backed mapping style.
+- Then start Phase 58C for HLD/LLD/AWS capstones.
+
+## 2026-06-01 - Phase 58 Completion Pass
+
+### Completed
+
+- Extended Phase 58 beyond the Algorithms first pass into a full MVP content contract.
+- Added rendered DSA source-backed enrichment in `SyllabusService` so all DSA/Algorithms topics receive 8+ source-mapped coding drills.
+- Strengthened `phase-58-syllabus-depth-contract` to verify:
+  - whole-syllabus rendered depth
+  - dedicated Algorithms source-backed practice
+  - rendered DSA source-backed practice
+  - HLD case studies with AWS variants and rubrics
+  - LLD machine-coding scenarios with TypeScript skeletons
+  - Career Assets and AI Expansion surfaces
+  - role roadmaps with capstone/deliverable linkage
+- Marked Phase 58 complete for MVP content contract while documenting future enhancements.
+
+### Files Updated
+
+- `src/lib/services/syllabus-service.ts`
+- `src/lib/quality/phase-58-syllabus-depth-contract.test.ts`
+- `docs/PHASE_58_SYLLABUS_EXPANSION_AND_CONTENT_SUCCESS_PLAN.md`
+- `docs/AI_SESSION_LOG.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+
+### Validation
+
+- `npm run test -- src/lib/quality/phase-58-syllabus-depth-contract.test.ts` passed: 1 file, 5 tests.
+- `npm run test -- src/lib/quality` passed: 11 files, 44 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+
+### Final Verdict
+
+- Phase 58 is complete for MVP content contract.
+- Future content enhancements remain valuable but are no longer blockers for the current Phase 58 definition.
+
+## 2026-06-01 - Phase 60 Real Content Ingestion Started
+
+### Completed
+
+- Created Phase 60 implementation doc for real enriched curriculum ingestion.
+- Added a public source catalog and source-to-topic mapping across GitHub repositories, platforms, DSA, HLD, LLD, AWS, Staff/EM, Career, AI, and foundations.
+- Added original EngineeringOS enriched content files for:
+  - DSA solution approaches and TypeScript solutions.
+  - HLD case-study breakdowns.
+  - LLD machine-coding/design capstones.
+  - AWS Multi-AZ/DR architecture.
+  - Staff/EM leadership and career-asset capstones.
+  - AI-assisted learner evaluator design.
+- Wired enriched content into `SyllabusService`.
+- Added visible syllabus-page “Solution lab and senior review notes” rendering.
+- Added Phase 60 quality contract tests for source policy, mapping, enriched DSA solution fields, and senior design capstone fields.
+
+### Files Updated
+
+- `src/types/enriched-content.ts`
+- `src/types/syllabus.ts`
+- `src/data/content/*`
+- `src/lib/services/syllabus-service.ts`
+- `src/app/syllabus/[topicId]/page.tsx`
+- `src/lib/quality/phase-60-enriched-content-contract.test.ts`
+- `docs/PHASE_60_REAL_CONTENT_INGESTION_AND_ENRICHED_CURRICULUM.md`
+- `docs/AI_SESSION_LOG.md`
+- `docs/IMPLEMENTATION_STATUS.md`
+
+### Validation
+
+- `npm run test -- src/lib/quality/phase-60-enriched-content-contract.test.ts` passed: 1 file, 5 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality` passed: 12 files, 49 tests.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+- `npm run test:e2e` passed across 34 desktop/mobile browser checks after adding Phase 60 syllabus UI coverage.
+
+### Note
+
+- Phase 60 now imports and renders a meaningful first tranche of enriched content. It is not yet exhaustive for every topic in the whole syllabus; the next pass should expand enriched solutions/capstones across the remaining high-frequency topics.
+
+## 2026-06-01 - Phase 61 Multi-Agent Exhaustive Ingestion Tranche
+
+### Completed
+
+- Used actual multi-agent workstreams for DSA, HLD, LLD, AWS/Infra, Staff/EM/Career, and AI/Agentic AI.
+- Added `docs/PHASE_61_EXHAUSTIVE_CURRICULUM_INGESTION.md`.
+- Added shared enriched-content factories for repeatable original content structure.
+- Expanded source catalog with official AWS documentation, AWS Well-Architected, and AWS Architecture Center.
+- Expanded source-topic mapping across DSA, HLD, LLD, AWS, Staff/EM, Career, and AI topics.
+- Expanded enriched DSA coverage for high-frequency algorithm patterns and added additional Phase 61 DSA expansion data.
+- Expanded HLD capstones and exposed additional HLD case-study syllabus pages for search/autocomplete, file storage, metrics/observability, and ecommerce checkout.
+- Expanded LLD machine-coding capstones.
+- Expanded AWS-first Solution Architect content.
+- Expanded artifact-driven Staff/EM/Career content.
+- Expanded practical AI/Agentic AI content.
+- Added `phase-61-exhaustive-ingestion-contract.test.ts` to enforce source mapping, visible enriched topics, DSA solution readiness, design-review depth, AWS-first scope, and AI eval/guardrail/cost/latency coverage.
+
+### Validation
+
+- `npm run test -- src/lib/quality/phase-61-exhaustive-ingestion-contract.test.ts` passed: 1 file, 5 tests.
+- `npm run test -- src/lib/quality` passed: 13 files, 54 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+- `npm run test:e2e` passed across 34 desktop/mobile browser checks after updating the payment HLD assertion to match the new enriched prompt.
+
+### Honest Gaps
+
+- Phase 61 is a large enriched-ingestion tranche, not a final claim that every possible topic is exhaustive.
+- Some enriched-only LLD/AI slugs still need dedicated syllabus pages if they should be navigable as first-class topics.
+- Embedded DSA solution snippets are content-validated but not compiled as standalone solution tests yet.
+- HLD ride sharing, video streaming, and distributed rate limiter are still next-pass targets.
+- AWS IaC/lab snippets are not yet included.

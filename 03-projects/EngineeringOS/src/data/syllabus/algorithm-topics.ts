@@ -7,12 +7,45 @@ const algorithmReferences = [
   { id: "reference-algo-leetcode", title: "LeetCode Problem Set", url: "https://leetcode.com/problemset/", sourceType: "practice" as const, usage: "Practice platform for interview problem statements by topic and difficulty." }
 ];
 
+const sourceBackedProblemSets: Record<string, string[]> = {
+  "hashmap-frequency": ["Two Sum", "Contains Duplicate", "Valid Anagram", "Group Anagrams", "Top K Frequent Elements", "Longest Consecutive Sequence", "Subarray Sum Equals K", "Minimum Window Substring"],
+  "linear-search": ["Find Minimum in Rotated Array baseline scan", "Search Insert Position baseline", "First Bad Version baseline", "Find Pivot Index scan", "Maximum Subarray scan", "Best Time to Buy and Sell Stock", "Find All Numbers Disappeared", "Move Zeroes"],
+  "binary-search": ["Binary Search", "Search Insert Position", "Find Minimum in Rotated Sorted Array", "Search in Rotated Sorted Array", "Koko Eating Bananas", "Capacity To Ship Packages", "Median of Two Sorted Arrays", "Find Peak Element"],
+  sorting: ["Merge Intervals", "Non-overlapping Intervals", "Meeting Rooms", "Meeting Rooms II", "Insert Interval", "Sort Colors", "K Closest Points to Origin", "Largest Number"],
+  "tree-dfs": ["Maximum Depth of Binary Tree", "Invert Binary Tree", "Diameter of Binary Tree", "Balanced Binary Tree", "Validate Binary Search Tree", "Lowest Common Ancestor", "Path Sum", "Binary Tree Maximum Path Sum"],
+  "tree-bfs": ["Binary Tree Level Order Traversal", "Binary Tree Right Side View", "Minimum Depth of Binary Tree", "Zigzag Level Order Traversal", "Average of Levels", "Rotting Oranges", "Populating Next Right Pointers", "Serialize and Deserialize Binary Tree"],
+  "graph-dfs": ["Number of Islands", "Clone Graph", "Max Area of Island", "Pacific Atlantic Water Flow", "Surrounded Regions", "Course Schedule DFS", "Word Search", "Reconstruct Itinerary"],
+  "graph-bfs": ["Number of Islands BFS", "Rotting Oranges", "Walls and Gates", "Shortest Path in Binary Matrix", "Word Ladder", "Open the Lock", "Minimum Genetic Mutation", "Snakes and Ladders"],
+  "topological-sort": ["Course Schedule", "Course Schedule II", "Alien Dictionary", "Minimum Height Trees", "Parallel Courses", "Find Eventual Safe States", "Sequence Reconstruction", "Build Matrix With Conditions"],
+  dijkstra: ["Network Delay Time", "Path With Minimum Effort", "Cheapest Flights Within K Stops", "Swim in Rising Water", "The Maze II", "Minimum Cost to Connect Points", "Path with Maximum Probability", "Find the City With Smallest Number of Neighbors"],
+  "union-find": ["Redundant Connection", "Number of Connected Components", "Accounts Merge", "Graph Valid Tree", "Number of Provinces", "Satisfiability of Equality Equations", "Min Cost to Connect All Points", "Making A Large Island"],
+  "recursion-backtracking": ["Subsets", "Permutations", "Combinations", "Combination Sum", "Palindrome Partitioning", "N-Queens", "Word Search", "Letter Combinations of a Phone Number"],
+  "dynamic-programming-core": ["Climbing Stairs", "House Robber", "Coin Change", "Longest Increasing Subsequence", "Longest Common Subsequence", "Unique Paths", "Decode Ways", "Edit Distance"],
+  intervals: ["Merge Intervals", "Insert Interval", "Non-overlapping Intervals", "Meeting Rooms", "Meeting Rooms II", "Minimum Interval to Include Each Query", "Employee Free Time", "Remove Covered Intervals"],
+  "bit-manipulation": ["Single Number", "Number of 1 Bits", "Counting Bits", "Reverse Bits", "Missing Number", "Sum of Two Integers", "Power of Two", "Bitwise AND of Numbers Range"]
+};
+
 function algoProblems(slug: string, title: string): SyllabusPracticeProblem[] {
-  return [
-    { id: `problem-algo-${slug}-easy`, title: `${title} trace`, difficulty: "easy", tags: ["algorithm", slug, "trace"], prompt: `Trace ${title} on a small input. Show state changes and final output.`, expectedSignals: ["Dry run is correct", "State is explicit"] },
-    { id: `problem-algo-${slug}-medium`, title: `${title} implementation`, difficulty: "medium", tags: ["algorithm", slug, "implementation"], prompt: `Implement ${title} in JavaScript and explain time and space complexity.`, expectedSignals: ["Correct implementation", "Complexity stated", "Edge cases handled"] },
-    { id: `problem-algo-${slug}-hard`, title: `${title} pattern transfer`, difficulty: "hard", tags: ["algorithm", slug, "interview-pattern"], prompt: `Solve a harder interview problem where ${title} is the hidden pattern. Explain why this pattern fits.`, expectedSignals: ["Recognizes pattern", "Justifies approach", "Handles constraints"] }
+  const sourceBackedProblems = sourceBackedProblemSets[slug] ?? [];
+  const mappedProblems = sourceBackedProblems.map((problemTitle, index): SyllabusPracticeProblem => {
+    const difficulty: SyllabusPracticeProblem["difficulty"] = index < 3 ? "easy" : index < 6 ? "medium" : "hard";
+    return {
+      id: `problem-algo-${slug}-source-${index + 1}`,
+      title: problemTitle,
+      difficulty,
+      tags: ["algorithm", slug, "source-neetcode", "source-leetcode", "source-the-algorithms-js"],
+      prompt: `Solve or explain ${problemTitle} as a ${title} pattern drill. State the trigger, invariant/state, complexity, and one edge case.`,
+      expectedSignals: ["Pattern trigger identified", "Invariant or state explained", "Complexity stated", "Edge case handled"]
+    };
+  });
+
+  const fallbackProblems: SyllabusPracticeProblem[] = [
+    { id: `problem-algo-${slug}-easy`, title: `${title} trace`, difficulty: "easy", tags: ["algorithm", slug, "trace", "source-neetcode", "source-leetcode"], prompt: `Trace ${title} on a small input. Show state changes and final output.`, expectedSignals: ["Dry run is correct", "State is explicit"] },
+    { id: `problem-algo-${slug}-medium`, title: `${title} implementation`, difficulty: "medium", tags: ["algorithm", slug, "implementation", "source-neetcode", "source-leetcode"], prompt: `Implement ${title} in JavaScript and explain time and space complexity.`, expectedSignals: ["Correct implementation", "Complexity stated", "Edge cases handled"] },
+    { id: `problem-algo-${slug}-hard`, title: `${title} pattern transfer`, difficulty: "hard", tags: ["algorithm", slug, "interview-pattern", "source-neetcode", "source-leetcode"], prompt: `Solve a harder interview problem where ${title} is the hidden pattern. Explain why this pattern fits.`, expectedSignals: ["Recognizes pattern", "Justifies approach", "Handles constraints"] }
   ];
+
+  return [...mappedProblems, ...fallbackProblems].slice(0, 10);
 }
 
 function algoTopic(input: {

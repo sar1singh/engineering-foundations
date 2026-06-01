@@ -281,9 +281,97 @@ Final Phase 57 status:
 - 100% complete for code, UI/UX, automated QA, visual baseline, and current implementation contract.
 - The only remaining work is real usage/outcome validation, which cannot be completed by code alone.
 
+## Phase 58 Syllabus Expansion
+
+Status: complete for MVP content contract.
+
+Verdict:
+
+- Syllabus breadth is strong and covers the master roadmap at a domain level.
+- Syllabus depth is still not enough to guarantee the full MVP promise: founder uses EngineeringOS, becomes interview-ready, and succeeds in job switching.
+- Main gaps are deeper DSA problem coverage, HLD/LLD/AWS capstones, production maturity tracks, Staff/EM artifact simulations, career asset deliverables, and a practical AI/Agentic AI 80/20 track.
+
+Plan:
+
+- `docs/PHASE_58_SYLLABUS_EXPANSION_AND_CONTENT_SUCCESS_PLAN.md`
+
+Completed so far:
+
+- Phase 58A first depth contract added in `src/lib/quality/phase-58-syllabus-depth-contract.test.ts`.
+- Dedicated Algorithms track expanded to 8-10 source-backed problems per topic.
+- Algorithm problem mapping references NeetCode, LeetCode, and TheAlgorithms/JavaScript through topic references and problem tags.
+- Syllabus service now normalizes common mistakes and production use cases for older compact topics.
+- Rendered DSA domain topics now receive 8+ source-backed coding drills with NeetCode, LeetCode, and TheAlgorithms/JavaScript tags.
+- Phase 58 contract now enforces HLD AWS variants, LLD machine-coding coverage, Career Assets, AI Expansion, and role capstone/deliverable linkage.
+
+Future enhancements:
+
+- Add full written solution walkthroughs for the top 30-50 DSA problems.
+- Add richer lab datasets for performance, observability, and incident debugging.
+- Add separate expanded AI topics for LLM basics, RAG, embeddings, evals, tool calling, and guardrails.
+- Add weekly plan and capstone readiness views.
+
 Template acceleration update:
 
 - TailAdmin free Next.js dashboard was downloaded into `.tmp-templates/tailadmin-nextjs` and inspected as an MIT-licensed reference.
 - No TailAdmin dependency stack was imported.
 - EngineeringOS adopted only the reusable UI patterns: KPI cards, command panels, progress bars, active sidebar treatment, subtle motion, and polished dashboard surfaces.
 - `/today` is now the first upgraded cockpit using these patterns.
+
+## Phase 60 Real Content Ingestion
+
+Status: complete for first production-grade enriched ingestion tranche.
+
+Completed:
+
+- Added app data for public source catalog and source-topic mapping.
+- Added enriched original EngineeringOS learning content for DSA, HLD, LLD, AWS, Staff/EM, Career Assets, and AI evaluator topics.
+- Wired enriched content into syllabus topics through `SyllabusService`.
+- Added a rendered syllabus-page Solution Lab so enriched content is visible to learners.
+- Added quality contracts to prevent enriched data from becoming hidden, shallow, or source-less.
+
+Current coverage:
+
+- DSA: `hashmap-frequency`, `graph-bfs`, `binary-search`, `dynamic-programming-core`.
+- HLD: `hld-payment-system`, `hld-booking-system`, `hld-url-shortener`.
+- LLD: `rate-limiter-lld`, `cache-lld`.
+- AWS: `multi-az`, `backup-dr`.
+- Staff/EM/Career: `architecture-review`, `incident-leadership`, `resume-linkedin-github`.
+- AI: `ai-assisted-learning-evaluator`.
+
+Validation:
+
+- Phase 60 quality contract passed.
+- Full quality suite passed.
+- Typecheck, lint, production build, mock smoke, Prisma smoke, and Playwright E2E passed.
+
+Remaining future enhancements:
+
+- Expand enriched content to every remaining high-frequency DSA pattern and every remaining HLD/LLD/AWS capstone.
+- Add source-backed import tooling if the product later needs semi-automated refreshes rather than manually curated original content.
+- Add learner-facing filters for enriched-only, interview-frequency, role relevance, and estimated time.
+
+## Phase 61 Exhaustive Source-Backed Curriculum Ingestion
+
+Status: complete as a broad multi-agent ingestion tranche; not a final exhaustive guarantee.
+
+Completed:
+
+- Multi-agent workstreams expanded DSA, HLD, LLD, AWS/Infra, Staff/EM/Career, and AI/Agentic AI enriched content.
+- Added official AWS references to the source catalog.
+- Expanded source-topic mapping across the high-ROI role-readiness surface.
+- Added additional HLD syllabus-visible case studies so expanded content is reachable in the app.
+- Added a Phase 61 quality contract covering source mapping, visible enriched topics, DSA solution readiness, design capstone depth, AWS-first scope, and AI eval/guardrail/cost/latency coverage.
+
+Validation:
+
+- Phase 61 quality contract passed.
+- Full quality suite passed.
+- Typecheck, lint, build, mock smoke, Prisma smoke, and Playwright E2E passed.
+
+Remaining future enhancements:
+
+- Add dedicated syllabus pages for enriched-only LLD and AI expansion slugs where needed.
+- Add executable/compilable tests for embedded DSA solution snippets.
+- Add HLD ride sharing, video streaming, and distributed rate limiter.
+- Add AWS hands-on labs and IaC snippets for VPC, ECS/EKS, Lambda/API Gateway, CI/CD, and DR.

@@ -101,8 +101,10 @@ Current red findings:
 
 - Present: topic definition, theory, mental model, code example, practice problems, interview questions, references, progress signals, and response forms.
 - Improved: service now normalizes every rendered topic to at least 8 practice problems and 8 interview questions.
-- Missing: many topics still have short 80/20 theory rather than full lesson breakdowns.
-- Missing: code walkthrough sections are not structured into line-by-line explanations yet.
+- Improved in Phase 60/61: high-ROI syllabus pages now render source-backed enriched solution labs with original EngineeringOS explanations, design capstones, security/observability/failure-mode review, AWS variants, and interview narration.
+- Remaining: not every topic in the full catalog has the same enriched depth yet.
+- Improved: many DSA enriched problems now include approach, code, complexity, test cases, mistakes, and narration.
+- Remaining: embedded DSA solution snippets are not yet compiled as standalone executable tests.
 - Missing: explicit quizzes, flashcards, and spaced repetition scheduling per topic.
 - Present in local/mock form: runnable JavaScript execution and automated mock answer review.
 
@@ -118,14 +120,13 @@ Current red findings:
 
 Top-level coverage is broad. The remaining syllabus work is depth, not only new domains.
 
-Highest-priority depth passes:
+Phase 61 reduced the largest depth gaps. Highest-priority remaining depth passes:
 
-- Graph algorithms: Graph DFS, Graph BFS, Topological Sort, Dijkstra, Union Find.
-- Dynamic Programming Core.
-- AWS Solution Architect: IAM, VPC, RDS, Multi-AZ, Auto Scaling, Backup/DR, Cost Optimization.
-- HLD case studies: Payment, Booking, Chat, Feed.
-- LLD machine coding: Parking Lot, Rate Limiter, Cache, Notification Service.
-- Staff/Principal/EM: Architecture Review, Incident Leadership, Technical Strategy, Stakeholder Communication.
+- Add syllabus-visible pages for enriched-only LLD topics such as workflow engine, pub/sub, task scheduler, feature flags, logger, and inventory/order system.
+- Add HLD ride sharing, video streaming, and distributed rate limiter.
+- Add AWS hands-on labs/IaC snippets and deployment exercises.
+- Add executable DSA solution validation, not only content contracts.
+- Add learner-facing filters for enriched-only, interview frequency, role relevance, source platform, and estimated time.
 
 Additional future domains to consider:
 

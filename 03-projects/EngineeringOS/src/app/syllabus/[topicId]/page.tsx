@@ -6,6 +6,7 @@ import { SyllabusResponseForm } from "@/components/persistence/SyllabusResponseF
 import { TopicCompletionForm } from "@/components/persistence/TopicCompletionForm";
 import { LocalCodeRunner } from "@/components/practice/LocalCodeRunner";
 import { appServices } from "@/lib/providers";
+import type { EnrichedDesignCapstone, EnrichedHandsOnLab, EnrichedPracticeProblem, EnrichedTopicContent } from "@/types/enriched-content";
 import type { SyllabusPracticeProblem, SyllabusReviewPrompt, SyllabusTopic } from "@/types/syllabus";
 
 type SyllabusTopicPageProps = {
@@ -48,6 +49,7 @@ export default async function SyllabusTopicPage({ params }: SyllabusTopicPagePro
       <nav className="flex flex-wrap gap-2 rounded-lg border border-[var(--border)] bg-white p-3">
         {[
           ["#learn", "Learn"],
+          ["#solution-lab", "Solution lab"],
           ["#code", "Code"],
           ["#practice", "Practice"],
           ["#interview", "Interview"],
@@ -82,6 +84,8 @@ export default async function SyllabusTopicPage({ params }: SyllabusTopicPagePro
           </div>
         </div>
       </section>
+
+      {topic.enrichedContent ? <EnrichedSolutionLab content={topic.enrichedContent} /> : null}
 
       <section id="code" className="scroll-mt-4 rounded-lg border border-[var(--border)] bg-white p-5">
         <h2 className="text-xl font-semibold">Working code example</h2>
@@ -168,6 +172,129 @@ export default async function SyllabusTopicPage({ params }: SyllabusTopicPagePro
         </aside>
       </section>
     </section>
+  );
+}
+
+function EnrichedSolutionLab({ content }: { content: EnrichedTopicContent }) {
+  return (
+    <section id="solution-lab" className="scroll-mt-4 space-y-5 rounded-lg border border-teal-200 bg-teal-50/50 p-5">
+      <div>
+        <p className="text-sm font-medium text-teal-800">Source-backed EngineeringOS enrichment</p>
+        <h2 className="mt-1 text-xl font-semibold">Solution lab and senior review notes</h2>
+        <p className="mt-2 text-sm text-[var(--muted)]">{content.beginnerExplanation}</p>
+        <p className="mt-2 text-sm text-[var(--muted)]">{content.deepExplanation}</p>
+      </div>
+      <div className="grid gap-3 md:grid-cols-3">
+        <MiniPanel title="Why asked" value={content.whyInterviewersAsk} />
+        <MiniPanel title="Role relevance" value={content.roleRelevance.join(", ")} />
+        <MiniPanel title="Frequency" value={`${content.interviewFrequency} / ${content.estimatedTimeMinutes} min`} />
+      </div>
+      {content.lineByLineExplanation?.length ? <ListPanel items={content.lineByLineExplanation} title="How to narrate the solution" /> : null}
+      {content.enrichedProblems.length ? (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Enriched coding drills</h3>
+          {content.enrichedProblems.map((problem) => (
+            <EnrichedProblemCard key={problem.id} problem={problem} />
+          ))}
+        </div>
+      ) : null}
+      {content.designCapstones.length ? (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Design capstones</h3>
+          {content.designCapstones.map((capstone) => (
+            <DesignCapstoneCard key={capstone.id} capstone={capstone} />
+          ))}
+        </div>
+      ) : null}
+      {content.handsOnLabs?.length ? (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Hands-on labs and IaC sketches</h3>
+          {content.handsOnLabs.map((lab) => (
+            <HandsOnLabCard key={lab.id} lab={lab} />
+          ))}
+        </div>
+      ) : null}
+      <div className="rounded-md bg-white p-3 text-sm text-[var(--muted)]">
+        Sources: {content.sourceRefs.join(", ")}. EngineeringOS uses these as referral and coverage sources; explanations and solutions here are original.
+      </div>
+    </section>
+  );
+}
+
+function HandsOnLabCard({ lab }: { lab: EnrichedHandsOnLab }) {
+  return (
+    <article className="rounded-lg border border-[var(--border)] bg-white p-4">
+      <p className="text-xs font-medium uppercase text-teal-800">AWS lab</p>
+      <h4 className="mt-1 font-semibold">{lab.title}</h4>
+      <p className="mt-2 text-sm text-[var(--muted)]">{lab.goal}</p>
+      <p className="mt-2 text-sm text-[var(--muted)]">{lab.scenario}</p>
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <ListPanel items={lab.steps} title="Steps" />
+        <ListPanel items={lab.validation} title="Validation" />
+        <ListPanel items={lab.cleanup} title="Cleanup" />
+        <ListPanel items={lab.safetyNotes} title="Safety notes" />
+      </div>
+      <pre className="mt-4 overflow-x-auto rounded-md bg-slate-950 p-4 text-xs text-slate-50">
+        <code>{lab.iacSnippet}</code>
+      </pre>
+    </article>
+  );
+}
+
+function MiniPanel({ title, value }: { title: string; value: string }) {
+  return (
+    <div className="rounded-md bg-white p-3">
+      <p className="text-xs font-medium uppercase text-teal-800">{title}</p>
+      <p className="mt-1 text-sm text-[var(--muted)]">{value}</p>
+    </div>
+  );
+}
+
+function EnrichedProblemCard({ problem }: { problem: EnrichedPracticeProblem }) {
+  return (
+    <article className="rounded-lg border border-[var(--border)] bg-white p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-medium uppercase text-teal-800">{problem.pattern}</p>
+          <h4 className="mt-1 font-semibold">{problem.title}</h4>
+        </div>
+        <span className="rounded-md bg-slate-50 px-2 py-1 text-xs text-[var(--muted)]">{problem.difficulty}</span>
+      </div>
+      <p className="mt-3 text-sm text-[var(--muted)]">{problem.originalStatement}</p>
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <ListPanel items={problem.hints} title="Hints" />
+        <ListPanel items={problem.approach} title="Approach" />
+      </div>
+      <pre className="mt-4 overflow-x-auto rounded-md bg-slate-950 p-4 text-xs text-slate-50">
+        <code>{problem.solution}</code>
+      </pre>
+      <div className="mt-4 grid gap-3 lg:grid-cols-3">
+        <MiniPanel title="Complexity" value={`${problem.complexity.time}, ${problem.complexity.space}`} />
+        <MiniPanel title="Tests" value={problem.testCases.join(" | ")} />
+        <MiniPanel title="Narration" value={problem.interviewNarration} />
+      </div>
+      <ListPanel items={problem.commonMistakes} title="Common mistakes" />
+    </article>
+  );
+}
+
+function DesignCapstoneCard({ capstone }: { capstone: EnrichedDesignCapstone }) {
+  return (
+    <article className="rounded-lg border border-[var(--border)] bg-white p-4">
+      <h4 className="font-semibold">{capstone.prompt}</h4>
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <ListPanel items={capstone.requirements} title="Requirements" />
+        <ListPanel items={capstone.approach} title="Approach" />
+        <ListPanel items={capstone.designBreakdown} title="Design breakdown" />
+        <ListPanel items={capstone.tradeoffs} title="Tradeoffs" />
+        <ListPanel items={capstone.failureModes} title="Failure modes" />
+        <ListPanel items={capstone.security} title="Security" />
+        <ListPanel items={capstone.observability} title="Observability" />
+        {capstone.awsVariant ? <ListPanel items={capstone.awsVariant} title="AWS variant" /> : null}
+        <ListPanel items={capstone.rubric} title="Rubric" />
+        <ListPanel items={capstone.expectedSeniorSignals} title="Senior signals" />
+      </div>
+    </article>
   );
 }
 
