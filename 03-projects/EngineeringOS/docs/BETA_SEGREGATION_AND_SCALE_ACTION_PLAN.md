@@ -158,7 +158,7 @@ Current implementation status:
 - Done: API client module.
 - Done: route adapters call services/repositories instead of raw mock data.
 - Done: dashboard includes an API-client readiness/quality strip.
-- Pending: expand API client adoption to onboarding and progress flows.
+- Done: Phase 64 expanded visible API client adoption to onboarding profile status and dashboard progress summary.
 
 ## Phase 55 - Observability and Operations
 
@@ -229,6 +229,11 @@ Current implementation status:
 - Pending: capture daily learning friction and interview-readiness evidence.
 - Done: beta manual testing tracker exists.
 - Done: local browser code runner is disabled by default in beta/production deployment modes unless explicitly isolated/enabled later.
+
+Phase 64 update:
+
+- Done: dashboard now exposes founder outcome metrics for runnable DSA patterns, design capstones, AWS labs, and interview-loop coverage.
+- Done: syllabus now supports action-oriented filters for runnable practice, capstones, hands-on labs, enriched content, and time budget.
 
 ## Priority Order
 

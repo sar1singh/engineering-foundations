@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { ApiLearnerProfileStatus } from "@/components/onboarding/ApiLearnerProfileStatus";
 import { OnboardingWizardForm } from "@/components/onboarding/OnboardingWizardForm";
 import { appServices } from "@/lib/providers";
 import { learningPreferencesCookieName, parseLearningPreferences } from "@/lib/services/onboarding-service";
@@ -21,6 +22,7 @@ export default async function OnboardingPage() {
           Preference source: {learnerState.preferenceSource}. User: {learnerState.userId}.
         </p>
       </div>
+      <ApiLearnerProfileStatus />
       <OnboardingWizardForm preferences={preferences} />
     </section>
   );

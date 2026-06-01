@@ -2,9 +2,9 @@
 
 ## Verdict
 
-Docker compatibility: possible, but not turnkey.
+Docker compatibility: possible, and the app now has the main local foundations for a single-service container path.
 
-The app is a standard Next.js App Router project with Prisma and SQLite local mode. It can be containerized, but the current repo does not yet include a `Dockerfile`, `.dockerignore`, standalone Next output, runtime migration strategy, or production database target.
+The app is a standard Next.js App Router project with Prisma and SQLite local mode. Later phases added a Dockerfile, `.dockerignore`, runtime health/config checks, API adapters, and beta/prod guardrails. It is still not production-turnkey until real auth, managed PostgreSQL, external monitoring, and manual beta validation are completed.
 
 ## Current Shape
 
@@ -39,17 +39,21 @@ Not recommended for production:
 
 - SQLite inside an ephemeral container. It is acceptable for local demos only unless backed by durable mounted storage and a single-writer deployment model.
 
-## Missing for Containerization
+## Remaining for Production Containerization
 
-- `Dockerfile`.
-- `.dockerignore`.
-- `next.config.ts` `output: "standalone"` decision.
-- Runtime env validation.
-- Production DB provider decision.
-- Migration command strategy.
-- Health endpoint.
-- Observability setup.
-- Non-root container user and image hardening.
+- Production DB provider decision and managed PostgreSQL verification.
+- Migration command strategy against the selected Postgres target.
+- External observability provider setup.
+- Real auth/session provider setup.
+- Non-root container user and image-hardening review.
+- Public code execution disabled or isolated.
+- Founder manual testing week before beta.
+
+## Phase 64 Update
+
+- API-backed learner/profile, progress, readiness, and quality surfaces now exist.
+- Stronger syllabus filters make labs, capstones, runnable practice, enriched content, and time-boxed lessons discoverable.
+- Dashboard now exposes founder outcome metrics for job-switch readiness.
 
 ## Difficulty
 

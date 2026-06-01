@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { TimedMockInterview } from "@/components/interview/TimedMockInterview";
+import { LabCompletionControls } from "@/components/labs/LabCompletionControls";
 import { ExplainBackHistory } from "@/components/persistence/ExplainBackHistory";
 import { EvaluationHistory } from "@/components/persistence/EvaluationHistory";
 import { SyllabusResponseForm } from "@/components/persistence/SyllabusResponseForm";
 import { TopicCompletionForm } from "@/components/persistence/TopicCompletionForm";
 import { LocalCodeRunner } from "@/components/practice/LocalCodeRunner";
+import { practiceTasks } from "@/data/practice-tasks";
 import { appServices } from "@/lib/providers";
 import type { EnrichedDesignCapstone, EnrichedHandsOnLab, EnrichedPracticeProblem, EnrichedTopicContent } from "@/types/enriched-content";
 import type { SyllabusPracticeProblem, SyllabusReviewPrompt, SyllabusTopic } from "@/types/syllabus";
@@ -34,6 +36,13 @@ export default async function SyllabusTopicPage({ params }: SyllabusTopicPagePro
   const attempts = await appServices.repositories.explainBackRepository.getExplainBackAttemptsByTopicId(topic.id);
   const evaluationResults = await appServices.repositories.evaluationResultRepository.getEvaluationResultsByTopicId(topic.id);
   const isComplete = progress.completedTopicIds.includes(topic.id);
+  const allTopics = appServices.syllabusService.getDomains().flatMap((domain) => domain.modules.flatMap((module) => module.topics));
+  const currentIndex = allTopics.findIndex((item) => item.slug === topic.slug);
+  const nextTopic = allTopics[currentIndex + 1] ?? allTopics[0] ?? null;
+  const relatedTopics = allTopics
+    .filter((item) => item.slug !== topic.slug && (item.sourcePath === topic.sourcePath || item.references.some((reference) => topic.references.some((topicReference) => topicReference.sourceType === reference.sourceType))))
+    .slice(0, 4);
+  const practiceNext = practiceTasks.find((task) => topic.enrichedContent?.enrichedProblems.some((problem) => problem.id === task.sourceProblemId));
 
   return (
     <section className="space-y-6">
@@ -154,6 +163,16 @@ export default async function SyllabusTopicPage({ params }: SyllabusTopicPagePro
           ))}
         </div>
       </section>
+      <section className="eo-card p-5">
+        <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">Continue learning</p>
+        <h2 className="mt-1 text-xl font-semibold">Next and related content</h2>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {nextTopic ? <ContinuationCard href={`/syllabus/${nextTopic.slug}`} label="Next content" title={nextTopic.title} text={nextTopic.definition} /> : null}
+          {practiceNext ? <ContinuationCard href={`/practice/${practiceNext.slug}`} label="Practice next" title={practiceNext.title} text={practiceNext.statement} /> : null}
+          <ContinuationCard href="#interview" label="Interview next" title="Mock interview mode" text={`${topic.interviewQuestions.length} questions available for this topic.`} />
+          {relatedTopics[0] ? <ContinuationCard href={`/syllabus/${relatedTopics[0].slug}`} label="Related content" title={relatedTopics[0].title} text={relatedTopics[0].definition} /> : null}
+        </div>
+      </section>
         </div>
         <aside className="h-fit rounded-lg border border-[var(--border)] bg-white p-5 xl:sticky xl:top-6">
           <h2 className="text-lg font-semibold">Topic checklist</h2>
@@ -172,6 +191,16 @@ export default async function SyllabusTopicPage({ params }: SyllabusTopicPagePro
         </aside>
       </section>
     </section>
+  );
+}
+
+function ContinuationCard({ href, label, title, text }: { href: string; label: string; title: string; text: string }) {
+  return (
+    <Link className="eo-panel block p-4 hover:bg-teal-50" href={href}>
+      <p className="text-xs font-bold uppercase text-teal-700">{label}</p>
+      <p className="mt-1 font-semibold">{title}</p>
+      <p className="mt-2 line-clamp-3 text-sm text-[var(--muted)]">{text}</p>
+    </Link>
   );
 }
 
@@ -237,6 +266,7 @@ function HandsOnLabCard({ lab }: { lab: EnrichedHandsOnLab }) {
       <pre className="mt-4 overflow-x-auto rounded-md bg-slate-950 p-4 text-xs text-slate-50">
         <code>{lab.iacSnippet}</code>
       </pre>
+      <LabCompletionControls labId={lab.id} snippet={lab.iacSnippet} />
     </article>
   );
 }

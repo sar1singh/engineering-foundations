@@ -11,6 +11,9 @@ export type PracticeTask = {
   subtasks: PracticeSubtask[];
   problemStatementId?: string;
   starterCode?: string;
+  solutionCode?: string;
+  testHarness?: string;
+  sourceProblemId?: string;
   solutionApproach?: string;
   hints: string[];
   edgeCases: string[];

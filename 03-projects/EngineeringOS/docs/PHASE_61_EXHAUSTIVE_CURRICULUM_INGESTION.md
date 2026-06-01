@@ -73,10 +73,11 @@ Each worker owned a narrow file area and returned coverage, gaps, QA suggestions
 ## Honest Gaps
 
 - Phase 61 is broad and materially stronger, but not truly exhaustive across every possible topic.
-- Several LLD and AI enriched slugs exist before dedicated syllabus pages are added.
-- DSA embedded solution snippets are not yet compiled as standalone tests.
-- HLD ride sharing, video streaming, and distributed rate limiter remain planned expansion targets unless added in the next pass.
-- AWS hands-on labs/IaC snippets are not yet included.
+- Closed after Phase 61: LLD and AI enriched-only slugs now have dedicated syllabus pages.
+- Closed after Phase 61: representative DSA embedded snippets are transpiled and executed; all embedded DSA snippets are transpiled independently.
+- Closed after Phase 61: HLD ride sharing, video streaming, and distributed rate limiter are now added.
+- Closed after Phase 61: AWS hands-on labs/IaC snippets now exist for VPC, ECS, and backup/DR.
+- Remaining: more AWS labs, first-class runnable practice tasks, and role-path filters for labs/enriched-only content.
 
 ## Completion Verdict
 

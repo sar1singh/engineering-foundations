@@ -122,6 +122,7 @@ Remaining tasks:
 Implemented since plan creation:
 
 - Dashboard now includes an API-client readiness/quality strip.
+- Phase 64 added API-client-backed onboarding profile status and dashboard progress summary.
 - Add `src/lib/api-contracts` examples and versioning notes.
 - Add backend extraction map:
   - learner service first.
@@ -134,6 +135,11 @@ Acceptance criteria:
 
 - UI can be pointed at API adapters for key learner/progress/readiness data.
 - Backend extraction can start without changing business logic.
+
+Phase 64 status:
+
+- Learner profile, progress summary, readiness, and quality now have visible API-client-backed surfaces.
+- Remaining API adoption is now incremental polish rather than a hard local-code blocker.
 
 ## Phase 55 - Observability and Operations Completion
 

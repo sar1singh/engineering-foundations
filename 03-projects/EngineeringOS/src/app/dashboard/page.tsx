@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { ApiProgressSummaryCard } from "@/components/dashboard/ApiProgressSummaryCard";
 import { ApiReadinessStrip } from "@/components/dashboard/ApiReadinessStrip";
+import { MissionReadinessChart } from "@/components/dashboard/MissionReadinessChart";
 import { GuidedNextSteps } from "@/components/learning/GuidedNextSteps";
 import { appServices } from "@/lib/providers";
 import { getAssessmentReadiness } from "@/lib/services/assessment-readiness-service";
@@ -38,6 +40,16 @@ export default async function DashboardPage() {
   });
   const activeRoadmap = dashboard.roadmapTree?.roadmap;
   const activeDomains = dashboard.roadmapTree?.domains.slice(0, 6) ?? [];
+  const allSyllabusTopics = syllabusDomains.flatMap((domain) => domain.modules.flatMap((module) => module.topics));
+  const handsOnLabTopics = allSyllabusTopics.filter((topic) => (topic.enrichedContent?.handsOnLabs?.length ?? 0) > 0);
+  const capstoneTopics = allSyllabusTopics.filter((topic) => (topic.enrichedContent?.designCapstones.length ?? 0) > 0);
+  const enrichedDsaTopics = allSyllabusTopics.filter((topic) => (topic.enrichedContent?.enrichedProblems.length ?? 0) > 0);
+  const founderOutcomeMetrics = [
+    { label: "Runnable DSA patterns", value: enrichedDsaTopics.length, href: "/syllabus?content=runnable", note: "coding interview reps" },
+    { label: "HLD/LLD capstones", value: capstoneTopics.length, href: "/syllabus?content=capstones", note: "design review reps" },
+    { label: "AWS hands-on labs", value: handsOnLabTopics.length, href: "/syllabus?content=labs", note: "solution architect proof" },
+    { label: "Interview rounds", value: 12, href: "/interview-rounds", note: "loop coverage" }
+  ];
   const nextSteps = [
     dashboard.currentTopic
       ? {
@@ -74,15 +86,24 @@ export default async function DashboardPage() {
 
   return (
     <section className="space-y-8">
-      <div>
-        <p className="text-sm font-medium text-teal-700">Dashboard</p>
-        <h1 className="text-3xl font-semibold">Today&apos;s Mission</h1>
-        <p className="mt-2 max-w-3xl text-[var(--muted)]">
-          {activeRoadmap?.title ?? "EngineeringOS"} is running on local mock content and service-backed retrieval.
-        </p>
+      <div className="eo-glow-card p-6">
+        <div className="relative z-[1] flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-teal-700">Mission control</p>
+            <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">Today&apos;s Mission</h1>
+            <p className="mt-3 max-w-3xl text-[var(--muted)]">
+              {activeRoadmap?.title ?? "EngineeringOS"} is your guided, role-based interview readiness cockpit.
+            </p>
+          </div>
+          {todaysLesson ? (
+            <Link className="eo-primary-action px-4 py-2.5 text-sm" href={`/syllabus/${todaysLesson.slug}`}>
+              Start today&apos;s lesson
+            </Link>
+          ) : null}
+        </div>
       </div>
       <section className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        <div className="rounded-lg border border-[var(--border)] bg-white p-5">
+        <div className="eo-card p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-xl font-semibold">Role onboarding</h2>
@@ -111,7 +132,7 @@ export default async function DashboardPage() {
             ))}
           </div>
         </div>
-        <div className="rounded-lg border border-[var(--border)] bg-white p-5">
+        <div className="eo-gradient-border p-5">
           <h2 className="text-xl font-semibold">Assessment readiness</h2>
           <p className="mt-1 text-sm text-[var(--muted)]">Weighted from role progress, core domains, QA health, and saved study pace.</p>
           <p className="mt-4 text-4xl font-semibold text-teal-700">{assessmentReadiness.score}%</p>
@@ -125,24 +146,25 @@ export default async function DashboardPage() {
         </div>
       </section>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-lg border border-[var(--border)] bg-white p-4">
+        <div className="eo-card p-4">
           <p className="text-sm text-[var(--muted)]">Current topic</p>
           <p className="mt-2 font-semibold">{dashboard.currentTopic?.title ?? "No active topic"}</p>
         </div>
-        <div className="rounded-lg border border-[var(--border)] bg-white p-4">
+        <div className="eo-card p-4">
           <p className="text-sm text-[var(--muted)]">Readiness score</p>
           <p className="mt-2 font-semibold">{dashboard.readinessScore}%</p>
         </div>
-        <div className="rounded-lg border border-[var(--border)] bg-white p-4">
+        <div className="eo-card p-4">
           <p className="text-sm text-[var(--muted)]">Revision queue</p>
           <p className="mt-2 font-semibold">{dashboard.revisionQueue.length} prompts</p>
         </div>
-        <div className="rounded-lg border border-[var(--border)] bg-white p-4">
+        <div className="eo-card p-4">
           <p className="text-sm text-[var(--muted)]">Weak areas</p>
           <p className="mt-2 font-semibold">{dashboard.weakAreas.length} tracked</p>
         </div>
       </div>
-      <section className="rounded-lg border border-[var(--border)] bg-white p-5">
+      <MissionReadinessChart domains={domainReadiness} roles={roleReadiness} />
+      <section className="eo-card p-5">
         <h2 className="text-xl font-semibold">Readiness breakdown</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {readinessGroups.map((group) => (
@@ -151,8 +173,22 @@ export default async function DashboardPage() {
         </div>
       </section>
       <ApiReadinessStrip />
+      <ApiProgressSummaryCard />
+      <section className="rounded-lg border border-[var(--border)] bg-white p-5">
+        <h2 className="text-xl font-semibold">Founder outcome metrics</h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">These are product-readiness signals for the real goal: learn, interview well, and switch jobs.</p>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {founderOutcomeMetrics.map((metric) => (
+            <Link key={metric.label} className="rounded-md border border-[var(--border)] p-3 hover:border-teal-700" href={metric.href}>
+              <p className="text-sm text-[var(--muted)]">{metric.label}</p>
+              <p className="mt-2 text-2xl font-semibold text-teal-700">{metric.value}</p>
+              <p className="mt-1 text-xs text-[var(--muted)]">{metric.note}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
       <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
-        <div className="rounded-lg border border-[var(--border)] bg-white p-5">
+        <div className="eo-card p-5">
           <h2 className="text-xl font-semibold">Assessment factors</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {assessmentReadiness.factors.map((factor) => (
@@ -160,7 +196,7 @@ export default async function DashboardPage() {
             ))}
           </div>
         </div>
-        <div className="rounded-lg border border-[var(--border)] bg-white p-5">
+        <div className="eo-card p-5">
           <h2 className="text-xl font-semibold">Next assessment actions</h2>
           <div className="mt-4 space-y-2">
             {assessmentReadiness.nextActions.map((action) => (
@@ -171,7 +207,7 @@ export default async function DashboardPage() {
           </div>
         </div>
       </section>
-      <section className="rounded-lg border border-[var(--border)] bg-white p-5">
+      <section className="eo-card p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold">Role readiness</h2>
@@ -189,7 +225,7 @@ export default async function DashboardPage() {
           ))}
         </div>
       </section>
-      <section className="rounded-lg border border-[var(--border)] bg-white p-5">
+      <section className="eo-card p-5">
         <h2 className="text-xl font-semibold">Domain readiness</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {domainReadiness.map((domain) => (

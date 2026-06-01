@@ -2406,3 +2406,162 @@
 - Embedded DSA solution snippets are content-validated but not compiled as standalone solution tests yet.
 - HLD ride sharing, video streaming, and distributed rate limiter are still next-pass targets.
 - AWS IaC/lab snippets are not yet included.
+
+## 2026-06-01 - Phase 62 Gap Closure: Visible Pages, Executable DSA, HLD, AWS Labs
+
+### Completed
+
+- Added syllabus-visible LLD pages for:
+  - `workflow-engine-lld`
+  - `pub-sub-lld`
+  - `task-scheduler-lld`
+  - `feature-flag-service-lld`
+  - `logger-lld`
+  - `inventory-order-system-lld`
+- Added syllabus-visible AI page for `agentic-ai-foundations`.
+- Added HLD capstones and syllabus-visible pages for:
+  - `hld-ride-sharing`
+  - `hld-video-streaming`
+  - `hld-distributed-rate-limiter`
+- Added optional `handsOnLabs` to enriched content and rendered hands-on AWS labs/IaC sketches in the syllabus Solution Lab UI.
+- Added AWS labs for:
+  - VPC two-AZ foundation
+  - ECS service deployment skeleton
+  - Backup/restore drill
+- Added executable DSA solution validation:
+  - Representative embedded TypeScript solutions are transpiled and executed with real assertions.
+  - Every embedded DSA solution is transpiled independently.
+- Added Phase 62 quality and E2E tests for the closed gaps.
+
+### Validation
+
+- `npm run test -- src/lib/quality/phase-62-gap-closure-contract.test.ts src/lib/quality/dsa-solution-execution.test.ts` passed.
+- `npm run test -- src/lib/quality` passed: 15 files, 59 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+- `npm run test:e2e` passed across 40 desktop/mobile browser checks.
+
+## 2026-06-01 - Phase 63 Lab Discovery and Runnable DSA Practice
+
+### Completed
+
+- Expanded AWS hands-on labs beyond the Phase 62 starter set:
+  - Lambda/API Gateway hello service
+  - Step Functions checkout saga
+  - Route 53 failover drill
+  - CloudFront signed URL sketch
+  - CI/CD blue-green/canary deployment guardrails
+- Added first-class syllabus coverage for `ci-cd-blue-green-canary` so the canary deployment lab is learner-visible.
+- Promoted selected enriched DSA solutions into runnable practice tasks with per-problem visible test harnesses:
+  - Two Sum via hash map
+  - Grid shortest path via BFS
+  - Minimum ship capacity via binary search on answer
+  - Coin Change via DP
+  - Product of Array Except Self via prefix/suffix products
+- Updated the practice page so runnable tasks seed the code runner with starter code plus harness.
+- Added syllabus filters for:
+  - enriched-only topics
+  - hands-on lab topics
+- Added Phase 63 quality and E2E coverage for the new lab/practice discovery paths.
+
+### Validation
+
+- `npm run test -- src/lib/quality/phase-63-hands-on-labs-and-runnable-practice-contract.test.ts` passed.
+- `npm run test -- src/lib/quality` passed: 16 files, 61 tests.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+- `npm run test:e2e` passed across 46 desktop/mobile browser checks.
+
+## 2026-06-01 - Phase 64 Backend-Separation UX and Product Readiness Closure
+
+### Completed
+
+- Created the Phase 64 implementation plan.
+- Added API-client-backed learner profile and progress summary UI surfaces.
+- Added local hands-on lab completion and IaC copy controls.
+- Expanded runnable DSA practice tasks from enriched source-backed problems.
+- Added stronger syllabus filters for runnable practice, design capstones, hands-on labs, enriched content, and time budget.
+- Added founder outcome metrics on the dashboard for DSA, capstones, AWS labs, and interview-loop coverage.
+- Added Phase 64 quality contract and Playwright coverage.
+
+### Validation
+
+- `npm run test -- src/lib/quality/phase-64-product-readiness-contract.test.ts` passed.
+- `npm run typecheck` passed.
+- `npm run test -- src/lib/quality` passed: 17 files, 66 tests.
+- `npm run lint` passed.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 21 routes.
+- `npm run smoke:prisma` passed across 21 routes.
+- `npm run test:e2e` passed across 52 desktop/mobile browser checks.
+
+## 2026-06-01 - Manual Testing P0 Fixes: Runner, Palette, Header, Stable Preview
+
+### Completed
+
+- Fixed the local JavaScript runner for common TypeScript-flavored learning snippets:
+  - strips `export`
+  - strips common type annotations and generic constructors
+  - supports `console.assert`
+  - keeps existing safety blocks for network, DOM, storage, dynamic eval, imports, and obvious infinite loops
+- Replaced the green-heavy theme with a shadcn-style slate/indigo palette.
+- Fixed low-contrast header and badge text by making header/background/text colors explicit.
+- Kept free-template direction grounded in shadcn/TailAdmin style patterns instead of importing a large template dependency stack.
+- Switched manual testing from `next dev` to production preview with `next start -p 3100` to remove dev WebSocket/HMR console noise.
+
+### Validation
+
+- `npm run test -- src/components/practice/LocalCodeRunner.test.ts` passed.
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/components/practice/LocalCodeRunner.test.ts src/lib/quality` passed: 18 files, 70 tests.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- Updated visual snapshots for the intentional theme change.
+- `npm run test:e2e` passed across 52 desktop/mobile browser checks.
+- Production preview verified: `http://127.0.0.1:3100/dashboard` returned 200.
+
+## 2026-06-01 - Phase 65 Glassmorphism Product UX Redesign + Guided Learning
+
+### Completed
+
+- Added the Phase 65 implementation plan and design direction.
+- Reworked global UI tokens toward a vibrant glassmorphism product system with gradient surfaces, high-contrast dark theme, reusable glass cards, gradient borders, polished inputs, chips, and button states.
+- Consolidated the overloaded sidebar into grouped Mission, Learn, Practice, Resources, and Account navigation.
+- Added profile/account entry points and compact mobile primary navigation.
+- Added guided Courses/Roadmaps with prebuilt mission paths for Senior Backend, AWS Solution Architect, Staff/Principal, EM, DSA, HLD/LLD, AWS Infra, and Interview Crash Course.
+- Added polished local-only `/signin`, `/signup`, and `/profile` experiences without introducing a real auth provider.
+- Upgraded onboarding into a more guided goal-builder surface.
+- Redesigned `/syllabus` into a focused command center with card-first browsing and collapsible advanced filters.
+- Rebuilt `/graph` as a roadmap-style clickable branch map.
+- Added topic-page continuation panels for next content, related content, practice next, and interview next.
+- Shifted `/dashboard` toward mission-control with readiness charts and visual progress.
+- Improved runnable practice pages with glass panels and runner state feedback.
+- Added `solutionCode` support for runnable DSA tasks so visible harnesses can demonstrate passing examples while starter code remains visible as the learner exercise.
+- Added smoke coverage for `/courses`, `/profile`, `/signin`, and `/signup`.
+- Added Phase 65 quality and Playwright coverage for the redesigned surfaces.
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality/phase-65-glass-ux-contract.test.ts src/components/practice/LocalCodeRunner.test.ts` passed.
+- `npm run test -- src/lib/quality src/components/practice` passed: 19 files, 76 tests.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 25 routes.
+- `npm run smoke:prisma` passed across 25 routes.
+- `npm run test:e2e` passed across 62 desktop/mobile browser checks.
+
+### Notes
+
+- A non-blocking Recharts dev-server warning still appears during Playwright for transient zero-width chart measurement, but all dashboard routes and browser assertions pass.

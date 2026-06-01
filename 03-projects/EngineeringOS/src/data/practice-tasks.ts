@@ -1,7 +1,8 @@
 import type { PracticeTask } from "@/types/practice";
+import { enrichedDsaPracticeTasks } from "@/data/enriched-dsa-practice-tasks";
 import { topics } from "@/data/topics";
 
-export const practiceTasks: PracticeTask[] = topics.map((topic) => {
+const generatedPracticeTasks: PracticeTask[] = topics.map((topic) => {
   const task: PracticeTask = {
     id: `task-${topic.id}-core`,
     topicId: topic.id,
@@ -94,3 +95,5 @@ export const practiceTasks: PracticeTask[] = topics.map((topic) => {
     ]
   };
 });
+
+export const practiceTasks: PracticeTask[] = [...generatedPracticeTasks, ...enrichedDsaPracticeTasks];

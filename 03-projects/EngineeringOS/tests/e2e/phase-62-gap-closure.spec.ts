@@ -9,7 +9,7 @@ test.describe("Phase 62 syllabus gap closure UI", () => {
 
     await page.goto("/syllabus/agentic-ai-foundations", { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { name: "Agentic AI Foundations" })).toBeVisible();
-    await expect(page.getByText("RAG internal support assistant")).toBeVisible();
+    await expect(page.getByText("Design a RAG assistant")).toBeVisible();
   });
 
   test("AWS syllabus pages expose hands-on labs and IaC sketches", async ({ page }) => {

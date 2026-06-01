@@ -1,18 +1,20 @@
 import Link from "next/link";
+import { practiceTasks } from "@/data/practice-tasks";
 import { linearLearningRoadmap } from "@/data/syllabus/linear-learning-roadmap";
 import { roleLearningRoadmaps } from "@/data/syllabus/role-learning-roadmaps";
 import { appServices } from "@/lib/providers";
 import { getProductQualityStatus } from "@/lib/services/product-quality-service";
 
 type SyllabusPageProps = {
-  searchParams: Promise<{ role?: string; priority?: string; q?: string; view?: string; domain?: string; difficulty?: string; source?: string; frequency?: string }>;
+  searchParams: Promise<{ role?: string; priority?: string; q?: string; view?: string; domain?: string; difficulty?: string; source?: string; frequency?: string; content?: string; time?: string }>;
 };
 
 export default async function SyllabusPage({ searchParams }: SyllabusPageProps) {
-  const { role = "all", priority = "all", q = "", view = "table", domain = "all", difficulty = "all", source = "all", frequency = "all" } = await searchParams;
+  const { role = "all", priority = "all", q = "", view = "cards", domain = "all", difficulty = "all", source = "all", frequency = "all", content = "all", time = "all" } = await searchParams;
   const domains = appServices.syllabusService.getDomains();
   const qualityStatus = getProductQualityStatus();
   const normalizedQuery = q.trim().toLowerCase();
+  const runnableProblemIds = new Set(practiceTasks.map((task) => task.sourceProblemId).filter((id): id is string => Boolean(id)));
   const selectedRole = roleLearningRoadmaps.find((item) => item.slug === role) ?? null;
   const priorityTopicSlugs = new Set(
     selectedRole
@@ -72,8 +74,20 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
               frequency === "all" ||
               (frequency === "high" && topic.practiceProblems.length >= 8 && topic.interviewQuestions.length >= 8) ||
               (frequency === "expert" && topic.practiceProblems.some((problem) => problem.difficulty === "hard"));
+            const contentMatch =
+              content === "all" ||
+              (content === "enriched" && Boolean(topic.enrichedContent)) ||
+              (content === "labs" && (topic.enrichedContent?.handsOnLabs?.length ?? 0) > 0) ||
+              (content === "capstones" && (topic.enrichedContent?.designCapstones.length ?? 0) > 0) ||
+              (content === "runnable" && (topic.enrichedContent?.enrichedProblems.some((problem) => runnableProblemIds.has(problem.id)) ?? false));
+            const estimatedMinutes = topic.enrichedContent?.estimatedTimeMinutes ?? 90;
+            const timeMatch =
+              time === "all" ||
+              (time === "quick" && estimatedMinutes <= 75) ||
+              (time === "standard" && estimatedMinutes > 75 && estimatedMinutes <= 120) ||
+              (time === "deep" && estimatedMinutes > 120);
 
-            return difficultyMatch && sourceMatch && frequencyMatch;
+            return difficultyMatch && sourceMatch && frequencyMatch && contentMatch && timeMatch;
           })
         }))
         .filter((module) => module.topics.length > 0)
@@ -90,25 +104,40 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
   if (difficulty !== "all") queryParams.set("difficulty", difficulty);
   if (source !== "all") queryParams.set("source", source);
   if (frequency !== "all") queryParams.set("frequency", frequency);
+  if (content !== "all") queryParams.set("content", content);
+  if (time !== "all") queryParams.set("time", time);
   const baseQuery = queryParams.toString();
+  const enrichedTopicCount = visibleTopics.filter(({ topic }) => topic.enrichedContent).length;
+  const handsOnLabTopicCount = visibleTopics.filter(({ topic }) => (topic.enrichedContent?.handsOnLabs?.length ?? 0) > 0).length;
 
   return (
     <section className="space-y-6">
-      <div>
-        <p className="text-sm font-medium text-teal-700">Syllabus</p>
-        <h1 className="text-3xl font-semibold">Master roadmap syllabus</h1>
-        <p className="mt-2 max-w-3xl text-[var(--muted)]">
-          Browse imported roadmap topics with definitions, code examples, practice prompts, interview questions, and local progress.
-        </p>
+      <div className="eo-glow-card p-6">
+        <div className="relative z-[1] flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-teal-700">Syllabus command center</p>
+            <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">Find the next lesson without drowning in filters.</h1>
+            <p className="mt-3 max-w-3xl text-[var(--muted)]">
+              Start with role, focus, and search. Open deeper controls only when you need precision.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <h2 aria-label="Syllabus Command Center" className="eo-chip text-sm">Syllabus Command Center</h2>
+              <h2 aria-label="Master roadmap syllabus" className="eo-chip text-sm">Master roadmap syllabus</h2>
+            </div>
+          </div>
+          <Link className="eo-secondary-action px-4 py-2 text-sm" href="/courses">
+            Browse guided courses
+          </Link>
+        </div>
       </div>
-      <section className="rounded-lg border border-[var(--border)] bg-white p-5">
+      <section className="eo-card p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold">Syllabus command center</h2>
+            <h2 className="text-xl font-semibold">Quick search</h2>
             <span className="sr-only">Role roadmap filters</span>
-            <p className="mt-1 text-sm text-[var(--muted)]">Filter the master roadmap by role, 80/20 focus, domain, difficulty, source, and interview signal.</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">Most learners only need role, focus, content type, and search.</p>
           </div>
-          <Link className="rounded-md border border-[var(--border)] px-3 py-2 text-sm font-medium text-[var(--muted)] hover:border-teal-700" href="/quality">
+          <Link className="eo-chip" href="/quality">
             QA health {qualityStatus.coveragePercent}%
           </Link>
         </div>
@@ -120,27 +149,33 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           <input name="difficulty" type="hidden" value={difficulty} />
           <input name="source" type="hidden" value={source} />
           <input name="frequency" type="hidden" value={frequency} />
+          <input name="content" type="hidden" value={content} />
+          <input name="time" type="hidden" value={time} />
           <label className="space-y-2">
             <span className="text-sm font-medium">Search topics</span>
             <input
-              className="min-h-10 w-full rounded-md border border-[var(--border)] px-3 text-sm outline-none focus:border-teal-700"
+              className="eo-input"
               defaultValue={q}
               name="q"
               placeholder="Search graph, payment, IAM, DP, incident..."
             />
           </label>
-          <button className="self-end rounded-md bg-teal-700 px-4 py-2 text-sm font-medium text-white" type="submit">
+          <button className="eo-primary-action self-end px-4 py-2 text-sm" type="submit">
             Search
           </button>
-          <Link className="self-end rounded-md border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--muted)]" href="/syllabus">
+          <Link className="eo-secondary-action self-end px-4 py-2 text-sm" href="/syllabus">
             Reset
           </Link>
         </form>
-        <form className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <details className="mt-4 rounded-2xl border border-[var(--border)] bg-slate-50 p-4">
+          <summary className="cursor-pointer text-sm font-bold text-[var(--foreground)]">Advanced filters</summary>
+        <form className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
           <input name="role" type="hidden" value={role} />
           <input name="priority" type="hidden" value={priority} />
           <input name="q" type="hidden" value={q} />
           <input name="view" type="hidden" value={view} />
+          <input name="content" type="hidden" value={content} />
+          <input name="time" type="hidden" value={time} />
           <SelectField
             label="Domain"
             name="domain"
@@ -181,12 +216,50 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
             ]}
             value={frequency}
           />
-          <button className="rounded-md border border-[var(--border)] px-3 py-2 text-sm font-medium text-[var(--muted)] xl:col-span-4" type="submit">
+          <SelectField
+            label="Time"
+            name="time"
+            options={[
+              ["all", "Any time"],
+              ["quick", "Quick <=75m"],
+              ["standard", "Standard 76-120m"],
+              ["deep", "Deep >120m"]
+            ]}
+            value={time}
+          />
+          <button className="eo-secondary-action px-3 py-2 text-sm xl:col-span-5" type="submit">
             Apply filters
           </button>
         </form>
+        <form className="mt-4 grid gap-3 md:grid-cols-[1fr_auto]">
+          <input name="role" type="hidden" value={role} />
+          <input name="priority" type="hidden" value={priority} />
+          <input name="q" type="hidden" value={q} />
+          <input name="view" type="hidden" value={view} />
+          <input name="domain" type="hidden" value={domain} />
+          <input name="difficulty" type="hidden" value={difficulty} />
+          <input name="source" type="hidden" value={source} />
+          <input name="frequency" type="hidden" value={frequency} />
+          <input name="time" type="hidden" value={time} />
+          <SelectField
+            label="Content type"
+            name="content"
+            options={[
+              ["all", "All content"],
+              ["enriched", "Enriched only"],
+              ["labs", "Hands-on labs"],
+              ["capstones", "Design capstones"],
+              ["runnable", "Runnable practice"]
+            ]}
+            value={content}
+          />
+          <button className="eo-secondary-action self-end px-3 py-2 text-sm" type="submit">
+            Apply content filter
+          </button>
+        </form>
+        </details>
         <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.8fr]">
-          <div>
+          <div className="eo-panel p-4">
             <p className="text-sm font-medium">Target role</p>
             <div className="mt-2 flex flex-wrap gap-2">
               <FilterLink active={role === "all"} href="/syllabus" label="All syllabus" />
@@ -195,7 +268,7 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
               ))}
             </div>
           </div>
-          <div>
+          <div className="eo-panel p-4">
             <p className="text-sm font-medium">Focus</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {[
@@ -215,12 +288,12 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           </div>
         </div>
         {selectedRole ? (
-          <div className="mt-5 rounded-md bg-slate-50 p-4">
+          <div className="mt-5 rounded-2xl bg-slate-50 p-4">
             <h3 className="font-semibold">{selectedRole.title}</h3>
             <p className="mt-1 text-sm text-[var(--muted)]">{selectedRole.outcome}</p>
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
               {selectedRole.focus.map((focus) => (
-                <div key={focus.title} className="rounded-md bg-white p-3">
+                <div key={focus.title} className="eo-panel p-3">
                   <p className="text-xs font-medium uppercase text-teal-700">{focus.level} / {focus.priority.replaceAll("-", " ")}</p>
                   <p className="mt-1 text-sm font-medium">{focus.title}</p>
                   <div className="mt-2 flex flex-wrap gap-1">
@@ -236,9 +309,11 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           </div>
         ) : null}
       </section>
-      <section className="grid gap-3 md:grid-cols-4">
+      <section className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
         <Metric label="Visible topics" value={visibleTopics.length} />
         <Metric label="Domains" value={fullyFilteredDomains.length} />
+        <Metric label="Enriched" value={enrichedTopicCount} />
+        <Metric label="Lab topics" value={handsOnLabTopicCount} />
         <Metric label="QA coverage" value={`${qualityStatus.coveragePercent}%`} />
         <Metric label="Focus" value={priority === "all" ? "Full path" : priority.replaceAll("-", " ")} />
       </section>
@@ -282,17 +357,17 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           </table>
         </section>
       ) : null}
-      <section className="rounded-lg border border-[var(--border)] bg-white p-5">
+      <section className="eo-card p-5">
         <h2 className="text-xl font-semibold">Linear learning path</h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {linearLearningRoadmap.map((stage, index) => (
-            <div key={stage.stage} className="rounded-md bg-slate-50 p-3">
+            <div key={stage.stage} className="eo-panel p-3">
               <p className="text-xs font-medium uppercase text-teal-700">Stage {index + 1}</p>
               <h3 className="mt-1 font-semibold">{stage.stage}</h3>
               <p className="mt-2 text-sm text-[var(--muted)]">{stage.goal}</p>
               <div className="mt-3 flex flex-wrap gap-1">
                 {stage.topicSlugs.slice(0, 5).map((slug) => (
-                  <Link key={slug} className="rounded bg-white px-2 py-1 text-xs text-[var(--muted)] hover:text-teal-700" href={`/syllabus/${slug}`}>
+                    <Link key={slug} className="rounded-full bg-white px-2 py-1 text-xs text-[var(--muted)] hover:text-teal-700" href={`/syllabus/${slug}`}>
                     {slug}
                   </Link>
                 ))}
@@ -318,7 +393,7 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
                   {module.topics.map((topic) => (
                     <Link
                       key={topic.id}
-                      className="block rounded-lg border border-[var(--border)] bg-white p-4 hover:border-teal-700"
+                      className="eo-gradient-border block p-4 hover:-translate-y-1"
                       href={`/syllabus/${topic.slug}`}
                     >
                       <p className="text-xs font-medium uppercase text-teal-700">#{topic.order}</p>
@@ -338,7 +413,7 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
 
 function Metric({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-lg border border-[var(--border)] bg-white p-4">
+    <div className="eo-card p-4">
       <p className="text-sm text-[var(--muted)]">{label}</p>
       <p className="mt-2 font-semibold capitalize">{value}</p>
     </div>
@@ -350,7 +425,7 @@ function SelectField({ label, name, options, value }: { label: string; name: str
     <label className="space-y-2">
       <span className="block text-sm font-medium">{label}</span>
       <select
-        className="min-h-10 w-full rounded-md border border-[var(--border)] bg-white px-3 text-sm outline-none focus:border-teal-700"
+        className="eo-input"
         defaultValue={value}
         name={name}
       >
@@ -368,7 +443,7 @@ function FilterLink({ active, href, label }: { active: boolean; href: string; la
   return (
     <Link
       className={`rounded-md border px-3 py-2 text-sm font-medium ${
-        active ? "border-teal-700 bg-teal-50 text-teal-800" : "border-[var(--border)] text-[var(--muted)] hover:border-teal-700"
+        active ? "border-teal-700 bg-teal-50 text-teal-800" : "border-[var(--border)] bg-slate-50 text-[var(--foreground)] hover:border-teal-700"
       }`}
       href={href}
     >

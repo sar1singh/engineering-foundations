@@ -375,3 +375,138 @@ Remaining future enhancements:
 - Add executable/compilable tests for embedded DSA solution snippets.
 - Add HLD ride sharing, video streaming, and distributed rate limiter.
 - Add AWS hands-on labs and IaC snippets for VPC, ECS/EKS, Lambda/API Gateway, CI/CD, and DR.
+
+## Phase 62 Gap Closure
+
+Status: complete.
+
+Completed:
+
+- Added syllabus-visible pages for previously enriched-only LLD topics and `agentic-ai-foundations`.
+- Added HLD ride sharing, video streaming, and distributed rate limiter as enriched, syllabus-visible case studies.
+- Added AWS hands-on labs/IaC snippets through the enriched content model and syllabus UI.
+- Added executable DSA solution tests using TypeScript transpilation plus runtime assertions.
+- Added Playwright coverage for new LLD/AI pages, HLD case pages, and AWS lab rendering.
+
+Validation:
+
+- Focused Phase 62 tests passed.
+- Full quality suite, typecheck, lint, build, mock smoke, Prisma smoke, and Playwright E2E passed.
+
+Remaining future enhancements:
+
+- Add more AWS labs for Lambda/API Gateway, Step Functions, CI/CD canary, Route 53 failover, and CloudFront signed URLs.
+- Convert selected DSA snippets into first-class runnable practice tasks with per-problem test harnesses.
+- Add role-path filters for hands-on labs and enriched-only content.
+
+## Phase 63 Lab Discovery and Runnable Practice
+
+Status: complete.
+
+Completed:
+
+- Added AWS hands-on labs for Lambda/API Gateway, Step Functions, Route 53 failover, CloudFront signed URLs, and CI/CD canary deployment.
+- Added `ci-cd-blue-green-canary` as a first-class AWS HLD syllabus topic.
+- Added runnable DSA practice tasks derived from enriched source-backed problems.
+- Added per-problem visible test harnesses to runnable DSA practice pages.
+- Updated the practice runner seed code to include the harness for runnable tasks.
+- Added syllabus content filters for enriched-only topics and hands-on lab topics.
+- Added Phase 63 quality contract and Playwright UI coverage.
+
+Validation:
+
+- Focused Phase 63 quality contract passed.
+- Full quality suite passed.
+- Typecheck, lint, and production build passed.
+- Mock and Prisma route smoke checks passed.
+- Playwright E2E passed across desktop and mobile.
+
+Remaining future enhancements:
+
+- Expand runnable harnesses to more DSA patterns and add hidden-case grading later.
+- Add copy/run affordances for lab snippets and deployment runbooks.
+- Add API-backed persistence for learner lab completion once auth and profile storage are finalized.
+
+## Phase 64 Backend-Separation UX and Product Readiness Closure
+
+Status: complete.
+
+Completed:
+
+- Added `docs/PHASE_64_BACKEND_SEPARATION_UX_AND_PRODUCT_READINESS_CLOSURE.md`.
+- Added visible API-client-backed surfaces for learner profile, progress summary, readiness, and product quality.
+- Added Phase 64 quality contract covering API route isolation, API client adoption, filters, runnable DSA practice, lab UX, and founder outcome metrics.
+- Added local hands-on lab completion and IaC copy controls.
+- Expanded runnable DSA practice from 5 to 10 source-backed enriched problems where the enriched content exists.
+- Added stronger syllabus filters for runnable practice, design capstones, hands-on labs, enriched content, and estimated time.
+- Added founder outcome metrics on `/dashboard` for runnable DSA patterns, HLD/LLD capstones, AWS labs, and interview-round coverage.
+- Added Playwright coverage for Phase 64 dashboard, syllabus filters, and lab controls.
+
+Validation:
+
+- Phase 64 quality contract passed.
+- Full quality suite passed.
+- Typecheck, lint, and production build passed.
+- Mock and Prisma route smoke checks passed.
+- Playwright E2E passed across desktop and mobile.
+
+Remaining external blockers:
+
+- Real auth provider decision and credentials.
+- Managed PostgreSQL target and migration execution.
+- External monitoring/uptime provider configuration.
+- Founder manual testing week.
+- Public code execution decision for beta.
+
+## Manual Testing P0 Fixes - Runner, Palette, Header, Stable Preview
+
+Status: complete.
+
+Completed:
+
+- Local JavaScript runner now supports common TypeScript-flavored snippets used by the curriculum and runnable DSA harnesses.
+- Runner now supports `console.assert` output and preserves safety restrictions.
+- Theme migrated from green-heavy palette to a calmer slate/indigo dashboard palette inspired by free shadcn/TailAdmin dashboard patterns.
+- Header and badge text contrast fixed for dark mode.
+- Production preview is preferred for founder manual testing to avoid dev-server WebSocket/HMR console noise.
+
+Validation:
+
+- Runner unit tests passed.
+- Typecheck, lint, build, quality suite, and Playwright E2E passed.
+- Production preview on port `3100` returned 200 for `/dashboard`.
+
+## Phase 65 Glassmorphism Product UX Redesign
+
+Status: complete and validated.
+
+Completed:
+
+- Added `docs/PHASE_65_GLASSMORPHISM_PRODUCT_UX_REDESIGN.md`.
+- Added global glassmorphism design tokens, gradient surfaces, polished inputs/buttons, and reusable card/panel utilities.
+- Consolidated app navigation into grouped Mission, Learn, Practice, Resources, and Account sections.
+- Added account/profile entry points and local-only placeholder auth pages.
+- Added guided course/roadmap data and `/courses`.
+- Added `/profile` with target role, active goal, readiness, commitment, weak areas, and recent activity.
+- Upgraded onboarding into a cleaner goal-builder experience.
+- Redesigned `/syllabus` for focused default browsing with collapsible advanced filters and card-first results.
+- Rebuilt `/graph` as a roadmap-style clickable learning map.
+- Added next/related/practice/interview continuation panels on syllabus topic pages.
+- Added mission-control readiness charts to the dashboard.
+- Improved runnable practice runner states and seeded runnable tasks with complete solution code plus harness for demonstrable local execution.
+- Added Phase 65 quality and Playwright tests.
+
+Validation:
+
+- Focused Phase 65 quality contract passed.
+- Local runner unit tests passed.
+- Lint passed.
+- Typecheck passed.
+- Full quality/practice suite passed.
+- Production build passed.
+- Mock and Prisma smoke checks passed across 25 routes.
+- Playwright E2E passed across 62 desktop/mobile browser checks.
+
+Known follow-up:
+
+- Recharts emits a non-blocking zero-width measurement warning during some Playwright dashboard loads. The browser tests pass, but the chart component can be revisited later if log cleanliness becomes a release gate.

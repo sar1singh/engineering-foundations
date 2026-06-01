@@ -74,6 +74,122 @@ RTO: 2h
       cleanup: ["Delete restored test database.", "Delete temporary snapshots if policy allows.", "Keep the runbook artifact."],
       safetyNotes: ["Never test destructive restore against production.", "Protect snapshots with encryption.", "Verify retention and deletion policy."]
     }
+  ],
+  "api-gateway": [
+    {
+      id: "lab-aws-lambda-api-gateway",
+      title: "Lambda/API Gateway hello service",
+      goal: "Practice the smallest serverless API shape with logging, auth placeholder, and throttling notes.",
+      sourceRefs: ["aws-docs", "aws-architecture-center"],
+      scenario: "A lightweight learner-profile endpoint needs a low-ops API before containerization is justified.",
+      steps: ["Define a Lambda handler.", "Expose it through API Gateway HTTP API.", "Add structured logs.", "Document auth and throttling controls.", "Add a CloudWatch alarm for 5xx errors."],
+      iacSnippet: `# Terraform sketch
+resource "aws_lambda_function" "profile_api" {
+  function_name = "engineeringos-profile-api"
+  handler       = "index.handler"
+  runtime       = "nodejs20.x"
+  role          = aws_iam_role.lambda_exec.arn
+}
+
+resource "aws_apigatewayv2_api" "http" {
+  name          = "engineeringos-http-api"
+  protocol_type = "HTTP"
+}`,
+      validation: ["HTTP route returns 200 for health input.", "Lambda logs include request id.", "5xx alarm is configured.", "Auth/throttle decision is documented."],
+      cleanup: ["Delete HTTP API.", "Delete Lambda function and log group.", "Remove temporary IAM role."],
+      safetyNotes: ["Never put secrets in Lambda environment variables without encryption controls.", "Use sandbox account.", "Set reserved concurrency for experiments."]
+    }
+  ],
+  "step-functions": [
+    {
+      id: "lab-aws-step-functions-checkout-saga",
+      title: "Step Functions checkout saga",
+      goal: "Model retries, compensation, and state visibility for a multi-step workflow.",
+      sourceRefs: ["aws-docs", "aws-well-architected-framework"],
+      scenario: "A checkout flow must reserve inventory, charge payment, create an order, and release inventory if payment fails.",
+      steps: ["Define ReserveInventory, ChargePayment, CreateOrder, and ReleaseInventory states.", "Add retry/catch around provider-like tasks.", "Record execution input/output.", "Add CloudWatch execution metrics.", "Write a compensation runbook."],
+      iacSnippet: `{
+  "StartAt": "ReserveInventory",
+  "States": {
+    "ReserveInventory": { "Type": "Task", "Next": "ChargePayment", "Retry": [{ "ErrorEquals": ["States.ALL"], "MaxAttempts": 2 }] },
+    "ChargePayment": { "Type": "Task", "Next": "CreateOrder", "Catch": [{ "ErrorEquals": ["States.ALL"], "Next": "ReleaseInventory" }] },
+    "CreateOrder": { "Type": "Task", "End": true },
+    "ReleaseInventory": { "Type": "Task", "End": true }
+  }
+}`,
+      validation: ["Happy path reaches CreateOrder.", "Payment failure reaches ReleaseInventory.", "Execution history shows retries.", "Runbook names owner and rollback signal."],
+      cleanup: ["Delete state machine.", "Delete test Lambda/task resources.", "Archive the runbook artifact."],
+      safetyNotes: ["Use fake payment/inventory adapters.", "Never point a lab state machine at production queues.", "Limit execution history retention as needed."]
+    }
+  ],
+  "route-53": [
+    {
+      id: "lab-aws-route53-failover",
+      title: "Route 53 failover drill",
+      goal: "Practice DNS health-check failover without touching production domains.",
+      sourceRefs: ["aws-docs", "aws-well-architected-framework", "aws-architecture-center"],
+      scenario: "A SaaS app needs DNS failover from a primary endpoint to a static maintenance or secondary endpoint.",
+      steps: ["Create a sandbox hosted zone or subdomain.", "Define primary and secondary alias records.", "Attach health check to primary.", "Lower TTL for the drill.", "Simulate primary health failure and observe routing change."],
+      iacSnippet: `# Terraform sketch
+resource "aws_route53_record" "primary" {
+  zone_id        = aws_route53_zone.sandbox.zone_id
+  name           = "app.example.test"
+  type           = "A"
+  set_identifier = "primary"
+  failover_routing_policy { type = "PRIMARY" }
+}`,
+      validation: ["Primary record serves while healthy.", "Secondary record serves after failed health check.", "TTL behavior is documented.", "Rollback restores primary routing."],
+      cleanup: ["Delete sandbox records.", "Delete health checks.", "Restore normal TTL values."],
+      safetyNotes: ["Do not run failover drills on production domains without approval.", "Health checks can create small recurring costs.", "Use a disposable subdomain."]
+    }
+  ],
+  cloudfront: [
+    {
+      id: "lab-aws-cloudfront-signed-urls",
+      title: "CloudFront signed URL sketch",
+      goal: "Practice private content delivery with edge caching and controlled access.",
+      sourceRefs: ["aws-docs", "aws-architecture-center"],
+      scenario: "A portfolio or course asset should be downloadable only for authorized learners while still benefiting from CDN delivery.",
+      steps: ["Create an S3 origin.", "Configure CloudFront with Origin Access Control.", "Define cache behavior.", "Sketch signed URL generation.", "Add access-log and cache-hit validation."],
+      iacSnippet: `# Policy sketch
+resource "aws_cloudfront_distribution" "private_assets" {
+  enabled = true
+  origin {
+    domain_name              = aws_s3_bucket.assets.bucket_regional_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.assets.id
+    origin_id                = "private-assets"
+  }
+}`,
+      validation: ["Direct S3 public access is blocked.", "CloudFront can fetch through OAC.", "Unsigned private asset URL is denied.", "Signed URL access path is documented."],
+      cleanup: ["Delete distribution after disabling.", "Delete temporary S3 objects.", "Remove signing keys from sandbox."],
+      safetyNotes: ["Use sandbox assets instead of real private learner data.", "Protect signing keys.", "CloudFront deletion can take time."]
+    }
+  ],
+  "ci-cd-blue-green-canary": [
+    {
+      id: "lab-aws-cicd-canary-deployment",
+      title: "CI/CD canary deployment guardrails",
+      goal: "Practice a production deployment flow that shifts traffic gradually and rolls back on health signals.",
+      sourceRefs: ["aws-docs", "aws-well-architected-framework", "aws-architecture-center"],
+      scenario: "EngineeringOS needs a beta deployment path where a new container or Lambda version can receive 10% traffic before full rollout.",
+      steps: ["Define build, test, deploy, and verify stages.", "Create two deployment targets or versions.", "Shift a small percentage of traffic to the candidate.", "Watch latency, error, and business-health alarms.", "Rollback automatically or manually when alarms fire.", "Record the deployment decision log."],
+      iacSnippet: `# Pipeline/runbook sketch
+stages:
+  - build_and_unit_test
+  - publish_artifact
+  - deploy_candidate
+  - shift_traffic_10_percent
+  - monitor_cloudwatch_alarms
+  - promote_or_rollback
+
+rollback_signal:
+  p95_latency_ms: "> 800"
+  error_rate_percent: "> 2"
+  canary_duration_minutes: 15`,
+      validation: ["Candidate version receives limited traffic first.", "CloudWatch alarms can stop promotion.", "Rollback path is documented and tested.", "Deployment record includes owner, version, and health decision."],
+      cleanup: ["Delete temporary candidate resources.", "Remove test alarms if created.", "Archive the canary runbook."],
+      safetyNotes: ["Use sandbox services before real beta traffic.", "Keep rollback fast and boring.", "Never promote when health signals are unknown."]
+    }
   ]
 };
 
@@ -147,6 +263,16 @@ const awsContent = [
     requirements: ["Run containerized services", "Autoscale workloads", "Deploy safely", "Secure service identity", "Observe runtime", "Manage cost"],
     designBreakdown: ["Cluster choice", "Task/pod model", "Service discovery", "Load balancing", "Autoscaling", "Deployment strategy", "Runtime observability"],
     awsVariant: ["ECS Fargate for simpler managed operations", "EKS for Kubernetes ecosystem needs", "ALB ingress", "CloudWatch Container Insights", "IAM roles for tasks/service accounts", "Blue-green/canary deploys"]
+  }),
+  designTopic({
+    topicSlug: "ci-cd-blue-green-canary",
+    title: "CI/CD Blue-Green and Canary",
+    domain: "AWS",
+    prompt: "Design a safe AWS deployment pipeline with automated tests, artifact promotion, canary or blue-green traffic shifting, alarms, and rollback.",
+    sourceRefs: awsRefs,
+    requirements: ["Build repeatably", "Run automated checks", "Deploy without downtime", "Shift traffic gradually", "Rollback on health regression", "Audit deployment decisions"],
+    designBreakdown: ["Source trigger", "Build artifact", "Test gate", "Candidate environment/version", "Traffic shifting", "CloudWatch alarms", "Rollback playbook", "Deployment audit trail"],
+    awsVariant: ["CodePipeline/CodeBuild or GitHub Actions OIDC", "ECS blue-green via CodeDeploy or weighted ALB routing", "Lambda alias weighted traffic", "CloudWatch alarms", "Route 53 weighted routing for coarse canaries", "IAM scoped deployment role"]
   }),
   designTopic({
     topicSlug: "multi-az",
