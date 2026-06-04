@@ -1,20 +1,27 @@
 # EngineeringOS MVP Scope
 
+> Superseded by revised MVP strategy: use `docs/BETA_MVP_STRATEGY.md` as the current MVP source of truth. This file preserves useful historical local-first architecture and content-scope context.
+
 ## MVP Summary
 
-The EngineeringOS MVP is a local-first learning, interview, and job-switch operating system for engineers. The MVP must prove the core product experience with structured roadmap data, topic retrieval, practice workflows, progress tracking, and service-driven architecture.
+The EngineeringOS MVP is a local-first Career Transformation Operating System for Engineers. The MVP must prove one complete guided beta path from current Senior/Lead backend engineer state toward Solution Architect, Staff-level, Engineering Manager, FAANG-level readiness, and a 70-80+ LPA product/GCC outcome.
 
-The MVP starts with mock TypeScript data files. SQLite and Prisma come later, after the mock content system, repository interfaces, mock repositories, and services are stable.
+The MVP starts from content, guided journey, syllabus quality, roadmap quality, capability modeling, daily missions, and readiness scoring. Mock TypeScript data, SQLite, Prisma, and service-driven architecture are implementation tools, not the product center.
 
 ## In Scope
 
 ### Product Experience
 
-- Dashboard
+- Today's Mission first experience
+- Capability graph
+- Role roadmap projection
 - Learning graph
 - Topic Studio
 - Practice Lab
 - Local progress tracking
+- Topic readiness scoring
+- Interview readiness tracking
+- Offer readiness tracking
 - Local code execution
 - Mock AI evaluation
 - Search across roadmap content
@@ -53,16 +60,15 @@ EngineeringOS must store and retrieve:
 ### Required Roadmap Hierarchy
 
 ```txt
-Roadmap
-  Domain
-    Category
-      Module
-        Topic
-          Subtopic
-            Practice Task
-              Subtask
-              Problem Statement
+Target Role
+  Capability
+    Skill
+      Topic
+        Task
+          Proof of Competency
 ```
+
+Roadmaps are projections from the Master Syllabus, not independent content forks.
 
 ### Required Initial Domains
 

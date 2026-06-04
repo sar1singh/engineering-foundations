@@ -1,5 +1,66 @@
 # EngineeringOS Implementation Status
 
+> Strategy reset on 2026-06-04: EngineeringOS is now positioned as a Career Transformation Operating System for Engineers. Existing implementation remains valuable, but future work should follow `docs/PRODUCT_STRATEGY.md`, `docs/BETA_MVP_STRATEGY.md`, and `docs/NEXT_MVP_BUILD_SEQUENCE.md`. Older course/dashboard-first assumptions are superseded where they conflict with the revised MVP strategy.
+
+## Revised Product Direction
+
+- Capability Graph is the core engine, not courses.
+- Master Syllabus is the canonical source of truth.
+- Role roadmaps are projections from the Master Syllabus.
+- Today's Mission should be the daily start point.
+- Topic readiness requires Knowledge, Practice, Interview, and Implementation scores.
+- Learning progress, interview readiness, and offer readiness must remain separate.
+- MVP priority is one complete founder beta path before broader syllabus or UI expansion.
+
+## Founder Beta Vertical Slice Start
+
+Status: started on 2026-06-05.
+
+Added the first narrow founder beta implementation slice with TypeScript contracts and deterministic static seed data only. No UI, Prisma, scraping, AI evaluation, auth, payment, or deployment changes were made.
+
+Initial seed scope:
+
+- Founder beta path contract.
+- Capability, skill, topic, source, roadmap, mission, proof, readiness, and offer-readiness contracts.
+- Static Solution Architect 16-week founder beta roadmap projection.
+- Static source references from the approved seed catalog.
+- Static topic readiness weights, proof scoring labels, and hard gates.
+
+Service update:
+
+- Added a deterministic founder beta service layer over the static seed data.
+- Service exposes founder beta path, capabilities, skills, topics, sources, roadmap projection, daily missions, readiness rules, hard gates, and offer-readiness signals.
+- Added focused unit coverage for the founder beta service.
+
+Readiness calculation update:
+
+- Added a thin deterministic founder beta readiness calculation service.
+- Service calculates topic, capability, role, hard-gate, and offer readiness from typed inputs.
+- Service uses the locked topic weights, proof score labels, readiness bands, and founder beta hard gates.
+- Added focused unit coverage for readiness calculations and partial-input handling.
+
+Mission selection update:
+
+- Added a deterministic founder beta mission selection service.
+- Service selects Today's Primary Mission and 0-2 optional missions from static roadmap/mission data, readiness inputs, hard gates, weak areas, previous mission state, and available time.
+- Service keeps selection stable and repeatable, with no UI, persistence, network, Prisma, scraping, or AI integration.
+- Added focused unit coverage for primary selection, optional selection, time filtering, hard blockers, weak-area ordering, and deterministic stability.
+
+Orchestration update:
+
+- Added a deterministic founder beta orchestration service.
+- Service combines founder beta path/query data, roadmap summary, readiness snapshot, hard-gate status, mission selection, weak areas, offer-readiness signals, and next recommended actions into a single Today Plan.
+- Service reuses the existing query, readiness, and mission-selection services without adding UI, routes, Prisma, persistence, network, scraping, AI, or dependencies.
+- Added focused unit coverage for Today Plan shape, mission inclusion, readiness snapshot, hard-gate status, safe defaults, and deterministic output.
+
+Progress adapter update:
+
+- Added a thin founder beta progress/state input adapter.
+- Adapter normalizes manual completed/skipped missions, completed topics, weak areas, proof scores, readiness scores, available time, day mode, current mission, and preferred mission types.
+- Adapter clamps proof scores to `0-5`, clamps readiness scores to `0-100`, deduplicates ID arrays, filters unknown static-data IDs safely, and emits validation warnings for ignored unknown IDs.
+- Adapter output is directly usable by the founder beta orchestration service without UI, routes, Prisma, persistence, network, scraping, AI, or dependency changes.
+- Added focused unit coverage for defaults, clamping, deduplication, weak-area derivation, Today Plan input generation, and unknown-ID handling.
+
 ## Completed Phases
 
 - Phase 1: Project initialization with Next.js, TypeScript, App Router, TailwindCSS, ESLint, and `src`.

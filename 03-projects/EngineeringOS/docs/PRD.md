@@ -1,25 +1,40 @@
 # EngineeringOS PRD
 
+> Superseded by revised MVP strategy: EngineeringOS is now positioned as a Career Transformation Operating System for Engineers. Use `docs/PRODUCT_STRATEGY.md`, `docs/BETA_MVP_STRATEGY.md`, `docs/CAPABILITY_GRAPH_MODEL.md`, `docs/MASTER_SYLLABUS_MODEL.md`, `docs/ROADMAP_PROJECTION_MODEL.md`, `docs/DAILY_MISSION_JOURNEY.md`, and `docs/READINESS_SCORING_MODEL.md` as the current strategic source of truth. This PRD remains useful for historical architecture and existing feature context.
+
 ## Product Summary
 
-EngineeringOS is an AI-powered learning, interview, and job-switch operating system for engineers. It is built as a local-first product inside `03-projects/EngineeringOS/`.
+EngineeringOS is a Career Transformation Operating System for Engineers. It is built as a local-first product inside `03-projects/EngineeringOS/`.
 
-EngineeringOS serves four goals:
+EngineeringOS no longer optimizes first for a generic course app, roadmap app, notes app, dashboard app, or LeetCode clone. Its core product model is:
 
-1. Personal learning system
-2. Public SaaS MVP
-3. Portfolio/showcase project
-4. Content marketing and teaching platform
+```txt
+Current State
+  -> Target Role
+  -> Capability Graph
+  -> Roadmap Projection
+  -> Daily Missions
+  -> Topic Readiness
+  -> Interview Readiness
+  -> Offer Readiness
+```
 
-The MVP must help an engineer follow a structured roadmap, study topics deeply, practice coding and explain-back tasks, track progress, and build interview readiness.
+The first customer is the founder/user. The primary success criterion is whether EngineeringOS helps the founder move from current Senior/Lead backend engineer level toward Solution Architect, Engineering Manager, Staff-level, FAANG-level readiness, and a 70-80+ LPA product/GCC outcome.
+
+The MVP must help an engineer follow a target-role capability path, execute daily missions, prove competency, track readiness separately from learning progress, and improve interview and offer readiness.
 
 ## Product Goals
 
-- Provide a dashboard for daily learning direction, progress, weak areas, revision, and readiness.
-- Store the master learning roadmap as structured data, not as UI-only cards.
+- Start the daily UX from Today's Mission, not a generic dashboard.
+- Treat the Capability Graph as the core engine.
+- Treat the Master Syllabus as the canonical source of truth.
+- Project role-based roadmaps from the Master Syllabus.
+- Store the master learning syllabus and capability graph as structured data, not as UI-only cards.
 - Support a topic graph that shows roadmap hierarchy, topic relationships, and progress state.
 - Provide a Topic Studio that retrieves complete structured topic content.
 - Provide a Practice Lab that retrieves practice tasks, problem statements, starter code, hints, edge cases, and rubrics.
+- Track topic readiness using Knowledge Score, Practice Score, Interview Score, and Implementation Score.
+- Keep learning progress, interview readiness, and offer readiness separate.
 - Use repository interfaces and services so the UI does not directly depend on raw mock data.
 - Start with local mock content and later move to SQLite/Prisma after the local prototype is stable.
 - Keep the data model ready for a future Supabase/PostgreSQL migration.

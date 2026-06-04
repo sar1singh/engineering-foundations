@@ -1,22 +1,38 @@
 # EngineeringOS Build Plan
 
+> Superseded by revised MVP strategy: use `docs/NEXT_MVP_BUILD_SEQUENCE.md` as the current build sequence. This file remains useful for historical local-first architecture sequencing.
+
 ## Build Strategy
 
-EngineeringOS must be built local-first:
+EngineeringOS must be built around the career transformation loop first, then implemented local-first:
 
 ```txt
-Mock TypeScript data
+Current State
+  -> Target Role
+  -> Capability Graph
+  -> Master Syllabus
+  -> Roadmap Projection
+  -> Daily Missions
+  -> Topic Readiness
+  -> Interview Readiness
+  -> Offer Readiness
+```
+
+Local-first implementation path:
+
+```txt
+Master Syllabus + Capability Graph data
   -> Repository interfaces
   -> Mock repository implementations
   -> Aggregation services
-  -> UI connected to services
+  -> Today's Mission and readiness services
   -> Local progress
   -> SQLite + Prisma
   -> Prisma repositories
   -> Supabase/PostgreSQL later
 ```
 
-Do not jump directly to Supabase, OpenAI, cloud auth, billing, or deployment.
+Do not jump directly to Supabase, OpenAI, cloud auth, billing, deployment, new role expansion, or UI redesigns before the core mission/readiness loop works.
 
 ## Phase 0 - Documentation And Verification
 

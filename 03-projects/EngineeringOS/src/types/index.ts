@@ -15,3 +15,28 @@ export type {
   Topic,
   TopicRelation
 } from "@/types/topic";
+export type {
+  Capability,
+  CapabilityCategory,
+  DailyMission,
+  FounderBetaPath,
+  FounderBetaRole,
+  MasterTopic,
+  MissionTask,
+  MissionType,
+  OfferReadinessSignal,
+  ProofOfCompetency,
+  ProofScore,
+  ProofType,
+  ReadinessDimension,
+  ReadinessGateStatus,
+  ReadinessRule,
+  ReadinessScore,
+  RoadmapProjection,
+  Skill,
+  SourceReference,
+  SourceReliability,
+  SourceTier,
+  SourceType,
+  TopicSourceMapping
+} from "@/types/founder-beta";
