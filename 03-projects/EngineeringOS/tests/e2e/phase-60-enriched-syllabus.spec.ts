@@ -8,7 +8,7 @@ test.describe("Phase 60 enriched syllabus UI", () => {
     await expect(page.getByRole("heading", { name: "Enriched coding drills" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Shortest path in a binary grid" })).toBeVisible();
     await expect(page.getByText("export function shortestPathGrid")).toBeVisible();
-    await expect(page.getByText("EngineeringOS uses these as referral and coverage sources")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Source referral panel" }).first()).toBeVisible();
   });
 
   test("Payment HLD exposes design capstone review dimensions", async ({ page }) => {

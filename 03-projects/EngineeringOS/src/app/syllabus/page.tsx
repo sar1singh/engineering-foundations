@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Compass, Filter, GraduationCap, ListTree, Search } from "lucide-react";
+import { guidedCourses } from "@/data/guided-courses";
 import { practiceTasks } from "@/data/practice-tasks";
 import { linearLearningRoadmap } from "@/data/syllabus/linear-learning-roadmap";
 import { roleLearningRoadmaps } from "@/data/syllabus/role-learning-roadmaps";
@@ -109,6 +111,10 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
   const baseQuery = queryParams.toString();
   const enrichedTopicCount = visibleTopics.filter(({ topic }) => topic.enrichedContent).length;
   const handsOnLabTopicCount = visibleTopics.filter(({ topic }) => (topic.enrichedContent?.handsOnLabs?.length ?? 0) > 0).length;
+  const featuredTopics = visibleTopics
+    .filter(({ topic }) => topic.enrichedContent || topic.practiceProblems.length >= 8)
+    .slice(0, content === "all" && !normalizedQuery ? 9 : 0);
+  const courseTabs = guidedCourses.slice(0, 8);
 
   return (
     <section className="space-y-6">
@@ -133,9 +139,12 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
       <section className="eo-card p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold">Quick search</h2>
+            <div className="flex items-center gap-2">
+              <Search className="h-5 w-5 text-teal-700" aria-hidden="true" />
+              <h2 className="text-xl font-semibold">Guided catalog</h2>
+            </div>
             <span className="sr-only">Role roadmap filters</span>
-            <p className="mt-1 text-sm text-[var(--muted)]">Most learners only need role, focus, content type, and search.</p>
+            <p className="mt-1 text-sm text-[var(--muted)]">Pick a role path first. Use search only when you already know the topic.</p>
           </div>
           <Link className="eo-chip" href="/quality">
             QA health {qualityStatus.coveragePercent}%
@@ -168,7 +177,10 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           </Link>
         </form>
         <details className="mt-4 rounded-2xl border border-[var(--border)] bg-slate-50 p-4">
-          <summary className="cursor-pointer text-sm font-bold text-[var(--foreground)]">Advanced filters</summary>
+          <summary className="flex cursor-pointer items-center gap-2 text-sm font-bold text-[var(--foreground)]">
+            <Filter className="h-4 w-4 text-teal-700" aria-hidden="true" />
+            Advanced filters
+          </summary>
         <form className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
           <input name="role" type="hidden" value={role} />
           <input name="priority" type="hidden" value={priority} />
@@ -258,9 +270,9 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           </button>
         </form>
         </details>
-        <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.8fr]">
+        <div className="mt-5 grid gap-3 lg:grid-cols-[1fr_0.8fr]">
           <div className="eo-panel p-4">
-            <p className="text-sm font-medium">Target role</p>
+            <p className="flex items-center gap-2 text-sm font-medium"><GraduationCap className="h-4 w-4 text-teal-700" aria-hidden="true" />Target role</p>
             <div className="mt-2 flex flex-wrap gap-2">
               <FilterLink active={role === "all"} href="/syllabus" label="All syllabus" />
               {roleLearningRoadmaps.map((item) => (
@@ -269,7 +281,7 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
             </div>
           </div>
           <div className="eo-panel p-4">
-            <p className="text-sm font-medium">Focus</p>
+            <p className="flex items-center gap-2 text-sm font-medium"><Compass className="h-4 w-4 text-teal-700" aria-hidden="true" />Focus</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {[
                 ["all", "Full path"],
@@ -288,7 +300,8 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           </div>
         </div>
         {selectedRole ? (
-          <div className="mt-5 rounded-2xl bg-slate-50 p-4">
+          <details className="mt-5 rounded-2xl bg-slate-50 p-4">
+            <summary className="cursor-pointer font-semibold">{selectedRole.title} stage overview</summary>
             <h3 className="font-semibold">{selectedRole.title}</h3>
             <p className="mt-1 text-sm text-[var(--muted)]">{selectedRole.outcome}</p>
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
@@ -306,19 +319,122 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
                 </div>
               ))}
             </div>
-          </div>
+          </details>
         ) : null}
       </section>
-      <section className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
-        <Metric label="Visible topics" value={visibleTopics.length} />
-        <Metric label="Domains" value={fullyFilteredDomains.length} />
-        <Metric label="Enriched" value={enrichedTopicCount} />
-        <Metric label="Lab topics" value={handsOnLabTopicCount} />
-        <Metric label="QA coverage" value={`${qualityStatus.coveragePercent}%`} />
-        <Metric label="Focus" value={priority === "all" ? "Full path" : priority.replaceAll("-", " ")} />
+      {content === "all" && !normalizedQuery ? (
+      <details className="eo-card p-5">
+        <summary className="cursor-pointer text-xl font-semibold">Role and bootcamp catalogs</summary>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">Choose a path first</p>
+            <h2 className="mt-1 text-2xl font-semibold">Role and bootcamp catalogs</h2>
+          </div>
+          <Link className="eo-secondary-action px-4 py-2 text-sm" href="/courses">Open full course page</Link>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {courseTabs.map((course) => (
+            <Link key={course.slug} className="eo-gradient-border group block p-4 transition hover:-translate-y-1" href={`/syllabus?role=${roleSlugForCourse(course.slug)}&priority=core-80-20`}>
+              <div className={`mb-4 h-1.5 rounded-full bg-gradient-to-r ${course.gradient}`} />
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-teal-700">{course.level}</p>
+              <h3 className="mt-2 text-lg font-semibold">{course.title}</h3>
+              <p className="mt-2 line-clamp-3 text-sm text-[var(--muted)]">{course.promise}</p>
+              <div className="mt-3 flex flex-wrap gap-1">
+                {course.skills.slice(0, 3).map((skill) => (
+                  <span key={skill} className="eo-chip">{skill}</span>
+                ))}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </details>
+      ) : null}
+      <section className="eo-card p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">Master roadmap quick look</p>
+            <h2 className="mt-1 text-2xl font-semibold">All domains, topics, and practice prompts</h2>
+            <p className="mt-1 max-w-3xl text-sm text-[var(--muted)]">
+              This mirrors the imported master-roadmap syllabus so you can scan the full learning surface without opening every lesson.
+            </p>
+          </div>
+          <Link className="eo-secondary-action px-4 py-2 text-sm" href="/roadmap-source?path=00-control%2Fmaster-roadmap%2FMASTER_INDEX.md">
+            Open master index
+          </Link>
+        </div>
+        <div className="mt-5 grid gap-4">
+          {fullyFilteredDomains.map((domain) => (
+            <details key={domain.id} className="rounded-xl border border-[var(--border)] bg-[var(--surface-soft)] p-4" open={domain.slug === "javascript" || domain.slug === "dsa"}>
+              <summary className="cursor-pointer text-lg font-semibold">
+                {domain.title} <span className="text-sm font-normal text-[var(--muted)]">/ {domain.modules.reduce((count, module) => count + module.topics.length, 0)} topics</span>
+              </summary>
+              <p className="mt-2 text-sm text-[var(--muted)]">{domain.goal}</p>
+              <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                {domain.modules.map((module) => (
+                  <article key={module.id} className="eo-panel p-4">
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div>
+                        <h3 className="font-semibold">{module.title}</h3>
+                        <p className="mt-1 text-xs text-[var(--muted)]">{module.sourcePath}</p>
+                      </div>
+                      <Link className="eo-chip" href={`/roadmap-source?path=${encodeURIComponent(module.sourcePath)}`}>
+                        md
+                      </Link>
+                    </div>
+                    <div className="mt-3 space-y-3">
+                      {module.topics.map((topic) => (
+                        <div key={topic.id} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3">
+                          <Link className="font-medium text-teal-700" href={`/syllabus/${topic.slug}`}>
+                            {topic.order}. {topic.title}
+                          </Link>
+                          <p className="mt-1 line-clamp-2 text-xs text-[var(--muted)]">{topic.definition}</p>
+                          <div className="mt-2 flex flex-wrap gap-1">
+                            {topic.practiceProblems.slice(0, 5).map((problem) => (
+                              <span key={problem.id} className="rounded border border-[var(--border)] px-2 py-1 text-xs text-[var(--muted)]">
+                                {problem.title}
+                              </span>
+                            ))}
+                            {topic.practiceProblems.length > 5 ? (
+                              <span className="rounded border border-[var(--border)] px-2 py-1 text-xs text-[var(--muted)]">
+                                +{topic.practiceProblems.length - 5} more
+                              </span>
+                            ) : null}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+      <section className="eo-card p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">Recommended next</p>
+            <h2 className="mt-1 text-2xl font-semibold">Start with these lessons</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">A compact set from the current role/search/filter context. The full catalog is below.</p>
+          </div>
+          <Link className="eo-secondary-action px-4 py-2 text-sm" href="/graph">View roadmap graph</Link>
+        </div>
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {featuredTopics.map(({ domain, module, topic }) => (
+            <Link key={topic.id} className="eo-gradient-border block p-4 transition hover:-translate-y-1" href={`/syllabus/${topic.slug}`}>
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-teal-700">{domain.title}</p>
+                <span className="rounded-full border border-[var(--glass-border)] px-2 py-1 text-xs text-[var(--muted)]">{topic.enrichedContent ? "deep" : "core"}</span>
+              </div>
+              <h3 className="mt-2 text-lg font-semibold">{topic.title}</h3>
+              <p className="mt-2 line-clamp-3 text-sm text-[var(--muted)]">{topic.definition}</p>
+              <p className="mt-3 text-xs text-[var(--muted)]">{module.title} / {topic.practiceProblems.length} drills / {topic.interviewQuestions.length} questions</p>
+            </Link>
+          ))}
+        </div>
       </section>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-xl font-semibold">Topics</h2>
+        <h2 className="flex items-center gap-2 text-xl font-semibold"><ListTree className="h-5 w-5 text-teal-700" aria-hidden="true" />Full topic catalog</h2>
         <div className="flex gap-2">
           <FilterLink active={view !== "table"} href={`/syllabus${baseQuery ? `?${baseQuery}&view=cards` : "?view=cards"}`} label="Cards" />
           <FilterLink active={view === "table"} href={`/syllabus${baseQuery ? `?${baseQuery}&view=table` : "?view=table"}`} label="Table" />
@@ -357,7 +473,16 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
           </table>
         </section>
       ) : null}
-      <section className="eo-card p-5">
+      <details className="eo-card p-5">
+        <summary className="cursor-pointer text-xl font-semibold">Syllabus metrics and linear path</summary>
+        <section className="mt-5 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+          <Metric label="Visible topics" value={visibleTopics.length} />
+          <Metric label="Domains" value={fullyFilteredDomains.length} />
+          <Metric label="Enriched" value={enrichedTopicCount} />
+          <Metric label="Lab topics" value={handsOnLabTopicCount} />
+          <Metric label="QA coverage" value={`${qualityStatus.coveragePercent}%`} />
+          <Metric label="Focus" value={priority === "all" ? "Full path" : priority.replaceAll("-", " ")} />
+        </section>
         <h2 className="text-xl font-semibold">Linear learning path</h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {linearLearningRoadmap.map((stage, index) => (
@@ -375,8 +500,10 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
             </div>
           ))}
         </div>
-      </section>
-      <div className="space-y-8">
+      </details>
+      <details className="eo-card p-5" open={Boolean(normalizedQuery || domain !== "all" || content !== "all")}>
+        <summary className="cursor-pointer text-lg font-semibold">Browse all matching topics ({visibleTopics.length})</summary>
+        <div className="mt-5 space-y-8">
         {view === "table" ? null : fullyFilteredDomains.map((domain) => (
           <section key={domain.id} className="space-y-4">
             <div>
@@ -406,7 +533,8 @@ export default async function SyllabusPage({ searchParams }: SyllabusPageProps) 
             ))}
           </section>
         ))}
-      </div>
+        </div>
+      </details>
     </section>
   );
 }
@@ -450,4 +578,15 @@ function FilterLink({ active, href, label }: { active: boolean; href: string; la
       {label}
     </Link>
   );
+}
+
+function roleSlugForCourse(courseSlug: string): string {
+  const map: Record<string, string> = {
+    "senior-backend-engineer": "backend-senior-engineer",
+    "aws-solution-architect": "solution-architect",
+    "staff-principal-engineer": "staff-principal-engineer",
+    "engineering-manager": "engineering-manager"
+  };
+
+  return map[courseSlug] ?? "all";
 }

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EngineeringOS - Practice</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Geist+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#e1b514",
+          "background-light": "#f8f8f6",
+          "background-dark": "#0a0a0a",
+          "surface": "#141414",
+          "text-main": "#eaeaea",
+          "muted": "#737373",
+          "border-color": "#262626"
+        },
+        fontFamily: {
+          "display": ["Geist", "sans-serif"],
+          "mono": ["Geist Mono", "monospace"]
+        },
+        borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+      },
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: theme('colors.background-dark');
+    color: theme('colors.text-main');
+    font-family: theme('fontFamily.display');
+  }
+  
+  .font-mono {
+    font-family: theme('fontFamily.mono');
+  }
+
+  /* Custom Checkbox Animation */
+  .rubric-checkbox {
+    transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms ease;
+  }
+  
+  .rubric-checkbox:active {
+    transform: scale(0.85);
+  }
+
+  .rubric-item.completed span.rubric-text {
+    text-decoration: line-through;
+    color: theme('colors.muted');
+  }
+  
+  .rubric-item.completed .rubric-checkbox {
+    background-color: theme('colors.primary');
+    border-color: theme('colors.primary');
+  }
+  
+  .rubric-item.completed .rubric-checkbox svg {
+    opacity: 1;
+  }
+</style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-primary/30 selection:text-white">
+<!-- Shared TopNavBar Inclusion: Destination Screen -->
+<div class="relative flex h-auto w-full flex-col bg-background-dark dark group/design-root overflow-x-hidden border-b border-border-color shrink-0">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-8 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap px-4 py-3">
+<div class="flex items-center gap-4 text-text-main">
+<div class="size-5 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-text-main text-lg font-bold leading-tight tracking-tight">EngineeringOS</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-8 font-mono text-sm uppercase tracking-wider">
+<a class="text-muted hover:text-text-main transition-colors pb-1" href="#">Learn</a>
+<a class="text-primary font-bold border-b border-primary pb-1" href="#">Practice</a>
+<a class="text-muted hover:text-text-main transition-colors pb-1" href="#">Code</a>
+<a class="text-muted hover:text-text-main transition-colors pb-1" href="#">Interview</a>
+</nav>
+</div>
+</header>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Workspace -->
+<main class="flex-1 flex justify-center w-full max-w-[1400px] mx-auto px-8 md:px-12 py-12 gap-12 overflow-hidden h-[calc(100vh-89px)]">
+<!-- Left Column: Scenario Prompt -->
+<section class="flex-1 flex flex-col max-w-[720px] overflow-y-auto pr-4 custom-scrollbar">
+<div class="mb-8">
+<h1 class="text-4xl md:text-[40px] font-medium leading-tight mb-6">Design a Global CDN Caching Layer</h1>
+<div class="flex flex-wrap gap-3">
+<span class="inline-flex items-center px-3 py-1 rounded-sm border border-border-color bg-surface text-primary font-mono text-[11px] uppercase tracking-wider">High Availability</span>
+<span class="inline-flex items-center px-3 py-1 rounded-sm border border-border-color bg-surface text-primary font-mono text-[11px] uppercase tracking-wider">Eventual Consistency</span>
+<span class="inline-flex items-center px-3 py-1 rounded-sm border border-border-color bg-surface text-primary font-mono text-[11px] uppercase tracking-wider">Read-Heavy</span>
+</div>
+</div>
+<div class="bg-surface border border-border-color rounded-sm p-8 flex flex-col gap-6 text-base leading-relaxed text-text-main">
+<div>
+<h3 class="font-medium text-lg mb-3 text-white">Scenario Context</h3>
+<p class="text-muted mb-4">You are the lead architect for a rapidly growing video streaming platform. The platform serves millions of users globally, delivering both static assets (thumbnails, metadata) and dynamic video chunks. Recently, origin servers have been buckling under load during high-traffic events (e.g., live sports, new season releases).</p>
+<p class="text-muted">Your task is to design a geographically distributed caching layer that sits between the users and the origin servers to drastically reduce origin load and improve edge latency.</p>
+</div>
+<div class="h-[1px] w-full bg-border-color my-2"></div>
+<div>
+<h3 class="font-medium text-lg mb-3 text-white">Core Requirements</h3>
+<ul class="list-disc list-inside space-y-2 text-muted marker:text-primary">
+<li><strong>Scale:</strong> Handle 10M+ concurrent users globally.</li>
+<li><strong>Latency:</strong> Target P99 latency &lt; 50ms for cache hits.</li>
+<li><strong>Durability:</strong> Cache nodes may fail; the system must gracefully degrade and recover without overwhelming the origin.</li>
+<li><strong>Invalidation:</strong> Need a mechanism to propagate updates to cached metadata within 60 seconds globally.</li>
+</ul>
+</div>
+<div class="h-[1px] w-full bg-border-color my-2"></div>
+<div>
+<h3 class="font-medium text-lg mb-3 text-white">Specific Challenges to Address</h3>
+<div class="border-l-2 border-primary pl-4 py-1 italic text-muted">
+          "How do you prevent a 'thundering herd' when a highly anticipated piece of content is published, but the cache is cold across all PoPs (Points of Presence)?"
+        </div>
+</div>
+</div>
+</section>
+<!-- Right Column: Evaluation Rubric -->
+<aside class="w-[400px] shrink-0 flex flex-col h-full pl-6 border-l border-border-color overflow-y-auto custom-scrollbar">
+<div class="sticky top-0 bg-background-dark pb-6 pt-2 z-10 border-b border-border-color mb-6">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-medium tracking-tight">Evaluation Rubric</h2>
+<span class="text-xs font-mono text-muted uppercase tracking-widest"><span id="completed-count">0</span>/5</span>
+</div>
+<p class="text-sm text-muted mt-2">Self-assess your architectural design against these critical criteria before advancing.</p>
+</div>
+<div class="flex flex-col gap-4 pb-12">
+<!-- Rubric Item 1 -->
+<label class="rubric-item flex items-start gap-4 p-3 -ml-3 rounded-sm hover:bg-surface/50 cursor-pointer transition-colors group">
+<div class="relative shrink-0 mt-0.5">
+<input class="sr-only peer" onclick="toggleRubric(this)" type="checkbox"/>
+<div class="rubric-checkbox w-5 h-5 border border-border-color rounded-sm bg-surface flex items-center justify-center peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background-dark">
+<svg class="w-3.5 h-3.5 text-background-dark opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<div class="flex-1">
+<span class="rubric-text text-[15px] leading-snug transition-colors duration-200">Defined PoP (Point of Presence) distribution strategy and routing mechanisms (e.g., Anycast, GeoDNS).</span>
+</div>
+<span class="material-symbols-outlined text-muted opacity-0 group-hover:opacity-100 transition-opacity text-lg" data-icon="lightbulb">lightbulb</span>
+</label>
+<!-- Rubric Item 2 -->
+<label class="rubric-item flex items-start gap-4 p-3 -ml-3 rounded-sm hover:bg-surface/50 cursor-pointer transition-colors group">
+<div class="relative shrink-0 mt-0.5">
+<input class="sr-only peer" onclick="toggleRubric(this)" type="checkbox"/>
+<div class="rubric-checkbox w-5 h-5 border border-border-color rounded-sm bg-surface flex items-center justify-center peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background-dark">
+<svg class="w-3.5 h-3.5 text-background-dark opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<div class="flex-1">
+<span class="rubric-text text-[15px] leading-snug transition-colors duration-200">Addressed cache stampede / thundering herd problem (e.g., request coalescing, probabilistic early expiration).</span>
+</div>
+<span class="material-symbols-outlined text-muted opacity-0 group-hover:opacity-100 transition-opacity text-lg" data-icon="lightbulb">lightbulb</span>
+</label>
+<!-- Rubric Item 3 -->
+<label class="rubric-item flex items-start gap-4 p-3 -ml-3 rounded-sm hover:bg-surface/50 cursor-pointer transition-colors group">
+<div class="relative shrink-0 mt-0.5">
+<input class="sr-only peer" onclick="toggleRubric(this)" type="checkbox"/>
+<div class="rubric-checkbox w-5 h-5 border border-border-color rounded-sm bg-surface flex items-center justify-center peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background-dark">
+<svg class="w-3.5 h-3.5 text-background-dark opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<div class="flex-1">
+<span class="rubric-text text-[15px] leading-snug transition-colors duration-200">Specified eviction policies (LRU, LFU) suitable for mixed video and metadata workloads.</span>
+</div>
+<span class="material-symbols-outlined text-muted opacity-0 group-hover:opacity-100 transition-opacity text-lg" data-icon="lightbulb">lightbulb</span>
+</label>
+<!-- Rubric Item 4 -->
+<label class="rubric-item flex items-start gap-4 p-3 -ml-3 rounded-sm hover:bg-surface/50 cursor-pointer transition-colors group">
+<div class="relative shrink-0 mt-0.5">
+<input class="sr-only peer" onclick="toggleRubric(this)" type="checkbox"/>
+<div class="rubric-checkbox w-5 h-5 border border-border-color rounded-sm bg-surface flex items-center justify-center peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background-dark">
+<svg class="w-3.5 h-3.5 text-background-dark opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<div class="flex-1">
+<span class="rubric-text text-[15px] leading-snug transition-colors duration-200">Designed a resilient origin-shielding architecture (e.g., tiered caching) to protect backend databases.</span>
+</div>
+<span class="material-symbols-outlined text-muted opacity-0 group-hover:opacity-100 transition-opacity text-lg" data-icon="lightbulb">lightbulb</span>
+</label>
+<!-- Rubric Item 5 -->
+<label class="rubric-item flex items-start gap-4 p-3 -ml-3 rounded-sm hover:bg-surface/50 cursor-pointer transition-colors group">
+<div class="relative shrink-0 mt-0.5">
+<input class="sr-only peer" onclick="toggleRubric(this)" type="checkbox"/>
+<div class="rubric-checkbox w-5 h-5 border border-border-color rounded-sm bg-surface flex items-center justify-center peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background-dark">
+<svg class="w-3.5 h-3.5 text-background-dark opacity-0 transition-opacity duration-200" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<div class="flex-1">
+<span class="rubric-text text-[15px] leading-snug transition-colors duration-200">Established an invalidation strategy meeting the &lt; 60s global propagation requirement.</span>
+</div>
+<span class="material-symbols-outlined text-muted opacity-0 group-hover:opacity-100 transition-opacity text-lg" data-icon="lightbulb">lightbulb</span>
+</label>
+<div class="mt-8">
+<button class="w-full py-4 px-6 bg-surface border border-border-color text-muted font-mono text-sm uppercase tracking-wider rounded-sm transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-primary hover:text-primary" disabled="" id="advance-btn">
+            Evaluate &amp; Advance
+         </button>
+</div>
+</div>
+</aside>
+</main>
+<script>
+  function toggleRubric(checkbox) {
+    const item = checkbox.closest('.rubric-item');
+    if (checkbox.checked) {
+      item.classList.add('completed');
+    } else {
+      item.classList.remove('completed');
+    }
+    updateCount();
+  }
+
+  function updateCount() {
+    const total = document.querySelectorAll('.rubric-item').length;
+    const completed = document.querySelectorAll('.rubric-item.completed').length;
+    document.getElementById('completed-count').innerText = completed;
+    
+    const btn = document.getElementById('advance-btn');
+    if(completed === total) {
+      btn.disabled = false;
+      btn.classList.remove('bg-surface', 'border-border-color', 'text-muted');
+      btn.classList.add('bg-primary', 'text-background-dark', 'font-bold', 'hover:bg-primary/90');
+      btn.innerText = "Ready to Advance";
+    } else {
+      btn.disabled = true;
+      btn.classList.add('bg-surface', 'border-border-color', 'text-muted');
+      btn.classList.remove('bg-primary', 'text-background-dark', 'font-bold', 'hover:bg-primary/90');
+      btn.innerText = "Evaluate & Advance";
+    }
+  }
+</script>
+<style>
+  /* Custom Scrollbar for dark theme */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: theme('colors.border-color');
+    border-radius: 3px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.muted');
+  }
+</style>
+</body></html>

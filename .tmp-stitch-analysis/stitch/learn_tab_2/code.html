@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EngineeringOS: Focus Engine Workspace - Learn</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#e1b514",
+            "background-light": "#f8f8f6",
+            "background-dark": "#0A0A0A",
+            "surface-dark": "#141414",
+            "text-primary": "#EAEAEA",
+            "text-muted": "#737373",
+            "border-dark": "#262626",
+            "accent": "#e1b514",
+          },
+          fontFamily: {
+            "display": ["Geist", "sans-serif"],
+            "mono": ["Berkeley Mono", "monospace"]
+          },
+          borderRadius: {"DEFAULT": "0px", "sm": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: "Geist", sans-serif;
+      background-color: #0A0A0A;
+      color: #EAEAEA;
+    }
+    .font-serif {
+      font-family: 'Instrument Serif', serif;
+    }
+    .font-mono {
+      font-family: 'Berkeley Mono', monospace;
+    }
+    
+    /* Diagram hover interaction */
+    .diagram-container svg * {
+      transition: transform 0.3s ease;
+      transform-origin: center;
+    }
+    .diagram-container:hover svg g {
+      transform: scale(1.02);
+    }
+    
+    /* Code syntax highlighting accents */
+    .token-keyword { color: #e1b514; }
+    .token-string { color: #a3defe; }
+    .token-comment { color: #737373; }
+    
+    /* Skeleton animation */
+    @keyframes pulse-dark {
+      0%, 100% { background-color: #141414; }
+      50% { background-color: #262626; }
+    }
+    .animate-pulse-dark {
+      animation: pulse-dark 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col text-text-primary bg-background-dark antialiased">
+<!-- Top Navigation -->
+<div class="relative flex h-auto w-full flex-col bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 md:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark px-4 md:px-10 py-3">
+<div class="flex items-center gap-4 text-text-primary">
+<div class="size-4">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-text-primary text-lg font-bold leading-tight tracking-[-0.015em] font-display">EngineeringOS</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="flex items-center gap-9 font-mono text-[13px] uppercase tracking-wider">
+<a class="text-primary border-b border-primary pb-1" href="#">Learn</a>
+<a class="text-text-muted hover:text-text-primary transition-colors pb-1" href="#">Practice</a>
+<a class="text-text-muted hover:text-text-primary transition-colors pb-1" href="#">Code</a>
+<a class="text-text-muted hover:text-text-primary transition-colors pb-1" href="#">Interview</a>
+</nav>
+</div>
+</header>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Workspace -->
+<main class="flex-1 flex justify-center relative overflow-hidden pb-32">
+<!-- Centered Reading Column -->
+<article class="w-full max-w-[720px] px-6 lg:px-0 pt-16">
+<!-- Topic Header -->
+<header class="mb-16">
+<h1 class="text-[48px] font-serif text-text-primary leading-tight tracking-tight mb-4">
+          Distributed Caching Strategies
+        </h1>
+<p class="text-[20px] text-text-muted font-display font-medium">
+          Mastering cache invalidation in distributed systems
+        </p>
+</header>
+<!-- Narrative Text -->
+<div class="space-y-8 text-[16px] leading-[1.6] text-text-primary font-display">
+<p>
+          Cache invalidation is one of the hardest problems in computer science. In a globally distributed system, ensuring consistency across regional edge nodes requires careful orchestration. When a primary database updates a record, stale data lingering in caches can lead to critical consistency anomalies.
+        </p>
+<p>
+          To mitigate this, modern architectures often employ a combination of time-to-live (TTL) expiration, pub/sub invalidation messaging, and write-through or write-behind caching patterns depending on the consistency requirements of the application.
+        </p>
+<!-- Callout Block -->
+<div class="border-l border-primary pl-6 py-2 my-8 bg-surface-dark bg-opacity-30 rounded-r-sm">
+<p class="text-[14px] italic text-text-primary m-0">
+<strong>The Thundering Herd Problem:</strong> Occurs when a highly concurrent cache key expires, and thousands of requests simultaneously miss the cache and hit the underlying database, potentially overwhelming it. Mitigate using jitter on TTLs or probabilistic early expiration.
+          </p>
+</div>
+<h3 class="text-[24px] font-serif text-text-primary mt-12 mb-6">Global CDN Topology</h3>
+<p>
+          A typical global deployment places compute and cache layers at edge locations closest to the user. The edge nodes communicate back to regional hubs, which eventually funnel to a single authoritative origin database.
+        </p>
+<!-- Architectural Diagram Block -->
+<figure class="diagram-container my-10 bg-surface-dark border border-border-dark rounded-sm p-8 flex flex-col items-center cursor-crosshair">
+<svg class="w-full max-w-[500px]" fill="none" height="200" viewbox="0 0 400 200" width="400" xmlns="http://www.w3.org/2000/svg">
+<g>
+<!-- Origin DB -->
+<rect fill="#0A0A0A" height="50" rx="4" stroke="#737373" stroke-width="2" width="50" x="175" y="140"></rect>
+<text fill="#EAEAEA" font-family="Berkeley Mono" font-size="12" text-anchor="middle" x="200" y="170">DB</text>
+<!-- Regional Caches -->
+<rect fill="#141414" height="40" rx="4" stroke="#EAEAEA" stroke-width="1.5" width="60" x="100" y="70"></rect>
+<text fill="#EAEAEA" font-family="Berkeley Mono" font-size="10" text-anchor="middle" x="130" y="94">Reg US</text>
+<rect fill="#141414" height="40" rx="4" stroke="#EAEAEA" stroke-width="1.5" width="60" x="240" y="70"></rect>
+<text fill="#EAEAEA" font-family="Berkeley Mono" font-size="10" text-anchor="middle" x="270" y="94">Reg EU</text>
+<!-- Edge Nodes -->
+<circle cx="60" cy="20" fill="#0A0A0A" r="15" stroke="#e1b514" stroke-width="1.5"></circle>
+<circle cx="140" cy="20" fill="#0A0A0A" r="15" stroke="#e1b514" stroke-width="1.5"></circle>
+<circle cx="260" cy="20" fill="#0A0A0A" r="15" stroke="#e1b514" stroke-width="1.5"></circle>
+<circle cx="340" cy="20" fill="#0A0A0A" r="15" stroke="#e1b514" stroke-width="1.5"></circle>
+<!-- Connections -->
+<!-- Edge to Reg US -->
+<path d="M60 35 L120 70" stroke="#737373" stroke-dasharray="4 4" stroke-width="1"></path>
+<path d="M140 35 L140 70" stroke="#737373" stroke-dasharray="4 4" stroke-width="1"></path>
+<!-- Edge to Reg EU -->
+<path d="M260 35 L260 70" stroke="#737373" stroke-dasharray="4 4" stroke-width="1"></path>
+<path d="M340 35 L280 70" stroke="#737373" stroke-dasharray="4 4" stroke-width="1"></path>
+<!-- Reg to DB -->
+<path d="M130 110 L190 140" stroke="#737373" stroke-width="1"></path>
+<path d="M270 110 L210 140" stroke="#737373" stroke-width="1"></path>
+</g>
+</svg>
+<figcaption class="mt-6 text-[13px] font-mono text-text-muted">Fig 1. Edge caching hierarchy mitigating origin load.</figcaption>
+</figure>
+<h3 class="text-[24px] font-serif text-text-primary mt-12 mb-6">Implementation Example</h3>
+<p>
+          Below is a naive implementation of a read-through cache wrapper using Redis in Go. Notice the explicit handling of cache misses and the application of a TTL to ensure eventual consistency.
+        </p>
+<!-- Code Snippet -->
+<div class="bg-surface-dark border border-border-dark rounded-sm overflow-hidden my-8">
+<div class="bg-background-dark border-b border-border-dark px-4 py-2 flex items-center justify-between">
+<span class="text-[13px] font-mono text-text-muted">cache.go</span>
+<span class="text-[11px] font-mono text-text-muted uppercase">Go</span>
+</div>
+<pre class="p-4 overflow-x-auto text-[13px] font-mono leading-relaxed"><code class="text-text-primary"><span class="token-keyword">func</span> <span class="text-white">GetUserProfile</span>(ctx context.Context, id <span class="token-keyword">string</span>) (*Profile, <span class="token-keyword">error</span>) {
+    <span class="token-comment">// 1. Attempt Cache Read</span>
+    val, err := rdb.Get(ctx, <span class="token-string">"user:"</span>+id).Result()
+    <span class="token-keyword">if</span> err == nil {
+        <span class="token-keyword">var</span> p Profile
+        json.Unmarshal([]byte(val), &amp;p)
+        <span class="token-keyword">return</span> &amp;p, nil
+    }
+
+    <span class="token-comment">// 2. Cache Miss - Read Origin</span>
+    p, err := db.FindUser(id)
+    <span class="token-keyword">if</span> err != nil {
+        <span class="token-keyword">return</span> nil, err
+    }
+
+    <span class="token-comment">// 3. Write-Through with TTL</span>
+    b, _ := json.Marshal(p)
+    rdb.Set(ctx, <span class="token-string">"user:"</span>+id, b, 5*time.Minute)
+
+    <span class="token-keyword">return</span> p, nil
+}</code></pre>
+</div>
+</div>
+<!-- Skeleton Loading Example (hidden by default, used for demonstration) -->
+<div class="hidden mt-16 space-y-4">
+<div class="h-12 w-3/4 bg-surface-dark rounded-sm animate-pulse-dark mb-8"></div>
+<div class="h-4 w-full bg-surface-dark rounded-sm animate-pulse-dark"></div>
+<div class="h-4 w-[90%] bg-surface-dark rounded-sm animate-pulse-dark"></div>
+<div class="h-4 w-[95%] bg-surface-dark rounded-sm animate-pulse-dark"></div>
+<div class="h-4 w-2/3 bg-surface-dark rounded-sm animate-pulse-dark"></div>
+</div>
+</article>
+<!-- Collapsed Source References Panel (Right Edge) -->
+<aside class="fixed right-0 top-0 bottom-0 w-[48px] border-l border-border-dark bg-background-dark flex flex-col items-center pt-24 z-10 transition-all duration-300 group hover:w-[320px] hover:items-start cursor-pointer">
+<!-- Collapsed State Icon -->
+<div class="text-text-muted group-hover:hidden flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="menu_book">menu_book</span>
+<span class="text-[10px] font-mono rotate-90 mt-4 whitespace-nowrap">CMD + /</span>
+</div>
+<!-- Expanded State Content (Hidden until hover/active) -->
+<div class="hidden group-hover:flex flex-col w-full px-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+<header class="flex justify-between items-center mb-8">
+<h3 class="text-[13px] font-mono uppercase text-text-muted tracking-wider">References</h3>
+<span class="material-symbols-outlined text-text-muted hover:text-white text-[18px]" data-icon="close">close</span>
+</header>
+<div class="space-y-4">
+<!-- Resource Item -->
+<a class="block group/link border-l-2 border-transparent hover:border-primary pl-3 py-1 -ml-3 transition-colors" href="#">
+<h4 class="text-[14px] font-display text-text-primary mb-1">Scaling Memcached at Facebook</h4>
+<p class="text-[11px] font-mono text-text-muted">PAPER • 2013</p>
+</a>
+<a class="block group/link border-l-2 border-transparent hover:border-primary pl-3 py-1 -ml-3 transition-colors" href="#">
+<h4 class="text-[14px] font-display text-text-primary mb-1">Gossip Protocols for Cache Invalidation</h4>
+<p class="text-[11px] font-mono text-text-muted">YOUTUBE • 45:12</p>
+</a>
+<a class="block group/link border-l-2 border-transparent hover:border-primary pl-3 py-1 -ml-3 transition-colors" href="#">
+<h4 class="text-[14px] font-display text-text-primary mb-1">Redis Pub/Sub Architecture Docs</h4>
+<p class="text-[11px] font-mono text-text-muted">DOCS • REDIS.IO</p>
+</a>
+</div>
+</div>
+</aside>
+</main>
+<script>
+    // Simple micro-interaction: Toggle skeleton loader for demonstration
+    // (In a real app, this would be tied to data fetching state)
+    /*
+    setTimeout(() => {
+      document.querySelector('article > div.space-y-8').classList.add('hidden');
+      document.querySelector('article > div.hidden').classList.remove('hidden');
+      
+      setTimeout(() => {
+        document.querySelector('article > div.space-y-8').classList.remove('hidden');
+        document.querySelector('article > div.hidden.mt-16').classList.add('hidden');
+      }, 2000);
+    }, 1000);
+    */
+  </script>
+</body></html>

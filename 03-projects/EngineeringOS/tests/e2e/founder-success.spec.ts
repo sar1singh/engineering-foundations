@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const founderRoutes = [
   { path: "/", heading: "Your next 90 minutes are already decided." },
-  { path: "/dashboard", heading: "Today's Mission" },
+  { path: "/dashboard", heading: "Mission in progress" },
   { path: "/today", heading: "Your next 90 minutes are already decided." },
   { path: "/interview-rounds", heading: "Prepare for the actual loop, not random topics." },
   { path: "/sources", heading: "Use the best sources. Skip the rest for now." },
@@ -23,13 +23,14 @@ test.describe("Phase 57 founder-success UX", () => {
   }
 
   test("navigation exposes founder-success surfaces", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/today", { waitUntil: "domcontentloaded" });
 
-    await expect(page.getByRole("link", { name: "Today", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Interview Rounds", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Mission", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Blueprint", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Focus", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "Sources", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Weak Areas", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Answer Builders", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Profile", exact: true })).toBeVisible();
   });
 
   test("mobile prioritizes learning content before navigation chrome", async ({ page }) => {

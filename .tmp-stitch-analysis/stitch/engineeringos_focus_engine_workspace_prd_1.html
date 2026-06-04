@@ -1,0 +1,220 @@
+# EngineeringOS: Focus Engine Workspace
+
+## Product Overview
+
+**The Pitch:** A high-fidelity, zero-distraction workspace for mastering complex engineering topics. It isolates learning into a single narrative flow, stripping away dashboards and gamification in favor of deep, focused study.
+
+**For:** Senior software engineers and system architects preparing for system design interviews or deep-diving into specialized architectural patterns.
+
+**Device:** desktop
+
+**Design Direction:** High-end editorial dark mode. Stark, cinematic contrasts with precise typographic hierarchy and technical rigor.
+
+**Inspired by:** Stripe Press, Linear
+
+---
+
+## Screens
+
+- **Learn Tab:** Editorial long-form reading experience with integrated architectural diagrams and code snippets.
+- **Practice Tab:** Scenario-based architecture prompt with interactive evaluation rubrics.
+- **Code Tab:** Split-pane development environment with a monaco-style editor and execution output.
+- **Interview Tab:** Flashcard-style answer builder focusing on trade-offs and common pitfalls.
+- **Source References Panel:** Persistent, collapsible right-side drawer containing curated external links (YouTube, Docs, Papers).
+
+---
+
+## Key Flows
+
+**Mastering a Topic:** Deep-diving into "Distributed Caching"
+
+1. User enters **Learn Tab** -> reads editorial breakdown of cache invalidation strategies
+2. User clicks **Practice Tab** -> receives a prompt to design a cache for a globally distributed CDN
+3. User writes solution in **Code Tab** -> compares output against reference implementation
+4. User clicks **Ready to Advance** -> proceeds to Interview Tab to review verbalization strategies
+
+**Referencing Material:** Verifying a concept mid-study
+
+1. User is reading a complex section in **Learn Tab** -> needs external context
+2. User hits `Cmd + /` -> toggles **Source References Panel**
+3. Panel slides from right -> displays timestamped YouTube links and original whitepapers
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#FFFFFF` - Active tabs, primary CTAs, key interactive elements
+- **Background:** `#0A0A0A` - Main application background
+- **Surface:** `#141414` - Code blocks, reference cards, elevated panels
+- **Text:** `#EAEAEA` - Primary reading text
+- **Muted:** `#737373` - Borders, inactive tabs, secondary metadata
+- **Accent:** `#E2B714` - "Ready to Advance" CTA, highlights, warning notes
+
+## Typography
+
+- **Headings:** `Instrument Serif`, 400, 32-48px
+- **Subheadings:** `Satoshi`, 500, 20px
+- **Body:** `Satoshi`, 400, 16px, 1.6 line-height
+- **Small text:** `Satoshi`, 400, 13px
+- **Code & UI Elements:** `Berkeley Mono`, 400, 13px
+
+**Style notes:** Sharp corners (`0px` border radius everywhere). 1px solid borders (`#262626`) for spatial division. No drop shadows. Depth is created purely through color contrast and typography.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #FFFFFF;
+  --color-background: #0A0A0A;
+  --color-surface: #141414;
+  --color-text: #EAEAEA;
+  --color-muted: #737373;
+  --color-border: #262626;
+  --color-accent: #E2B714;
+  
+  --font-serif: 'Instrument Serif', serif;
+  --font-sans: 'Satoshi', sans-serif;
+  --font-mono: 'Berkeley Mono', monospace;
+  
+  --radius: 0px;
+  --spacing-sm: 8px;
+  --spacing-md: 24px;
+  --spacing-lg: 64px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Learn Tab
+
+**Purpose:** Editorial deep-dive into the current topic (e.g., "Database Sharding").
+
+**Layout:** 64px top navigation (tabs). Centered 720px reading column. Collapsed 320px right panel.
+
+**Key Elements:**
+- **Topic Header:** `48px` Instrument Serif, `#FFFFFF`, 64px bottom margin.
+- **Narrative Text:** `16px` Satoshi, `#EAEAEA`, 1.6 line height.
+- **Diagram Blocks:** `#141414` background, `1px` `#262626` border, raw SVG architectural diagrams, `13px` Berkeley Mono captions.
+- **Code Snippets:** `#141414` background, syntax highlighting using monochrome + amber accents.
+
+**States:**
+- **Loading:** Skeleton text lines pulsing from `#141414` to `#262626`.
+- **Empty:** N/A (Content is static/curated per topic).
+
+**Components:**
+- **Callout Block:** `1px` left border (`#E2B714`), `24px` left padding, `14px` italic text.
+- **Tab Navigation:** `13px` Berkeley Mono, uppercase. Active state: `#FFFFFF` with `1px` bottom border. Inactive: `#737373`.
+
+**Interactions:**
+- **Hover Diagram:** Subtle `1.02` scale on internal SVG nodes.
+
+### Practice Tab
+
+**Purpose:** Scenario-based architecture prompts.
+
+**Layout:** Two-column split. Left: Scenario prompt. Right: Interactive rubric.
+
+**Key Elements:**
+- **Prompt Card:** `1px` border, `#141414` background, containing the business requirements and constraints.
+- **Constraint Tags:** `11px` Berkeley Mono, `#FFFFFF` text, `1px` border, `4px` padding.
+- **Rubric Checklist:** Interactive list items. `20px` custom square checkboxes (sharp corners, white checkmark).
+
+**States:**
+- **Completed:** Rubric items strike-through, color shifts to `#737373`.
+
+**Components:**
+- **Rubric Item:** `14px` Satoshi, 16px bottom margin, hover reveals hint icon.
+
+**Interactions:**
+- **Click Checkbox:** Fills `#FFFFFF`, plays crisp `100ms` scale down/up animation.
+
+### Code Tab
+
+**Purpose:** Focused development environment for implementing concepts.
+
+**Layout:** Standard IDE split. Left: Code editor. Right: Terminal/Output.
+
+**Key Elements:**
+- **Editor Chrome:** Minimalist header, file name in `13px` Berkeley Mono (`cache.go`).
+- **Line Numbers:** `#262626` text, unselectable.
+- **Run Button:** `#FFFFFF` background, `#0A0A0A` text, bottom-right fixed positioning inside editor.
+
+**States:**
+- **Executing:** Run button morphs to a spinning square, terminal outputs stream live.
+- **Error:** Terminal flashes `#141414` with `#E2B714` warning text.
+
+**Components:**
+- **Terminal Panel:** `#000000` background, pure Berkeley Mono output, no prompt chrome.
+
+**Interactions:**
+- **Click Run:** Triggers execution state, slides output panel into view if collapsed.
+
+### Interview Tab
+
+**Purpose:** Preparing verbal explanations and tradeoff discussions.
+
+**Layout:** Centered flashcard interface, 540px max-width.
+
+**Key Elements:**
+- **Question Card:** `32px` Instrument Serif, centered.
+- **Trade-off Matrix:** 2x2 grid, `1px` borders (`#262626`). Pros vs Cons, Latency vs Consistency.
+- **Pitfalls List:** Bulleted list prefixed with `!` in `#E2B714`.
+- **Advance Gate:** Large, full-width bottom button: `READY TO ADVANCE`, `#E2B714` background, `#0A0A0A` text.
+
+**States:**
+- **Flipped:** Flashcard front (Question) transitions to back (Detailed answer + matrix).
+
+**Components:**
+- **Flashcard:** `100%` width, `400px` min-height, `#141414` background, `1px` border.
+
+**Interactions:**
+- **Click Card:** 3D flip transform (`0.6s` cubic-bezier).
+- **Click Advance:** Fires confetti-less success toast, routes to next topic module.
+
+### Source References Panel
+
+**Purpose:** Contextual links to external deep-dives.
+
+**Layout:** 320px fixed right sidebar, overlays content on smaller screens.
+
+**Key Elements:**
+- **Panel Header:** `13px` Berkeley Mono, uppercase, `REFERENCES`.
+- **Resource Item:** `14px` Satoshi title, `11px` Berkeley Mono metadata (e.g., `YOUTUBE • 14:23`).
+- **Close Button:** Simple `X` icon, top right.
+
+**States:**
+- **Collapsed:** 48px wide vertical bar with `[ / ]` icon.
+- **Expanded:** Full 320px width.
+
+**Components:**
+- **Link Card:** `8px` padding, hover state changes background to `#141414`, cursor pointer.
+
+**Interactions:**
+- **Shortcut `Cmd + /`:** Slides panel in/out (`300ms` ease-out).
+- **Hover Resource Item:** Left-border highlights `#FFFFFF`.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3
+
+**Build Order:**
+1. **Learn Tab** - Establishes the core typographic hierarchy, spacing tokens, and base dark mode aesthetic.
+2. **Source References Panel** - Validates the spatial relationship between main content and absolute/sliding elements.
+3. **Practice Tab** - Introduces interactive form elements (custom checkboxes, tags).
+4. **Interview Tab** - Requires complex CSS animations (card flip) and layout grids (trade-off matrix).
+5. **Code Tab** - Most complex layout integration, relies on predefined UI components.
+
+</details>

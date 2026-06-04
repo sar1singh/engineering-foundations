@@ -1,0 +1,216 @@
+# EngineeringOS: Mission Control Hub
+
+## Product Overview
+
+**The Pitch:** A unified operational hub for software engineers preparing for top-tier technical interviews. Cuts through the noise to prioritize high-leverage learning actions and immediate mission execution.
+
+**For:** Senior software engineers and engineering managers who value structured, efficient learning systems over gamified distractions.
+
+**Device:** desktop
+
+**Design Direction:** Premium cyber-noir. Deep obsidian backgrounds, sharp typographic hierarchies, and restrained, data-driven accent glows. Professional, tactical, and motivational without feeling like an arcade game.
+
+**Inspired by:** Vercel Dashboard, Linear, Palantir Foundry
+
+---
+
+## Screens
+
+- **Mission Control Dashboard:** Default landing view centralizing daily objectives and global readiness.
+- **Active Mission Focus:** Distraction-free active learning environment for resuming the current course.
+- **Readiness Diagnostics:** Detailed breakdown of domain-specific competencies (Cyan/Purple/Amber/Violet).
+- **Weak Area Repair Queue:** Prioritized backlog of failing concepts requiring targeted drills.
+
+---
+
+## Key Flows
+
+**Resume Active Mission:** Engineer continues their learning path with zero friction.
+1. User is on Mission Control Dashboard -> sees **Resume Course** massive banner
+2. User clicks `[Launch Mission]` -> transitions to Active Mission Focus screen
+3. Video player queues up precisely at last timestamp; sidebar locks to current module.
+
+**Address Weakest Areas:** Engineer targets specific failing metrics.
+1. User is on Mission Control Dashboard -> views **Weakest Area** summary card (e.g., *DynamoDB Partitioning*)
+2. User clicks `[Initiate Repair]` -> opens Weak Area Repair Queue screen
+3. System generates a targeted 5-question micro-drill focused purely on the weakest sub-topic.
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#FFFFFF` - High-contrast text, primary buttons
+- **Background:** `#0A0A0C` - Deep obsidian, void space
+- **Surface:** `#141519` - Cards, panels, navigation
+- **Text:** `#A1A1AA` - Standard body text, secondary metrics
+- **Muted:** `#27272A` - Subtle borders, inactive states
+- **Accent - Code (Cyan):** `#00E5FF` - Algorithm/coding metrics
+- **Accent - System Design (Purple):** `#D8B4FE` - Architecture metrics
+- **Accent - AWS (Amber):** `#FBBF24` - Cloud infrastructure metrics
+- **Accent - Interviews (Violet):** `#818CF8` - Soft skills/behavioral metrics
+
+## Typography
+
+Choose fonts that are **distinctive and characterful**, not generic defaults.
+
+- **Headings:** `Space Grotesk`, 700, 24-48px
+- **Body:** `Manrope`, 400, 16px
+- **Small text:** `Manrope`, 500, 13px
+- **Buttons:** `Space Grotesk`, 600, 14px
+
+**Style notes:** Sharp 4px border radii. 1px solid borders (`#27272A`) instead of heavy drop shadows. High contrast typography. Accents used strictly for data visualization (rings, graphs) and subtle hover states, never for large background areas.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #FFFFFF;
+  --color-background: #0A0A0C;
+  --color-surface: #141519;
+  --color-text: #A1A1AA;
+  --color-muted: #27272A;
+  
+  --color-cyan: #00E5FF;
+  --color-purple: #D8B4FE;
+  --color-amber: #FBBF24;
+  --color-violet: #818CF8;
+
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  
+  --radius: 4px;
+  --spacing-base: 8px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Mission Control Dashboard
+
+**Purpose:** Primary operational overview directing immediate learning actions.
+
+**Layout:** 3-column grid. Left: Navigation (240px). Center: Active Mission & Next Lesson (flex-grow). Right: Readiness Rings & Weak Areas (320px).
+
+**Key Elements:**
+- **Resume Course Banner:** 100% width of center column. Dark surface `#141519`, `1px` white border. Large 32px `Space Grotesk` title. CTA: `[Resume Mission]`.
+- **Today's Mission Card:** List of 3 daily goals. Checkbox list. Completed items dim to `#A1A1AA` with strikethrough.
+- **Readiness Rings Grid:** 2x2 grid of circular SVG progress indicators. Cyan (Code), Purple (System Design), Amber (AWS), Violet (Interviews).
+- **Weakest Area Summary:** Bottom right card. Pulsing amber dot. Lists top 3 failing tags (e.g., `Graph Traversal`, `Consistent Hashing`).
+
+**States:**
+- **Empty:** "No active mission detected. Select a specialization to generate your curriculum."
+- **Loading:** Skeleton pulses using `#141519` to `#27272A`.
+- **Error:** Red text `#EF4444` "Telemetry offline. Reconnect to EngineeringOS."
+
+**Components:**
+- **Primary CTA:** 48px height, `#FFFFFF` background, `#0A0A0C` text, `Space Grotesk` 600.
+- **Readiness Ring:** 80x80px SVG. `4px` stroke. `1px` track `#27272A`. Center text: percentage value.
+
+**Interactions:**
+- **Hover Banner:** Border transitions from `#FFFFFF` to `#00E5FF`. `200ms` ease.
+- **Click Ring:** Navigates to Readiness Diagnostics screen.
+
+**Responsive:**
+- **Desktop:** Standard 3-column layout. Max width `1440px`.
+
+### Active Mission Focus
+
+**Purpose:** Distraction-free learning environment for deep focus.
+
+**Layout:** 2-column. Main left area: Content/Video (70%). Right sidebar: Lesson transcript and quick notes (30%).
+
+**Key Elements:**
+- **Video Player:** 16:9 ratio. Custom minimalist controls. No external branding.
+- **Mission Context Header:** Above video. Breadcrumbs: `System Design > Distributed Caching > Eviction Policies`.
+- **Note-taking Scratchpad:** Right sidebar. Plaintext `textarea`. Auto-saves locally.
+
+**States:**
+- **Loading:** Video area shows spinner; sidebar loads immediately.
+- **Completed:** Video darkens, large `[Proceed to Next Mission]` button overlays center.
+
+**Components:**
+- **Breadcrumbs:** `13px` `Manrope`, `#A1A1AA` text, `>` separator.
+- **Scratchpad:** `14px` `Manrope`, line-height `1.6`, transparent background, `1px` border `#27272A`.
+
+**Interactions:**
+- **Hover Video:** Custom controls fade in.
+- **Click Note:** Auto-focuses text area, pauses video automatically.
+
+**Responsive:**
+- **Desktop:** 70/30 split.
+
+### Readiness Diagnostics
+
+**Purpose:** Deep-dive into domain competency metrics.
+
+**Layout:** Header with global readiness score. Below: 4 distinct horizontal tabs (Code, System Design, AWS, Interviews) revealing specific bar charts.
+
+**Key Elements:**
+- **Global Score:** Massive 72px `Space Grotesk` number, centered.
+- **Domain Tabs:** 4 tabs. Bottom border indicator uses domain color (Cyan, Purple, Amber, Violet).
+- **Competency Bar Charts:** Horizontal bars showing proficiency in sub-topics (e.g., `Dynamic Programming: 85%`).
+
+**States:**
+- **Empty:** "Take a diagnostic test to establish your baseline."
+
+**Components:**
+- **Tab Header:** `16px` `Space Grotesk`, padding `16px 24px`.
+- **Progress Bar:** `8px` height, `4px` radius, filled with domain-specific color.
+
+**Interactions:**
+- **Hover Bar:** Tooltip reveals exact questions attempted vs. passed.
+- **Click Tab:** Crossfade content, `150ms`.
+
+**Responsive:**
+- **Desktop:** Full width charts, max `800px` centered column.
+
+### Weak Area Repair Queue
+
+**Purpose:** Actionable backlog of concepts requiring targeted practice.
+
+**Layout:** Split pane. Left: List of vulnerable concepts. Right: Drill generator configuration.
+
+**Key Elements:**
+- **Vulnerability List:** Table rows. Columns: Topic, Vulnerability Level (High/Med), Time since last drill.
+- **Drill Configurator:** Right panel. Sliders for difficulty (`1-10`) and duration (`5m-30m`).
+- **Initiate Button:** Full-width bottom CTA in right panel: `[Initialize Repair Sequence]`.
+
+**States:**
+- **Empty:** "All systems optimal. No outstanding vulnerabilities." (Displays satisfying green check).
+
+**Components:**
+- **Vulnerability Badge:** `12px` font, padding `4px 8px`, Amber background `#FBBF24` at `10%` opacity, `#FBBF24` text.
+- **Slider:** `2px` track `#27272A`, `16px` thumb `#FFFFFF`.
+
+**Interactions:**
+- **Hover Row:** Background shifts from `#0A0A0C` to `#141519`.
+- **Click Row:** Populates Drill Configurator on the right.
+
+**Responsive:**
+- **Desktop:** Fixed left sidebar `400px`, dynamic right panel.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3
+
+**Build Order:**
+1. **Design System & Base Shell:** Setup Tailwind config with exact colors (`#0A0A0C`, `#00E5FF`, etc.) and fonts (`Space Grotesk`, `Manrope`). Establish sidebar and main content layout.
+2. **Mission Control Dashboard:** The core view. Builds all primary reusable components: cards, SVG readiness rings, checkboxes, and buttons.
+3. **Weak Area Repair Queue:** Builds complex interactive elements (tables, sliders, badges) heavily reliant on the defined typography scale.
+4. **Readiness Diagnostics:** Reuses colors for charts and tabs, establishing the tab-switching logic.
+5. **Active Mission Focus:** Finalize video player layout and the contextual scratchpad overlay.
+
+</details>

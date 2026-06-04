@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EngineeringOS - Interview Tab</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#e1b514",
+          "background-light": "#f8f8f6",
+          "background-dark": "#0a0a0a",
+          "surface": "#141414",
+          "text-main": "#eaeaea",
+          "muted": "#737373",
+          "border-color": "#262626",
+          "accent": "#e1b514"
+        },
+        fontFamily: {
+          "display": ["Geist", "sans-serif"],
+          "mono": ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+        },
+        borderRadius: {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem",
+          "sm": "0.125rem"
+        },
+      },
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: theme('colors.background-dark');
+    color: theme('colors.text-main');
+    font-family: theme('fontFamily.display');
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  .transition-transform-flip {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+
+  /* Toast Animation */
+  @keyframes slideUpFade {
+    0% { transform: translateY(20px); opacity: 0; }
+    10% { transform: translateY(0); opacity: 1; }
+    90% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-20px); opacity: 0; }
+  }
+  .animate-toast {
+    animation: slideUpFade 3s ease-in-out forwards;
+  }
+</style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+<!-- Shared TopAppBar (Destination Context) -->
+<div class="w-full flex justify-center py-5 border-b border-border-color bg-background-dark/95 sticky top-0 z-10 backdrop-blur-sm">
+<div class="flex gap-8 px-4">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-muted hover:text-text-main transition-colors pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold uppercase tracking-widest font-mono">Learn</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-muted hover:text-text-main transition-colors pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold uppercase tracking-widest font-mono">Practice</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-muted hover:text-text-main transition-colors pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold uppercase tracking-widest font-mono">Code</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-accent text-text-main pb-[13px] pt-4" href="#">
+<p class="text-sm font-bold uppercase tracking-widest font-mono">Interview</p>
+</a>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-[540px] flex flex-col items-center justify-center p-6 relative">
+<!-- Flashcard Container -->
+<div aria-label="Toggle flashcard" aria-pressed="false" class="w-full h-[500px] perspective-1000 mb-8 cursor-pointer group" id="flashcard" role="button" tabindex="0">
+<div class="flip-card-inner">
+<!-- Front of Card (Question) -->
+<div class="flip-card-front bg-surface border border-border-color rounded-sm p-10 flex flex-col items-center justify-center text-center shadow-lg transition-colors group-hover:border-muted">
+<span aria-hidden="true" class="material-symbols-outlined text-muted mb-6 text-4xl" data-icon="school">school</span>
+<h2 class="text-[32px] leading-tight font-normal text-text-main mb-4 tracking-tight">Design a cache for a globally distributed CDN</h2>
+<p class="text-muted text-sm font-mono uppercase tracking-widest mt-8 flex items-center gap-2">
+          Click or press Space to reveal <span class="material-symbols-outlined text-base" data-icon="touch_app">touch_app</span>
+</p>
+</div>
+<!-- Back of Card (Answer & Matrix) -->
+<div class="flip-card-back bg-surface border border-border-color rounded-sm p-8 flex flex-col shadow-lg overflow-y-auto">
+<div class="flex justify-between items-start mb-6 border-b border-border-color pb-4">
+<h3 class="text-xl font-medium text-text-main">Edge Caching Architecture</h3>
+<span class="material-symbols-outlined text-accent" data-icon="check_circle">check_circle</span>
+</div>
+<p class="text-sm text-text-main leading-relaxed mb-6 opacity-90">
+          Implement a multi-tier caching strategy (L1 at PoP, L2 regional) using consistent hashing to route requests. Prioritize LRU eviction with lazy expiration for high availability.
+        </p>
+<!-- Trade-off Matrix -->
+<div class="grid grid-cols-2 gap-[1px] bg-border-color border border-border-color rounded-sm overflow-hidden mb-6">
+<div class="bg-surface p-4">
+<p class="text-xs text-muted font-mono uppercase mb-1">Pros</p>
+<p class="text-sm text-text-main">High availability, reduced origin load</p>
+</div>
+<div class="bg-surface p-4">
+<p class="text-xs text-muted font-mono uppercase mb-1">Cons</p>
+<p class="text-sm text-text-main">Stale data risk, cache stampede</p>
+</div>
+<div class="bg-surface p-4">
+<p class="text-xs text-muted font-mono uppercase mb-1">Latency</p>
+<p class="text-sm text-text-main">Low read latency (edge hit)</p>
+</div>
+<div class="bg-surface p-4">
+<p class="text-xs text-muted font-mono uppercase mb-1">Consistency</p>
+<p class="text-sm text-text-main">Eventual consistency</p>
+</div>
+</div>
+<!-- Pitfalls -->
+<div class="mt-auto">
+<p class="text-xs text-muted font-mono uppercase mb-3 border-b border-border-color pb-2">Common Pitfalls</p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm text-text-main">
+<span class="text-accent font-bold mt-[2px]">!</span>
+<span>Ignoring the thundering herd problem during mass invalidation.</span>
+</li>
+<li class="flex items-start gap-2 text-sm text-text-main">
+<span class="text-accent font-bold mt-[2px]">!</span>
+<span>Not accounting for regional data privacy compliance (GDPR).</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Advance Action -->
+<button class="w-full bg-accent text-background-dark font-bold uppercase tracking-widest text-sm py-4 rounded-sm hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-background-dark font-mono flex items-center justify-center gap-2" id="advanceBtn">
+    Ready to Advance
+    <span class="material-symbols-outlined text-lg" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</main>
+<!-- Toast Container -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-surface border border-border-color text-text-main px-6 py-3 rounded-sm shadow-xl flex items-center gap-3 opacity-0 pointer-events-none z-50" id="toast">
+<span class="material-symbols-outlined text-accent" data-icon="task_alt">task_alt</span>
+<span class="text-sm font-medium">Topic mastered. Routing to next module...</span>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const flashcard = document.getElementById('flashcard');
+    const advanceBtn = document.getElementById('advanceBtn');
+    const toast = document.getElementById('toast');
+    let isFlipped = false;
+
+    // Card Flip Logic
+    const toggleFlip = () => {
+      isFlipped = !isFlipped;
+      flashcard.classList.toggle('flipped');
+      flashcard.setAttribute('aria-pressed', isFlipped);
+    };
+
+    flashcard.addEventListener('click', toggleFlip);
+    flashcard.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'Enter') {
+        e.preventDefault();
+        toggleFlip();
+      }
+    });
+
+    // Advance Button Logic
+    advanceBtn.addEventListener('click', () => {
+      // Disable button briefly
+      advanceBtn.disabled = true;
+      advanceBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      
+      // Show Toast
+      toast.classList.remove('hidden', 'opacity-0');
+      toast.classList.add('animate-toast');
+      
+      // Simulate routing (reset after animation)
+      setTimeout(() => {
+        toast.classList.remove('animate-toast');
+        toast.classList.add('opacity-0');
+        advanceBtn.disabled = false;
+        advanceBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        
+        // Reset card for next "topic"
+        if(isFlipped) toggleFlip();
+      }, 3000);
+    });
+  });
+</script>
+</body></html>

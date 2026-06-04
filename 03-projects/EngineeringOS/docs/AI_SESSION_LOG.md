@@ -2560,8 +2560,196 @@
 - Restored `next-env.d.ts` to the dev route-types import after production build and reran `npm run typecheck`, which passed.
 - `npm run smoke:mock` passed across 25 routes.
 - `npm run smoke:prisma` passed across 25 routes.
+
+## 2026-06-02 - Phase 69 Information Architecture Simplification
+
+### Completed
+
+- Added `docs/PHASE_69_INFORMATION_ARCHITECTURE_SIMPLIFICATION.md`.
+- Simplified `/courses` into an entry-point catalog:
+  - active roadmap resume block
+  - course cards
+  - short usage note
+  - removed duplicated stage detail wall
+- Simplified `/dashboard` by keeping Resume Course and Today's Mission visible while moving dense analytics/readiness/product metrics behind a single details section.
+- Simplified `/syllabus` by keeping search, role/focus controls, and recommended next lessons prominent while moving:
+  - selected-role stage overview
+  - role/bootcamp catalog
+  - metrics
+  - linear learning path
+  - full catalog
+  behind progressive disclosure.
+- Simplified `/graph` so the saved target role appears as the primary roadmap lane and adjacent paths are collapsed.
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality src/components/practice` passed: 19 files, 76 tests.
+- `npm run test:e2e -- tests/e2e/founder-success.spec.ts tests/e2e/phase-65-glass-ux.spec.ts` passed: 40 checks.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 25 routes after sequential rerun.
+- `npm run smoke:prisma` passed across 25 routes after sequential rerun.
 - `npm run test:e2e` passed across 62 desktop/mobile browser checks.
 
 ### Notes
 
 - A non-blocking Recharts dev-server warning still appears during Playwright for transient zero-width chart measurement, but all dashboard routes and browser assertions pass.
+
+## 2026-06-02 - Phase 66 Premium Learning UX Correction
+
+### Completed
+
+- Added `docs/PHASE_66_PREMIUM_LEARNING_UX_CORRECTION.md`.
+- Redesigned `/syllabus` from an endless card wall into a guided catalog:
+  - role/course-first catalog cards
+  - compact recommended next lessons
+  - advanced filters retained
+  - full raw catalog moved into an expandable section
+  - filtered modes hide course cards to avoid duplicate link ambiguity
+- Reworked `/graph` into a branch-style roadmap canvas with multiple role lanes and stage nodes.
+- Converted `/practice/[taskId]` into a LeetCode-style split workspace:
+  - problem context
+  - runner workspace
+  - starter code and harness disclosure
+  - hints, edge cases, completion criteria, and rubric below
+- Refocused `/dashboard` with a first-screen "Start here" mission card and mission status panel before dense analytics.
+- Added a premium visual-system pass:
+  - system font stack
+  - card hover polish
+  - reusable badge and empty-state utility classes
+- Updated founder visual snapshots for the intentional typography change.
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality src/components/practice` passed: 19 files, 76 tests.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 25 routes.
+- `npm run smoke:prisma` passed across 25 routes.
+- `npm run test:e2e` passed across 62 desktop/mobile browser checks.
+
+### Notes
+
+- The mobile runner E2E uses a forced click after confirming the Run button is enabled, because the split workspace and sticky app header can confuse Playwright's mobile scroll/actionability heuristic. The test still verifies runner behavior and output.
+
+## 2026-06-02 - Phase 67 Topic Journey and Practice UX Redesign
+
+### Completed
+
+- Added `docs/PHASE_67_TOPIC_JOURNEY_AND_PRACTICE_UX_REDESIGN.md` to capture the founder manual-testing feedback and remediation scope.
+- Refactored `/syllabus/[topicId]` from a long stacked page into a section-driven topic workspace:
+  - Learn
+  - Solution lab
+  - Code
+  - Practice
+  - Interview
+  - Review
+  - References
+- Replaced the fixed topic checklist sidebar with compact gamified status chips for completion, saved answer, mock score, practice depth, interview depth, and references.
+- Improved readability by brightening dark-theme muted text and fixing washed-out teal-tinted panels.
+- Converted solution narration into accordion-style hints.
+- Converted source IDs into clickable source-ref cards through the existing `sourceCatalogById`.
+- Added `src/components/learning/CodeRunnerWorkbench.tsx` for a two-column code example plus browser runner layout.
+- Redesigned topic practice prompts into structured cards with tags, thought-process signals, generated hints, starter-code disclosure, and collapsible answer submission.
+- Added `/courses/[courseSlug]` guided journey pages with stage accordions, progress icons, current lesson panel, and previous/next traversal.
+- Updated course catalog and learning graph links to enter guided course journeys instead of hash-jumping inside `/courses`.
+- Kept enriched solution code visible by default so source-backed curriculum contracts still expose imported solution examples.
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality src/components/practice` passed: 19 files, 76 tests.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 25 routes after rerunning sequentially post-build.
+- `npm run smoke:prisma` passed across 25 routes after rerunning sequentially post-build.
+- `npm run test:e2e -- tests/e2e/phase-60-enriched-syllabus.spec.ts` passed after fixing solution-code visibility and HLD default-section behavior.
+- `npm run test:e2e` passed across 62 desktop/mobile browser checks.
+
+### Notes
+
+- The local runner is still browser JavaScript/TypeScript-shaped only. Node.js runtime APIs remain intentionally unsupported until a separate isolated execution service exists.
+- The first smoke attempt was run in parallel with `next build` and failed because `.next` was not finalized yet; the sequential rerun passed in both mock and prisma modes.
+
+## 2026-06-02 - Phase 68 Role-Aware Navigation and Visual Semantics
+
+### Completed
+
+- Added `docs/PHASE_68_ROLE_AWARE_NAVIGATION_AND_VISUAL_SEMANTICS.md`.
+- Made dashboard readiness and domain readiness cards clickable.
+- Reduced topic-page progress signals into compact readiness-score inputs instead of a large standalone list.
+- Added back-link support from syllabus topic pages to the originating course roadmap through `fromCourse`.
+- Simplified course journey pages:
+  - removed the redundant current-lesson side column
+  - made topic cards open lessons directly
+  - preserved previous/next state controls
+  - added color-coded topic cards for learn, coding, design, lab, and interview content
+- Made the learning graph role-aware by prioritizing the saved onboarding target role.
+- Grouped graph stage nodes by content type instead of rendering flat topic chips.
+- Reworked Answer Builders into round/topic-based practice tracks with direct links to relevant topic interview sections and expandable frameworks.
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality src/components/practice` passed: 19 files, 76 tests.
+- `npm run build` passed.
+- Restored `next-env.d.ts` to the dev route-types import after build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 25 routes.
+- `npm run smoke:prisma` passed across 25 routes.
+- `npm run test:e2e -- tests/e2e/founder-success.spec.ts` passed after Answer Builder contract fixes.
+- `npm run test:e2e -- tests/e2e/phase-65-glass-ux.spec.ts` passed; the runner desktop failure was a transient hydration/actionability flake and passed on focused rerun.
+- `npm run test:e2e` passed across 62 desktop/mobile browser checks.
+
+## 2026-06-02 - Phase 68 Follow-up: Resume Course CTA
+
+### Completed
+
+- Added an active-roadmap Resume Course panel to `/dashboard`.
+- Added an active-roadmap Resume Course panel to `/courses`.
+- Courses now infer the active course from saved onboarding target role until a separate persisted active-course field exists.
+- Resume Course links route to `/courses/[courseSlug]?topic=[nextIncompleteTopic]`.
+- Open Next Lesson links route to `/syllabus/[topicSlug]?fromCourse=[courseSlug]`.
+- Course cards now show an active badge for the inferred active course.
+
+### Validation
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality src/components/practice` passed: 19 files, 76 tests.
+- `npm run build` passed.
+- Fixed a production-only dashboard TDZ issue caught by smoke testing.
+- Restored `next-env.d.ts` to the dev route-types import after build and reran `npm run typecheck`, which passed.
+- `npm run smoke:mock` passed across 25 routes.
+- `npm run smoke:prisma` passed across 25 routes.
+
+## 2026-06-03 - Phase 70 Stitch-Backed Black Theme UX Redesign
+
+### Completed
+
+- Started the Stitch-backed black theme redesign using the selected Google Stitch screens as product direction.
+- Added `docs/PHASE_70_STITCH_BACKED_BLACK_THEME_UX_REDESIGN.md`.
+- Replaced the light/glass hybrid tokens with a default black cyber-noir palette.
+- Added reusable OS rail, command bar, blueprint canvas, focus workspace, source card, telemetry card, and danger repair-state classes.
+- Replaced the large sidebar with a compact OS rail and grouped route matrix.
+- Converted the header into a black command-bar style shell.
+- Added a reusable `SourceReferencesPanel` for clickable public referral links grouped by official docs, practice platforms, roadmaps, GitHub repos, video/course, and articles/blogs.
+- Moved dashboard, graph, courses, topic, and practice pages toward Mission Control, Blueprint Roadmap, and Focus Engine modes.
+- Added Phase 70 quality and Playwright coverage.
+- Updated founder visual snapshots for the intentional black-theme baseline change.
+
+### Validation
+
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run test -- src/lib/quality src/components/practice`: passed, 20 files and 80 tests.
+- `npm run build`: passed.
+- Post-build `npm run typecheck`: passed.
+- `npm run smoke:mock`: passed across 25 routes.
+- `npm run smoke:prisma`: passed across 25 routes.
+- `npm run test:e2e`: passed, 71 tests with 1 intentional mobile skip for the desktop-only OS rail test.

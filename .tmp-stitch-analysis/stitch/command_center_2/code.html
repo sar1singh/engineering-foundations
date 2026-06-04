@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EngineeringOS - Command Center</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#06e0f9",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#09090b", // Adjusted to match deep void black from PRD
+                        "surface-dark": "rgba(24, 24, 27, 0.6)",
+                        "muted-dark": "#A1A1AA",
+                        "border-dark": "#27272A",
+                        "sysdesign": "#B026FF",
+                        "aws": "#FFB000",
+                        "interviews": "#7C3AED",
+                        "repair": "#F43F5E",
+                    },
+                    fontFamily: {
+                        "display": ["Geist", "sans-serif"],
+                        "sans": ["Geist", "sans-serif"],
+                        "mono": ["Geist Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem", // Standardized to 12px card radius
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'glow-primary': '0 0 15px rgba(6, 224, 249, 0.2)',
+                        'glow-sysdesign': '0 0 15px rgba(176, 38, 255, 0.2)',
+                        'glow-aws': '0 0 15px rgba(255, 176, 0, 0.2)',
+                        'glow-interviews': '0 0 15px rgba(124, 58, 237, 0.2)',
+                        'glow-repair': '0 0 15px rgba(244, 63, 94, 0.2)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background-dark');
+            color: #EDEDED;
+            /* Subtle radial gradient background */
+            background-image: radial-gradient(circle at 50% 0%, rgba(6, 224, 249, 0.03) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 80%, rgba(176, 38, 255, 0.02) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .glass-card {
+            background-color: theme('colors.surface-dark');
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid theme('colors.border-dark');
+        }
+
+        .gradient-border-card {
+            position: relative;
+            background: theme('colors.surface-dark');
+            backdrop-filter: blur(12px);
+            border-radius: theme('borderRadius.lg');
+            z-index: 1;
+        }
+
+        .gradient-border-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; right: -1px; bottom: -1px; left: -1px;
+            background: linear-gradient(135deg, theme('colors.primary'), rgba(6, 224, 249, 0.1), transparent);
+            border-radius: calc(theme('borderRadius.lg') + 1px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .primary-cta {
+            background-color: transparent;
+            border: 1px solid theme('colors.primary');
+            color: theme('colors.primary');
+            transition: all 0.2s ease;
+        }
+
+        .primary-cta:hover {
+            background-color: rgba(6, 224, 249, 0.1);
+            box-shadow: theme('boxShadow.glow-primary');
+        }
+
+        .nav-item-active {
+            background-color: rgba(6, 224, 249, 0.1);
+            color: theme('colors.primary');
+            border-left: 2px solid theme('colors.primary');
+        }
+
+        /* SVG Ring Animation */
+        .progress-ring__circle {
+            transition: stroke-dashoffset 1s ease-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .ring-container {
+            transition: all 0.3s ease;
+        }
+        
+        .ring-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Responsive Ring Sizes */
+        .ring-svg {
+            width: 120px;
+            height: 120px;
+        }
+        @media (max-width: 640px) {
+            .ring-svg {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        /* Pulse Animation */
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-subtle {
+            animation: pulse-subtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex overflow-x-hidden">
+<!-- Shared Side NavBar (Included based on Relevance Test - "Destination" screen) -->
+<div class="hidden md:flex relative h-auto min-h-screen w-[280px] flex-col bg-[#09090b] border-r border-[#27272A] shrink-0 z-20">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-8">
+<!-- Logo -->
+<div class="px-3 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<h1 class="text-[#EDEDED] text-xl font-mono font-bold tracking-tight">EngineeringOS</h1>
+</div>
+<!-- Nav Links -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 border-l-2 border-primary text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<p class="text-sm font-medium leading-normal">Command Center</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-white/5 transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<p class="text-sm font-medium leading-normal">Readiness Cockpit</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-white/5 transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">healing</span>
+<p class="text-sm font-medium leading-normal">Weak Area Repair</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#A1A1AA] hover:text-[#EDEDED] hover:bg-white/5 transition-colors border-l-2 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">folder_special</span>
+<p class="text-sm font-medium leading-normal">Career Assets</p>
+</a>
+</nav>
+</div>
+<!-- User Profile Snippet -->
+<div class="flex items-center gap-3 px-3 py-3 border-t border-[#27272A] mt-auto">
+<div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-mono text-primary border border-primary/30">
+                    L5
+                </div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#EDEDED]">Alex Dev</span>
+<span class="text-xs text-[#A1A1AA] font-mono">Senior Track</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-h-screen h-full w-full relative z-10">
+<!-- Mobile Header (Visible only on small screens) -->
+<header class="md:hidden flex items-center justify-between p-4 border-b border-[#27272A] glass-card sticky top-0 z-30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">terminal</span>
+<h1 class="text-[#EDEDED] text-lg font-mono font-bold">EngOS</h1>
+</div>
+<button class="text-[#EDEDED]">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<div class="p-6 md:p-8 lg:p-12 max-w-[1400px] mx-auto w-full flex-1 flex flex-col gap-8">
+<!-- Page Header -->
+<header class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-primary font-mono text-sm tracking-wider uppercase">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    System Online
+                </div>
+<h2 class="text-3xl md:text-4xl font-mono font-bold text-[#EDEDED] tracking-tight">Command Center</h2>
+<p class="text-[#A1A1AA] text-base max-w-2xl">Daily launchpad. Current momentum is optimal. Awaiting mission execution.</p>
+</header>
+<!-- 3-Column Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Left Column: Motivation & Action (Col span 4) -->
+<div class="flex flex-col gap-6 lg:col-span-4">
+<!-- Today's Mission Card -->
+<div class="gradient-border-card p-6 flex flex-col gap-5 relative overflow-hidden group">
+<!-- Decorative background element -->
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/10 blur-3xl rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono font-semibold uppercase tracking-wider text-[#A1A1AA]">Active Objective</span>
+<span class="material-symbols-outlined text-primary text-[20px]">target</span>
+</div>
+<div class="flex flex-col gap-2 z-10">
+<h3 class="text-2xl font-mono font-semibold text-[#EDEDED] leading-tight animate-pulse-subtle group-hover:animate-none transition-all">Implement LRU Cache</h3>
+<p class="text-sm text-[#A1A1AA] font-sans">Target: 45m execution time. Focus on optimal O(1) time complexity for get/put operations.</p>
+</div>
+<div class="mt-2 z-10">
+<button class="primary-cta w-full h-10 rounded-md font-mono text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                                Execute Mission
+                            </button>
+</div>
+</div>
+<!-- Resume Course Card -->
+<div class="glass-card rounded-lg p-5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary">play_circle</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-[#A1A1AA] font-mono uppercase">Resume Training</span>
+<span class="text-sm font-medium text-[#EDEDED]">System Design: Rate Limiter</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#A1A1AA] group-hover:text-[#EDEDED] transition-colors">chevron_right</span>
+</div>
+</div>
+<!-- Center Column: Readiness Cockpit (Col span 5) -->
+<div class="flex flex-col gap-4 lg:col-span-5 glass-card rounded-lg p-6">
+<div class="flex items-center justify-between mb-4 border-b border-[#27272A] pb-4">
+<h3 class="text-lg font-mono font-semibold text-[#EDEDED] flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-muted-dark">speed</span>
+                            Readiness Telemetry
+                        </h3>
+<a class="text-xs font-mono text-primary hover:underline flex items-center gap-1" href="#">
+                            Detailed view <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<!-- Rings Grid Container -->
+<div class="grid grid-cols-2 gap-x-4 gap-y-8 place-items-center sm:gap-y-12">
+<!-- Coding Ring (Cyan) -->
+<div class="flex flex-col items-center gap-3 ring-container group" data-color="#06e0f9" data-percentage="78" data-shadow="rgba(6, 224, 249, 0.2)">
+<div class="relative flex items-center justify-center">
+<svg class="ring-svg" viewbox="0 0 120 120">
+<circle class="text-[#27272A] stroke-current" cx="60" cy="60" fill="transparent" r="52" stroke-width="8"></circle>
+<circle class="text-primary stroke-current progress-ring__circle" cx="60" cy="60" fill="transparent" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center group-hover:drop-shadow-[0_0_8px_rgba(6,224,249,0.5)] transition-all duration-300">
+<span class="text-xl sm:text-2xl font-mono font-bold text-[#EDEDED] ring-value">0%</span>
+</div>
+</div>
+<span class="text-xs font-mono text-[#A1A1AA] uppercase tracking-wider">Coding</span>
+</div>
+<!-- System Design Ring (Purple) -->
+<div class="flex flex-col items-center gap-3 ring-container group" data-color="#B026FF" data-percentage="45" data-shadow="rgba(176, 38, 255, 0.2)">
+<div class="relative flex items-center justify-center">
+<svg class="ring-svg" viewbox="0 0 120 120">
+<circle class="text-[#27272A] stroke-current" cx="60" cy="60" fill="transparent" r="52" stroke-width="8"></circle>
+<circle class="text-sysdesign stroke-current progress-ring__circle" cx="60" cy="60" fill="transparent" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center group-hover:drop-shadow-[0_0_8px_rgba(176,38,255,0.5)] transition-all duration-300">
+<span class="text-xl sm:text-2xl font-mono font-bold text-[#EDEDED] ring-value">0%</span>
+</div>
+</div>
+<span class="text-xs font-mono text-[#A1A1AA] uppercase tracking-wider">Sys Design</span>
+</div>
+<!-- AWS/Cloud Ring (Amber) -->
+<div class="flex flex-col items-center gap-3 ring-container group" data-color="#FFB000" data-percentage="92" data-shadow="rgba(255, 176, 0, 0.2)">
+<div class="relative flex items-center justify-center">
+<svg class="ring-svg" viewbox="0 0 120 120">
+<circle class="text-[#27272A] stroke-current" cx="60" cy="60" fill="transparent" r="52" stroke-width="8"></circle>
+<circle class="text-aws stroke-current progress-ring__circle" cx="60" cy="60" fill="transparent" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center group-hover:drop-shadow-[0_0_8px_rgba(255,176,0,0.5)] transition-all duration-300">
+<span class="text-xl sm:text-2xl font-mono font-bold text-[#EDEDED] ring-value">0%</span>
+</div>
+</div>
+<span class="text-xs font-mono text-[#A1A1AA] uppercase tracking-wider">Cloud/AWS</span>
+</div>
+<!-- Interviews Ring (Violet) -->
+<div class="flex flex-col items-center gap-3 ring-container group" data-color="#7C3AED" data-percentage="60" data-shadow="rgba(124, 58, 237, 0.2)">
+<div class="relative flex items-center justify-center">
+<svg class="ring-svg" viewbox="0 0 120 120">
+<circle class="text-[#27272A] stroke-current" cx="60" cy="60" fill="transparent" r="52" stroke-width="8"></circle>
+<circle class="text-interviews stroke-current progress-ring__circle" cx="60" cy="60" fill="transparent" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center group-hover:drop-shadow-[0_0_8px_rgba(124,58,237,0.5)] transition-all duration-300">
+<span class="text-xl sm:text-2xl font-mono font-bold text-[#EDEDED] ring-value">0%</span>
+</div>
+</div>
+<span class="text-xs font-mono text-[#A1A1AA] uppercase tracking-wider">Behavioral</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Quick Queues (Col span 3) -->
+<div class="flex flex-col gap-4 lg:col-span-3">
+<!-- Weak Area Repair Alert -->
+<div class="glass-card rounded-lg p-5 flex flex-col gap-4 border border-repair/30 relative overflow-hidden group hover:border-repair transition-colors">
+<div class="absolute top-0 right-0 w-16 h-16 bg-repair/10 blur-2xl rounded-full"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-repair text-[20px]">warning</span>
+<h4 class="text-sm font-mono font-semibold text-[#EDEDED] uppercase tracking-wide">Repair Queue</h4>
+</div>
+<div class="flex flex-col">
+<span class="text-3xl font-mono font-bold text-repair">14</span>
+<span class="text-xs text-[#A1A1AA] font-mono">Critical items degrading</span>
+</div>
+<button class="mt-2 w-full h-8 rounded-md bg-repair/10 border border-repair/50 text-repair hover:bg-repair/20 hover:shadow-glow-repair font-mono text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+                            Enter Queue
+                            <span class="material-symbols-outlined text-[14px]">login</span>
+</button>
+</div>
+<!-- Career Assets Status -->
+<div class="glass-card rounded-lg p-5 flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#A1A1AA] text-[20px]">folder_open</span>
+<h4 class="text-sm font-mono font-semibold text-[#EDEDED] uppercase tracking-wide">Career Assets</h4>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Progress Bar -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-xs font-mono">
+<span class="text-[#A1A1AA]">Readiness</span>
+<span class="text-[#EDEDED]">65%</span>
+</div>
+<div class="w-full h-1.5 bg-[#27272A] rounded-full overflow-hidden">
+<div class="h-full bg-[#EDEDED] rounded-full w-[65%]"></div>
+</div>
+</div>
+<!-- Mini Checklist -->
+<ul class="flex flex-col gap-2 mt-2">
+<li class="flex items-center gap-2 text-xs font-sans text-[#A1A1AA]">
+<span class="material-symbols-outlined text-[14px] text-green-500">check_circle</span>
+<span class="line-through">Update Resume V2</span>
+</li>
+<li class="flex items-center gap-2 text-xs font-sans text-[#EDEDED]">
+<span class="w-[14px] h-[14px] rounded-[3px] border border-[#52525B] flex-shrink-0"></span>
+<span>Deploy System Portfolio</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Atmospheric bottom spacer -->
+<div class="h-12 w-full"></div>
+</div>
+</main>
+<!-- Inline Script for Interactions -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate SVG Rings and handle Hover logic
+            const rings = document.querySelectorAll('.ring-container');
+            
+            // Adjust radius calculation based on screen size (responsive SVGs)
+            const getCircumference = (radius) => 2 * Math.PI * radius;
+            
+            rings.forEach(ring => {
+                const circle = ring.querySelector('.progress-ring__circle');
+                const valueText = ring.querySelector('.ring-value');
+                const percentage = parseInt(ring.getAttribute('data-percentage'), 10);
+                const color = ring.getAttribute('data-color');
+                const shadow = ring.getAttribute('data-shadow');
+                
+                // Radius is 52px based on SVG definition
+                const radius = circle.r.baseVal.value;
+                const circumference = getCircumference(radius);
+                
+                // Initialize stroke array
+                circle.style.strokeDasharray = `${circumference} ${circumference}`;
+                circle.style.strokeDashoffset = `${circumference}`;
+                
+                // Animate progress on load
+                setTimeout(() => {
+                    const offset = circumference - (percentage / 100) * circumference;
+                    circle.style.strokeDashoffset = offset;
+                    
+                    // Simple count up animation for text
+                    let currentVal = 0;
+                    const duration = 1000;
+                    const interval = 20;
+                    const step = percentage / (duration / interval);
+                    
+                    const counter = setInterval(() => {
+                        currentVal += step;
+                        if(currentVal >= percentage) {
+                            currentVal = percentage;
+                            clearInterval(counter);
+                        }
+                        valueText.textContent = `${Math.round(currentVal)}%`;
+                    }, interval);
+                }, 300);
+
+                // Hover Effects: Intensify glow
+                ring.addEventListener('mouseenter', () => {
+                    ring.style.filter = `drop-shadow(0 0 8px ${color})`;
+                });
+                
+                ring.addEventListener('mouseleave', () => {
+                    ring.style.filter = 'none';
+                });
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EngineeringOS: Milestone Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0de3f2",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0B132B",
+                        "surface": "#121E3D",
+                        "grid": "#1C3B5E",
+                        "text-main": "#E2E8F0",
+                        "muted": "#475569",
+                        "domain-code": "#00F0FF",
+                        "domain-sys": "#B026FF",
+                        "domain-aws": "#FFB800",
+                        "domain-int": "#6D28D9",
+                        "status-done": "#00FF9D",
+                        "status-weak": "#FF3366",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    backgroundImage: {
+                        'blueprint-grid': 'linear-gradient(to right, #1C3B5E 1px, transparent 1px), linear-gradient(to bottom, #1C3B5E 1px, transparent 1px)'
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background-dark');
+            color: theme('colors.text-main');
+            background-image: theme('backgroundImage.blueprint-grid');
+            background-size: 20px 20px;
+            font-family: theme('fontFamily.mono');
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: theme('fontFamily.display');
+        }
+        .glow-border {
+            box-shadow: 0 0 12px rgba(13, 227, 242, 0.3);
+        }
+        .radar-polygon {
+            transition: all 0.3s ease;
+        }
+        .radar-polygon:hover {
+            fill: rgba(13, 227, 242, 0.2);
+            stroke: theme('colors.primary');
+            filter: drop-shadow(0 0 8px theme('colors.primary'));
+        }
+        .blueprint-card {
+            background-color: rgba(18, 30, 61, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid theme('colors.grid');
+        }
+        .marquee {
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        /* Hide scrollbar for clean aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.background-dark');
+            border-left: 1px solid theme('colors.grid');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.muted');
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.primary');
+        }
+    </style>
+</head>
+<body class="min-h-screen flex text-text-main relative">
+<!-- Shared SideNavBar -->
+<div class="relative flex h-auto min-h-screen w-[280px] shrink-0 flex-col bg-surface border-r border-grid z-10 font-display">
+<div class="flex h-full grow flex-col">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-6">
+<div class="flex gap-3 items-center border-b border-grid pb-6">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-primary glow-border" data-alt="A macro shot of a complex server rack with glowing cyan LED lights in a dark data center, representing advanced engineering systems." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvCr0Li6zTpgeueDtkRrzRwtulPpager_mYVb_HGDH5sn7GtMwVhwiBjCHzz2chJJUBuoLCr1ATHoj9X0G3QgjgEEQtr7lhsD-Krx3p9gAgx9vjs11J2dndsH-D9BDPsRX89dDiwH9MZlaerPTRAMr6Lb_vLmOpfPZsXBii_inoKLe0DTEXFsgxlOxuXtUFpWJtEyfnQqgyUtJ_MAKt1HbR_hMDnCUGfEItq79jFqZ_syQ6GbHmJvrZdxsJk3_jQMs0esaPGCbXyE");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold tracking-wider uppercase">EngineeringOS</h1>
+<p class="text-primary text-xs font-mono">Blueprint Roadmap</p>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-muted group-hover:text-white transition-colors" data-icon="account_tree">account_tree</span>
+<p class="text-muted group-hover:text-white text-sm font-medium leading-normal transition-colors">Roadmap</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-muted group-hover:text-white transition-colors" data-icon="folder_special">folder_special</span>
+<p class="text-muted group-hover:text-white text-sm font-medium leading-normal transition-colors">Cluster Detail</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 hover:bg-white/5 transition-colors group" href="#">
+<span class="material-symbols-outlined text-muted group-hover:text-white transition-colors" data-icon="menu_book">menu_book</span>
+<p class="text-muted group-hover:text-white text-sm font-medium leading-normal transition-colors">Skill Module</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 border-l-2 border-primary" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="track_changes" data-weight="fill" style="font-variation-settings: 'FILL' 1;">track_changes</span>
+<p class="text-primary text-sm font-medium leading-normal">Milestone Summary</p>
+</a>
+</div>
+</div>
+<!-- Bottom user status snippet -->
+<div class="mt-auto border-t border-grid pt-4">
+<div class="flex justify-between items-center text-xs font-mono text-muted mb-2">
+<span>SYSTEM STATUS</span>
+<span class="text-status-done flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-status-done inline-block animate-pulse"></span> ONLINE</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto relative z-0">
+<!-- Top Header for Screen Context -->
+<header class="h-20 border-b border-grid bg-surface/80 backdrop-blur-md flex items-center px-10 sticky top-0 z-20">
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-3xl font-bold font-display uppercase tracking-widest">Milestone Summary</h2>
+<p class="text-muted text-sm font-mono flex items-center gap-2">
+<span class="text-primary">&gt;</span> Track your progress toward Senior Backend Engineer
+                </p>
+</div>
+</header>
+<div class="p-10 max-w-[1440px] mx-auto w-full flex flex-col gap-6 relative z-10">
+<!-- Top Row: Level & Stats -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Main Level Indicator -->
+<div class="col-span-4 blueprint-card flex flex-col items-center justify-center p-8 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative w-48 h-48 flex items-center justify-center mb-6">
+<!-- Decorative SVG Rings -->
+<svg class="absolute inset-0 w-full h-full animate-[spin_60s_linear_infinite]" viewbox="0 0 200 200">
+<circle class="text-muted" cx="100" cy="100" fill="none" r="90" stroke="currentColor" stroke-dasharray="4 8" stroke-width="1"></circle>
+<circle class="text-primary/50" cx="100" cy="100" fill="none" r="80" stroke="currentColor" stroke-dasharray="20 10 5 10" stroke-width="2"></circle>
+</svg>
+<svg class="absolute inset-0 w-full h-full animate-[spin_40s_linear_infinite_reverse]" viewbox="0 0 200 200">
+<circle class="text-grid" cx="100" cy="100" fill="none" r="70" stroke="currentColor" stroke-dasharray="2 4" stroke-width="1"></circle>
+</svg>
+<div class="bg-surface rounded-full w-32 h-32 flex flex-col items-center justify-center border-2 border-primary glow-border z-10">
+<span class="text-muted text-xs font-mono mb-1">LVL</span>
+<span class="text-white text-5xl font-display font-bold">4</span>
+</div>
+</div>
+<h3 class="text-white font-display text-xl font-bold uppercase tracking-wider mb-2">System Architect</h3>
+<div class="w-full bg-grid h-2 mt-4 relative">
+<div class="absolute top-0 left-0 h-full bg-primary" style="width: 78%;"></div>
+<div class="absolute top-0 left-0 w-full h-full bg-[linear-gradient(90deg,transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[length:4px_100%]"></div>
+</div>
+<div class="flex justify-between w-full mt-2 text-xs font-mono text-muted">
+<span>7800 / 10000 XP</span>
+<span class="text-primary">LVL 5 PENDING</span>
+</div>
+</div>
+<!-- Stat Cards Grid -->
+<div class="col-span-8 grid grid-cols-2 gap-6">
+<!-- Stat Card 1 -->
+<div class="blueprint-card p-6 flex flex-col justify-between h-[140px] hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-muted text-sm font-mono uppercase">Mastered Nodes</span>
+<span class="material-symbols-outlined text-status-done text-xl">check_circle</span>
+</div>
+<div class="text-white text-5xl font-display font-bold">42<span class="text-xl text-muted font-mono">/128</span></div>
+</div>
+<!-- Stat Card 2 -->
+<div class="blueprint-card p-6 flex flex-col justify-between h-[140px] hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-muted text-sm font-mono uppercase">Stage Progress</span>
+<span class="material-symbols-outlined text-primary text-xl">timeline</span>
+</div>
+<div class="text-white text-5xl font-display font-bold">Scale</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="blueprint-card p-6 flex flex-col justify-between h-[140px] hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-muted text-sm font-mono uppercase">Avg Complexity Rating</span>
+<span class="material-symbols-outlined text-domain-sys text-xl">moving</span>
+</div>
+<div class="text-white text-5xl font-display font-bold">7.4</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="blueprint-card p-6 flex flex-col justify-between h-[140px] hover:border-primary/50 transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-muted text-sm font-mono uppercase">Weak Points</span>
+<span class="material-symbols-outlined text-status-weak text-xl">warning</span>
+</div>
+<div class="text-white text-5xl font-display font-bold">3<span class="text-xl text-muted font-mono text-status-weak/50"> needs review</span></div>
+</div>
+</div>
+</div>
+<!-- Middle Row: Radar & Bottleneck -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Domain Radar Chart -->
+<div class="col-span-6 blueprint-card p-8 flex flex-col">
+<h3 class="text-white font-display text-lg uppercase tracking-widest border-b border-grid pb-4 mb-6 flex justify-between items-center">
+                        Domain Proficiency
+                        <span class="material-symbols-outlined text-muted text-sm">radar</span>
+</h3>
+<div class="flex-1 flex items-center justify-center relative">
+<!-- Simplified SVG Radar Chart for UI rep -->
+<div class="relative w-64 h-64">
+<!-- Background Web -->
+<svg class="absolute inset-0 w-full h-full" viewbox="0 0 200 200">
+<!-- Concentric polygons -->
+<polygon class="text-grid" fill="none" points="100,20 180,100 100,180 20,100" stroke="currentColor" stroke-width="1"></polygon>
+<polygon class="text-grid" fill="none" points="100,40 160,100 100,160 40,100" stroke="currentColor" stroke-width="1"></polygon>
+<polygon class="text-grid" fill="none" points="100,60 140,100 100,140 60,100" stroke="currentColor" stroke-width="1"></polygon>
+<polygon class="text-grid" fill="none" points="100,80 120,100 100,120 80,100" stroke="currentColor" stroke-width="1"></polygon>
+<!-- Axes -->
+<line class="text-grid" stroke="currentColor" stroke-width="1" x1="100" x2="100" y1="20" y2="180"></line>
+<line class="text-grid" stroke="currentColor" stroke-width="1" x1="20" x2="180" y1="100" y2="100"></line>
+<!-- Data Polygon (The filled area) -->
+<polygon class="text-primary radar-polygon cursor-crosshair" fill="rgba(13,227,242,0.1)" points="100,45 155,100 100,130 50,100" stroke="currentColor" stroke-width="2"></polygon>
+<!-- Data Points -->
+<circle class="text-domain-sys" cx="100" cy="45" fill="currentColor" r="4"></circle> <!-- Top: Sys Design 70% -->
+<circle class="text-domain-code" cx="155" cy="100" fill="currentColor" r="4"></circle> <!-- Right: Code 65% -->
+<circle class="text-domain-aws" cx="100" cy="130" fill="currentColor" r="4"></circle> <!-- Bottom: AWS 80% -->
+<circle class="text-domain-int" cx="50" cy="100" fill="currentColor" r="4"></circle> <!-- Left: Interviews 55% -->
+</svg>
+<!-- Labels -->
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-mono text-domain-sys whitespace-nowrap">SYS DESIGN <span class="text-white">70/100</span></div>
+<div class="absolute top-1/2 -right-16 -translate-y-1/2 text-xs font-mono text-domain-code whitespace-nowrap text-right">CODE<br/><span class="text-white">65/100</span></div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-mono text-domain-aws whitespace-nowrap">AWS INFRA <span class="text-white">80/100</span></div>
+<div class="absolute top-1/2 -left-20 -translate-y-1/2 text-xs font-mono text-domain-int whitespace-nowrap">INTERVIEWS<br/><span class="text-white">55/100</span></div>
+</div>
+</div>
+</div>
+<!-- Next Bottleneck -->
+<div class="col-span-6 blueprint-card p-0 flex flex-col border-status-weak/50">
+<div class="p-6 border-b border-grid bg-status-weak/10">
+<h3 class="text-status-weak font-display text-lg uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">block</span>
+                            Critical Bottleneck
+                        </h3>
+<p class="text-muted text-xs font-mono mt-2">This node is blocking 14 downstream skills.</p>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3 mb-4">
+<span class="bg-domain-sys/20 text-domain-sys text-xs font-bold px-2 py-1 rounded-sm uppercase">Architecture</span>
+<span class="text-white font-display text-2xl font-bold">Distributed Caching</span>
+</div>
+<div class="space-y-3 mb-6">
+<h4 class="text-muted text-xs font-mono uppercase mb-2 border-b border-grid pb-1 inline-block">Missing Prerequisites:</h4>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-status-weak text-lg">close</span>
+<span class="font-mono text-text-main">Redis Internals</span>
+</div>
+<div class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-status-weak text-lg">close</span>
+<span class="font-mono text-text-main">Cache Invalidation Strategies</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-status-weak/20 hover:bg-status-weak/30 border border-status-weak text-white font-mono text-sm py-3 px-4 uppercase transition-all flex items-center justify-center gap-2 group">
+                            Resolve Bottleneck
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Recent Unlocks -->
+<div class="blueprint-card p-4 overflow-hidden border-t-2 border-t-status-done relative flex items-center">
+<div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-surface to-transparent z-10 flex items-center px-4">
+<span class="text-status-done text-xs font-mono font-bold uppercase tracking-wider">LATEST:</span>
+</div>
+<div class="flex-1 overflow-hidden ml-24">
+<div class="flex gap-8 whitespace-nowrap marquee font-mono text-sm">
+<!-- Ticker Items -->
+<div class="flex items-center gap-2">
+<span class="text-domain-aws">[AWS]</span>
+<span class="text-white">SQS &amp; SNS Patterns</span>
+<span class="material-symbols-outlined text-status-done text-xs">done</span>
+</div>
+<span class="text-grid">|</span>
+<div class="flex items-center gap-2">
+<span class="text-domain-code">[CODE]</span>
+<span class="text-white">Go Concurrency</span>
+<span class="material-symbols-outlined text-status-done text-xs">done</span>
+</div>
+<span class="text-grid">|</span>
+<div class="flex items-center gap-2">
+<span class="text-domain-sys">[SYS]</span>
+<span class="text-white">API Gateway Auth</span>
+<span class="material-symbols-outlined text-status-done text-xs">done</span>
+</div>
+<span class="text-grid">|</span>
+<div class="flex items-center gap-2">
+<span class="text-domain-int">[INT]</span>
+<span class="text-white">STAR Method Practice</span>
+<span class="material-symbols-outlined text-status-done text-xs">done</span>
+</div>
+<!-- Repeat for seamless scroll -->
+<span class="text-grid">|</span>
+<div class="flex items-center gap-2">
+<span class="text-domain-aws">[AWS]</span>
+<span class="text-white">SQS &amp; SNS Patterns</span>
+<span class="material-symbols-outlined text-status-done text-xs">done</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

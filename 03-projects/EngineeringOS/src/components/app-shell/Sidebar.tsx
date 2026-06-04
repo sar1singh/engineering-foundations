@@ -11,18 +11,26 @@ import {
   Gauge,
   GitBranch,
   GraduationCap,
-  ListChecks,
-  MessageSquareText,
-  ShieldCheck,
   LayoutDashboard,
   Library,
+  ListChecks,
   LogIn,
-  UserCircle,
-  Sparkles,
-  SlidersHorizontal,
+  MessageSquareText,
   Settings,
+  ShieldCheck,
+  SlidersHorizontal,
+  Sparkles,
+  UserCircle,
   Wrench
 } from "lucide-react";
+
+const primaryNav = [
+  { label: "Mission", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Blueprint", href: "/graph", icon: GitBranch },
+  { label: "Focus", href: "/courses", icon: Brain },
+  { label: "Sources", href: "/sources", icon: Compass },
+  { label: "Profile", href: "/profile", icon: UserCircle }
+];
 
 const navGroups = [
   {
@@ -30,15 +38,16 @@ const navGroups = [
     items: [
       { label: "Today", href: "/today", icon: Sparkles },
       { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-      { label: "Progress", href: "/progress", icon: BarChart3 }
+      { label: "Progress", href: "/progress", icon: BarChart3 },
+      { label: "Weak Areas", href: "/weak-areas", icon: ListChecks }
     ]
   },
   {
     title: "Learn",
     items: [
       { label: "Courses", href: "/courses", icon: GraduationCap },
+      { label: "Blueprint Graph", href: "/graph", icon: GitBranch },
       { label: "Syllabus", href: "/syllabus", icon: Library },
-      { label: "Learning Graph", href: "/graph", icon: GitBranch },
       { label: "Topic Studio", href: "/topics/closures", icon: Brain }
     ]
   },
@@ -54,8 +63,7 @@ const navGroups = [
     title: "Resources",
     items: [
       { label: "Sources", href: "/sources", icon: Compass },
-      { label: "Weak Areas", href: "/weak-areas", icon: ListChecks },
-      { label: "Content", href: "/content", icon: Gauge },
+      { label: "Content Search", href: "/content", icon: Gauge },
       { label: "Product QA", href: "/quality", icon: ShieldCheck }
     ]
   },
@@ -74,49 +82,68 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden border-[var(--border)] bg-white text-[var(--foreground)] lg:fixed lg:inset-y-0 lg:left-0 lg:z-30 lg:block lg:w-72 lg:border-r">
-      <div className="eo-scroll flex h-full flex-col gap-6 overflow-y-auto px-4 py-5">
-        <Link href="/today" className="eo-gradient-border flex items-center gap-3 p-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-700 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(79,70,229,0.28)]">
-            EO
-          </div>
-          <div>
-            <p className="font-semibold">EngineeringOS</p>
-            <p className="text-sm text-[var(--muted)]">Learning operating system</p>
-          </div>
+    <aside className="eo-os-rail hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-30 lg:flex lg:w-20 lg:flex-col lg:items-center lg:justify-between lg:px-3 lg:py-4">
+      <div className="flex w-full flex-col items-center gap-4">
+        <Link href="/dashboard" className="flex h-11 w-11 items-center justify-center border border-[var(--accent)] bg-[var(--accent-soft)] font-mono text-sm font-black text-[var(--accent-strong)] shadow-[0_0_26px_rgba(0,229,255,0.2)]">
+          E_OS
         </Link>
-        <nav className="flex flex-col gap-4">
-          {navGroups.map((group) => (
-            <details key={group.title} open className="group/nav">
-              <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg px-2 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">
-                {group.title}
-                <ChevronDown className="h-3.5 w-3.5 transition group-open/nav:rotate-180" aria-hidden="true" />
-              </summary>
-              <div className="mt-1 flex flex-col gap-1">
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
-                        isActive
-                          ? "bg-teal-50 text-teal-800 shadow-[inset_3px_0_0_var(--accent)]"
-                          : "text-[var(--muted)] hover:bg-slate-50 hover:text-[var(--foreground)]"
-                      }`}
-                    >
-                      <Icon className={`h-4 w-4 ${isActive ? "text-teal-700" : "transition group-hover:text-teal-700"}`} aria-hidden="true" />
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </div>
-            </details>
-          ))}
+        <nav className="flex w-full flex-col gap-2" aria-label="Primary EngineeringOS navigation">
+          {primaryNav.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.href}
+                aria-label={item.label}
+                className="eo-rail-link flex h-12 w-full flex-col items-center justify-center gap-1 text-[0.58rem] font-bold uppercase tracking-[0.08em]"
+                data-active={isActive}
+                href={item.href}
+                title={item.label}
+              >
+                <Icon className="h-5 w-5" aria-hidden="true" />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
       </div>
+
+      <details className="group/menu relative w-full">
+        <summary className="eo-rail-link flex h-12 w-full cursor-pointer list-none items-center justify-center" aria-label="Open route menu">
+          <ChevronDown className="h-5 w-5 transition group-open/menu:rotate-180" aria-hidden="true" />
+        </summary>
+        <div className="absolute bottom-0 left-16 z-50 w-80 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.75)]">
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent-strong)]">Route matrix</p>
+          <div className="mt-3 space-y-3">
+            {navGroups.map((group) => (
+              <details key={group.title} open={["Mission", "Learn"].includes(group.title)} className="group/nav">
+                <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
+                  {group.title}
+                  <ChevronDown className="h-3.5 w-3.5 transition group-open/nav:rotate-180" aria-hidden="true" />
+                </summary>
+                <div className="mt-2 grid gap-1">
+                  {group.items.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                    return (
+                      <Link
+                        key={item.href}
+                        className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold transition ${
+                          isActive ? "bg-[var(--accent-soft)] text-[var(--accent-strong)]" : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"
+                        }`}
+                        href={item.href}
+                      >
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </details>
     </aside>
   );
 }

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ENGINEERING_OS | Mission Control</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .dot-matrix {
+            background-image: radial-gradient(#1e1e20 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .glow-cyan { box-shadow: 0 0 15px rgba(0, 219, 233, 0.3); }
+        .glow-rose { box-shadow: 0 0 15px rgba(251, 113, 133, 0.2); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0e0e10; }
+        ::-webkit-scrollbar-thumb { background: #3b494b; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#e5e1e4",
+                      "surface-container-high": "#2a2a2c",
+                      "secondary-container": "#573878",
+                      "on-error-container": "#ffdad6",
+                      "background": "#050505",
+                      "primary": "#dbfcff",
+                      "inverse-on-surface": "#303032",
+                      "on-primary-container": "#006970",
+                      "tertiary-container": "#ffd47a",
+                      "outline": "#849495",
+                      "secondary-fixed": "#efdbff",
+                      "outline-variant": "#3b494b",
+                      "tertiary-fixed-dim": "#f9bd22",
+                      "surface-bright": "#39393b",
+                      "primary-fixed-dim": "#00dbe9",
+                      "error-container": "#93000a",
+                      "surface-dim": "#131315",
+                      "surface-variant": "#353437",
+                      "surface": "#131315",
+                      "surface-container": "#201f21",
+                      "on-primary-fixed-variant": "#004f54",
+                      "on-secondary-fixed-variant": "#573878",
+                      "tertiary": "#fff5e7",
+                      "surface-tint": "#00dbe9",
+                      "primary-container": "#00f0ff",
+                      "surface-container-highest": "#353437",
+                      "tertiary-fixed": "#ffdf9f",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-surface": "#e5e1e4",
+                      "on-background": "#e5e1e4",
+                      "secondary-fixed-dim": "#dbb8ff",
+                      "on-tertiary": "#402d00",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "on-primary": "#00363a",
+                      "on-secondary-container": "#caa6ef",
+                      "on-secondary-fixed": "#29074a",
+                      "on-primary-fixed": "#002022",
+                      "on-tertiary-container": "#7a5a00",
+                      "on-secondary": "#3f2160",
+                      "inverse-primary": "#006970",
+                      "error": "#ffb4ab",
+                      "secondary": "#dbb8ff",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-error": "#690005",
+                      "primary-fixed": "#7df4ff",
+                      "surface-container-low": "#1b1b1d",
+                      "on-surface-variant": "#b9cacb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "gutter": "16px",
+                      "margin-sm": "16px",
+                      "margin-md": "32px",
+                      "max-width": "1440px",
+                      "margin-lg": "48px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "technical-sm": ["JetBrains Mono"],
+                      "headline-lg-mobile": ["Space Grotesk"],
+                      "headline-md": ["Space Grotesk"],
+                      "display-lg": ["Space Grotesk"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Space Grotesk"],
+                      "technical-xs": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "technical-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "technical-xs": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-fixed-dim selection:text-on-primary-fixed overflow-hidden h-screen flex">
+<!-- LEFT: SIDEBAR (Shared Component) -->
+<aside class="fixed left-0 top-0 h-full z-50 h-screen w-20 flex flex-col items-center py-gutter border-r border-outline-variant bg-surface-container-lowest">
+<div class="mb-10 text-center">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">E_OS</span>
+</div>
+<nav class="flex flex-col gap-8 flex-1">
+<!-- Mission Control (Active) -->
+<button class="group relative flex flex-col items-center gap-1 text-primary shadow-[0_0_15px_rgba(0,219,233,0.4)] border-l-2 border-primary bg-surface-container-high p-3 transition-all duration-200 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-technical-xs text-[10px] uppercase">Control</span>
+</button>
+<!-- Blueprint -->
+<button class="group flex flex-col items-center gap-1 text-outline hover:text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 p-3 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-technical-xs text-[10px] uppercase">Plan</span>
+</button>
+<!-- Focus Engine -->
+<button class="group flex flex-col items-center gap-1 text-outline hover:text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 p-3 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-technical-xs text-[10px] uppercase">Focus</span>
+</button>
+</nav>
+<div class="mt-auto flex flex-col gap-6 items-center w-full">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+</button>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-10 h-10 bg-surface-variant border border-outline-variant flex items-center justify-center">
+<img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmMMI_jNvwW3mhFDwf1IJh-gFTsZiTlaM8pzD4nYZyJFTEI-cDgr_nN2Ch6lZ7A2PgYR_EmbcK5b_KYVLvlppD8asuvyLHS9sei6TiDRBDCZ1QZ4FJ8Tutx2qpujQBoMwFBCr4z0fTvuw_f8EZFGUjvBi1REBHrxfimbra1WsblNUWT7CiVyLHOCth7_EVjjkdMD0V3pMaYov7O9jLpxWrgHT6x4UjKXjY5iF0ZhOXC8BCTF_yxOvBtlofR554zxqMMQdmv2G46jI"/>
+</div>
+</div>
+</aside>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-20 flex-1 flex flex-col h-screen dot-matrix">
+<!-- TOP NAV (Shared Component) -->
+<header class="h-12 w-full border-b border-outline-variant bg-surface-container-lowest flex items-center justify-between px-gutter sticky top-0 z-40">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">ENGINEERING_OS</span>
+<nav class="hidden md:flex gap-4">
+<a class="font-technical-xs text-technical-xs uppercase tracking-widest text-primary border-b border-primary py-1" href="#">Nodes</a>
+<a class="font-technical-xs text-technical-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Assets</a>
+<a class="font-technical-xs text-technical-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors py-1" href="#">Logs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-2 text-outline text-sm" data-icon="search">search</span>
+<input class="bg-surface-container text-on-surface border-none text-technical-xs font-technical-xs pl-8 pr-4 py-1 w-64 focus:ring-1 focus:ring-primary placeholder:text-outline/50" placeholder="QUERY_SYSTEM..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="terminal">terminal</span>
+<button class="bg-primary text-on-primary font-technical-xs text-technical-xs px-4 py-1 uppercase font-bold tracking-widest hover:opacity-80 active:scale-95 transition-all">Execute</button>
+</div>
+</div>
+</header>
+<!-- DASHBOARD GRID -->
+<div class="flex-1 p-gutter grid grid-cols-12 gap-gutter overflow-y-auto">
+<!-- CENTER PANEL: RESUME & PROTOCOL (Cols 1-8) -->
+<div class="col-span-8 flex flex-col gap-gutter">
+<!-- HERO CARD: RESUME MISSION -->
+<section class="relative h-64 border border-outline-variant bg-surface group overflow-hidden glow-cyan">
+<div class="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
+<img class="w-full h-full object-cover grayscale brightness-50" data-alt="A highly detailed close-up of complex, glowing blue circuit board pathways on a deep black background. The lighting is cold and clinical, emphasizing sharp edges and technical precision. Neon cyan light spills from the data tracks, creating a futuristic architectural vibe within a digital void. The mood is powerful, focused, and intensely engineered." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFn5JvBGQvLciERsNPS-q4bZ53DKifeRl7heU9-CiPYqrguDh6cHmEArl5prZP4ElWpAmdRmJUSBlnoeavRzp3_cyWPIvUvLAMi7MJiiki2p3fKg4Ihj4sZPnfxESRsBpEjur3Ajiqe8LVgq-bQcTB1IpmEXO0fsR6gH73xWzrlin9gpygoDFENA0qtWcJ1OIktcoaTc0MjWXAGet6LjEMVrfHt74igKG9Wjrd9_xpWjNioIwoKMvnvsL98xp-ZVUVEsxJzUAM5ZM"/>
+</div>
+<div class="relative h-full p-8 flex flex-col justify-between z-10">
+<div class="flex items-center gap-3">
+<span class="font-technical-xs text-technical-xs bg-primary/10 border border-primary text-primary px-2 py-0.5 uppercase">MISSION_IN_PROGRESS</span>
+<span class="text-outline font-technical-xs text-technical-xs">ID: X-9042_DIST_CACHE</span>
+</div>
+<div>
+<h1 class="font-headline-lg text-headline-lg text-white mb-2 leading-none">System Design: Distributed Caching</h1>
+<p class="text-outline font-body-md max-w-lg">Advanced protocol covering consistency hashing, eviction policies, and cluster topologies in high-throughput environments.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary font-technical-sm text-technical-sm px-6 py-2 flex items-center gap-2 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" data-icon="play_arrow" data-weight="fill">play_arrow</span>
+                                RESUME PROTOCOL
+                            </button>
+<span class="text-primary font-technical-xs text-technical-xs">68% COMPLETE</span>
+</div>
+</div>
+</section>
+<!-- TODAY'S PROTOCOL -->
+<section class="border border-outline-variant bg-surface-container-lowest p-6">
+<div class="flex items-center justify-between mb-6 border-b border-outline-variant pb-4">
+<h3 class="font-technical-sm text-technical-sm uppercase tracking-[0.2em] text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="checklist">checklist</span>
+                            Today's Protocol
+                        </h3>
+<span class="font-technical-xs text-technical-xs text-outline">STARDATE: 2024.11.08</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Checklist Item -->
+<div class="flex items-center gap-4 p-3 border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-5 h-5 border border-primary bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check" data-weight="fill">check</span>
+</div>
+<div class="flex-1">
+<p class="font-technical-sm text-technical-sm text-on-surface">Architectural Review: Bloom Filters in L1 Cache</p>
+</div>
+<span class="text-outline font-technical-xs text-technical-xs opacity-50 group-hover:opacity-100">08:00_HRS</span>
+</div>
+<!-- Checklist Item -->
+<div class="flex items-center gap-4 p-3 border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-5 h-5 border border-outline-variant"></div>
+<div class="flex-1">
+<p class="font-technical-sm text-technical-sm text-on-surface">Stress Test Implementation: Redis Cluster Partitioning</p>
+</div>
+<span class="text-outline font-technical-xs text-technical-xs opacity-50 group-hover:opacity-100">14:30_HRS</span>
+</div>
+<!-- Checklist Item -->
+<div class="flex items-center gap-4 p-3 border border-outline-variant hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="w-5 h-5 border border-outline-variant"></div>
+<div class="flex-1">
+<p class="font-technical-sm text-technical-sm text-on-surface">Telemetry Sync with Global Engineering Cluster</p>
+</div>
+<span class="text-outline font-technical-xs text-technical-xs opacity-50 group-hover:opacity-100">17:00_HRS</span>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT PANEL: TELEMETRY & VULNERABILITY (Cols 9-12) -->
+<div class="col-span-4 flex flex-col gap-gutter">
+<!-- READINESS TELEMETRY -->
+<section class="border border-outline-variant bg-surface-container-lowest p-6">
+<h3 class="font-technical-sm text-technical-sm uppercase tracking-[0.2em] text-on-surface mb-8">Readiness Telemetry</h3>
+<div class="grid grid-cols-2 gap-8">
+<!-- Ring 1: Cyan -->
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-outline-variant" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-primary-fixed-dim" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-dasharray="276" stroke-dashoffset="60" stroke-width="2"></circle>
+</svg>
+<span class="absolute font-technical-sm text-technical-sm text-primary">78%</span>
+</div>
+<span class="font-technical-xs text-technical-xs text-outline uppercase">Logic</span>
+</div>
+<!-- Ring 2: Purple -->
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-outline-variant" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-secondary" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-dasharray="276" stroke-dashoffset="120" stroke-width="2"></circle>
+</svg>
+<span class="absolute font-technical-sm text-technical-sm text-secondary">55%</span>
+</div>
+<span class="font-technical-xs text-technical-xs text-outline uppercase">Design</span>
+</div>
+<!-- Ring 3: Amber -->
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-outline-variant" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-tertiary-fixed-dim" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-dasharray="276" stroke-dashoffset="30" stroke-width="2"></circle>
+</svg>
+<span class="absolute font-technical-sm text-technical-sm text-tertiary-fixed-dim">92%</span>
+</div>
+<span class="font-technical-xs text-technical-xs text-outline uppercase">Cloud</span>
+</div>
+<!-- Ring 4: Violet -->
+<div class="flex flex-col items-center gap-2">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-outline-variant" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-width="2"></circle>
+<circle class="text-on-secondary-container" cx="48" cy="48" fill="transparent" r="44" stroke="currentColor" stroke-dasharray="276" stroke-dashoffset="180" stroke-width="2"></circle>
+</svg>
+<span class="absolute font-technical-sm text-technical-sm text-on-secondary-container">35%</span>
+</div>
+<span class="font-technical-xs text-technical-xs text-outline uppercase">Data</span>
+</div>
+</div>
+</section>
+<!-- VULNERABILITY DETECTED -->
+<section class="flex-1 border border-outline-variant bg-surface-container-lowest p-6 glow-rose">
+<div class="flex items-center gap-2 mb-4 text-error">
+<span class="material-symbols-outlined" data-icon="report" data-weight="fill">report</span>
+<h3 class="font-technical-sm text-technical-sm uppercase tracking-[0.2em] font-bold">Vulnerability Detected</h3>
+</div>
+<div class="space-y-4">
+<!-- Alert 1 -->
+<div class="p-4 bg-error-container/20 border-l-4 border-error">
+<p class="font-technical-sm text-technical-sm text-on-error-container font-bold mb-1">Knowledge Gap: CAP Theorem</p>
+<p class="font-technical-xs text-technical-xs text-error/80 leading-snug">System indicates weak comprehension of Availability vs Partition Tolerance trade-offs.</p>
+<button class="mt-2 text-error font-technical-xs text-technical-xs underline hover:text-white transition-colors">INITIATE_REMEDIATION</button>
+</div>
+<!-- Alert 2 -->
+<div class="p-4 bg-surface-variant border-l-4 border-outline-variant">
+<p class="font-technical-sm text-technical-sm text-on-surface-variant font-bold mb-1">Performance Decay</p>
+<p class="font-technical-xs text-technical-xs text-outline leading-snug">LeetCode Hard execution speed has dropped below system baseline of 40ms.</p>
+</div>
+</div>
+<!-- Decorative Data Scan -->
+<div class="mt-6 font-technical-xs text-technical-xs text-outline-variant overflow-hidden h-24 relative select-none pointer-events-none">
+<div class="animate-scroll" id="data-stream">
+                            01001101 01001001 01010011 01010011 01001001 01001111 01001110<br/>
+                            SCANNING_MODULE_X90... ERROR_INVALID_BUFFER<br/>
+                            RE-ROUTING_TO_STAGING... SUCCESS<br/>
+                            LATENCY_DETECTED: 45ms<br/>
+                            UPTIME: 99.992%<br/>
+                            MEM_ALLOC: 4.2GB / 64GB
+                        </div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent"></div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- FAB (Contextual) -->
+<button class="fixed bottom-margin-md right-margin-md w-14 h-14 bg-primary text-on-primary flex items-center justify-center shadow-lg transition-transform active:scale-90 hover:scale-110 z-50">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<script>
+        // Micro-interaction: Periodic "Scanning" light flash
+        setInterval(() => {
+            const glowElements = document.querySelectorAll('.glow-cyan');
+            glowElements.forEach(el => {
+                el.classList.add('brightness-125');
+                setTimeout(() => el.classList.remove('brightness-125'), 150);
+            });
+        }, 8000);
+
+        // Data Stream Randomizer (Fake data effect)
+        const stream = document.getElementById('data-stream');
+        if(stream) {
+            setInterval(() => {
+                const hex = Math.random().toString(16).substr(2, 8).toUpperCase();
+                stream.innerHTML = stream.innerHTML.split('<br>').slice(1).join('<br>') + `<br>DEBUG_${hex}_LOG_OK`;
+            }, 2000);
+        }
+    </script>
+</body></html>

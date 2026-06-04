@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EngineeringOS - Code Workspace</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;family=Geist:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e1b514",
+                        "background-light": "#f8f8f6",
+                        "background-dark": "#221e10",
+                    },
+                    fontFamily: {
+                        "display": ["Geist", "sans-serif"],
+                        "mono": ["Geist Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem", 
+                        "lg": "0.25rem", 
+                        "xl": "0.5rem", 
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for minimalist feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+        
+        .syntax-keyword { color: #e1b514; }
+        .syntax-type { color: #a3a3a3; }
+        .syntax-string { color: #737373; }
+        .syntax-comment { color: #525252; font-style: italic; }
+    </style>
+</head>
+<body class="bg-background-dark text-neutral-200 font-display flex flex-col h-screen overflow-hidden selection:bg-primary selection:text-black">
+<!-- Shared TopNavBar -->
+<div class="relative flex h-auto w-full flex-col bg-background-dark shrink-0">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-10 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] w-full flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-neutral-800 px-0 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-4 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">EngineeringOS</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-neutral-400 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Learn</a>
+<a class="text-neutral-400 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Practice</a>
+<a class="text-white text-sm font-medium leading-normal relative after:content-[''] after:absolute after:-bottom-[19px] after:left-0 after:w-full after:h-[3px] after:bg-primary" href="#">Code</a>
+<a class="text-neutral-400 hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Interview</a>
+</div>
+</div>
+</header>
+<div class="pb-0 pt-2 flex items-center gap-4">
+<div class="flex items-center gap-2 text-neutral-400 font-mono text-sm px-2">
+<span class="material-symbols-outlined text-lg" data-icon="folder">folder</span>
+<span>distributed-cache</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary bg-neutral-900 px-2 py-1 rounded">cache.go</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden border-t border-neutral-800 relative bg-neutral-950">
+<!-- Code Editor Pane -->
+<section class="flex-1 flex flex-col relative z-0">
+<!-- Code Canvas -->
+<div class="flex-1 flex overflow-auto font-mono text-sm leading-relaxed">
+<!-- Line Numbers -->
+<div class="w-12 bg-neutral-900 border-r border-neutral-800 text-neutral-600 text-right pr-3 py-4 select-none flex flex-col items-end shrink-0">
+<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div>
+<div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div>
+<div>21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div>
+</div>
+<!-- Source Code -->
+<div class="p-4 text-neutral-300 whitespace-pre w-full outline-none" contenteditable="true" spellcheck="false">
+<span class="syntax-keyword">package</span> cache
+
+<span class="syntax-keyword">import</span> (
+    <span class="syntax-string">"sync"</span>
+<span class="syntax-string">"time"</span>
+)
+
+<span class="syntax-comment">// CacheItem represents a single cached entity</span>
+<span class="syntax-keyword">type</span> CacheItem <span class="syntax-keyword">struct</span> {
+    Value      <span class="syntax-type">interface{}</span>
+    Expiration <span class="syntax-type">int64</span>
+}
+
+<span class="syntax-comment">// DistributedCache handles sharded data storage</span>
+<span class="syntax-keyword">type</span> DistributedCache <span class="syntax-keyword">struct</span> {
+    items <span class="syntax-keyword">map</span>[<span class="syntax-type">string</span>]CacheItem
+    mu    sync.RWMutex
+}
+
+<span class="syntax-keyword">func</span> NewCache() *DistributedCache {
+    <span class="syntax-keyword">return</span> &amp;DistributedCache{
+        items: <span class="syntax-keyword">make</span>(<span class="syntax-keyword">map</span>[<span class="syntax-type">string</span>]CacheItem),
+    }
+}
+
+<span class="syntax-keyword">func</span> (c *DistributedCache) Set(key <span class="syntax-type">string</span>, value <span class="syntax-type">interface{}</span>, ttl time.Duration) {
+    c.mu.Lock()
+    <span class="syntax-keyword">defer</span> c.mu.Unlock()
+    
+    <span class="syntax-comment">// Simulated latency for global replication</span>
+    time.Sleep(50 * time.Millisecond)
+    
+    c.items[key] = CacheItem{
+        Value:      value,
+        Expiration: time.Now().Add(ttl).UnixNano(),
+    }
+}
+</div>
+</div>
+<!-- Floating Run Button -->
+<button class="absolute bottom-8 right-8 bg-white text-black px-6 py-2 rounded font-bold hover:bg-neutral-200 transition-all duration-200 flex items-center justify-center min-w-[120px] shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark group z-20" id="runBtn">
+<span class="material-symbols-outlined mr-2 text-lg group-hover:scale-110 transition-transform" data-icon="play_arrow">play_arrow</span>
+<span>Run</span>
+</button>
+</section>
+<!-- Terminal Output Pane -->
+<section class="w-[400px] bg-black border-l border-neutral-800 flex flex-col transition-all duration-500 ease-in-out absolute right-0 top-0 bottom-0 z-10 translate-x-full opacity-0 shadow-[-20px_0_40px_rgba(0,0,0,0.5)]" id="terminalPanel">
+<!-- Terminal Header -->
+<div class="px-4 py-3 border-b border-neutral-800 flex justify-between items-center bg-black sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-neutral-500 text-sm" data-icon="terminal">terminal</span>
+<span class="text-neutral-500 text-xs font-mono uppercase tracking-widest font-bold">Execution Output</span>
+</div>
+<button class="text-neutral-500 hover:text-white transition-colors focus:outline-none" id="closeTerminal">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+<!-- Terminal Content -->
+<div class="flex-1 p-4 font-mono text-sm overflow-auto text-neutral-400 space-y-2 transition-colors duration-300" id="terminalContent">
+<!-- Dynamic content injected via JS -->
+<div class="text-neutral-600 italic">Ready to execute...</div>
+</div>
+</section>
+</main>
+<!-- Interactive Logic -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const runBtn = document.getElementById('runBtn');
+            const terminalPanel = document.getElementById('terminalPanel');
+            const terminalContent = document.getElementById('terminalContent');
+            const closeTerminal = document.getElementById('closeTerminal');
+            
+            let isExecuting = false;
+
+            runBtn.addEventListener('click', () => {
+                if (isExecuting) return;
+                isExecuting = true;
+
+                // 1. Show Terminal
+                terminalPanel.classList.remove('translate-x-full', 'opacity-0');
+                
+                // 2. Morph Button
+                const originalBtnContent = runBtn.innerHTML;
+                runBtn.innerHTML = '<div class="w-4 h-4 bg-black animate-spin rounded-sm border-2 border-black border-t-transparent"></div>';
+                runBtn.classList.remove('bg-white', 'hover:bg-neutral-200');
+                runBtn.classList.add('bg-primary', 'hover:bg-primary');
+
+                // 3. Start Execution Sequence
+                terminalContent.innerHTML = '';
+                terminalContent.classList.remove('bg-neutral-900'); // Reset any error flash
+                
+                const logSequence = [
+                    { delay: 100, text: '<span class="text-neutral-500">$ go test -v ./cache/...</span>' },
+                    { delay: 400, text: '=== RUN   TestDistributedCache_Set' },
+                    { delay: 900, text: 'Initializing sharded map...' },
+                    { delay: 1400, text: '<span class="text-primary font-bold">! WARNING: Potential lock contention detected at line 24</span>', isError: true },
+                    { delay: 1900, text: '--- PASS: TestDistributedCache_Set (0.05s)' },
+                    { delay: 2100, text: '<span class="text-neutral-500">$ go run main.go</span>' },
+                    { delay: 2400, text: 'Server listening on :8080' },
+                    { delay: 2800, text: '<span class="text-white bg-white/10 px-1">Process finished successfully.</span>', finalize: true }
+                ];
+
+                let currentDelay = 0;
+                
+                logSequence.forEach(log => {
+                    currentDelay += log.delay;
+                    setTimeout(() => {
+                        const div = document.createElement('div');
+                        div.innerHTML = log.text;
+                        div.className = "animate-[fadeIn_0.2s_ease-in-out]";
+                        terminalContent.appendChild(div);
+                        terminalContent.scrollTop = terminalContent.scrollHeight;
+
+                        if (log.isError) {
+                            // Flash effect for error
+                            terminalContent.classList.add('bg-neutral-900');
+                            setTimeout(() => {
+                                terminalContent.classList.remove('bg-neutral-900');
+                            }, 300);
+                        }
+
+                        if (log.finalize) {
+                            // Reset Button
+                            runBtn.innerHTML = originalBtnContent;
+                            runBtn.classList.add('bg-white', 'hover:bg-neutral-200');
+                            runBtn.classList.remove('bg-primary', 'hover:bg-primary');
+                            isExecuting = false;
+                        }
+                    }, currentDelay);
+                });
+            });
+
+            closeTerminal.addEventListener('click', () => {
+                terminalPanel.classList.add('translate-x-full', 'opacity-0');
+            });
+        });
+    </script>
+</body></html>

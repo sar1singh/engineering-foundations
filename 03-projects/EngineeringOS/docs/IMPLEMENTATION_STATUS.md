@@ -505,8 +505,162 @@ Validation:
 - Full quality/practice suite passed.
 - Production build passed.
 - Mock and Prisma smoke checks passed across 25 routes.
+
+## Phase 69 Information Architecture Simplification
+
+Status: complete and validated.
+
+Completed:
+
+- Added `docs/PHASE_69_INFORMATION_ARCHITECTURE_SIMPLIFICATION.md`.
+- Dashboard now keeps Resume Course and Today's Mission prominent while dense analytics/readiness sections are collapsed.
+- Courses page now acts as a shallow catalog and no longer repeats all course stage details.
+- Syllabus now prioritizes search, role/focus controls, and recommended topics while role catalogs, metrics, linear path, and full catalog are progressively disclosed.
+- Learning Graph now shows the saved target role first and collapses adjacent paths.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed.
+- Full quality/practice suite passed.
+- Focused Playwright UX suites passed.
+- Production build passed.
+- Mock and Prisma smoke checks passed across 25 routes.
 - Playwright E2E passed across 62 desktop/mobile browser checks.
 
 Known follow-up:
 
 - Recharts emits a non-blocking zero-width measurement warning during some Playwright dashboard loads. The browser tests pass, but the chart component can be revisited later if log cleanliness becomes a release gate.
+
+## Phase 66 Premium Learning UX Correction
+
+Status: complete and validated.
+
+Completed:
+
+- Added `docs/PHASE_66_PREMIUM_LEARNING_UX_CORRECTION.md`.
+- `/syllabus` now behaves more like a guided catalog with role/course-first cards, compact recommended next lessons, advanced filters, and an expandable full catalog instead of opening as an endless topic wall.
+- `/graph` now presents multiple role lanes in a branch-style roadmap canvas instead of only a vertical timeline.
+- `/practice/[taskId]` now uses a LeetCode-style split workspace with problem context, runner workspace, visible harness/starter disclosure, hints, edge cases, completion criteria, rubric, and suggested next steps.
+- `/dashboard` now starts with a focused "Start here" mission card and mission status panel before dense analytics.
+- Global visual polish improved typography, card hover behavior, badges, and empty-state styling.
+- Founder visual snapshots were updated for the intentional typography/design-system change.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed.
+- Full quality/practice suite passed.
+- Production build passed.
+- Mock and Prisma smoke checks passed across 25 routes.
+- Playwright E2E passed across 62 desktop/mobile browser checks.
+
+Known follow-up:
+
+- Practice runner mobile E2E uses forced click after enabled-state assertion to avoid Playwright scroll-actionability noise from the split workspace and sticky header. Manual mobile tap testing should still be part of founder review.
+
+## Phase 67 Topic Journey and Practice UX Redesign
+
+Status: complete and validated.
+
+Completed:
+
+- Added `docs/PHASE_67_TOPIC_JOURNEY_AND_PRACTICE_UX_REDESIGN.md`.
+- Topic pages now use section navigation instead of one long stacked page.
+- Solution labs now show clickable source referrals, accordion narration hints, and visible source-backed solution code.
+- Code examples now use a two-column code/runner workbench component.
+- Practice prompts now render as structured learning cards with hints, thought process, starter-code disclosure, and collapsible submission.
+- The old fixed topic checklist was replaced with compact progress/status chips.
+- Added guided course journey pages at `/courses/[courseSlug]` with accordion stages, progress icons, current lesson, and previous/next traversal.
+- Course catalog and learning graph links now open guided journeys instead of duplicate in-page course sections.
+- Dark-theme readability and washed-out panel contrast were improved.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed.
+- Full quality/practice suite passed.
+- Production build passed.
+- Mock and Prisma smoke checks passed across 25 routes after sequential rerun.
+- Focused enriched syllabus Playwright coverage passed.
+- Full Playwright E2E passed across 62 desktop/mobile browser checks.
+
+Known follow-up:
+
+- The current local runner does not execute real Node.js APIs. Public beta should either keep it browser-only or move Node execution to an isolated service.
+
+## Phase 68 Role-Aware Navigation and Visual Semantics
+
+Status: complete and validated.
+
+Completed:
+
+- Added `docs/PHASE_68_ROLE_AWARE_NAVIGATION_AND_VISUAL_SEMANTICS.md`.
+- Readiness and domain readiness cards are now clickable.
+- Topic progress signals are now compact score inputs rather than a large learning-page section.
+- Course journey topic cards now open lessons directly and include `fromCourse` back navigation.
+- Removed the redundant current-lesson side column from course journey pages.
+- Learning graph now prioritizes the saved target role and groups stage nodes by content type.
+- Course/graph/topic surfaces now use stronger visual semantics for learn, coding, design, lab, and interview content.
+- Answer Builders now provide round/topic-based answer practice with direct links to relevant topic interview sections.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed.
+- Full quality/practice suite passed.
+- Production build passed.
+- Mock and Prisma smoke checks passed across 25 routes.
+- Full Playwright E2E passed across 62 desktop/mobile browser checks.
+
+Known follow-up:
+
+- Continue reducing text density with preview diagrams, icons, and more visual cards once the next manual-testing pass identifies the highest-friction pages.
+
+## Phase 68 Follow-up: Resume Course CTA
+
+Status: complete and validated.
+
+Completed:
+
+- Dashboard now shows a prominent Resume Course panel for the active roadmap.
+- Courses page now shows a prominent Active Roadmap / Resume Course panel.
+- Active course is inferred from saved onboarding target role until a dedicated persisted active-course field exists.
+- Resume Course opens the course journey at the next incomplete topic.
+- Open Next Lesson opens the syllabus topic with `fromCourse` back navigation.
+- Active course cards show an active badge.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed.
+- Full quality/practice suite passed.
+- Production build passed.
+- Mock and Prisma smoke checks passed across 25 routes.
+
+## Phase 70 Stitch-Backed Black Theme UX Redesign
+
+Status: complete and validated.
+
+Completed:
+
+- Added `docs/PHASE_70_STITCH_BACKED_BLACK_THEME_UX_REDESIGN.md`.
+- Adopted the Stitch black-theme direction across the shared visual system.
+- Added reusable black-theme utility classes for Mission Control, Blueprint Roadmap, Focus Engine, source referrals, telemetry, and repair states.
+- Replaced the large sidebar with a compact OS rail and grouped route matrix.
+- Converted the header into a command-bar style navigation surface.
+- Added `SourceReferencesPanel` for clickable external referral links grouped by source type.
+- Redesigned dashboard, graph, course, topic, and practice surfaces around the Stitch modes.
+- Added Phase 70 quality and Playwright coverage.
+- Updated founder mobile Today visual snapshots for the intentional global visual-system change.
+
+Validation:
+
+- `npm run typecheck` passed.
+- `npm run lint` passed.
+- `npm run test -- src/lib/quality src/components/practice` passed.
+- `npm run build` passed.
+- Post-build `npm run typecheck` passed.
+- `npm run smoke:mock` passed.
+- `npm run smoke:prisma` passed.
+- `npm run test:e2e` passed with 71 tests and 1 intentional mobile skip for the desktop-only OS rail assertion.

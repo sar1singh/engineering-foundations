@@ -1,0 +1,214 @@
+# EngineeringOS: Blueprint Roadmap
+
+## Product Overview
+
+**The Pitch:** A spatial canvas visualizing engineering career paths as architectural blueprints. Transforms overwhelming, linear syllabi into navigable, interconnected nodes, highlighting prerequisites and skill gaps for specific roles.
+
+**For:** Ambitious software engineers mapping their progression from mid-level to Staff/Principal. They care about clear prerequisites, focused learning, and avoiding curriculum overwhelm.
+
+**Device:** desktop
+
+**Design Direction:** High-contrast architectural drafting. Dark navy background, cyan gridlines, glowing nodes, and stark monospace typography. Feels like operating advanced CAD software for career planning.
+
+**Inspired by:** AutoCAD (visual drafting), Figma (spatial panning/zooming), EVE Online (interconnected skill trees).
+
+---
+
+## Screens
+
+- **Canvas View:** Macro-level spatial map of stage clusters (e.g., System Design, Leadership)
+- **Cluster Focus:** Zoomed-in view of interconnected topic nodes within a specific stage
+- **Topic Inspector:** Slide-out panel detailing specific content (Learn, Code, AWS Lab) for a selected node
+- **Role Architect:** Overlay menu to swap target roles and dynamically re-weight the blueprint
+
+---
+
+## Key Flows
+
+**Drill Down to Learning:** Navigate from macro path to actionable task
+1. User is on Canvas View -> sees macro stage clusters (e.g., "Distributed Systems")
+2. User clicks cluster -> camera pans/zooms to Cluster Focus, revealing topic nodes
+3. User clicks "Event Sourcing" node -> Topic Inspector slides in from right, displaying AWS Lab prerequisites
+
+**Re-weight Map by Target Role:** Adjust blueprint importance markers
+1. User is on Canvas View -> sees default "Senior Backend" weighting
+2. User clicks Role Architect button in top-left -> selects "Staff Engineer"
+3. Node weights (radii and stroke widths) animate to reflect new priorities, revealing new prerequisites
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#00F2FE` - Cyan: Active nodes, connections, CTAs
+- **Background:** `#0A1118` - Deep Blueprint Navy: Main canvas background
+- **Surface:** `#0D1926` - Drafting Board: Panels, cards, modals
+- **Text:** `#E2F1FF` - Ice White: Primary text, strong labels
+- **Muted:** `#4B6A88` - Steel Blue: Gridlines, locked nodes, secondary text
+- **Accent:** `#FF7B00` - Alert Orange: 'Weak' state topics requiring attention
+- **Success:** `#00E676` - Phosphor Green: 'Completed' state topics
+
+## Typography
+
+Distinctive, highly technical, and strictly structured.
+
+- **Headings:** `Space Grotesk`, 700, 24-32px
+- **Body:** `JetBrains Mono`, 400, 14px
+- **Small text:** `JetBrains Mono`, 400, 12px
+- **Buttons:** `Space Grotesk`, 600, 14px
+
+**Style notes:** Hard 0px border radii on all elements. 1px solid borders using primary or muted colors. Subtle inset shadow on surfaces to simulate recessed drafting panels. Heavy use of uppercase labels and tracking (`letter-spacing: 0.05em`). Background utilizes a 40px `linear-gradient` grid pattern.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #00F2FE;
+  --color-background: #0A1118;
+  --color-surface: #0D1926;
+  --color-text: #E2F1FF;
+  --color-muted: #4B6A88;
+  --color-accent: #FF7B00;
+  --color-success: #00E676;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 0px;
+  --spacing: 16px;
+  --grid-size: 40px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Canvas View
+
+**Purpose:** Macro-level navigation of the entire career roadmap.
+
+**Layout:** Full-viewport spatial canvas. Floating toolbar top-left. Minimap bottom-right. Legend bottom-left.
+
+**Key Elements:**
+- **Blueprint Grid:** 40x40px repeating grid background, `#4B6A88` at 10% opacity
+- **Stage Clusters:** Hexagonal bounding boxes grouping related topics. Dashed 2px border `#4B6A88`
+- **Navigation Controls:** Bottom-right, stacked 32x32px buttons (+, -, fit to screen)
+
+**States:**
+- **Empty:** N/A (Always populates default role)
+- **Loading:** Pulsing cyan gridlines sweeping left to right
+- **Error:** Red overlay alert top-center: `ERR_MAP_DATA_UNREACHABLE`
+
+**Components:**
+- **Floating Toolbar:** `240px` wide, `#0D1926` background, 1px `#4B6A88` border, displays current role "SENIOR BACKEND"
+- **Minimap:** `160x120px`, solid `#0A1118` with white bounding box indicating current viewport
+
+**Interactions:**
+- **Click + Drag canvas:** Pans viewport, updates minimap indicator
+- **Scroll wheel:** Zooms canvas in/out (clamp 10% to 200%)
+
+**Responsive:**
+- **Desktop:** Unconstrained canvas
+- **Tablet:** Not supported (Desktop only)
+- **Mobile:** Not supported (Desktop only)
+
+### Cluster Focus
+
+**Purpose:** Detailed view of specific topics and their prerequisite paths within a stage.
+
+**Layout:** Zoomed canvas centering on a specific bounding box. 
+
+**Key Elements:**
+- **Topic Nodes:** Circular elements. Radius corresponds to role weight (16px to 32px)
+- **Path Connections:** 2px SVG lines connecting nodes. Arrows indicate prerequisites
+- **State Indicators:** Outline only (Locked), Pulsing Cyan (Current), Solid Green (Completed), Striped Orange (Weak)
+
+**States:**
+- **Empty:** Inside cluster reads `NO TOPICS MAPPED FOR ROLE`
+- **Loading:** Nodes scale up sequentially
+
+**Components:**
+- **Node Label:** `JetBrains Mono` 12px, positioned 8px below node, center-aligned
+- **Content Type Badges:** 12x12px icons floating top-right of node (Book=Learn, Terminal=Code, Cube=AWS)
+
+**Interactions:**
+- **Hover Node:** Connection paths to prerequisites glow `#00F2FE` 100% opacity, others dim to 20%
+- **Click Node:** Pans camera to center node slightly left-of-center, opens Topic Inspector
+
+**Responsive:**
+- **Desktop:** Viewport centers on cluster, keeping right-side clear for potential Inspector
+
+### Topic Inspector
+
+**Purpose:** Deep-dive into a specific topic's resources without leaving the map context.
+
+**Layout:** 400px wide fixed panel attached to the right viewport edge.
+
+**Key Elements:**
+- **Header:** Topic title, current status dropdown (Locked/Current/Completed/Weak)
+- **Resource List:** Stacked list of actionable items categorized by content type
+- **Prerequisite Warning:** Red alert banner if prerequisites are not completed
+
+**States:**
+- **Empty:** N/A
+- **Loading:** Skeleton rectangles in mono-color `#4B6A88`
+- **Error:** `UNABLE TO FETCH RESOURCES` with retry button
+
+**Components:**
+- **Resource Item:** `350x64px`, left border indicates type (Cyan=Learn, Purple=Design, Orange=AWS). Hover highlights background `#0A1118` to `#16283A`
+- **Status Toggle:** Custom select, flat borders, mono text `STATUS: WEAK`
+
+**Interactions:**
+- **Click Close (X):** Panel slides right 400px out of view, camera re-centers on active cluster
+- **Click Resource Item:** Opens external link or deep-links into OS Learning Module (new tab)
+
+**Responsive:**
+- **Desktop:** Anchored to right edge, casts -10px drop shadow `rgba(0,0,0,0.5)`
+
+### Role Architect
+
+**Purpose:** Switch the perspective of the blueprint to a new target role.
+
+**Layout:** Modal overlay dead center of viewport over a blurred backdrop.
+
+**Key Elements:**
+- **Role List:** Selectable 1-column list of available tracks
+- **Comparison Diff:** Small text showing "Adds 12 topics, removes 4 topics" on hover
+- **Confirm Button:** Sharp cyan CTA `INITIALIZE BLUEPRINT`
+
+**States:**
+- **Empty:** N/A
+- **Loading:** Spinning ASCII loader `[ / ]`
+- **Error:** N/A
+
+**Components:**
+- **Role Row:** `48px` height, 1px bottom border. Text `Space Grotesk` 16px.
+- **Modal Container:** `480x600px`, `#0D1926` background, 2px `#00F2FE` border, 8px inset `#00F2FE` top border.
+
+**Interactions:**
+- **Hover Role Row:** Background shifts to `#16283A`, cursor becomes pointer
+- **Click Confirm:** Modal vanishes, canvas nodes execute scale/color transitions over 600ms ease-in-out
+
+**Responsive:**
+- **Desktop:** Centered overlay
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3 + React Flow (or D3.js) for spatial canvas
+
+**Build Order:**
+1. **Design System & Canvas Foundation:** Establish the grid, pan/zoom mechanics, and basic node rendering. Critical for spatial feel.
+2. **Data Structure & Map Generation:** Hook up role data to node radii, states, and SVG connecting lines.
+3. **Topic Inspector:** Build the slide-out drawer to ensure right-side collision handling with the canvas camera.
+4. **Role Architect:** Add the overlay and the animation logic for re-weighting the nodes dynamically.
+
+</details>

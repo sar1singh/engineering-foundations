@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#e5e1e4",
+                      "surface-container-high": "#2a2a2c",
+                      "secondary-container": "#573878",
+                      "on-error-container": "#ffdad6",
+                      "background": "#131315",
+                      "primary": "#dbfcff",
+                      "inverse-on-surface": "#303032",
+                      "on-primary-container": "#006970",
+                      "tertiary-container": "#ffd47a",
+                      "outline": "#849495",
+                      "secondary-fixed": "#efdbff",
+                      "outline-variant": "#3b494b",
+                      "tertiary-fixed-dim": "#f9bd22",
+                      "surface-bright": "#39393b",
+                      "primary-fixed-dim": "#00dbe9",
+                      "error-container": "#93000a",
+                      "surface-dim": "#131315",
+                      "surface-variant": "#353437",
+                      "surface": "#131315",
+                      "surface-container": "#201f21",
+                      "on-primary-fixed-variant": "#004f54",
+                      "on-secondary-fixed-variant": "#573878",
+                      "tertiary": "#fff5e7",
+                      "surface-tint": "#00dbe9",
+                      "primary-container": "#00f0ff",
+                      "surface-container-highest": "#353437",
+                      "tertiary-fixed": "#ffdf9f",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-surface": "#e5e1e4",
+                      "on-background": "#e5e1e4",
+                      "secondary-fixed-dim": "#dbb8ff",
+                      "on-tertiary": "#402d00",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "on-primary": "#00363a",
+                      "on-secondary-container": "#caa6ef",
+                      "on-secondary-fixed": "#29074a",
+                      "on-primary-fixed": "#002022",
+                      "on-tertiary-container": "#7a5a00",
+                      "on-secondary": "#3f2160",
+                      "inverse-primary": "#006970",
+                      "error": "#ffb4ab",
+                      "secondary": "#dbb8ff",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-error": "#690005",
+                      "primary-fixed": "#7df4ff",
+                      "surface-container-low": "#1b1b1d",
+                      "on-surface-variant": "#b9cacb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "gutter": "16px",
+                      "margin-sm": "16px",
+                      "margin-md": "32px",
+                      "max-width": "1440px",
+                      "margin-lg": "48px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "technical-sm": ["JetBrains Mono"],
+                      "headline-lg-mobile": ["Space Grotesk"],
+                      "headline-md": ["Space Grotesk"],
+                      "display-lg": ["Space Grotesk"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Space Grotesk"],
+                      "technical-xs": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "technical-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0.02em", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                      "technical-xs": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #050505;
+            color: #e5e1e4;
+        }
+        .dot-matrix {
+            background-image: radial-gradient(#1a1a1c 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .code-syntax-keyword { color: #dbb8ff; }
+        .code-syntax-function { color: #00dbe9; }
+        .code-syntax-string { color: #ffd47a; }
+        .code-syntax-comment { color: #849495; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0e0e10; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3b494b; }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden h-screen flex">
+<!-- SideNavBar (Rail) -->
+<aside class="fixed left-0 top-0 h-full z-50 h-screen w-20 flex flex-col items-center py-4 border-r border-outline-variant bg-surface-container-lowest">
+<div class="mb-10 mt-2">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">E_OS</span>
+</div>
+<nav class="flex flex-col gap-6 flex-grow">
+<button class="p-3 group relative transition-all duration-200 text-outline hover:text-on-surface-variant">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<span class="absolute left-full ml-4 px-2 py-1 bg-surface-container-high text-technical-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">Mission Control</span>
+</button>
+<button class="p-3 group relative transition-all duration-200 text-outline hover:text-on-surface-variant">
+<span class="material-symbols-outlined text-2xl">account_tree</span>
+<span class="absolute left-full ml-4 px-2 py-1 bg-surface-container-high text-technical-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">Blueprint</span>
+</button>
+<button class="p-3 group relative transition-all duration-200 text-primary shadow-[0_0_15px_rgba(0,219,233,0.4)] border-l-2 border-primary bg-surface-container-high">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="absolute left-full ml-4 px-2 py-1 bg-surface-container-high text-technical-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">Focus Engine</span>
+</button>
+</nav>
+<div class="flex flex-col gap-6 mb-4">
+<button class="p-3 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">analytics</span>
+</button>
+<button class="p-3 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-20 flex-grow flex flex-col h-screen relative dot-matrix">
+<!-- TopNavBar -->
+<header class="h-12 w-full border-b border-outline-variant bg-surface-container-lowest z-40 flex items-center justify-between px-gutter">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">ENGINEERING_OS</span>
+<nav class="flex gap-6 h-full">
+<a class="font-technical-xs text-technical-xs uppercase tracking-widest flex items-center h-full text-on-surface-variant hover:text-primary transition-colors" href="#">Learn</a>
+<a class="font-technical-xs text-technical-xs uppercase tracking-widest flex items-center h-full text-primary border-b border-primary" href="#">Code</a>
+<a class="font-technical-xs text-technical-xs uppercase tracking-widest flex items-center h-full text-on-surface-variant hover:text-primary transition-colors" href="#">Practice</a>
+<a class="font-technical-xs text-technical-xs uppercase tracking-widest flex items-center h-full text-on-surface-variant hover:text-primary transition-colors" href="#">Interview</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-sm">search</span>
+<input class="bg-surface-container-low border border-outline-variant text-technical-xs px-10 py-1.5 focus:border-primary outline-none transition-all w-64" placeholder="CMD+K TO SEARCH NODES" type="text"/>
+</div>
+<button class="p-1.5 text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-1.5 text-outline hover:text-primary transition-colors"><span class="material-symbols-outlined">terminal</span></button>
+<div class="h-8 w-8 bg-surface-variant border border-outline-variant overflow-hidden">
+<img alt="Admin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm7sAZmt7daqLJ8ls5xtPO_VZZzjv690UepXQuWFvniF3NWTUfeWaKo-1_JVbztEtOyenX-qO7GbLmJjLxTBLCd6WBovGQJzVykKuaV_0LHlZ_oygvcsrGTOfLWzUoeaa7fIuFuc4gyXQwl04jZlwm3QUfdgzpCLYBuzOTjaWwZcDbp6kUaodraoh6ACtjgrm7QbZIx59eroGGr9fsPC8NcFRWVpZ1kw_GTzPhfASSGRUMyN5n1o0odqTRPA3WH0o4ETTEsXvJbJc"/>
+</div>
+</div>
+</header>
+<!-- Split Pane Layout -->
+<div class="flex flex-grow overflow-hidden">
+<!-- Left Pane: Problem Description (40%) -->
+<section class="w-[40%] bg-surface flex flex-col border-r border-outline-variant overflow-y-auto custom-scrollbar">
+<div class="p-8 space-y-6">
+<div class="flex items-center justify-between">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Two Sum</h1>
+<span class="font-technical-xs text-technical-xs px-2 py-1 bg-surface-container-high border border-outline-variant text-on-primary-fixed-variant">EASY_001</span>
+</div>
+<div class="space-y-4 font-body-md text-on-surface leading-relaxed">
+<p>Given an array of integers <code class="bg-surface-container-high px-1 text-primary-fixed-dim">nums</code> and an integer <code class="bg-surface-container-high px-1 text-primary-fixed-dim">target</code>, return indices of the two numbers such that they add up to <code class="bg-surface-container-high px-1 text-primary-fixed-dim">target</code>.</p>
+<p>You may assume that each input would have <strong>exactly one solution</strong>, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+</div>
+<!-- Examples -->
+<div class="space-y-4">
+<div class="bg-surface-container-lowest border border-outline-variant p-4 space-y-2">
+<span class="font-technical-xs text-primary-fixed-dim block">EXAMPLE_01</span>
+<pre class="font-technical-sm text-on-surface-variant">Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].</pre>
+</div>
+</div>
+<!-- Constraints -->
+<div class="pt-6 border-t border-outline-variant space-y-3">
+<h3 class="font-technical-sm uppercase tracking-widest text-outline">Constraints</h3>
+<ul class="list-none space-y-2 font-technical-sm text-on-surface-variant">
+<li class="flex items-start gap-2">
+<span class="text-primary-fixed-dim mt-1">•</span>
+<span>2 ≤ nums.length ≤ 10<sup>4</sup></span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary-fixed-dim mt-1">•</span>
+<span>-10<sup>9</sup> ≤ nums[i] ≤ 10<sup>9</sup></span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary-fixed-dim mt-1">•</span>
+<span>Only one valid answer exists.</span>
+</li>
+</ul>
+</div>
+<!-- Footnotes -->
+<div class="pt-8 text-outline italic text-technical-xs border-t border-outline-variant/30">
+<p>[1] Big O Analysis: O(n) Time Complexity achieved via Single-pass Hash Map.</p>
+<p>[2] Memory: O(n) Space Complexity for storing seen values.</p>
+</div>
+</div>
+</section>
+<!-- Right Pane: Code Editor (60%) -->
+<section class="w-[60%] flex flex-col bg-[#050505]">
+<!-- Editor Header -->
+<div class="h-10 border-b border-outline-variant flex items-center justify-between px-4 bg-surface-container-lowest">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">code</span>
+<span class="font-technical-xs text-on-surface-variant">SOLUTION.TS</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-technical-xs text-outline">
+<span class="material-symbols-outlined text-sm">language</span>
+<span>TYPESCRIPT</span>
+</div>
+<button class="bg-primary text-on-primary font-technical-xs px-4 py-1 hover:shadow-[0_0_10px_rgba(0,219,233,0.6)] transition-all">
+                            RUN_EXEC
+                        </button>
+</div>
+</div>
+<!-- Monospace Editor Surface -->
+<div class="flex-grow p-4 font-technical-sm overflow-auto custom-scrollbar relative">
+<div class="flex gap-4">
+<div class="text-outline-variant text-right select-none opacity-50 space-y-1">
+<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
+</div>
+<pre class="text-on-surface leading-relaxed"><span class="code-syntax-keyword">function</span> <span class="code-syntax-function">twoSum</span>(nums: <span class="code-syntax-keyword">number[]</span>, target: <span class="code-syntax-keyword">number</span>): <span class="code-syntax-keyword">number[]</span> {
+    <span class="code-syntax-comment">// Initialize Hash Map for O(1) lookups</span>
+    <span class="code-syntax-keyword">const</span> prevMap = <span class="code-syntax-keyword">new</span> Map&lt;<span class="code-syntax-keyword">number</span>, <span class="code-syntax-keyword">number</span>&gt;();
+    
+    <span class="code-syntax-keyword">for</span> (<span class="code-syntax-keyword">let</span> i = 0; i &lt; nums.length; i++) {
+        <span class="code-syntax-keyword">const</span> diff = target - nums[i];
+        
+        <span class="code-syntax-keyword">if</span> (prevMap.has(diff)) {
+            <span class="code-syntax-keyword">return</span> [prevMap.get(diff)!, i];
+        }
+        
+        prevMap.set(nums[i], i);
+    }
+    
+    <span class="code-syntax-keyword">return</span> [];
+};</pre>
+</div>
+</div>
+<!-- Execution Console Drawer -->
+<div class="h-48 border-t border-outline-variant bg-surface-container-lowest flex flex-col transition-all duration-300" id="console-drawer">
+<div class="h-8 flex items-center justify-between px-4 border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="font-technical-xs uppercase tracking-widest text-outline">Output Console</span>
+</div>
+<button class="text-outline hover:text-on-surface" onclick="toggleConsole()"><span class="material-symbols-outlined text-sm" id="chevron">keyboard_arrow_down</span></button>
+</div>
+<div class="flex-grow p-4 font-technical-sm overflow-auto custom-scrollbar space-y-2">
+<div class="flex items-center gap-3">
+<span class="text-primary-fixed-dim font-bold">CASE_01:</span>
+<span class="bg-[#1b2b1b] text-[#86efac] border border-[#2d4a2d] px-2 py-0.5 text-xs">SUCCESS</span>
+<span class="text-outline-variant">RUNTIME: 0.12ms</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-primary-fixed-dim font-bold">CASE_02:</span>
+<span class="bg-[#1b2b1b] text-[#86efac] border border-[#2d4a2d] px-2 py-0.5 text-xs">SUCCESS</span>
+<span class="text-outline-variant">RUNTIME: 0.08ms</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-primary-fixed-dim font-bold">CASE_03:</span>
+<span class="bg-[#3b1212] text-[#fda4af] border border-[#5c1a1a] px-2 py-0.5 text-xs">FAIL</span>
+<span class="text-on-surface-variant italic">Expected [2, 4], Got [1, 3]</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<script>
+        function toggleConsole() {
+            const drawer = document.getElementById('console-drawer');
+            const chevron = document.getElementById('chevron');
+            if (drawer.classList.contains('h-48')) {
+                drawer.classList.remove('h-48');
+                drawer.classList.add('h-8');
+                chevron.innerText = 'keyboard_arrow_up';
+            } else {
+                drawer.classList.remove('h-8');
+                drawer.classList.add('h-48');
+                chevron.innerText = 'keyboard_arrow_down';
+            }
+        }
+    </script>
+</body></html>

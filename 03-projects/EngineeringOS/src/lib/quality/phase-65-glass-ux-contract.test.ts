@@ -15,9 +15,9 @@ describe("Phase 65 glassmorphism product UX contract", () => {
     for (const token of ["--glass", "--glass-border", "--hero-gradient", ".eo-glass", ".eo-gradient-border", ".eo-input", ".eo-chip"]) {
       expect(css).toContain(token);
     }
-    expect(css).toContain("#22d3ee");
-    expect(css).toContain("#818cf8");
-    expect(css).toContain("#d946ef");
+    expect(css).toContain("#00e5ff");
+    expect(css).toContain("#b45cff");
+    expect(css).toContain("#ffc400");
   });
 
   it("adds guided course data and product pages for courses, profile, and placeholder auth", () => {
@@ -48,7 +48,7 @@ describe("Phase 65 glassmorphism product UX contract", () => {
   });
 
   it("adds visual graph, topic continuations, dashboard charts, and runner states", () => {
-    expect(readProjectFile("src/app/graph/page.tsx")).toContain("Visual learning graph");
+    expect(readProjectFile("src/app/graph/page.tsx")).toContain("BLUEPRINT_MODULE // ROLE PATH");
     expect(readProjectFile("src/app/syllabus/[topicId]/page.tsx")).toContain("Continue learning");
     expect(readProjectFile("src/components/dashboard/MissionReadinessChart.tsx")).toContain("RadarChart");
     expect(readProjectFile("src/components/practice/LocalCodeRunner.tsx")).toContain("runnerState");

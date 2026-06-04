@@ -4,6 +4,7 @@ test.describe("Phase 64 backend-separation UX and product readiness", () => {
   test("dashboard exposes API-backed progress and founder outcome metrics", async ({ page }) => {
     await page.goto("/dashboard", { waitUntil: "domcontentloaded" });
 
+    await page.getByText("Analytics and readiness details").click();
     await expect(page.getByRole("heading", { name: "Backend separation signal" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Founder outcome metrics" })).toBeVisible();
     await expect(page.getByText("Runnable DSA patterns")).toBeVisible();

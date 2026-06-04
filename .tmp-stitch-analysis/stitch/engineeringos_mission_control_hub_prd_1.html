@@ -1,0 +1,210 @@
+# EngineeringOS: Mission Control Hub
+
+## Product Overview
+
+**The Pitch:** A premium, dark-mode command center designed to act as the "emotional shell" for software engineers leveling up their careers. It distills complex skill progression into immediate, actionable momentum.
+
+**For:** Software engineers preparing for high-tier roles who need structured motivation, clear progression tracking, and focused daily execution.
+
+**Device:** desktop
+
+**Design Direction:** High-end aerospace cockpit meets modern developer tooling. Deep space darks, frosted glass surfaces, and intense, functional neon accents for data visualization. 
+
+**Inspired by:** Linear, Vercel, SpaceX Dragon UI.
+
+---
+
+## Screens
+
+- **Command Center:** The primary dashboard aggregating next actions, readiness metrics, and current course momentum.
+- **Readiness Cockpit:** Detailed breakdown of proficiency across core engineering pillars.
+- **Weak Area Repair:** Focused queue for revision loops and spaced repetition tasks.
+- **Career Assets:** Actionable checklist tracking resume, portfolio, and artifact completion.
+
+---
+
+## Key Flows
+
+**Daily Mission Execution:** User starts their day and executes the primary task.
+1. User is on Command Center -> sees **Today's Mission** card pulsing slightly
+2. User clicks **[Execute Mission]** button -> transitions to focus mode module
+3. Task completes, **Readiness Cockpit** rings animate and increment
+
+**Repairing Weaknesses:** User addresses failing metrics.
+1. User is on Command Center -> sees Rose-tinted **Weak Area Repair** badge
+2. User clicks **[Enter Repair Queue]** -> opens Weak Area Repair screen
+3. User completes flashcard/quiz -> item is removed, queue count decrements
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#00E5FF` - Cyan (Coding / Primary CTAs)
+- **Background:** `#09090B` - Deep void black
+- **Surface:** `#18181B` - Elevated cards (often with 60% opacity for glassmorphism)
+- **Text:** `#EDEDED` - Primary text
+- **Muted:** `#A1A1AA` - Secondary text, borders, inactive states
+- **Accent - Sys Design:** `#B026FF` - Purple neon
+- **Accent - AWS:** `#FFB000` - Amber neon
+- **Accent - Interviews:** `#7C3AED` - Violet neon
+- **Accent - Repair:** `#F43F5E` - Rose/Red alert
+
+## Typography
+
+Using Geist for its modern, engineered precision, paired with Geist Mono for technical data.
+
+- **Headings:** `Geist Mono`, 600, 24-32px, tracking -0.5px
+- **Body:** `Geist`, 400, 15px, leading 1.6
+- **Small text:** `Geist`, 400, 13px, text-muted
+- **Data/Metrics:** `Geist Mono`, 500, 14px
+- **Buttons:** `Geist Mono`, 500, 14px, uppercase
+
+**Style notes:** Heavy use of `backdrop-blur-md` on surface cards over subtle radial gradients in the background. 1px `#27272A` borders on all cards. Glowing `box-shadow` on hover for interactive elements corresponding to their accent color.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #00E5FF;
+  --color-bg: #09090B;
+  --color-surface: rgba(24, 24, 27, 0.6);
+  --color-text: #EDEDED;
+  --color-muted: #A1A1AA;
+  
+  --color-sysdesign: #B026FF;
+  --color-aws: #FFB000;
+  --color-interviews: #7C3AED;
+  --color-repair: #F43F5E;
+
+  --font-sans: 'Geist', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  
+  --radius-card: 12px;
+  --radius-btn: 6px;
+  --spacing-base: 8px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Command Center
+
+**Purpose:** Provide immediate orientation, motivation, and a launchpad for the day's engineering tasks.
+
+**Layout:** 3-column grid. Left: Motivation & Current Action. Center: Readiness Rings. Right: Quick Queues (Repair & Assets).
+
+**Key Elements:**
+- **Today's Mission Card:** `320px` width, `linear-gradient` border. Contains bold `Geist Mono` objective (e.g., "Implement LRU Cache"). 
+- **Resume Course:** Minimalist card, `#00E5FF` play icon, details last accessed module.
+- **Readiness Cockpit:** 4 circular SVG progress rings (Cyan, Purple, Amber, Violet). Size: `120px` each, stroke `8px`, centered percentages.
+
+**States:**
+- **Empty:** "Awaiting telemetry" state with pulsing `#A1A1AA` placeholders.
+- **Loading:** Skeleton loaders with a left-to-right `#27272A` shimmer.
+- **Error:** Subtle `#F43F5E` outline on failed widgets, "Connection Lost" text.
+
+**Components:**
+- **Primary CTA Button:** `height: 40px`, `bg-transparent`, 1px solid `#00E5FF`, `#00E5FF` text, hover: `bg-[#00E5FF]/10` with `0 0 15px rgba(0, 229, 255, 0.2)` shadow.
+- **Progress Ring:** `<svg>` element, `stroke-linecap="round"`, overlapping dark track (`#27272A`).
+
+**Interactions:**
+- **Hover Ring:** Glow effect intensifies (`box-shadow`), inner text counts up from 0 to current value.
+- **Click Play:** Scales down `0.98`, navigates to lesson.
+
+**Responsive:**
+- **Desktop:** 3-column masonry.
+- **Tablet:** 2-column (Right column wraps to bottom).
+- **Mobile:** Single column stack, rings shrink to `80px`.
+
+### Readiness Cockpit (Drill-down)
+
+**Purpose:** Detailed analytics on skill progression.
+
+**Layout:** 2-column. Left: Nav/Filter. Right: Detailed charts and historical data.
+
+**Key Elements:**
+- **Skill Radar Chart:** Hexagonal radar chart overlaying all 4 core skills.
+- **Milestone Timeline:** Vertical stepper showing unlocked achievements per category.
+- **Category Tabs:** `<button>` elements, 1px bottom border for active state in respective accent color.
+
+**States:**
+- **Empty:** Flat radar chart, "Begin training to generate telemetry."
+- **Loading:** Spinning neon quadrant loader.
+
+**Components:**
+- **Category Tab:** `padding: 12px 24px`, active text matches category hex.
+- **Milestone Node:** `16px` circle, `bg-background`, `border-2` of category color.
+
+**Interactions:**
+- **Click Tab:** Fades out current data, 200ms slide-up fade-in for new category data.
+- **Hover Chart Node:** Tooltip appears with exact metric score.
+
+### Weak Area Repair
+
+**Purpose:** High-intensity spaced repetition queue for failing concepts.
+
+**Layout:** Centered focused view. Sidebar hidden.
+
+**Key Elements:**
+- **Queue Counter:** Large `Geist Mono` number in `#F43F5E` (e.g., `[ 14 CRITICAL ]`).
+- **Flashcard Surface:** `600px` max-width, elevated glass card, `min-height: 400px`.
+- **Action Bar:** Bottom pinned, buttons for "Fail (1d)", "Hard (3d)", "Good (7d)".
+
+**States:**
+- **Empty:** Green success icon (`#10B981`), "All systems optimal. No repairs needed."
+- **Loading:** Card skeleton, pulsing text.
+
+**Components:**
+- **Action Button:** `flex-1`, `height: 48px`, border-top only, muted text.
+
+**Interactions:**
+- **Click Action:** Flashcard flips over X-axis, slides right, new card slides in from left.
+- **Hover Queue:** Displays time-to-next-review breakdown.
+
+### Career Assets
+
+**Purpose:** Tactical checklist to ensure external-facing artifacts are interview-ready.
+
+**Layout:** Single column, max-width `800px`, centered.
+
+**Key Elements:**
+- **Asset Progress Bar:** Horizontal bar, `#EDEDED` fill, sticky at top.
+- **Task List:** Accordion-style list grouped by "Resume", "GitHub", "System Design Portfolio".
+- **Upload Dropzone:** Dashed `2px` border, `#27272A`, icon centered.
+
+**States:**
+- **Empty:** 0% progress, all accordions closed.
+- **Loading:** Spinner in progress bar.
+
+**Components:**
+- **Task Item:** `height: 56px`, flex row, left custom checkbox, right status badge (`#A1A1AA` or `#10B981`).
+- **Custom Checkbox:** `20px` square, `border-radius: 4px`, `border: 1px solid #52525B`.
+
+**Interactions:**
+- **Click Checkbox:** Fills with `#EDEDED`, plays distinct "click" sound (optional), strikes through text (`color: #52525B`), increments main progress bar.
+- **Hover Dropzone:** Border turns `#00E5FF`, background shifts to `rgba(0, 229, 255, 0.05)`.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3 + (Framer Motion / GSAP for ring animations if using JS framework)
+
+**Build Order:**
+1. **Command Center** - Establishes the deep dark background, glassmorphism surfaces (`bg-zinc-900/60 backdrop-blur-md`), and typography hierarchy. Sets the core SVG ring components.
+2. **Readiness Cockpit** - Reuses ring components, introduces complex charts and tabbed navigation.
+3. **Weak Area Repair** - Establishes the focused layout and interactive card mechanics. Uses the Rose accent heavily.
+4. **Career Assets** - Builds out form elements, lists, and file dropzones using the established design tokens.
+
+</details>

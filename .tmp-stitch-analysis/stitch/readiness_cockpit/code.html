@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Readiness Cockpit - EngineeringOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00E5FF", // Updated from #06e0f9 to match PRD
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#09090B", // Updated to match PRD
+                        "surface": "rgba(24, 24, 27, 0.6)",
+                        "muted": "#A1A1AA",
+                        "text-main": "#EDEDED",
+                        "sysdesign": "#B026FF",
+                        "aws": "#FFB000",
+                        "interviews": "#7C3AED",
+                        "repair": "#F43F5E",
+                        "border-color": "#27272A"
+                    },
+                    fontFamily: {
+                        "display": ["Geist", "sans-serif"],
+                        "sans": ["Geist", "sans-serif"],
+                        "mono": ["Geist Mono", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1.5rem", "full": "9999px"},
+                    boxShadow: {
+                        'glow-primary': '0 0 15px rgba(0, 229, 255, 0.2)',
+                        'glow-sysdesign': '0 0 15px rgba(176, 38, 255, 0.2)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #09090B;
+            color: #EDEDED;
+            background-image: radial-gradient(circle at 50% 0%, rgba(0, 229, 255, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background-color: rgba(24, 24, 27, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid #27272A;
+        }
+        .text-neon-primary { color: #00E5FF; text-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+        .border-neon-primary { border-color: #00E5FF; box-shadow: inset 0 -1px 0 #00E5FF, 0 1px 5px rgba(0,229,255,0.2); }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.3s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Radar Chart Grid Lines */
+        .radar-grid { stroke: #27272A; stroke-width: 1; fill: none; }
+        .radar-area { fill: rgba(0, 229, 255, 0.1); stroke: #00E5FF; stroke-width: 2; transition: all 0.3s ease; }
+        .radar-point { fill: #09090B; stroke: #00E5FF; stroke-width: 2; cursor: pointer; transition: all 0.2s; }
+        .radar-point:hover { fill: #00E5FF; filter: drop-shadow(0 0 5px #00E5FF); }
+        .radar-label { fill: #A1A1AA; font-family: 'Geist Mono', monospace; font-size: 12px; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272A; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525B; }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex overflow-x-hidden">
+<!-- Shared SideNavBar -->
+<div class="relative flex h-auto min-h-screen w-[280px] shrink-0 flex-col bg-background-dark border-r border-[#27272A] hidden md:flex" style='font-family: "Geist", "Noto Sans", sans-serif;'>
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full flex-1">
+<div class="flex h-full min-h-[700px] flex-col justify-between p-4">
+<div class="flex flex-col gap-8">
+<div class="flex flex-col px-3">
+<h1 class="text-text-main text-base font-medium leading-normal tracking-wide">EngineeringOS</h1>
+<p class="text-muted text-sm font-mono leading-normal mt-1">MISSION_CONTROL_V2</p>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#27272A]/50 transition-colors group" href="#">
+<div class="text-muted group-hover:text-text-main transition-colors">
+<span class="material-symbols-outlined text-[24px]">home</span>
+</div>
+<p class="text-muted group-hover:text-text-main text-sm font-medium leading-normal transition-colors">Command Center</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#27272A]/40 border border-[#27272A] relative overflow-hidden" href="#">
+<div class="absolute left-0 top-0 bottom-0 w-[2px] bg-primary"></div>
+<div class="text-primary">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<p class="text-text-main text-sm font-medium leading-normal">Readiness Cockpit</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#27272A]/50 transition-colors group" href="#">
+<div class="text-muted group-hover:text-text-main transition-colors">
+<span class="material-symbols-outlined text-[24px]">build</span>
+</div>
+<p class="text-muted group-hover:text-text-main text-sm font-medium leading-normal transition-colors">Weak Area Repair</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#27272A]/50 transition-colors group" href="#">
+<div class="text-muted group-hover:text-text-main transition-colors">
+<span class="material-symbols-outlined text-[24px]">work</span>
+</div>
+<p class="text-muted group-hover:text-text-main text-sm font-medium leading-normal transition-colors">Career Assets</p>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto w-full">
+<!-- Header -->
+<header class="sticky top-0 z-10 glass-card border-b border-t-0 border-l-0 border-r-0 px-6 py-5 flex justify-between items-end backdrop-blur-xl">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-muted font-mono text-xs uppercase tracking-wider mb-1">
+<span class="material-symbols-outlined text-[14px]">sensors</span>
+<span>Telemetry Active</span>
+</div>
+<h2 class="text-text-main text-2xl font-semibold tracking-tight">Readiness Cockpit</h2>
+<p class="text-muted text-sm">Detailed analytics on skill progression &amp; historical momentum.</p>
+</div>
+<div class="hidden sm:flex items-center gap-4">
+<div class="glass-card rounded-lg flex p-1">
+<button class="px-3 py-1.5 text-xs font-mono text-text-main bg-[#27272A]/80 rounded-md">7D</button>
+<button class="px-3 py-1.5 text-xs font-mono text-muted hover:text-text-main transition-colors">30D</button>
+<button class="px-3 py-1.5 text-xs font-mono text-muted hover:text-text-main transition-colors">ALL</button>
+</div>
+<button class="h-9 px-4 rounded-lg border border-border-color hover:border-primary/50 text-sm font-mono flex items-center gap-2 transition-all hover:shadow-glow-primary hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    EXPORT
+                </button>
+</div>
+</header>
+<!-- Content Grid -->
+<div class="p-6 grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6 max-w-[1400px] mx-auto w-full items-start">
+<!-- Left Column: Navigation & Summary -->
+<div class="flex flex-col gap-6 sticky top-[100px]">
+<!-- Overall Score Card -->
+<div class="glass-card rounded-xl p-6 flex flex-col gap-4 relative overflow-hidden group">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-500"></div>
+<div class="flex justify-between items-start">
+<p class="text-text-main font-medium">Overall Readiness</p>
+<span class="material-symbols-outlined text-primary">radar</span>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-4xl font-mono font-bold text-text-main tracking-tighter">84<span class="text-2xl text-muted">%</span></span>
+<span class="text-sm font-mono text-[#10B981] flex items-center">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                            +12%
+                        </span>
+</div>
+<div class="w-full bg-[#27272A] h-1.5 rounded-full mt-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 84%;"></div>
+</div>
+</div>
+<!-- Category Navigation -->
+<div class="flex flex-col gap-2">
+<p class="text-xs font-mono text-muted uppercase tracking-wider pl-2 mb-2">Pillars</p>
+<button class="text-left w-full px-4 py-3 rounded-lg border border-[#27272A] bg-[#27272A]/40 text-primary font-medium flex justify-between items-center relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-primary"></div>
+<span>Core Systems</span>
+<span class="font-mono text-xs">88%</span>
+</button>
+<button class="text-left w-full px-4 py-3 rounded-lg border border-transparent hover:border-[#27272A] hover:bg-[#27272A]/20 text-muted hover:text-text-main transition-all flex justify-between items-center group">
+<span class="group-hover:text-[#B026FF] transition-colors">System Design</span>
+<span class="font-mono text-xs">72%</span>
+</button>
+<button class="text-left w-full px-4 py-3 rounded-lg border border-transparent hover:border-[#27272A] hover:bg-[#27272A]/20 text-muted hover:text-text-main transition-all flex justify-between items-center group">
+<span class="group-hover:text-[#FFB000] transition-colors">Cloud / AWS</span>
+<span class="font-mono text-xs">65%</span>
+</button>
+<button class="text-left w-full px-4 py-3 rounded-lg border border-transparent hover:border-[#27272A] hover:bg-[#27272A]/20 text-muted hover:text-text-main transition-all flex justify-between items-center group">
+<span class="group-hover:text-[#7C3AED] transition-colors">Interviews</span>
+<span class="font-mono text-xs">91%</span>
+</button>
+</div>
+<!-- Mini Alert -->
+<div class="glass-card rounded-lg p-4 border-l-2 border-l-repair flex gap-3 items-start mt-4">
+<span class="material-symbols-outlined text-repair text-[20px]">warning</span>
+<div class="flex flex-col gap-1">
+<p class="text-sm font-medium text-text-main">Weakness Detected</p>
+<p class="text-xs text-muted">DynamoDB Partitioning recall is below 60%. Added to repair queue.</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Visualizations -->
+<div class="flex flex-col gap-6 fade-in-up">
+<!-- Main Radar Chart Area -->
+<div class="glass-card rounded-xl p-8 flex flex-col items-center justify-center min-h-[450px] relative">
+<div class="absolute top-6 left-6 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-mono text-muted uppercase">Live Telemetry</span>
+</div>
+<!-- SVG Radar Chart (Hexagon) -->
+<div class="w-full max-w-[400px] aspect-square relative">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 400 400">
+<!-- Background Grids (Hexagons) -->
+<polygon class="radar-grid" points="200,50 330,125 330,275 200,350 70,275 70,125"></polygon>
+<polygon class="radar-grid" points="200,87.5 297.5,143.75 297.5,256.25 200,312.5 102.5,256.25 102.5,143.75"></polygon>
+<polygon class="radar-grid" points="200,125 265,162.5 265,237.5 200,275 135,237.5 135,162.5"></polygon>
+<polygon class="radar-grid" points="200,162.5 232.5,181.25 232.5,218.75 200,237.5 167.5,218.75 167.5,181.25"></polygon>
+<!-- Axes -->
+<line class="radar-grid" x1="200" x2="200" y1="200" y2="50"></line>
+<line class="radar-grid" x1="200" x2="330" y1="200" y2="125"></line>
+<line class="radar-grid" x1="200" x2="330" y1="200" y2="275"></line>
+<line class="radar-grid" x1="200" x2="200" y1="200" y2="350"></line>
+<line class="radar-grid" x1="200" x2="70" y1="200" y2="275"></line>
+<line class="radar-grid" x1="200" x2="70" y1="200" y2="125"></line>
+<!-- Data Polygon (Example 88% overall for Core Systems) -->
+<polygon class="radar-area" points="200,65 310,135 290,250 200,320 90,260 85,115"></polygon>
+<!-- Data Points -->
+<!-- Top: Data Structures -->
+<circle class="radar-point group" cx="200" cy="65" r="4"></circle>
+<!-- Top Right: Algorithms -->
+<circle class="radar-point" cx="310" cy="135" r="4"></circle>
+<!-- Bottom Right: Concurrency -->
+<circle class="radar-point" cx="290" cy="250" r="4"></circle>
+<!-- Bottom: Memory Mgmt -->
+<circle class="radar-point" cx="200" cy="320" r="4"></circle>
+<!-- Bottom Left: OS Basics -->
+<circle class="radar-point" cx="90" cy="260" r="4"></circle>
+<!-- Top Left: Networking -->
+<circle class="radar-point" cx="85" cy="115" r="4"></circle>
+<!-- Labels -->
+<text class="radar-label" text-anchor="middle" x="200" y="30">Data Structures</text>
+<text class="radar-label" text-anchor="start" x="350" y="125">Algorithms</text>
+<text class="radar-label" text-anchor="start" x="350" y="285">Concurrency</text>
+<text class="radar-label" text-anchor="middle" x="200" y="375">Memory Mgmt</text>
+<text class="radar-label" text-anchor="end" x="50" y="285">OS Basics</text>
+<text class="radar-label" text-anchor="end" x="50" y="125">Networking</text>
+</svg>
+<!-- Simulated Tooltip (Visible on hover via JS in real app, static here for demo) -->
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-full glass-card px-3 py-2 rounded-md border border-primary/50 shadow-glow-primary opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
+<p class="font-mono text-xs text-primary">Data Structures: 92%</p>
+</div>
+</div>
+</div>
+<!-- Milestone Timeline -->
+<div class="glass-card rounded-xl p-6 lg:p-8 flex flex-col gap-6">
+<div class="flex justify-between items-end border-b border-[#27272A] pb-4">
+<div>
+<h3 class="text-lg font-medium text-text-main">Historical Momentum</h3>
+<p class="text-sm text-muted">Recent milestones and unlocked achievements.</p>
+</div>
+<span class="material-symbols-outlined text-muted">history</span>
+</div>
+<div class="flex flex-col gap-0 relative pl-4 mt-2">
+<!-- Vertical Line Track -->
+<div class="absolute left-[23px] top-2 bottom-6 w-[2px] bg-[#27272A]"></div>
+<!-- Timeline Item 1 -->
+<div class="relative flex gap-6 pb-8 group">
+<!-- Node -->
+<div class="relative z-10 w-4 h-4 rounded-full bg-background-dark border-2 border-primary mt-1 shadow-[0_0_10px_rgba(0,229,255,0.3)]"></div>
+<!-- Content -->
+<div class="flex flex-col gap-1 flex-1 glass-card p-4 rounded-lg group-hover:border-primary/30 transition-colors">
+<div class="flex justify-between items-start">
+<h4 class="text-sm font-medium text-text-main">Mastered LRU Cache Implementation</h4>
+<span class="font-mono text-xs text-primary">Today</span>
+</div>
+<p class="text-sm text-muted">Successfully passed 3 consecutive spaced-repetition intervals without errors.</p>
+</div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative flex gap-6 pb-8 group">
+<div class="relative z-10 w-4 h-4 rounded-full bg-background-dark border-2 border-[#10B981] mt-1"></div>
+<div class="flex flex-col gap-1 flex-1 p-4 rounded-lg hover:bg-[#27272A]/20 transition-colors border border-transparent hover:border-[#27272A]">
+<div class="flex justify-between items-start">
+<h4 class="text-sm font-medium text-text-main">Consistency Streak: 7 Days</h4>
+<span class="font-mono text-xs text-muted">2 days ago</span>
+</div>
+<p class="text-sm text-muted">Maintained daily mission execution for a full week.</p>
+</div>
+</div>
+<!-- Timeline Item 3 (Different Category Color) -->
+<div class="relative flex gap-6 pb-2 group">
+<div class="relative z-10 w-4 h-4 rounded-full bg-background-dark border-2 border-[#B026FF] mt-1"></div>
+<div class="flex flex-col gap-1 flex-1 p-4 rounded-lg hover:bg-[#27272A]/20 transition-colors border border-transparent hover:border-[#27272A]">
+<div class="flex justify-between items-start">
+<h4 class="text-sm font-medium text-text-main">Unlocked: Distributed Caching Module</h4>
+<span class="font-mono text-xs text-muted">5 days ago</span>
+</div>
+<p class="text-sm text-muted">System Design prerequisite met.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction: Hover effects for radar points
+        document.querySelectorAll('.radar-point').forEach(point => {
+            point.addEventListener('mouseenter', (e) => {
+                const tooltip = document.querySelector('.opacity-0.pointer-events-none');
+                if(tooltip) {
+                    tooltip.style.opacity = '1';
+                    // Positioning would normally be dynamic based on e.target coordinates
+                }
+            });
+            point.addEventListener('mouseleave', () => {
+                const tooltip = document.querySelector('.opacity-0.pointer-events-none');
+                if(tooltip) {
+                    tooltip.style.opacity = '0';
+                }
+            });
+        });
+    </script>
+</body></html>

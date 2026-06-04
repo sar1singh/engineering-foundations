@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Source References Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e1b514",
+                        "background-light": "#f8f8f6",
+                        "background-dark": "#221e10",
+                    },
+                    fontFamily: {
+                        "display": ["Geist", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap');
+        
+        body {
+            font-family: 'Geist', sans-serif;
+            background-color: #0A0A0A;
+            color: #EAEAEA;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Berkeley Mono approximation using Geist Mono or generic monospace */
+        .font-mono-custom {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        #reference-panel {
+            transition: width 300ms ease-out, transform 300ms ease-out;
+        }
+
+        #reference-panel.collapsed {
+            width: 48px;
+        }
+
+        #reference-panel.expanded {
+            width: 320px;
+        }
+        
+        .resource-card {
+            transition: background-color 200ms ease, border-color 200ms ease;
+            border-left: 2px solid transparent;
+        }
+        
+        .resource-card:hover {
+            background-color: #141414;
+            border-left-color: #e1b514;
+        }
+
+        .collapsed-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 200ms ease;
+        }
+
+        .collapsed .collapsed-content {
+            display: flex;
+            opacity: 1;
+        }
+
+        .expanded-content {
+            display: flex;
+            opacity: 1;
+            transition: opacity 200ms ease;
+        }
+
+        .collapsed .expanded-content {
+            display: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex text-[#EAEAEA]">
+<!-- Main Content Area Placeholder -->
+<main class="flex-1 p-8">
+<div class="max-w-3xl mx-auto mt-24">
+<h1 class="text-4xl font-serif text-white mb-8 tracking-tight" style="font-family: 'Instrument Serif', serif;">Database Sharding Architecture</h1>
+<p class="text-lg leading-relaxed text-[#EAEAEA] mb-6">
+                Sharding is a method for distributing data across multiple machines. MongoDB uses sharding to support deployments with very large data sets and high throughput operations.
+            </p>
+<p class="text-lg leading-relaxed text-[#EAEAEA] mb-6">
+                Press <kbd class="font-mono-custom text-sm bg-[#141414] px-2 py-1 rounded border border-[#262626] text-[#e1b514]">Cmd + /</kbd> to toggle the source references panel.
+            </p>
+</div>
+</main>
+<!-- Source References Panel -->
+<aside class="expanded fixed right-0 top-0 bottom-0 bg-[#0A0A0A] border-l border-[#262626] flex flex-col z-50 rounded-l-lg shadow-2xl" id="reference-panel">
+<!-- Expanded Header -->
+<div class="expanded-content items-center justify-between p-4 border-b border-[#262626]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#e1b514] text-sm">book</span>
+<h2 class="font-mono-custom text-[13px] tracking-wider uppercase text-[#EAEAEA] font-semibold">References</h2>
+</div>
+<button aria-label="Close panel" class="text-[#737373] hover:text-[#EAEAEA] transition-colors p-1 rounded hover:bg-[#141414]" id="close-btn">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Collapsed Header/Trigger -->
+<div aria-label="Open references panel" class="collapsed-content h-full flex-col items-center py-4 border-l-2 border-transparent hover:border-[#e1b514] cursor-pointer bg-[#0A0A0A] hover:bg-[#141414] transition-colors" id="open-btn" tabindex="0">
+<div class="flex flex-col items-center gap-6 mt-2">
+<span class="material-symbols-outlined text-[#e1b514] text-xl">menu_book</span>
+<div class="font-mono-custom text-[11px] text-[#737373] transform -rotate-90 whitespace-nowrap mt-10 tracking-widest uppercase">
+                    Cmd + /
+                </div>
+</div>
+</div>
+<!-- Scrollable Content -->
+<div class="expanded-content flex-col flex-1 overflow-y-auto p-2 gap-1 custom-scrollbar">
+<!-- Resource Card 1 -->
+<a class="resource-card group block p-3 rounded-sm cursor-pointer outline-none focus:ring-1 focus:ring-[#e1b514]" href="#">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 text-[#737373] group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">smart_display</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-[14px] font-medium text-[#EAEAEA] leading-snug group-hover:text-white transition-colors line-clamp-2">
+                            Caching Strategies at Scale
+                        </h3>
+<p class="font-mono-custom text-[11px] text-[#737373] uppercase tracking-wider">
+                            Youtube • 14:23
+                        </p>
+</div>
+</div>
+</a>
+<!-- Resource Card 2 -->
+<a class="resource-card group block p-3 rounded-sm cursor-pointer outline-none focus:ring-1 focus:ring-[#e1b514]" href="#">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 text-[#737373] group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">article</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-[14px] font-medium text-[#EAEAEA] leading-snug group-hover:text-white transition-colors line-clamp-2">
+                            Dynamo: Amazon's Highly Available Key-value Store
+                        </h3>
+<p class="font-mono-custom text-[11px] text-[#737373] uppercase tracking-wider">
+                            Whitepaper • PDF
+                        </p>
+</div>
+</div>
+</a>
+<!-- Resource Card 3 -->
+<a class="resource-card group block p-3 rounded-sm cursor-pointer outline-none focus:ring-1 focus:ring-[#e1b514]" href="#">
+<div class="flex items-start gap-3">
+<div class="mt-0.5 text-[#737373] group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">docs</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-[14px] font-medium text-[#EAEAEA] leading-snug group-hover:text-white transition-colors line-clamp-2">
+                            Redis Cache Invalidation Patterns
+                        </h3>
+<p class="font-mono-custom text-[11px] text-[#737373] uppercase tracking-wider">
+                            Docs • External
+                        </p>
+</div>
+</div>
+</a>
+</div>
+<!-- Footer Hint (Expanded) -->
+<div class="expanded-content p-4 border-t border-[#262626] bg-[#0A0A0A]">
+<div class="flex items-center gap-2 text-[#737373]">
+<span class="material-symbols-outlined text-sm">keyboard</span>
+<span class="font-mono-custom text-[11px] tracking-wide">Toggle: Cmd + /</span>
+</div>
+</div>
+</aside>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const panel = document.getElementById('reference-panel');
+            const closeBtn = document.getElementById('close-btn');
+            const openBtn = document.getElementById('open-btn');
+            let isExpanded = true;
+
+            function togglePanel() {
+                isExpanded = !isExpanded;
+                if (isExpanded) {
+                    panel.classList.remove('collapsed');
+                    panel.classList.add('expanded');
+                    panel.setAttribute('aria-expanded', 'true');
+                } else {
+                    panel.classList.remove('expanded');
+                    panel.classList.add('collapsed');
+                    panel.setAttribute('aria-expanded', 'false');
+                }
+            }
+
+            closeBtn.addEventListener('click', togglePanel);
+            
+            openBtn.addEventListener('click', togglePanel);
+            openBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    togglePanel();
+                }
+            });
+
+            // Keyboard shortcut Cmd+/ or Ctrl+/
+            document.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === '/') {
+                    e.preventDefault(); // Prevent default browser behavior for Cmd+/
+                    togglePanel();
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,199 @@
+# EngineeringOS: Focus Engine Workspace
+
+## Product Overview
+
+**The Pitch:** A unified, distraction-free workspace that instantly shape-shifts based on engineering topic—transforming from a code editor for DSA to an architectural rubric for System Design. It brings premium, editorial focus to intense technical preparation.
+
+**For:** Senior software engineers and EMs preparing for FAANG-level interviews who need deep work environments without tool-switching context loss.
+
+**Device:** Desktop
+
+**Design Direction:** High-contrast editorial meets brutalist utility. Feels like a high-end technical journal—sharp lines, distinct typography, zero fluff. 
+
+**Inspired by:** Stripe Press (editorial typography), Linear (layout precision).
+
+---
+
+## Screens
+
+- **DSA Workspace:** Split-pane environment with problem statement on the left, Monaco-style code runner on the right.
+- **HLD Workspace:** Architectural rubric layout with tradeoff matrices and diagramming canvas placeholder.
+- **AWS Lab Workspace:** Step-by-step lab environment with inline IaC snippets and service requirement badges.
+- **Source References Panel:** A slide-out drawer containing curated external deep-dives, YouTube timestamps, and whitepapers.
+
+---
+
+## Key Flows
+
+**Context Switching & Deep Dive:** Transitioning from learning to practicing.
+
+1. User is on **DSA Workspace** -> sees Learn, Code, Interview tabs.
+2. User clicks **Code Tab** -> left panel shrinks to 30%, right panel expands into full dark-mode code editor.
+3. User clicks **References Icon** -> right-side panel slides in, pushing workspace left, revealing timestamped YouTube videos and whitepaper links.
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#2D31FA` - Electric Indigo (Active tabs, primary actions)
+- **Background:** `#F7F7F5` - Parchment (App background, reading areas)
+- **Surface:** `#FFFFFF` - White (Code editor background, reference cards)
+- **Text:** `#0F1016` - Void (Primary text, headings)
+- **Muted:** `#7A7B86` - Ash (Secondary text, 1px structural borders)
+- **Accent:** `#00C896` - Mint (Success states, passing test cases)
+
+## Typography
+
+Distinctive, multi-typeface approach. Editorial reading mixed with technical precision.
+
+- **Headings:** `Bricolage Grotesque`, 600, 24-32px, tracking `-0.02em`
+- **Editorial Body (Learn tabs):** `Newsreader`, 400, 18px, line-height `1.6`
+- **UI & Small text:** `JetBrains Mono`, 400, 13px, uppercase tracking `0.05em`
+- **Code:** `JetBrains Mono`, 400, 14px
+
+**Style notes:** Sharp corners (`0px` radius). 1px solid `#7A7B86` borders instead of drop shadows. High contrast. Structural elements feel like technical schematics.
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #2D31FA;
+  --color-background: #F7F7F5;
+  --color-surface: #FFFFFF;
+  --color-text: #0F1016;
+  --color-muted: #7A7B86;
+  --color-accent: #00C896;
+  --font-heading: 'Bricolage Grotesque', sans-serif;
+  --font-editorial: 'Newsreader', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 0px;
+  --border-width: 1px;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### DSA Workspace
+
+**Purpose:** Focused algorithm practice combining problem comprehension and execution.
+
+**Layout:** Two-column split (`40/60`). Top navigation bar `48px`. Bottom status bar `32px`.
+
+**Key Elements:**
+- **Mode Tabs:** `Learn | Code | Interview` at top left. `13px` JetBrains Mono, active tab gets `2px` bottom border in `#2D31FA`.
+- **Editorial Left Pane:** Problem description in `Newsreader`. `800px` max-width container, generous `32px` padding.
+- **Code Editor Right Pane:** Dark surface (`#0F1016`), syntax highlighted text, line numbers in `#7A7B86`.
+- **Run Button:** Bottom right, `#2D31FA` background, white text, sharp corners, `14px` mono font.
+
+**States:**
+- **Loading:** Blinking block cursor `_` in editor.
+- **Error:** Test cases highlight in `#E11D48` with stack trace expanding in bottom pane.
+
+**Components:**
+- **Test Case Pill:** `96px x 24px`, `#F7F7F5` bg, 1px border. `Hover: border-#2D31FA`.
+
+**Interactions:**
+- **Click 'Run':** Bottom pane slides up `200px` to reveal console output.
+- **Hover test case:** Pill background turns `#FFFFFF`, cursor becomes pointer.
+
+**Responsive:**
+- **Desktop:** Split pane `40/60`.
+- **Tablet:** Stacks vertically, editor takes remaining viewport height.
+- **Mobile:** Not supported (Desktop only).
+
+### HLD Workspace
+
+**Purpose:** System design practice using architectural rubrics and tradeoff tables.
+
+**Layout:** Single dominant column (`800px` centered), bounded by 1px borders left and right.
+
+**Key Elements:**
+- **Topic Header:** Massive `48px` Bricolage Grotesque title.
+- **Tradeoff Matrix:** Grid layout. 1px solid borders for all cells. No background colors, purely typographic separation.
+- **Requirement Checkboxes:** Square checkboxes (`16x16px`), sharp corners, checkmark in `#2D31FA`.
+
+**States:**
+- **Empty:** Placeholder wireframe patterns in matrix cells.
+
+**Components:**
+- **Constraint Tag:** `border: 1px solid #7A7B86`, text `#0F1016`, `padding: 4px 8px`.
+
+**Interactions:**
+- **Click Requirement:** Strikethrough text animation (`200ms ease`), box fills with `#2D31FA`.
+
+**Responsive:**
+- **Desktop:** Centered `800px` column, massive side margins.
+- **Tablet:** Column expands to `100%` width.
+
+### AWS Lab Workspace
+
+**Purpose:** Infrastructure as Code practice with service requirements.
+
+**Layout:** 3-column masonry grid for service badges, wide bottom pane for IaC.
+
+**Key Elements:**
+- **Service Badges:** `140px x 140px` square cards. Monospace labels, AWS service icon placeholder.
+- **IaC Snippet Block:** `background: #0F1016`, copy button top right (`16x16px`).
+- **Progress Stepper:** Vertical line with dots (`8px` diameter) on left margin tracking lab steps.
+
+**States:**
+- **Active Step:** Dot fills with `#2D31FA`, line connecting next step pulses.
+
+**Components:**
+- **Snippet Copy Btn:** `24px x 24px`, `#7A7B86` icon, hover fills background `#2D31FA`.
+
+**Interactions:**
+- **Click Copy:** Icon swaps to checkmark, color swaps to `#00C896` for 2 seconds.
+
+**Responsive:**
+- **Desktop:** Full 3-column grid.
+- **Tablet:** 2-column grid.
+
+### Source References Panel
+
+**Purpose:** Collapsible drawer for external context without leaving the workspace.
+
+**Layout:** `400px` fixed-width right-side drawer. `100vh`. 1px border on left edge.
+
+**Key Elements:**
+- **YouTube Embed:** 16:9 ratio blocks.
+- **Timestamp Links:** `13px` JetBrains Mono, `#2D31FA`, underlines on hover.
+- **Whitepaper Links:** PDF icon + title + author. Editorial typography `14px`.
+
+**States:**
+- **Empty:** "No external references mapped for this topic." in `Newsreader` font, italicized.
+
+**Components:**
+- **Reference Card:** `padding: 16px`, `border-bottom: 1px solid #7A7B86`, transparent background.
+
+**Interactions:**
+- **Click Toggle:** Drawer translates X `0` to `100%` (`300ms cubic-bezier(0.16, 1, 0.3, 1)`).
+
+**Responsive:**
+- **Desktop:** Pushes main content left to prevent overlap.
+- **Tablet:** Overlays main content with a dark semi-transparent backdrop.
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3
+
+**Build Order:**
+1. **DSA Workspace** - Establishes the core layout shell, multi-font typography, and intense high-contrast theme.
+2. **Source References Panel** - Validates the sliding interaction and nested scroll areas without disrupting the main view.
+3. **HLD Workspace** - Implements the complex grid systems and typographic tables required for editorial system design.
+4. **AWS Lab Workspace** - Adds the visual flair (badges, IaC snippets) to the existing structural foundations.
+
+</details>

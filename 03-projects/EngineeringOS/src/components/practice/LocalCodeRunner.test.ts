@@ -38,4 +38,27 @@ describe("LocalCodeRunner safety guard", () => {
     expect(normalized).toContain("function twoSum(nums, target)");
     expect(normalized).toContain("target");
   });
+
+  it("normalizes common richer TypeScript syntax used by lesson snippets", () => {
+    const normalized = prepareLocalRunnerCode(`
+type Pair<T> = { value: T };
+interface CounterState { count: number; }
+export function identity<T>(value: T): T {
+  return value as T;
+}
+class Counter<T> {
+  private readonly value: number;
+  constructor(value: number) {
+    this.value = value;
+  }
+}
+console.assert(identity<number>(2) === 2, "generic helper works");
+`);
+
+    expect(normalized).not.toContain("type Pair");
+    expect(normalized).not.toContain("interface CounterState");
+    expect(normalized).not.toContain("private readonly");
+    expect(normalized).toContain("function identity(value)");
+    expect(() => new Function("console", normalized)).not.toThrow();
+  });
 });

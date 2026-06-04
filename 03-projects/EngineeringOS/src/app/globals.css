@@ -1,34 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --muted: #64748b;
-  --surface: #ffffff;
-  --surface-soft: #f1f5f9;
-  --surface-strong: #e2e8f0;
-  --border: #d6dee9;
-  --accent: #4f46e5;
-  --accent-strong: #3730a3;
-  --accent-soft: #eef2ff;
-  --focus: #0ea5e9;
-  --focus-soft: #e0f2fe;
-  --warm: #f59e0b;
-  --warm-soft: #fffbeb;
-  --shadow-soft: 0 18px 55px rgba(15, 23, 42, 0.08);
-  --glass: rgba(255, 255, 255, 0.74);
-  --glass-strong: rgba(255, 255, 255, 0.9);
-  --glass-border: rgba(99, 102, 241, 0.24);
-  --hero-gradient: radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.2), transparent 24rem),
-    radial-gradient(circle at 78% 4%, rgba(217, 70, 239, 0.16), transparent 22rem),
-    linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(14, 165, 233, 0.06));
-  color-scheme: light;
+  --background: #050607;
+  --foreground: #f7fbff;
+  --muted: #a8b3c7;
+  --surface: #0c0d10;
+  --surface-soft: #111722;
+  --surface-strong: #192233;
+  --border: #273244;
+  --accent: #00e5ff;
+  --accent-strong: #8ff6ff;
+  --accent-soft: #092533;
+  --focus: #b45cff;
+  --focus-soft: #251235;
+  --warm: #ffc400;
+  --warm-soft: #33270a;
+  --danger: #ff4d7d;
+  --success: #00f5a0;
+  --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.52);
+  --glass: rgba(11, 14, 20, 0.76);
+  --glass-strong: rgba(15, 19, 29, 0.92);
+  --glass-border: rgba(0, 229, 255, 0.24);
+  --blueprint-grid: rgba(89, 132, 178, 0.14);
+  --hero-gradient: radial-gradient(circle at 18% 10%, rgba(0, 229, 255, 0.16), transparent 24rem),
+    radial-gradient(circle at 88% 2%, rgba(180, 92, 255, 0.18), transparent 24rem),
+    radial-gradient(circle at 68% 90%, rgba(255, 196, 0, 0.09), transparent 26rem),
+    linear-gradient(135deg, #050607 0%, #080b12 45%, #050607 100%);
+  color-scheme: dark;
 }
 
 :root[data-theme="dark"] {
   --background: #0b1120;
   --foreground: #f8fafc;
-  --muted: #a8b3c7;
+  --muted: #cbd5e1;
   --surface: #111827;
   --surface-soft: #172033;
   --surface-strong: #202b42;
@@ -66,7 +70,7 @@ body {
     var(--hero-gradient),
     var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   transition: background-color 180ms ease, color 180ms ease;
 }
 
@@ -81,6 +85,17 @@ body::before {
     linear-gradient(245deg, color-mix(in srgb, var(--focus), transparent 93%), transparent 28%);
 }
 
+body::after {
+  pointer-events: none;
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle, rgba(118, 155, 190, 0.16) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 78%);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -91,12 +106,9 @@ a {
   color: var(--foreground);
 }
 
-.bg-white {
-  background-color: var(--surface) !important;
-}
-
+.bg-white,
 .bg-white\/90 {
-  background-color: color-mix(in srgb, var(--surface), transparent 8%) !important;
+  background-color: var(--surface) !important;
 }
 
 .bg-slate-50 {
@@ -105,6 +117,10 @@ a {
 
 .bg-teal-50 {
   background-color: var(--accent-soft) !important;
+}
+
+.bg-teal-50\/50 {
+  background-color: color-mix(in srgb, var(--accent-soft), var(--surface) 58%) !important;
 }
 
 .bg-teal-700 {
@@ -166,14 +182,24 @@ a {
   background-color: var(--accent-soft) !important;
 }
 
-.eo-card {
+:root[data-theme="dark"] .bg-teal-50\/50 {
+  background-color: color-mix(in srgb, var(--surface-soft), var(--accent-soft) 38%) !important;
+}
+
+.eo-card,
+.eo-command-panel {
   border: 1px solid var(--glass-border);
-  border-radius: 1rem;
+  border-radius: 0.875rem;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--glass-strong), white 4%), var(--glass)),
+    linear-gradient(180deg, color-mix(in srgb, var(--glass-strong), white 2%), var(--glass)),
     var(--glass);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(18px);
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.eo-card:hover {
+  border-color: color-mix(in srgb, var(--accent), transparent 45%);
 }
 
 .eo-glass {
@@ -188,10 +214,10 @@ a {
   position: relative;
   overflow: hidden;
   border: 1px solid transparent;
-  border-radius: 1rem;
+  border-radius: 0.875rem;
   background:
     linear-gradient(var(--glass), var(--glass)) padding-box,
-    linear-gradient(135deg, #22d3ee, #818cf8, #f472b6, #fbbf24) border-box;
+    linear-gradient(135deg, #00e5ff, #7c3cff, #ff4dcb, #ffc400) border-box;
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(18px);
 }
@@ -199,24 +225,24 @@ a {
 .eo-card-accent {
   height: 0.25rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, #22d3ee, #818cf8, #f472b6);
+  background: linear-gradient(90deg, #00e5ff, #7c3cff, #ff4dcb);
 }
 
 .eo-panel {
   border: 1px solid color-mix(in srgb, var(--border), transparent 12%);
-  border-radius: 0.625rem;
-  background: color-mix(in srgb, var(--surface-soft), transparent 10%);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--surface-soft), transparent 14%);
 }
 
 .eo-glow-card {
   position: relative;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--accent), transparent 55%);
-  border-radius: 1.25rem;
+  border-radius: 0.875rem;
   background:
-    radial-gradient(circle at 8% 0%, rgba(34, 211, 238, 0.24), transparent 32%),
-    radial-gradient(circle at 88% 8%, rgba(244, 114, 182, 0.22), transparent 30%),
-    radial-gradient(circle at 48% 100%, rgba(251, 191, 36, 0.12), transparent 32%),
+    radial-gradient(circle at 8% 0%, rgba(0, 229, 255, 0.22), transparent 32%),
+    radial-gradient(circle at 88% 8%, rgba(255, 77, 203, 0.16), transparent 30%),
+    radial-gradient(circle at 48% 100%, rgba(255, 196, 0, 0.1), transparent 32%),
     linear-gradient(180deg, var(--glass-strong), var(--glass));
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(22px);
@@ -265,9 +291,10 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.75rem;
-  background: linear-gradient(135deg, #22d3ee, #6366f1 52%, #d946ef);
-  color: white;
+  border: 1px solid rgba(143, 246, 255, 0.35);
+  border-radius: 0.25rem;
+  background: linear-gradient(135deg, #c7fbff, #00e5ff 55%, #b45cff);
+  color: #031014;
   font-weight: 700;
   box-shadow: 0 14px 36px color-mix(in srgb, var(--accent), transparent 72%);
   transition: transform 160ms ease, filter 160ms ease;
@@ -279,7 +306,7 @@ a {
   justify-content: center;
   gap: 0.5rem;
   border: 1px solid var(--glass-border);
-  border-radius: 0.75rem;
+  border-radius: 0.25rem;
   background: color-mix(in srgb, var(--glass-strong), transparent 10%);
   color: var(--foreground);
   font-weight: 700;
@@ -296,7 +323,7 @@ a {
   min-height: 2.75rem;
   width: 100%;
   border: 1px solid var(--glass-border);
-  border-radius: 0.75rem;
+  border-radius: 0.375rem;
   background: color-mix(in srgb, var(--glass-strong), transparent 8%) !important;
   padding: 0 0.875rem;
   color: var(--foreground) !important;
@@ -313,12 +340,131 @@ a {
   align-items: center;
   gap: 0.35rem;
   border: 1px solid var(--glass-border);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--glass-strong), transparent 16%);
+  border-radius: 0.35rem;
+  background: color-mix(in srgb, var(--surface-strong), transparent 22%);
   padding: 0.35rem 0.7rem;
   color: var(--foreground);
   font-size: 0.75rem;
   font-weight: 700;
+}
+
+.eo-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.35rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent), transparent 70%), color-mix(in srgb, var(--focus), transparent 76%));
+  padding: 0.25rem 0.65rem;
+  color: var(--foreground);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.eo-os-rail {
+  border-right: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(5, 6, 7, 0.98), rgba(8, 11, 18, 0.96));
+}
+
+.eo-rail-link {
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--muted);
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.eo-rail-link:hover,
+.eo-rail-link[data-active="true"] {
+  border-color: color-mix(in srgb, var(--accent), transparent 42%);
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(180, 92, 255, 0.12));
+  color: var(--foreground);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.12);
+}
+
+.eo-command-bar {
+  border-bottom: 1px solid var(--border);
+  background: rgba(5, 6, 7, 0.9);
+  color: var(--foreground);
+  backdrop-filter: blur(18px);
+}
+
+.eo-blueprint-canvas {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background:
+    linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px),
+    radial-gradient(circle at 70% 18%, rgba(0, 229, 255, 0.12), transparent 22rem),
+    #060912;
+  background-size: 32px 32px, 32px 32px, auto, auto;
+}
+
+.eo-blueprint-node {
+  border: 1px solid color-mix(in srgb, var(--accent), transparent 34%);
+  border-radius: 0.25rem;
+  background: rgba(16, 24, 38, 0.92);
+  color: var(--foreground);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.12);
+}
+
+.eo-focus-workspace {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: linear-gradient(180deg, rgba(10, 12, 16, 0.96), rgba(5, 6, 7, 0.98));
+}
+
+.eo-source-card {
+  border: 1px solid color-mix(in srgb, var(--warm), transparent 64%);
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, rgba(255, 196, 0, 0.08), rgba(0, 229, 255, 0.05));
+  color: var(--foreground);
+  transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.eo-source-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--warm), transparent 25%);
+}
+
+.eo-telemetry-card {
+  border: 1px solid color-mix(in srgb, var(--accent), transparent 55%);
+  border-radius: 0.75rem;
+  background: radial-gradient(circle at 10% 10%, rgba(0, 229, 255, 0.12), transparent 55%), rgba(12, 13, 16, 0.92);
+}
+
+.eo-danger-card {
+  border: 1px solid color-mix(in srgb, var(--danger), transparent 35%);
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, rgba(255, 77, 125, 0.16), rgba(12, 13, 16, 0.92));
+}
+
+.eo-domain-code {
+  border-color: rgba(0, 229, 255, 0.55);
+  background: rgba(0, 229, 255, 0.11);
+}
+
+.eo-domain-design {
+  border-color: rgba(180, 92, 255, 0.55);
+  background: rgba(180, 92, 255, 0.12);
+}
+
+.eo-domain-lab {
+  border-color: rgba(255, 196, 0, 0.58);
+  background: rgba(255, 196, 0, 0.12);
+}
+
+.eo-domain-interview {
+  border-color: rgba(255, 77, 203, 0.55);
+  background: rgba(255, 77, 203, 0.1);
+}
+
+.eo-empty {
+  border: 1px dashed color-mix(in srgb, var(--border), transparent 10%);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface-soft), transparent 20%);
+  padding: 1rem;
+  color: var(--muted);
 }
 
 .eo-primary-action:hover {

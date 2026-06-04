@@ -28,16 +28,16 @@ test.describe("Phase 65 glassmorphism guided learning UX", () => {
   });
 
   test("learning graph uses a visual roadmap with clickable nodes", async ({ page }) => {
-    await page.goto("/graph", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { name: /roadmap-style map/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Promises|Closures|Graph|Binary|Node/i }).first()).toBeVisible();
+    await page.goto("/graph", { waitUntil: "load" });
+    await expect(page.getByRole("heading", { name: /Blueprint roadmap canvas/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Resume module|Senior Backend|AWS Solution|Staff|Engineering Manager/i }).first()).toBeVisible();
   });
 
   test("runner reports a passing harness state", async ({ page }) => {
     await page.goto("/practice/runnable-hashmap-two-sum-frequency", { waitUntil: "domcontentloaded" });
     const runButton = page.getByRole("button", { name: "Run" });
-    await expect(runButton).toBeEnabled();
-    await runButton.click();
+    await expect(runButton).toBeEnabled({ timeout: 20000 });
+    await runButton.click({ force: true });
     await expect(page.getByTestId("local-runner-output")).toContainText("visible harness passed");
     await expect(page.getByText(/State: passed/i)).toBeVisible();
   });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const blockedRunnerPatterns = [
   { pattern: /\bfetch\s*\(/i, reason: "Network calls are disabled in the learning runner." },
@@ -13,10 +13,6 @@ const blockedRunnerPatterns = [
   { pattern: /while\s*\(\s*true\s*\)|for\s*\(\s*;\s*;\s*\)/i, reason: "Obvious infinite loops are blocked in the learning runner." }
 ];
 
-const subscribeHydration = () => () => undefined;
-const getHydratedSnapshot = () => true;
-const getServerHydrationSnapshot = () => false;
-
 export function getLocalRunnerSafetyError(code: string): string | null {
   if (code.length > 6000) {
     return "Code is too long for the local learning runner. Keep examples focused and under 6000 characters.";
@@ -28,9 +24,17 @@ export function getLocalRunnerSafetyError(code: string): string | null {
 
 export function prepareLocalRunnerCode(code: string): string {
   return code
+    .replace(/^\s*import\s+[^;]+;\s*$/gm, "")
+    .replace(/^\s*type\s+[A-Za-z_$][\w$<>,\s]*=\s*[^;]+;\s*$/gm, "")
+    .replace(/^\s*interface\s+[A-Za-z_$][\w$<>,\s]*(?:extends\s+[A-Za-z_$][\w$<>,\s]*)?\s*\{[\s\S]*?\}\s*$/gm, "")
     .replace(/\bexport\s+/g, "")
+    .replace(/\b(private|public|protected|readonly)\s+/g, "")
+    .replace(/\bfunction\s+([A-Za-z_$][\w$]*)<[^>(]+>\s*\(/g, "function $1(")
+    .replace(/\b(class\s+[A-Za-z_$][\w$]*)<[^>{]+>/g, "$1")
+    .replace(/\b([A-Za-z_$][\w$]*)<[^>(]+>\s*\(/g, "$1(")
     .replace(/\bnew\s+(Map|Set|WeakMap|WeakSet)<[^>(]+>/g, "new $1")
     .replace(/\b(Array)<[^>(]+>/g, "$1")
+    .replace(/\s+as\s+[A-Za-z_$][A-Za-z0-9_$<>\s\[\]\|\{\}:]*/g, "")
     .replace(/\)\s*:\s*[^{]+(?=\s*\{)/g, ")")
     .replace(/:\s*[A-Za-z_$][A-Za-z0-9_$<>\s\[\]\|\{\}:]*(?=\s*[,)=;{])/g, "")
     .replace(/([A-Za-z0-9_$\)\]])!/g, "$1");
@@ -41,7 +45,12 @@ export function LocalCodeRunner({ enabled = true, initialCode }: { enabled?: boo
   const [code, setCode] = useState(runnableCode);
   const [output, setOutput] = useState("Run code to see console output.");
   const [runnerState, setRunnerState] = useState<"ready" | "running" | "passed" | "failed" | "blocked">("ready");
-  const isHydrated = useSyncExternalStore(subscribeHydration, getHydratedSnapshot, getServerHydrationSnapshot);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setIsHydrated(true));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   function runCode() {
     setRunnerState("running");
@@ -75,7 +84,7 @@ export function LocalCodeRunner({ enabled = true, initialCode }: { enabled?: boo
   }
 
   return (
-    <div className="eo-card mt-4 p-3">
+    <div className="eo-focus-workspace pointer-events-auto relative z-50 mt-4 p-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-sm font-medium">Local JavaScript runner</p>
@@ -95,7 +104,8 @@ export function LocalCodeRunner({ enabled = true, initialCode }: { enabled?: boo
         onChange={(event) => setCode(event.target.value)}
         value={code}
       />
-      <pre data-testid="local-runner-output" className={`mt-3 min-h-16 overflow-auto rounded-xl p-3 text-xs ${
+      <p className="mt-3 font-mono text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">Output console</p>
+      <pre data-testid="local-runner-output" className={`mt-2 min-h-16 overflow-auto rounded-md border border-[var(--border)] p-3 text-xs ${
         runnerState === "passed" ? "bg-cyan-950 text-cyan-50" : runnerState === "failed" || runnerState === "blocked" ? "bg-rose-950 text-rose-50" : "bg-slate-950 text-slate-50"
       }`}>{output}</pre>
     </div>

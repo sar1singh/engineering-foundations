@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ENGINEERING_OS | Blueprint Roadmap</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#e5e1e4",
+                    "surface-container-high": "#2a2a2c",
+                    "secondary-container": "#573878",
+                    "on-error-container": "#ffdad6",
+                    "background": "#050505",
+                    "primary": "#dbfcff",
+                    "inverse-on-surface": "#303032",
+                    "on-primary-container": "#006970",
+                    "tertiary-container": "#ffd47a",
+                    "outline": "#849495",
+                    "secondary-fixed": "#efdbff",
+                    "outline-variant": "#3b494b",
+                    "tertiary-fixed-dim": "#f9bd22",
+                    "surface-bright": "#39393b",
+                    "primary-fixed-dim": "#00dbe9",
+                    "error-container": "#93000a",
+                    "surface-dim": "#131315",
+                    "surface-variant": "#353437",
+                    "surface": "#131315",
+                    "surface-container": "#201f21",
+                    "on-primary-fixed-variant": "#004f54",
+                    "on-secondary-fixed-variant": "#573878",
+                    "tertiary": "#fff5e7",
+                    "surface-tint": "#00dbe9",
+                    "primary-container": "#00f0ff",
+                    "surface-container-highest": "#353437",
+                    "tertiary-fixed": "#ffdf9f",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-surface": "#e5e1e4",
+                    "on-background": "#e5e1e4",
+                    "secondary-fixed-dim": "#dbb8ff",
+                    "on-tertiary": "#402d00",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-primary": "#00363a",
+                    "on-secondary-container": "#caa6ef",
+                    "on-secondary-fixed": "#29074a",
+                    "on-primary-fixed": "#002022",
+                    "on-tertiary-container": "#7a5a00",
+                    "on-secondary": "#3f2160",
+                    "inverse-primary": "#006970",
+                    "error": "#ffb4ab",
+                    "secondary": "#dbb8ff",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-error": "#690005",
+                    "primary-fixed": "#7df4ff",
+                    "surface-container-low": "#1b1b1d",
+                    "on-surface-variant": "#b9cacb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "16px",
+                    "margin-sm": "16px",
+                    "margin-md": "32px",
+                    "max-width": "1440px",
+                    "margin-lg": "48px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "display-lg": ["Space Grotesk"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Space Grotesk"],
+                    "technical-xs": ["JetBrains Mono"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .blueprint-grid {
+            background-image: radial-gradient(#121214 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+        }
+        .neon-pulse {
+            animation: pulse-cyan 2s infinite;
+        }
+        @keyframes pulse-cyan {
+            0% { box-shadow: 0 0 0px rgba(0, 219, 233, 0); }
+            50% { box-shadow: 0 0 20px rgba(0, 219, 233, 0.6); }
+            100% { box-shadow: 0 0 0px rgba(0, 219, 233, 0); }
+        }
+        .node-connection {
+            background: linear-gradient(90deg, #00dbe9 50%, transparent 50%);
+            background-size: 10px 1px;
+        }
+        .canvas-container {
+            cursor: grab;
+        }
+        .canvas-container:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed-dim selection:text-on-primary-fixed overflow-hidden">
+<!-- Sidebar Shell -->
+<aside class="fixed left-0 top-0 h-full z-50 h-screen w-20 flex flex-col items-center py-gutter border-r border-outline-variant bg-surface-container-lowest">
+<div class="mb-margin-lg">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">OS</span>
+</div>
+<nav class="flex flex-col gap-8 flex-grow">
+<a class="group flex flex-col items-center gap-1 text-outline hover:text-on-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined transition-all duration-200 group-hover:scale-110" data-icon="dashboard">dashboard</span>
+<span class="font-technical-xs text-[10px] uppercase">Mission</span>
+</a>
+<a class="group flex flex-col items-center gap-1 text-primary shadow-[0_0_15px_rgba(0,219,233,0.4)] border-l-2 border-primary bg-surface-container-high p-2" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-technical-xs text-[10px] uppercase">Blueprint</span>
+</a>
+<a class="group flex flex-col items-center gap-1 text-outline hover:text-on-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined transition-all duration-200 group-hover:scale-110" data-icon="psychology">psychology</span>
+<span class="font-technical-xs text-[10px] uppercase">Engine</span>
+</a>
+</nav>
+<div class="flex flex-col gap-6 mt-auto">
+<a class="text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+</a>
+<a class="text-outline hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</a>
+</div>
+</aside>
+<!-- Top AppBar Shell -->
+<header class="fixed top-0 right-0 left-20 z-40 h-12 flex items-center justify-between px-gutter border-b border-outline-variant bg-surface-container-lowest">
+<div class="flex items-center gap-gutter">
+<span class="font-headline-md text-headline-md font-bold text-primary">ENGINEERING_OS</span>
+<div class="h-4 w-px bg-outline-variant"></div>
+<span class="font-technical-xs text-technical-xs uppercase tracking-widest text-on-surface-variant">V_2.0_STABLE // BLUEPRINT_MODULE</span>
+</div>
+<div class="flex items-center gap-gutter">
+<nav class="hidden md:flex items-center gap-6 mr-gutter">
+<a class="font-technical-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Nodes</a>
+<a class="font-technical-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Assets</a>
+<a class="font-technical-xs text-on-surface-variant hover:text-primary transition-colors" href="#">Logs</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" data-icon="terminal">terminal</span>
+<button class="bg-primary-container text-on-primary font-technical-xs px-4 py-1 hover:brightness-110 transition-all active:scale-95">EXECUTE</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas Area -->
+<main class="ml-20 mt-12 h-[calc(100vh-48px)] relative overflow-hidden bg-background blueprint-grid canvas-container" id="canvas">
+<!-- Infinite Canvas Wrapper (Simulated) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="relative w-[2000px] h-[1200px] pointer-events-auto" id="node-grid">
+<!-- SVG Connections Overlay -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-40">
+<line stroke="#00dbe9" stroke-dasharray="4" stroke-width="2" x1="200" x2="400" y1="600" y2="600"></line>
+<line stroke="#00dbe9" stroke-dasharray="4" stroke-width="2" x1="600" x2="800" y1="600" y2="400"></line>
+<line stroke="#71717A" stroke-dasharray="4" stroke-width="2" x1="600" x2="800" y1="600" y2="800"></line>
+<line stroke="#00dbe9" stroke-dasharray="4" stroke-width="2" x1="1000" x2="1200" y1="400" y2="400"></line>
+</svg>
+<!-- Root Node -->
+<div class="absolute top-[560px] left-[40px] w-40 h-20 border border-primary-fixed-dim bg-surface-container-high p-4 flex flex-col justify-center">
+<span class="font-technical-xs text-primary-fixed-dim block mb-1">LVL_01</span>
+<span class="font-technical-sm text-on-surface font-bold uppercase">System Foundations</span>
+</div>
+<!-- Unlocked Node -->
+<div class="absolute top-[560px] left-[400px] w-48 h-20 border border-primary-fixed-dim bg-surface-container-high p-4 flex flex-col justify-center">
+<div class="flex justify-between items-start mb-1">
+<span class="font-technical-xs text-primary-fixed-dim">LVL_02</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-xs" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-technical-sm text-on-surface font-bold uppercase">API Design Patterns</span>
+</div>
+<!-- Focus Node -->
+<div class="absolute top-[360px] left-[800px] w-56 h-24 border-2 border-primary-fixed-dim bg-surface-container-highest p-4 flex flex-col justify-center neon-pulse">
+<div class="flex justify-between items-start mb-1">
+<span class="font-technical-xs text-primary-fixed-dim">CURRENT_FOCUS</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-xs animate-spin-slow" data-icon="sync">sync</span>
+</div>
+<span class="font-technical-sm text-on-surface font-bold uppercase text-lg">Distributed Systems</span>
+<div class="w-full h-1 bg-outline-variant mt-2">
+<div class="w-[65%] h-full bg-primary-fixed-dim"></div>
+</div>
+</div>
+<!-- Locked Node -->
+<div class="absolute top-[760px] left-[800px] w-48 h-20 border border-outline-variant bg-surface-container-low opacity-60 p-4 flex flex-col justify-center">
+<div class="flex justify-between items-start mb-1">
+<span class="font-technical-xs text-outline">LVL_03_LOCKED</span>
+<span class="material-symbols-outlined text-outline text-xs" data-icon="lock">lock</span>
+</div>
+<span class="font-technical-sm text-outline font-bold uppercase">Cloud Orchestration</span>
+</div>
+<!-- Advanced Node -->
+<div class="absolute top-[360px] left-[1200px] w-48 h-20 border border-outline-variant bg-surface-container-low opacity-40 p-4 flex flex-col justify-center">
+<div class="flex justify-between items-start mb-1">
+<span class="font-technical-xs text-outline">LVL_04</span>
+</div>
+<span class="font-technical-sm text-outline font-bold uppercase">System Architect</span>
+</div>
+</div>
+</div>
+<!-- Floating Legend -->
+<div class="absolute top-margin-md left-margin-md w-64 bg-surface-container-lowest border border-outline-variant p-margin-sm z-30">
+<h3 class="font-technical-sm font-bold text-on-surface mb-4 tracking-widest uppercase border-b border-outline-variant pb-2">Track: Senior Backend</h3>
+<div class="space-y-3">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-primary-fixed-dim"></div>
+<span class="font-technical-xs text-on-surface-variant uppercase">Core Engineering</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-secondary"></div>
+<span class="font-technical-xs text-on-surface-variant uppercase">Design Systems</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-tertiary-fixed-dim"></div>
+<span class="font-technical-xs text-on-surface-variant uppercase">AWS Infrastructure</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-error"></div>
+<span class="font-technical-xs text-on-surface-variant uppercase">Technical Interview</span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant">
+<div class="flex justify-between items-center text-on-surface-variant mb-2">
+<span class="font-technical-xs">TOTAL PROGRESS</span>
+<span class="font-technical-xs font-bold text-primary">42%</span>
+</div>
+<div class="w-full h-1 bg-surface-container-high">
+<div class="w-[42%] h-full bg-primary-fixed-dim shadow-[0_0_8px_#00dbe9]"></div>
+</div>
+</div>
+</div>
+<!-- Floating Status Action -->
+<div class="absolute top-margin-md right-margin-md z-30">
+<div class="bg-surface-container-lowest border border-primary-fixed-dim p-4 flex items-center gap-4 backdrop-blur-sm">
+<div class="w-10 h-10 rounded-full border border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div>
+<p class="font-technical-xs text-primary uppercase">Active Session</p>
+<p class="font-body-md font-bold text-on-surface">Distributed Consensus Algorithms</p>
+</div>
+<button class="ml-4 border border-outline-variant px-4 py-2 font-technical-xs hover:bg-surface-container transition-colors">RESUME</button>
+</div>
+</div>
+<!-- Floating Controls -->
+<div class="absolute bottom-margin-md right-margin-md flex flex-col gap-2 z-30">
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant flex items-center justify-center text-outline hover:text-primary hover:border-primary transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant flex items-center justify-center text-outline hover:text-primary hover:border-primary transition-all">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest border border-outline-variant flex items-center justify-center text-outline hover:text-primary hover:border-primary transition-all">
+<span class="material-symbols-outlined" data-icon="filter_center_focus">filter_center_focus</span>
+</button>
+<div class="h-4"></div>
+<button class="w-10 h-10 bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_15px_rgba(0,219,233,0.4)]">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+</button>
+</div>
+</main>
+<script>
+        // Simple drag interaction for the canvas
+        const canvas = document.getElementById('canvas');
+        const grid = document.getElementById('node-grid');
+        let isDragging = false;
+        let startX, startY, scrollLeft, scrollTop;
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX - grid.offsetLeft;
+            startY = e.pageY - grid.offsetTop;
+            canvas.style.cursor = 'grabbing';
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+            canvas.style.cursor = 'grab';
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+            canvas.style.cursor = 'grab';
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - canvas.offsetLeft;
+            const y = e.pageY - canvas.offsetTop;
+            // Simple visual offset
+            grid.style.transform = `translate(${e.movementX}px, ${e.movementY}px)`;
+            // In a real app we would update the coordinate system
+        });
+
+        // Atmospheric terminal logging effect
+        window.addEventListener('load', () => {
+            console.log("%c [SYSTEM]: Blueprint Grid Initialized", "color: #00dbe9; font-weight: bold;");
+            console.log("%c [SYSTEM]: Loading Senior Backend Track...", "color: #849495;");
+            setTimeout(() => {
+                console.log("%c [SUCCESS]: 42 Nodes mapped to spatial canvas.", "color: #00dbe9;");
+            }, 1000);
+        });
+    </script>
+</body></html>

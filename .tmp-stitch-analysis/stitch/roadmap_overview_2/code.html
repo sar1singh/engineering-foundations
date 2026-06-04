@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EngineeringOS: Blueprint Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#0de3f2",
+          "background-light": "#f5f8f8",
+          "background-dark": "#102122",
+          "canvas-bg": "#0B132B",
+          "grid-line": "#1C3B5E",
+          "surface": "#121E3D",
+          "text-main": "#E2E8F0",
+          "text-muted": "#475569",
+          "domain-code": "#00F0FF",
+          "domain-sys": "#B026FF",
+          "domain-aws": "#FFB800",
+          "domain-int": "#6D28D9",
+          "status-done": "#00FF9D",
+          "status-weak": "#FF3366",
+        },
+        fontFamily: {
+          "display": ["Space Grotesk", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        },
+        borderRadius: {
+          "DEFAULT": "0px",
+          "sm": "2px",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        backgroundImage: {
+          'grid-pattern': `linear-gradient(to right, #1C3B5E 1px, transparent 1px),
+                           linear-gradient(to bottom, #1C3B5E 1px, transparent 1px)`
+        },
+        backgroundSize: {
+          'grid-20': '20px 20px'
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: theme('colors.canvas-bg');
+    color: theme('colors.text-main');
+    font-family: theme('fontFamily.display');
+    margin: 0;
+    overflow: hidden; /* Prevent native scroll, we will simulate canvas drag */
+  }
+
+  .canvas-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    cursor: grab;
+  }
+  
+  .canvas-container:active {
+    cursor: grabbing;
+  }
+
+  .canvas-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4000px; /* Arbitrary large width for demo */
+    height: 2000px;
+    background-image: theme('backgroundImage.grid-pattern');
+    background-size: theme('backgroundSize.grid-20');
+    transform-origin: 0 0;
+    transition: transform 0.1s ease-out; /* Smooth pan/zoom */
+  }
+
+  .stage-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    border-left: 2px dashed theme('colors.text-muted');
+    z-index: 0;
+  }
+
+  .stage-label {
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    color: theme('colors.text-muted');
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .node {
+    position: absolute;
+    width: 160px;
+    height: 64px;
+    background-color: theme('colors.surface');
+    border-radius: theme('borderRadius.sm');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    z-index: 10;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  .node-label {
+    font-family: theme('fontFamily.display');
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+    pointer-events: none; /* Let the node handle hover */
+  }
+
+  /* Node States */
+  .node.unlocked {
+    border: 1px solid theme('colors.domain-sys'); /* Default, overridden via inline styles or specific classes */
+    border-left-width: 4px;
+  }
+
+  .node.unlocked:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px var(--glow-color, theme('colors.primary'));
+    z-index: 20;
+  }
+
+  .node.locked {
+    opacity: 0.4;
+    border: 1px dashed theme('colors.text-muted');
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-left-color: theme('colors.text-muted');
+  }
+
+  .node.locked:hover {
+     transform: scale(1.02);
+  }
+
+  .node.mastered {
+    border: 1px solid theme('colors.status-done');
+    border-left-width: 4px;
+    border-left-color: theme('colors.status-done');
+  }
+
+  /* Connection Lines */
+  .edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  path.connection {
+    fill: none;
+    stroke: theme('colors.text-muted');
+    stroke-width: 2px;
+  }
+
+  path.connection.active {
+    stroke: theme('colors.status-done');
+    filter: drop-shadow(0 0 4px theme('colors.status-done'));
+  }
+
+  /* Tooltip */
+  .tooltip {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: theme('colors.surface');
+    border: 1px solid theme('colors.grid-line');
+    padding: 8px 12px;
+    border-radius: theme('borderRadius.sm');
+    font-family: theme('fontFamily.mono');
+    font-size: 12px;
+    color: theme('colors.text-main');
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 30;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  }
+
+  .node:hover .tooltip {
+    opacity: 1;
+  }
+
+  /* Floating UI Panels */
+  .floating-panel {
+    position: fixed;
+    background-color: rgba(18, 30, 61, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid theme('colors.grid-line');
+    border-radius: theme('borderRadius.sm');
+    z-index: 100;
+  }
+
+  /* Loading Overlay */
+  .scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(to bottom, transparent, theme('colors.primary'), transparent);
+    opacity: 0.5;
+    animation: scan 3s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+    display: none; /* Hidden by default */
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(200vh); }
+  }
+
+  /* Shared TopAppBar overrides for this specific view */
+  .top-nav-shared {
+     background-color: transparent !important;
+     position: fixed;
+     top: 0;
+     width: 100%;
+     z-index: 1000;
+     pointer-events: none; /* Let clicks pass through to canvas mostly */
+  }
+  .top-nav-shared header {
+      background-color: theme('colors.background-dark');
+      pointer-events: auto;
+  }
+</style>
+</head>
+<body class="antialiased">
+<!-- Top NavBar - Shared Component (Destination view, so we include it) -->
+<div class="top-nav-shared">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#224649] px-10 py-3">
+<div class="flex items-center gap-4 text-white">
+<div class="size-4">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">EngineeringOS</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="A small, circular avatar placeholder image for a user profile in a technical dashboard. It features a generic geometric pattern in muted grays and blues, sitting against a dark background. The lighting is neutral and flat. The style is utilitarian and minimalistic." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDFbCXv9nIEZef_HIHF0lJlZASsLEVLB2oARDLI6DmTe4wm7z2I4Ij9ZI_je8GE2kUoLW4gTOb3GH0lekl1YPOBTjhIpYmOfNoWjUIBQhQ6KBrU8BKx4mBsh9pWtPry1kj6iv8sHdcLVnDk7HlUWEhDMxBYzllXAfV2aXxAPf6aq7toeU6MkWO_KEdD1MKJbC7oFUkiC2avrFPGTrjmbsU2h7WDN3uhwapI1_AhFJK8HYktLOIdYBVtJZ372ECmHL-caSTULe_uujw");'></div>
+</div>
+</header>
+</div>
+<div class="scanline" id="scanline"></div>
+<div class="canvas-container" id="canvas-container">
+<div class="canvas-content" id="canvas-content">
+<!-- Stage Dividers & Labels -->
+<div class="stage-divider" style="left: 600px;">
+<div class="stage-label">Core</div>
+</div>
+<div class="stage-divider" style="left: 1400px;">
+<div class="stage-label">Scale</div>
+</div>
+<div class="stage-divider" style="left: 2200px;">
+<div class="stage-label">Mastery</div>
+</div>
+<div class="stage-label" style="position: absolute; top: 40px; left: 60px;">Foundations</div>
+<!-- SVG Edges -->
+<svg class="edge">
+<!-- Foundations to Core -->
+<path class="connection active" d="M 260 232 L 320 232 L 320 232 L 680 232"></path>
+<path class="connection active" d="M 260 432 L 320 432 L 320 232 L 680 232"></path>
+<!-- Core to Scale -->
+<path class="connection" d="M 840 232 L 1000 232 L 1000 332 L 1480 332"></path>
+<path class="connection active" d="M 840 232 L 950 232 L 950 132 L 1480 132"></path>
+</svg>
+<!-- Nodes -->
+<!-- FOUNDATIONS -->
+<div class="node mastered" style="left: 100px; top: 200px; --glow-color: theme('colors.status-done'); border-color: theme('colors.domain-code');">
+<span class="node-label text-[#00F0FF]">Data Structures</span>
+<div class="tooltip">Mastered</div>
+</div>
+<div class="node mastered" style="left: 100px; top: 400px; --glow-color: theme('colors.status-done'); border-color: theme('colors.domain-sys');">
+<span class="node-label text-[#B026FF]">Networking 101</span>
+<div class="tooltip">Mastered</div>
+</div>
+<!-- CORE -->
+<div class="node unlocked" style="left: 680px; top: 200px; --glow-color: theme('colors.domain-sys'); border-color: theme('colors.domain-sys'); border-left-color: theme('colors.domain-sys');">
+<span class="node-label text-[#B026FF]">API Design</span>
+<div class="tooltip">Prereqs: 2/2 Complete</div>
+</div>
+<!-- SCALE -->
+<div class="node unlocked" style="left: 1480px; top: 100px; --glow-color: theme('colors.domain-aws'); border-color: theme('colors.domain-aws'); border-left-color: theme('colors.domain-aws');">
+<span class="node-label text-[#FFB800]">Docker Foundations</span>
+<div class="tooltip">Prereqs: 1/1 Complete</div>
+</div>
+<div class="node locked" style="left: 1480px; top: 300px;">
+<span class="node-label text-gray-400">Microservices</span>
+<div class="tooltip text-red-400">Locked: Requires API Design</div>
+</div>
+</div>
+</div>
+<!-- Floating Legend (Left) -->
+<div class="floating-panel top-24 left-6 p-4 w-60 flex flex-col gap-3">
+<h3 class="text-white text-sm font-bold tracking-wider uppercase mb-2">Domains</h3>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-[#00F0FF] rounded-sm shadow-[0_0_8px_#00F0FF]"></div>
+<span class="text-sm font-mono text-gray-300">Code</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-[#B026FF] rounded-sm shadow-[0_0_8px_#B026FF]"></div>
+<span class="text-sm font-mono text-gray-300">System Design</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-[#FFB800] rounded-sm shadow-[0_0_8px_#FFB800]"></div>
+<span class="text-sm font-mono text-gray-300">AWS / Cloud</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-[#6D28D9] rounded-sm shadow-[0_0_8px_#6D28D9]"></div>
+<span class="text-sm font-mono text-gray-300">Interviews</span>
+</div>
+<hr class="border-[#1C3B5E] my-2"/>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 bg-[#00FF9D] rounded-sm"></div>
+<span class="text-sm font-mono text-gray-300">Mastered</span>
+</div>
+</div>
+<!-- Floating Controls (Bottom Right) -->
+<div class="floating-panel bottom-8 right-8 flex flex-col gap-1 p-1">
+<button class="w-10 h-10 flex items-center justify-center text-white hover:bg-white/10 rounded-sm transition-colors" onclick="zoom(0.1)" title="Zoom In">
+<span class="material-symbols-outlined">add</span>
+</button>
+<div class="h-px w-full bg-[#1C3B5E]"></div>
+<button class="w-10 h-10 flex items-center justify-center text-white hover:bg-white/10 rounded-sm transition-colors" onclick="resetView()" title="Reset View">
+<span class="material-symbols-outlined" style="font-size: 18px;">my_location</span>
+</button>
+<div class="h-px w-full bg-[#1C3B5E]"></div>
+<button class="w-10 h-10 flex items-center justify-center text-white hover:bg-white/10 rounded-sm transition-colors" onclick="zoom(-0.1)" title="Zoom Out">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<script>
+    // Simple Pan and Zoom Logic
+    const container = document.getElementById('canvas-container');
+    const content = document.getElementById('canvas-content');
+    
+    let isDragging = false;
+    let startX, startY;
+    let translateX = 0;
+    let translateY = 0;
+    let scale = 1;
+
+    function updateTransform() {
+        content.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+
+    container.addEventListener('mousedown', (e) => {
+        // Don't drag if clicking a node
+        if (e.target.closest('.node')) return;
+        
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    // Wheel to pan (or zoom if ctrl is held)
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.ctrlKey) {
+            // Zoom
+            const zoomAmount = e.deltaY > 0 ? -0.1 : 0.1;
+            zoom(zoomAmount, e.clientX, e.clientY);
+        } else {
+            // Pan
+            translateX -= e.deltaX;
+            translateY -= e.deltaY;
+            updateTransform();
+        }
+    }, { passive: false });
+
+    function zoom(amount, mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2) {
+        const newScale = Math.min(Math.max(0.3, scale + amount), 2);
+        
+        // Adjust translation to zoom towards mouse/center
+        if (newScale !== scale) {
+            const scaleRatio = newScale / scale;
+            translateX = mouseX - (mouseX - translateX) * scaleRatio;
+            translateY = mouseY - (mouseY - translateY) * scaleRatio;
+            scale = newScale;
+            updateTransform();
+        }
+    }
+
+    function resetView() {
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateTransform();
+    }
+
+    // Initial centerish position
+    translateX = 50;
+    translateY = 50;
+    updateTransform();
+
+</script>
+</body></html>

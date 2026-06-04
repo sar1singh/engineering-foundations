@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skill Module View - EngineeringOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#0de3f2",
+          "background-light": "#f5f8f8",
+          "background-dark": "#102122",
+          "blueprint-bg": "#0B132B",
+          "blueprint-surface": "#121E3D",
+          "blueprint-grid": "#1C3B5E",
+          "blueprint-text": "#E2E8F0",
+          "status-weak": "#FF3366",
+          "status-done": "#00FF9D"
+        },
+        fontFamily: {
+          "display": ["Space Grotesk", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        },
+        borderRadius: {"DEFAULT": "0px", "sm": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+      },
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: theme('colors.blueprint-bg');
+    background-image: 
+      linear-gradient(theme('colors.blueprint-grid') 1px, transparent 1px),
+      linear-gradient(90deg, theme('colors.blueprint-grid') 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: theme('colors.blueprint-text');
+  }
+  
+  .glow-active {
+    box-shadow: 0 0 12px theme('colors.primary');
+  }
+
+  .glow-weak {
+    box-shadow: 0 0 15px theme('colors.status-weak');
+    border-color: theme('colors.status-weak');
+  }
+
+  .glow-done {
+    box-shadow: 0 0 15px theme('colors.status-done');
+    border-color: theme('colors.status-done');
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+  }
+  .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: #00FF9D;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+  }
+</style>
+</head>
+<body class="font-display min-h-screen flex flex-col overflow-x-hidden antialiased selection:bg-primary selection:text-blueprint-bg">
+<!-- Shared Breadcrumbs -->
+<div class="relative flex h-auto w-full flex-col bg-blueprint-bg/80 backdrop-blur-sm border-b border-blueprint-grid z-10 sticky top-0">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 lg:px-12 flex flex-1 items-center py-4">
+<div class="flex flex-col flex-1">
+<div class="flex flex-wrap gap-2 items-center">
+<a class="text-primary hover:text-white transition-colors text-sm font-medium leading-normal flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+            Overview
+          </a>
+<span class="text-blueprint-grid text-base font-medium leading-normal">|</span>
+<a class="text-primary hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Foundations</a>
+<span class="text-blueprint-grid text-sm font-medium leading-normal">/</span>
+<a class="text-primary hover:text-white transition-colors text-sm font-medium leading-normal" href="#">Databases</a>
+<span class="text-blueprint-grid text-sm font-medium leading-normal">/</span>
+<span class="text-white text-sm font-medium leading-normal">B-Trees</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Split Container -->
+<main class="flex-1 w-full max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-6 p-4 lg:p-8">
+<!-- Left Pane: Content Area (70%) -->
+<section class="w-full lg:w-[70%] bg-blueprint-surface border border-blueprint-grid flex flex-col transition-all duration-300" id="content-pane">
+<div class="p-8 lg:p-12 flex-1 overflow-y-auto scrollbar-hide">
+<!-- Module Header -->
+<header class="mb-10 flex justify-between items-start">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary text-primary text-xs font-mono uppercase tracking-wider mb-4">
+<span class="material-symbols-outlined text-[14px]">database</span>
+            Core Concept
+          </div>
+<h1 class="text-4xl font-bold text-white mb-4 tracking-tight">B-Trees &amp; Page Splitting</h1>
+<p class="text-blueprint-text/80 text-lg max-w-2xl leading-relaxed">
+            Understanding the fundamental data structure powering modern relational databases. Master how data is stored, indexed, and retrieved on disk.
+          </p>
+</div>
+<!-- Weak State Badge (Hidden by default) -->
+<div class="hidden items-center gap-2 px-4 py-2 bg-status-weak/10 border border-status-weak text-status-weak font-mono text-sm animate-pulse" id="weak-badge">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+          Review Recommended
+        </div>
+</header>
+<!-- Content Body -->
+<article class="prose prose-invert max-w-none font-sans text-blueprint-text/90">
+<div class="relative w-full aspect-video bg-[#060A1A] border border-blueprint-grid mb-10 group cursor-pointer overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10"></div>
+<span class="material-symbols-outlined text-6xl text-white/50 group-hover:text-primary z-20 transition-all scale-100 group-hover:scale-110" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<div class="absolute bottom-4 left-4 z-20 font-mono text-xs text-white/70">12:45 / Internal Architecture</div>
+<!-- Visual Placeholder for Video -->
+<div class="absolute inset-0 opacity-30" style="background-image: repeating-linear-gradient(45deg, #1C3B5E 25%, transparent 25%, transparent 75%, #1C3B5E 75%, #1C3B5E), repeating-linear-gradient(45deg, #1C3B5E 25%, #0B132B 25%, #0B132B 75%, #1C3B5E 75%, #1C3B5E); background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+</div>
+<h3 class="text-2xl font-bold text-white mb-4 mt-8 font-display border-b border-blueprint-grid pb-2">Anatomy of a B-Tree Node</h3>
+<p class="mb-6 leading-relaxed text-[15px]">
+          Unlike binary trees, B-Trees are "fat" and shallow. This design minimizes disk I/O, which is the primary bottleneck in database operations. Every node is perfectly sized to fit into a single disk block (usually 4KB or 8KB).
+        </p>
+<!-- Code Block -->
+<div class="bg-[#060A1A] border border-blueprint-grid rounded-sm overflow-hidden mb-8 group relative">
+<div class="flex justify-between items-center px-4 py-2 border-b border-blueprint-grid bg-blueprint-surface/50">
+<span class="font-mono text-xs text-blueprint-text/60">c++</span>
+<button class="text-blueprint-text/60 hover:text-primary transition-colors flex items-center gap-1 text-xs font-mono">
+<span class="material-symbols-outlined text-[14px]">content_copy</span> Copy
+            </button>
+</div>
+<pre class="p-4 overflow-x-auto"><code class="font-mono text-sm leading-relaxed"><span class="text-primary">struct</span> <span class="text-[#FFB800]">BTreeNode</span> {
+    <span class="text-[#B026FF]">bool</span> is_leaf;
+    <span class="text-[#B026FF]">int</span> num_keys;
+    <span class="text-primary">int</span> keys[MAX_KEYS];
+    <span class="text-primary">BTreeNode</span>* children[MAX_KEYS + <span class="text-[#00FF9D]">1</span>];
+    
+    <span class="text-blueprint-text/40">// Node fits exactly in one 8KB page</span>
+};</code></pre>
+</div>
+<h3 class="text-2xl font-bold text-white mb-4 mt-8 font-display border-b border-blueprint-grid pb-2">Page Splitting Mechanics</h3>
+<p class="mb-6 leading-relaxed text-[15px]">
+          When an insert operation causes a node to exceed <code>MAX_KEYS</code>, it undergoes a <strong>page split</strong>. The median key is pushed up to the parent, and the remaining keys are divided evenly into a new sibling node. This operation cascades upwards, potentially increasing the depth of the tree if the root splits.
+        </p>
+<div class="p-4 border-l-2 border-primary bg-primary/5 mb-8">
+<p class="m-0 text-sm font-mono text-primary/90 flex items-start gap-3">
+<span class="material-symbols-outlined text-[18px] mt-0.5">lightbulb</span>
+<span><strong>Interview Tip:</strong> Be prepared to whiteboard the page split process. Interviewers look for handling of the edge case where the root node itself needs to split.</span>
+</p>
+</div>
+</article>
+</div>
+</section>
+<!-- Right Pane: Validation & Status (30%) -->
+<aside class="w-full lg:w-[30%] flex flex-col gap-6">
+<!-- Status Controller -->
+<div class="bg-blueprint-surface border border-blueprint-grid p-6">
+<h2 class="text-sm font-mono text-blueprint-text/60 uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+        Proficiency Status
+      </h2>
+<!-- Segmented Toggle -->
+<div class="flex w-full bg-[#060A1A] p-1 border border-blueprint-grid rounded-sm relative h-12" id="status-toggle">
+<!-- Active Background Slider -->
+<div class="absolute top-1 bottom-1 left-1 w-[calc(33.33%-4px)] bg-blueprint-surface border border-primary transition-all duration-300 ease-out z-0 rounded-sm shadow-[0_0_8px_rgba(13,227,242,0.3)]" id="toggle-slider"></div>
+<button class="flex-1 relative z-10 text-xs font-mono font-bold uppercase transition-colors text-primary flex items-center justify-center gap-2" onclick="setStatus('learning', 0)">
+<span class="material-symbols-outlined text-[16px] hidden xl:inline-block">school</span>
+          Learning
+        </button>
+<button class="flex-1 relative z-10 text-xs font-mono font-bold uppercase transition-colors text-blueprint-text/50 hover:text-white flex items-center justify-center gap-2" onclick="setStatus('weak', 1)">
+<span class="material-symbols-outlined text-[16px] hidden xl:inline-block">trending_down</span>
+          Weak
+        </button>
+<button class="flex-1 relative z-10 text-xs font-mono font-bold uppercase transition-colors text-blueprint-text/50 hover:text-white flex items-center justify-center gap-2" onclick="setStatus('mastered', 2)">
+<span class="material-symbols-outlined text-[16px] hidden xl:inline-block">done_all</span>
+          Mastered
+        </button>
+</div>
+</div>
+<!-- Validation Checklist -->
+<div class="bg-blueprint-surface border border-blueprint-grid p-6 flex-1">
+<h2 class="text-sm font-mono text-blueprint-text/60 uppercase tracking-widest mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">checklist</span>
+        Knowledge Check
+      </h2>
+<ul class="space-y-4">
+<li class="flex items-start gap-3 group cursor-pointer" onclick="toggleCheck(this)">
+<div class="w-5 h-5 mt-0.5 border border-blueprint-grid flex items-center justify-center bg-[#060A1A] transition-colors group-hover:border-primary">
+<span class="material-symbols-outlined text-[14px] text-transparent transition-colors font-bold">check</span>
+</div>
+<span class="text-sm font-mono leading-relaxed text-blueprint-text/80 group-hover:text-white transition-colors">Can you explain the O(log n) time complexity for search/insert?</span>
+</li>
+<li class="flex items-start gap-3 group cursor-pointer" onclick="toggleCheck(this)">
+<div class="w-5 h-5 mt-0.5 border border-blueprint-grid flex items-center justify-center bg-[#060A1A] transition-colors group-hover:border-primary">
+<span class="material-symbols-outlined text-[14px] text-transparent transition-colors font-bold">check</span>
+</div>
+<span class="text-sm font-mono leading-relaxed text-blueprint-text/80 group-hover:text-white transition-colors">Describe the exact mechanism of a page split.</span>
+</li>
+<li class="flex items-start gap-3 group cursor-pointer" onclick="toggleCheck(this)">
+<div class="w-5 h-5 mt-0.5 border border-blueprint-grid flex items-center justify-center bg-[#060A1A] transition-colors group-hover:border-primary">
+<span class="material-symbols-outlined text-[14px] text-transparent transition-colors font-bold">check</span>
+</div>
+<span class="text-sm font-mono leading-relaxed text-blueprint-text/80 group-hover:text-white transition-colors">Why are B+ Trees preferred over regular B-Trees for database indexes?</span>
+</li>
+</ul>
+<!-- Next Recommended (Hidden initially, shows on Mastered) -->
+<div class="mt-8 pt-6 border-t border-blueprint-grid hidden opacity-0 transition-opacity duration-500" id="next-recommended">
+<h3 class="text-xs font-mono text-blueprint-text/60 uppercase mb-3">Next Unlock</h3>
+<a class="block p-3 border border-[#B026FF] bg-[#B026FF]/5 hover:bg-[#B026FF]/10 transition-colors group" href="#">
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-bold text-white">LSM Trees</span>
+<span class="material-symbols-outlined text-[16px] text-[#B026FF] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+<div class="text-xs font-mono text-blueprint-text/60">Scale &gt; Storage Engines</div>
+</a>
+</div>
+</div>
+</aside>
+</main>
+<script>
+  function toggleCheck(el) {
+    const icon = el.querySelector('span.material-symbols-outlined');
+    const box = el.querySelector('div');
+    const text = el.querySelector('span.text-sm');
+    
+    if (icon.classList.contains('text-transparent')) {
+      icon.classList.remove('text-transparent');
+      icon.classList.add('text-primary');
+      box.classList.remove('border-blueprint-grid');
+      box.classList.add('border-primary', 'shadow-[0_0_8px_rgba(13,227,242,0.5)]');
+      text.classList.remove('text-blueprint-text/80');
+      text.classList.add('text-primary');
+    } else {
+      icon.classList.add('text-transparent');
+      icon.classList.remove('text-primary');
+      box.classList.add('border-blueprint-grid');
+      box.classList.remove('border-primary', 'shadow-[0_0_8px_rgba(13,227,242,0.5)]');
+      text.classList.add('text-blueprint-text/80');
+      text.classList.remove('text-primary');
+    }
+  }
+
+  function setStatus(status, index) {
+    const slider = document.getElementById('toggle-slider');
+    const buttons = document.querySelectorAll('#status-toggle button');
+    const contentPane = document.getElementById('content-pane');
+    const weakBadge = document.getElementById('weak-badge');
+    const nextRecommended = document.getElementById('next-recommended');
+    
+    // Move slider
+    slider.style.transform = `translateX(${index * 100}%)`;
+    
+    // Reset buttons
+    buttons.forEach(btn => {
+      btn.classList.remove('text-primary', 'text-status-weak', 'text-status-done');
+      btn.classList.add('text-blueprint-text/50');
+    });
+    
+    // Reset Container Styles
+    contentPane.classList.remove('glow-weak', 'border-status-weak', 'border-status-done', 'glow-done');
+    contentPane.classList.add('border-blueprint-grid');
+    weakBadge.classList.add('hidden');
+    weakBadge.classList.remove('flex');
+    
+    // Apply new styles
+    const activeBtn = buttons[index];
+    activeBtn.classList.remove('text-blueprint-text/50');
+    
+    if (status === 'learning') {
+      activeBtn.classList.add('text-primary');
+      slider.style.borderColor = 'theme(colors.primary)';
+      slider.style.boxShadow = '0 0 8px rgba(13,227,242,0.3)';
+      nextRecommended.classList.add('hidden');
+      nextRecommended.classList.remove('opacity-100');
+    } 
+    else if (status === 'weak') {
+      activeBtn.classList.add('text-status-weak');
+      slider.style.borderColor = 'theme(colors.status-weak)';
+      slider.style.boxShadow = '0 0 8px rgba(255,51,102,0.3)';
+      contentPane.classList.add('glow-weak');
+      weakBadge.classList.remove('hidden');
+      weakBadge.classList.add('flex');
+      nextRecommended.classList.add('hidden');
+      nextRecommended.classList.remove('opacity-100');
+    } 
+    else if (status === 'mastered') {
+      activeBtn.classList.add('text-status-done');
+      slider.style.borderColor = 'theme(colors.status-done)';
+      slider.style.boxShadow = '0 0 8px rgba(0,255,157,0.3)';
+      contentPane.classList.add('border-status-done');
+      triggerExplosion(activeBtn);
+      
+      // Show next unlock
+      nextRecommended.classList.remove('hidden');
+      setTimeout(() => {
+          nextRecommended.classList.add('opacity-100');
+      }, 50);
+    }
+  }
+
+  function triggerExplosion(element) {
+    const rect = element.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    for (let i = 0; i < 30; i++) {
+      createParticle(centerX, centerY);
+    }
+  }
+
+  function createParticle(x, y) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    document.body.appendChild(particle);
+
+    const angle = Math.random() * Math.PI * 2;
+    const velocity = 50 + Math.random() * 100;
+    const tx = Math.cos(angle) * velocity;
+    const ty = Math.sin(angle) * velocity;
+
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+
+    const animation = particle.animate([
+      { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+      { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`, opacity: 0 }
+    ], {
+      duration: 600 + Math.random() * 400,
+      easing: 'cubic-bezier(0, .9, .57, 1)'
+    });
+
+    animation.onfinish = () => particle.remove();
+  }
+</script>
+</body></html>

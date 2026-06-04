@@ -1,0 +1,223 @@
+# EngineeringOS: Blueprint Roadmap
+
+## Product Overview
+
+**The Pitch:** A spatial, interactive skill-tree visualization that maps out the complete career trajectory for a Senior Backend Engineer. It transforms abstract career progression into a concrete, navigable architectural blueprint, making complex curriculums structurally comprehensible.
+
+**For:** Ambitious mid-level engineers looking to systematically level up to Senior, who need to understand exact prerequisites, dependencies, and their current position in the learning graph.
+
+**Device:** desktop
+
+**Design Direction:** Structural, precise, and spatial. A dark-mode blueprint aesthetic utilizing monospaced typography, strict grid backgrounds, and high-contrast neon accents to mimic a complex system architecture diagram.
+
+**Inspired by:** Figma's FigJam (spatial navigation), Path of Exile skill trees (interconnectivity and scale).
+
+---
+
+## Screens
+
+- **Roadmap Overview:** Full-canvas interactive pan/zoom node graph showing the entire career path divided by stages.
+- **Cluster Detail Drawer:** Right-side slide-out revealing nested sub-skills and specific completion criteria for a selected node.
+- **Skill Module View:** Focused learning interface for a specific topic, containing resources, validation quizzes, and status toggles.
+- **Milestone Summary:** High-level dashboard tracking domain mastery percentages, recent unlocks, and stage promotion readiness.
+
+---
+
+## Key Flows
+
+**Navigating the Learning Graph:** User explores prerequisites to unlock a new stage.
+
+1. User is on Roadmap Overview -> sees a locked node `Microservices` in the 'Scale' stage.
+2. User clicks `Microservices` -> Cluster Detail Drawer opens.
+3. Drawer highlights missing prerequisites (`Docker Foundations`, `API Gateway Patterns` in red) with direct jump-links.
+
+**Marking a Skill as Mastered:** User updates their proficiency.
+
+1. User is on Skill Module View for `Event-Driven Architecture`.
+2. User clicks `Mark as Completed` -> Status updates, triggering a neon pulse animation.
+3. Progress bar increments; next dependent nodes unlock with a connecting line animation.
+
+---
+
+<details>
+<summary>Design System</summary>
+
+## Color Palette
+
+- **Primary:** `#00F0FF` - Active states, cursors, primary connections
+- **Background:** `#0B132B` - Main canvas deep blueprint blue
+- **Surface:** `#121E3D` - Drawers, cards, floating menus
+- **Text:** `#E2E8F0` - Main body and headings
+- **Muted:** `#475569` - Inactive nodes, background grid lines
+- **Cyan (Code):** `#00F0FF` - Programming languages, algorithms
+- **Purple (System Design):** `#B026FF` - Architecture, data flow
+- **Amber (AWS):** `#FFB800` - Cloud infrastructure, deployments
+- **Violet (Interviews):** `#6D28D9` - Behavioral, whiteboarding
+- **Success/Completed:** `#00FF9D` - Mastered nodes
+- **Weak/Needs Review:** `#FF3366` - Fading skills
+
+## Typography
+
+Distinctively technical and structured.
+
+- **Headings:** `Space Grotesk`, 700, 24-32px
+- **Body:** `JetBrains Mono`, 400, 14px
+- **Small text:** `JetBrains Mono`, 400, 12px
+- **Node Labels:** `Space Grotesk`, 600, 14px
+- **Buttons:** `JetBrains Mono`, 600, 13px, uppercase
+
+**Style notes:** 0px border radius (sharp corners), 1px solid borders, dense grid backgrounds (20px spacing), glowing box-shadows for active states (`box-shadow: 0 0 12px var(--color-primary)`).
+
+## Design Tokens
+
+```css
+:root {
+  --color-primary: #00F0FF;
+  --color-bg: #0B132B;
+  --color-surface: #121E3D;
+  --color-text: #E2E8F0;
+  --color-grid: #1C3B5E;
+  
+  --domain-code: #00F0FF;
+  --domain-sys: #B026FF;
+  --domain-aws: #FFB800;
+  --domain-int: #6D28D9;
+  
+  --status-done: #00FF9D;
+  --status-weak: #FF3366;
+  
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --radius: 0px;
+  --border-thin: 1px solid #1C3B5E;
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary>Screen Specifications</summary>
+
+### Roadmap Overview
+
+**Purpose:** Spatial navigation of the entire Senior Backend Engineer curriculum.
+
+**Layout:** Full-screen canvas. Floating left sidebar for legend/filters. Floating bottom-right controls for zoom/pan. 
+
+**Key Elements:**
+- **Canvas Grid:** `20px` repeating grid background (`#1C3B5E` lines on `#0B132B` base).
+- **Stage Dividers:** Vertical dashed lines (`2px`, `#475569`) separating Foundations, Core, Scale, Mastery.
+- **Topic Nodes:** `160px x 64px` rectangular blocks. `1px` border matching domain color. Glowing left border `4px` wide indicating status.
+- **Connection Lines:** Orthogonal (right-angled) SVG paths connecting nodes. `2px` stroke. Glowing `#00FF9D` if path is fully unlocked.
+
+**States:**
+- **Empty:** N/A (Graph is pre-populated).
+- **Loading:** Pulsing neon grid scanline effect top-to-bottom.
+- **Locked Node:** Opacity `0.4`, dashed border, grayscale text.
+
+**Components:**
+- **Legend Panel:** `240px` wide, absolute top-left, semi-transparent surface (`#121E3D` at 80%), backdrop blur `8px`. Lists domains and colors.
+- **Zoom Controls:** `40px x 120px` vertical pill, absolute bottom-right, `+`, `Reset`, `-` icons.
+
+**Interactions:**
+- **Hover Node:** Node scales `1.05`, box-shadow glow activates, tooltip shows prerequisite count.
+- **Click/Drag Canvas:** Panning the view. Cursor changes to `grabbing`.
+
+**Responsive:**
+- **Desktop:** Full spatial canvas, all controls visible.
+- **Tablet:** Smaller nodes, zoom level defaults to 50%.
+- **Mobile:** Not supported (Desktop exclusive).
+
+### Cluster Detail Drawer
+
+**Purpose:** Deep dive into a specific node's requirements and sub-skills.
+
+**Layout:** `480px` wide drawer sliding in from the right. Full height. Dimmed canvas overlay (`bg-black/60`).
+
+**Key Elements:**
+- **Header:** Node Title (`Space Grotesk`, `32px`), Domain Badge (e.g., `[SYS] System Design`).
+- **Progress Ring:** `64px` SVG donut chart showing completion % of sub-skills.
+- **Sub-skill List:** Vertical list of checklist items. `JetBrains Mono`, `14px`.
+- **Prerequisite Block:** Red-tinted warning box if prerequisites are unmet. Lists blocking nodes.
+
+**States:**
+- **Loading:** Skeleton rows with left-to-right shimmer matching domain color.
+- **Completed:** Header background gets subtle `#00FF9D` gradient overlay.
+
+**Components:**
+- **Sub-skill Row:** `100%` width, `48px` height. Checkbox left, label center, 'Resource' link icon right. Hover gets `bg-white/5`.
+- **Action Button:** `100%` width at bottom. `Start Learning` or `Review`. Neon border, black text, background matches domain color.
+
+**Interactions:**
+- **Click Sub-skill:** Opens Skill Module View.
+- **Click Outside:** Closes drawer.
+
+**Responsive:**
+- **Desktop:** `480px` right drawer.
+- **Tablet:** `320px` right drawer.
+- **Mobile:** N/A.
+
+### Skill Module View
+
+**Purpose:** Focused learning and validation interface for a single sub-skill.
+
+**Layout:** Split pane. Left `70%`: Markdown content/videos. Right `30%`: Validation checklist and status toggles.
+
+**Key Elements:**
+- **Breadcrumb:** `Foundations > Databases > B-Trees`.
+- **Content Area:** Rich text. Syntax highlighted code blocks (`JetBrains Mono`, dark theme).
+- **Validation Checklist:** 3-5 concrete questions (e.g., "Can you explain page splitting?"). 
+- **Status Toggle:** Three-way segmented control: `Learning`, `Weak`, `Mastered`.
+
+**States:**
+- **Weak State:** Red glow around content, 'Review Recommended' badge.
+
+**Components:**
+- **Code Block:** `#060A1A` background, `1px` `#1C3B5E` border. Copy button on hover.
+- **Segmented Control:** `300px` wide, `40px` tall. Active state gets solid background (`Primary`, `Weak`, or `Done` colors).
+
+**Interactions:**
+- **Click 'Mastered':** Fires particle explosion animation (`#00FF9D`). Right pane updates to show next recommended skill.
+
+**Responsive:**
+- **Desktop:** Split pane (70/30).
+- **Tablet:** Stacked (Content on top, Validation below).
+
+### Milestone Summary
+
+**Purpose:** Overview of progress toward the "Senior" title.
+
+**Layout:** Centered grid of metric cards.
+
+**Key Elements:**
+- **Level Indicator:** Large circular badge. "Lvl 4: System Architect".
+- **Domain Radars:** Radar chart (Spider chart) showing proficiency across the 4 domains.
+- **Recent Unlocks:** Marquee/ticker of recently completed nodes.
+- **Next Bottleneck:** Card highlighting the single node blocking the most future progress.
+
+**Components:**
+- **Stat Card:** `280px x 140px`. `1px` border. Top-left label, center-right massive number (`Space Grotesk`, `48px`).
+
+**Interactions:**
+- **Hover Radar:** Highlights specific domain axis, shows exact points (e.g., `AWS: 45/100`).
+
+</details>
+
+---
+
+<details>
+<summary>Build Guide</summary>
+
+**Stack:** HTML + Tailwind CSS v3, ReactFlow (for canvas), Framer Motion (for animations).
+
+**Build Order:**
+1. **Design System & Grid Canvas:** Setup the `20px` background grid, typography, and CSS variables. Crucial for the blueprint aesthetic.
+2. **Roadmap Overview (Nodes & Edges):** Implement ReactFlow. Map out dummy data for 20 nodes to perfect the orthogonal edge routing and node states (Locked/Unlocked).
+3. **Cluster Detail Drawer:** Build the slide-out logic and nested sub-skill checklist. Connect state to the canvas nodes.
+4. **Skill Module View:** Markdown rendering and segmented status controls.
+5. **Milestone Summary:** Radar charts and stat rollups based on graph traversal state.
+
+</details>
