@@ -13,6 +13,11 @@ export type { EvaluationResultRepository } from "@/lib/repositories/evaluation-r
 export type { ExplainBackRepository } from "@/lib/repositories/explain-back-repository";
 export type { ProgressRepository } from "@/lib/repositories/progress-repository";
 export type { RevisionQueueRepository } from "@/lib/repositories/revision-queue-repository";
+export type {
+  FounderBetaPersistedProgress,
+  FounderBetaProgressRepository,
+  SaveFounderBetaProgressInput
+} from "@/lib/repositories/founder-beta-progress-repository";
 export { mockRoadmapRepository } from "@/lib/repositories/mock-roadmap-repository";
 export { mockTopicRepository } from "@/lib/repositories/mock-topic-repository";
 export { mockPracticeRepository } from "@/lib/repositories/mock-practice-repository";
@@ -41,3 +46,9 @@ export { prismaExplainBackRepository } from "@/lib/repositories/prisma-explain-b
 export { prismaProgressRepository } from "@/lib/repositories/prisma-progress-repository";
 export { prismaRevisionQueueRepository } from "@/lib/repositories/prisma-revision-queue-repository";
 export { prismaSubtopicRepository } from "@/lib/repositories/prisma-subtopic-repository";
+export {
+  fileFounderBetaProgressRepository,
+  FOUNDER_BETA_LOCAL_USER_ID,
+  FOUNDER_BETA_PROGRESS_SCHEMA_VERSION,
+  InMemoryFounderBetaProgressRepository
+} from "@/lib/repositories/founder-beta-progress-repository";

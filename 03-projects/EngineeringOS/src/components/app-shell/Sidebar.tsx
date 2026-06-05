@@ -37,6 +37,7 @@ const navGroups = [
     title: "Mission",
     items: [
       { label: "Today", href: "/today", icon: Sparkles },
+      { label: "Founder Beta", href: "/founder-beta", icon: Sparkles },
       { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
       { label: "Progress", href: "/progress", icon: BarChart3 },
       { label: "Weak Areas", href: "/weak-areas", icon: ListChecks }

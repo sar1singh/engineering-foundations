@@ -3,6 +3,7 @@ import { Bell, Search, Terminal, UserCircle } from "lucide-react";
 
 const mobileNavItems = [
   { label: "Today", href: "/today" },
+  { label: "Founder Beta", href: "/founder-beta" },
   { label: "Roadmap", href: "/graph" },
   { label: "Focus", href: "/courses" },
   { label: "Practice", href: "/practice/implement-counter-with-closure" },

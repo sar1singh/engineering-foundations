@@ -61,6 +61,110 @@ Progress adapter update:
 - Adapter output is directly usable by the founder beta orchestration service without UI, routes, Prisma, persistence, network, scraping, AI, or dependency changes.
 - Added focused unit coverage for defaults, clamping, deduplication, weak-area derivation, Today Plan input generation, and unknown-ID handling.
 
+Facade update:
+
+- Added a tiny founder beta facade service.
+- Service exposes `getFounderBetaPlanFromProgress(input)` as the clean public entrypoint for future UI or persistence integration.
+- The facade composes the progress adapter and orchestration service, returning normalized input, validation warnings, Today Plan, readiness snapshot, primary mission, optional missions, and next actions without duplicating orchestration logic.
+- Added focused unit coverage for default plan generation, progress normalization, unknown-ID warnings, manual readiness effects, and deterministic output.
+
+Contract test update:
+
+- Added a founder beta contract test over the public facade.
+- The contract test exercises the static vertical slice from manual progress input through progress adapter, orchestration, readiness calculation, mission selection, static founder beta data, and final Today Plan output.
+- The contract locks default plan shape, manual progress effects, unknown-ID warnings, hard-gate status, and stable output shape for future UI or persistence integration.
+
+Read-only API boundary update:
+
+- Added `GET /api/founder-beta/today`.
+- The endpoint returns the default founder beta facade plan, including normalized input, validation warnings, Today Plan, readiness snapshot, primary mission, optional missions, and next actions.
+- The endpoint is read-only and deterministic, with no POST handling, UI changes, Prisma, persistence, scraping, AI, auth, payment, deployment, or dependency changes.
+
+Minimal UI integration update:
+
+- Added `/founder-beta` as an isolated read-only internal founder beta surface.
+- The page calls the founder beta facade directly server-side and shows path name, primary mission, optional missions, readiness snapshot, hard-gate status, next actions, and validation warnings when present.
+- The existing `/today` page was left unchanged to avoid mixing the new founder beta model with the legacy founder-success cockpit before a dedicated migration decision.
+- No forms, POST behavior, Prisma, persistence, scraping, AI, auth, payment, deployment, dependency, or UI redesign changes were added.
+
+Founder beta route smoke update:
+
+- Added a targeted Playwright smoke check for `/founder-beta`.
+- The check verifies the page renders safely with the default founder beta plan, including the path heading, primary mission text, readiness section, hard-gate status, and next actions.
+- The check passed on both desktop Chromium and mobile projects.
+
+Navigation exposure update:
+
+- Added a `Founder Beta` navigation link to the existing app shell.
+- The link appears in the desktop Mission route matrix and mobile founder navigation.
+- No navigation redesign, `/today` changes, page-content changes, forms, POST behavior, Prisma, persistence, scraping, AI, auth, payment, deployment, or dependency changes were added.
+
+Demo progress fixture update:
+
+- Added deterministic founder beta manual-progress fixtures for empty, non-zero demo, and weak-area progress states.
+- Fixtures include completed mission IDs, completed topic IDs, manual readiness scores, proof scores, weak-area capability/topic IDs, available minutes, day mode, and preferred mission types.
+- Fixtures are compatible with `getFounderBetaPlanFromProgress(input)` and are not wired into UI, routes, persistence, Prisma, scraping, AI, auth, payment, deployment, or dependencies.
+- Focused facade tests verify the demo fixtures produce no validation warnings and change the Today Plan compared with default progress.
+
+Demo query-param update:
+
+- Added read-only `/founder-beta?demo=1` support.
+- Default `/founder-beta` continues to render the empty/default founder beta plan.
+- Demo mode uses `founderBetaDemoProgress` through the existing facade and shows a small `Demo progress active` indicator.
+- The targeted Founder Beta Playwright smoke now verifies both default and demo-mode rendering.
+
+Weak-area demo update:
+
+- Added read-only `/founder-beta?demo=weak-area` support.
+- Weak-area demo mode uses `founderBetaWeakAreaProgress` through the existing facade and shows a small `Weak-area demo active` indicator.
+- The targeted Founder Beta Playwright smoke now verifies default, demo, and weak-area demo rendering.
+
+Manual progress draft UI update:
+
+- Added `FounderBetaManualProgressPanel` as a local-only client component for `/founder-beta`.
+- The panel initializes from default, demo, or weak-area mode and uses the existing founder beta facade to recalculate the visible Today Plan from local draft input.
+- Supported draft controls include available minutes, day mode, key readiness scores, weak-area capability IDs, and completed mission IDs.
+- The UI is explicitly labeled `Local draft only`; no forms, POST, server actions, Prisma, persistence, AI, scraping, auth, payment, deployment, or redesign changes were added.
+- The targeted Founder Beta Playwright smoke verifies the manual panel is visible and that changing one input does not crash the page.
+
+Manual progress UX clarification update:
+
+- Added Communication Readiness to the local-only manual readiness controls.
+- Added helper copy stating that readiness values are manual draft estimates for internal validation, are not persisted, and are not final evaluated readiness scores.
+- The existing `Local draft only` label remains visible.
+
+Manual progress grouping update:
+
+- Improved the `/founder-beta` local manual progress panel grouping and labels.
+- Controls are now grouped into Session Settings, Manual Readiness Estimates, Weak Areas, and Completed Work.
+- Completed mission controls now explain that marking a mission complete removes it from today's mission selection.
+- Persistence remains deferred; no Prisma, POST, server actions, AI, scraping, auth, payment, deployment, dependency, or redesign changes were added.
+
+Persistence implementation planning update:
+
+- Added `docs/FOUNDER_BETA_PERSISTENCE_IMPLEMENTATION_PLAN.md`.
+- Locked the future persistence scope to normalized founder beta progress input only: completed/skipped missions, completed topics, weak areas, manual readiness inputs, proof scores, available time, day mode, and preferred mission types.
+- Explicitly excluded Today Plan output, mission recommendations, readiness outputs, hard-gate results, roadmap projection output, static founder beta data, capability definitions, and source catalog from persistence.
+- Documented future flow, affected services/pages/tests, rollback strategy, normalized `FounderProgress` shape, future API/server-action responsibilities, migration phases, and test strategy.
+- Persistence readiness verdict is `A. Yes` for a narrow Founder Beta Persistence Phase 1. Onboarding integration, dynamic roadmaps, AI evaluation, and source ingestion remain intentionally deferred.
+
+Founder Beta Persistence Phase 1 update:
+
+- Added a founder beta progress repository boundary with a file-backed local implementation and in-memory test implementation.
+- Added a founder beta progress persistence service that saves, loads, updates, clears, and derives facade output from normalized progress input.
+- Persisted fields are limited to completed/skipped mission IDs, completed topic IDs, weak area capability/topic IDs, manual readiness scores, proof scores, available minutes, day mode, preferred mission types, schema version, user ID, and timestamps.
+- Derived outputs remain unpersisted: Today Plan, readiness snapshot, hard-gate status, roadmap projection, primary mission, optional missions, next actions, and mission recommendations.
+- Prisma remains deferred for this slice to avoid schema/migration risk while preserving a repository boundary that can be replaced later.
+
+Founder Beta Persistence Phase 1 UI wiring update:
+
+- `/founder-beta` now loads persisted founder-local progress when a saved local record exists.
+- If no saved local progress exists, the page keeps the existing default, demo, and weak-area fixture behavior.
+- Added an explicit `Save local progress` action to the manual progress panel.
+- Save writes through a minimal founder beta progress POST route and the existing progress persistence service.
+- The UI shows `Local progress saved` after a successful save and keeps the copy `Saved locally. Not synced. Not final evaluated readiness.`
+- Persisted data remains limited to normalized progress input; Today Plan, readiness snapshot, hard gates, roadmap projection, primary/optional missions, next actions, and static founder beta data remain derived and unpersisted.
+
 ## Completed Phases
 
 - Phase 1: Project initialization with Next.js, TypeScript, App Router, TailwindCSS, ESLint, and `src`.

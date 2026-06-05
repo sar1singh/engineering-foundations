@@ -12,3 +12,8 @@ export type { SearchResults } from "@/lib/services/search-service";
 export { SyllabusService, syllabusService } from "@/lib/services/syllabus-service";
 export { TopicContentService } from "@/lib/services/topic-content-service";
 export type { TopicContent } from "@/lib/services/topic-content-service";
+export {
+  FounderBetaProgressPersistenceService,
+  founderBetaProgressPersistenceService
+} from "@/lib/services/founder-beta-progress-persistence-service";
+export type { FounderBetaProgressPersistenceResult } from "@/lib/services/founder-beta-progress-persistence-service";
