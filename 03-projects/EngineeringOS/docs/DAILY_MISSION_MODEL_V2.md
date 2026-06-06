@@ -709,3 +709,115 @@ Do not implement mission logic before the readiness scoring contract is defined.
 - What exact scoring rubric should evaluate HLD, LLD, architecture review, and behavioral proof?
 - Should weekend deep-work missions be scheduled automatically, manually selected, or suggested on Friday?
 - How should failed missions distinguish between low effort, unclear prompt, and true readiness gap without becoming punitive?
+
+## V2 Foundation Audit Addendum
+
+Date: 2026-06-06
+
+### Planning Status
+
+This document is the canonical Daily Mission V2 model. The planning model is complete enough to guide implementation.
+
+### Implementation Status
+
+Current implementation is partial:
+
+- `src/data/founder-beta/daily-missions.ts` contains 7 sample missions.
+- `src/lib/services/founder-beta-mission-selection-service.ts` selects a Primary Mission and 0-2 optional missions deterministically.
+- selection considers hard blockers, incomplete previous work, readiness gaps, roadmap critical path, weak areas, revision, optional enrichment, and time budget.
+
+Current implementation is not yet the full Daily Mission Engine:
+
+- no generated mission queue from the full Capability Graph and Master Syllabus
+- no proof submission lifecycle
+- no mission result evaluation
+- no revision queue persistence
+- no failed mission classification
+- no case-study completion rubric
+- no weekday/weekend schedule intelligence beyond static mission mode and minutes
+
+### Gaps Versus Original Strategy
+
+Missing:
+
+- generated mission candidates from roadmap items
+- mission lifecycle state
+- mission proof capture
+- mission readiness impact updates
+- repair/revision queue
+- weekend deep-work planning
+- mission explanations tied to capability/readiness/source gaps
+
+### Canonical V2 Data Structures
+
+Required implementation structures:
+
+```txt
+MissionCandidate
+  missionId
+  missionType
+  capabilityId
+  skillId
+  topicId
+  sourceIds
+  estimatedMinutes
+  proofType
+  readinessImpact
+  selectionReason
+
+MissionSelectionInput
+  roadmapProjection
+  readinessSnapshot
+  weakAreas
+  completedWork
+  availableMinutes
+  dayMode
+
+MissionResult
+  missionId
+  status
+  proofScore
+  proofArtifactRef
+  readinessSignals
+  revisionNeeded
+
+RevisionQueueItem
+  topicId
+  capabilityId
+  reason
+  dueWindow
+  priority
+```
+
+### Required Relationships
+
+```txt
+Mission -> Capability
+Mission -> Skill
+Mission -> Topic
+Mission -> Source
+Mission -> Proof
+Mission -> Readiness Impact
+Mission -> Roadmap Item
+```
+
+### Founder Architect Path Requirement
+
+The first complete mission set must support:
+
+- AWS/cloud architecture missions
+- HLD missions
+- LLD/backend missions
+- database/distributed systems missions
+- behavioral/communication missions
+- resume/career asset missions
+- 3 architecture case-study mission chains
+- revision and weak-area repair missions
+
+### Implementation Order After V2 Finalization
+
+1. Expand mission seed data for the full Founder Architect P0 path.
+2. Add mission candidate generation from roadmap items.
+3. Add mission lifecycle contracts.
+4. Add proof score input flow later.
+5. Add revision queue and failed-mission rules after proof scoring exists.

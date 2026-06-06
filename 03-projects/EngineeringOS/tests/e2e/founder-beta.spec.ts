@@ -53,6 +53,15 @@ test.describe("Founder beta read-only surface", () => {
     await expect(page.getByText("Primary Mission", { exact: true })).toBeVisible();
   });
 
+  test("/onboarding points to the Founder Beta initializer", async ({ page }) => {
+    await page.goto("/onboarding", { waitUntil: "domcontentloaded" });
+
+    await expect(page.getByRole("heading", { level: 1, name: "Configure your learning plan" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Initialize local Founder Beta progress" })).toBeVisible();
+    await expect(page.getByText("It saves normalized progress input only; Today Plan and readiness are recalculated.")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Open Founder Beta initializer" })).toHaveAttribute("href", "/founder-beta");
+  });
+
   test("/founder-beta onboarding preview saves progress and requires confirmation before overwrite", async ({ page }) => {
     await page.goto("/founder-beta", { waitUntil: "domcontentloaded" });
 

@@ -667,3 +667,128 @@ Do not implement roadmaps before the projection model is defined.
 - Should 4-week and 8-week projections exclude all non-P0 topics by default?
 - Which topic IDs should be locked first for the 3 architecture case studies?
 - Should confidence below `0.75` also block other Fast Track roadmaps, or only Architect Fast Track for now?
+
+## V2 Foundation Audit Addendum
+
+Date: 2026-06-06
+
+### Planning Status
+
+This document is the canonical Master Syllabus V2 model. The planning contract is complete enough to guide implementation.
+
+### Implementation Status
+
+Current implementation is partial:
+
+- Existing app has a broad syllabus catalog under `src/data/syllabus/*`, `src/data/mock-syllabus.ts`, and enriched content under `src/data/content/*`.
+- Founder Beta has a small V2-compatible slice in `src/data/founder-beta/master-topics.ts`.
+- Founder Beta topics contain capability IDs, skill IDs, source IDs, prerequisites, related/successor topics, proof types, readiness metrics, mission types, and confidence scores.
+
+Current implementation is not yet the full Master Syllabus V2:
+
+- existing broad syllabus and Founder Beta master topics are not unified under one canonical V2 model
+- legacy topic/roadmap/course data paths still exist
+- source mapping is only partial and small for Founder Beta
+- topic-source review status is generated simply from confidence, not reviewed workflow
+- no full topic relationship graph service
+- no canonical task/proof asset model across all topics
+- no complete Founder Architect Path topic coverage
+
+### Gaps Versus Original Strategy
+
+Missing:
+
+- one canonical topic registry used by all projections
+- full Founder Architect Path topic set with P0/P1/P2 priority
+- source confidence and reviewer status for every beta-critical topic
+- skill-topic mappings for all required capabilities
+- proof hooks for HLD, LLD, AWS design, architecture review, behavioral answers, resume, and case studies
+- migration plan from legacy syllabus/course/topic data into V2 canonical topics
+
+### Canonical V2 Data Structures
+
+Required implementation structures:
+
+```txt
+MasterTopic
+  id
+  name
+  domainId
+  capabilityIds
+  skillIds
+  sourceIds
+  prerequisiteTopicIds
+  relatedTopicIds
+  successorTopicIds
+  interviewImportance
+  roadmapPriority
+  confidenceScore
+  missionTypes
+  proofTypes
+  readinessMetrics
+
+TopicSourceMapping
+  topicId
+  sourceIds
+  confidenceScore
+  reviewerStatus
+  usageReason
+
+TopicAsset
+  id
+  topicId
+  assetType
+  title
+  estimatedMinutes
+  proofType
+  readinessDimension
+
+TopicRelationship
+  fromTopicId
+  toTopicId
+  relationshipType
+  reason
+```
+
+### Required Relationships
+
+```txt
+Topic -> Capability
+Topic -> Skill
+Topic -> Source
+Topic -> Mission
+Topic -> Proof
+Topic -> Readiness Dimension
+Topic -> Roadmap Projection
+```
+
+### Founder Architect Path Requirement
+
+The Founder Architect Path must be the first complete Master Syllabus slice.
+
+Minimum P0 topic groups:
+
+- API design
+- caching and Redis
+- rate limiting
+- load balancing
+- queues and async processing
+- database indexing and data modeling
+- AWS Well-Architected
+- VPC, IAM, RDS, S3, SQS/SNS, CloudWatch, Route 53, CloudFront
+- availability, RTO/RPO, DR
+- HLD case studies
+- LLD case studies
+- senior backend DSA focus
+- behavioral STAR stories
+- resume positioning
+- architecture case studies
+
+### Implementation Order After V2 Finalization
+
+1. Declare one V2 Founder Architect topic registry.
+2. Map every topic to capability, skill, source, mission type, proof type, and readiness dimensions.
+3. Add topic relationship data.
+4. Add topic-source mapping review status.
+5. Add proof/task assets for P0 topics.
+6. Keep legacy broad syllabus available, but do not let it drive V2 roadmaps until mapped.

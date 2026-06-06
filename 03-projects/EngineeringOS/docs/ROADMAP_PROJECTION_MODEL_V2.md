@@ -615,3 +615,122 @@ Roadmaps should regenerate when:
 - The user manually requests regeneration.
 
 Roadmaps should not silently reshuffle on every page view. Regeneration should be explainable and preserve user trust.
+
+## V2 Foundation Audit Addendum
+
+Date: 2026-06-06
+
+### Planning Status
+
+This document is the canonical Roadmap Projection V2 model. The planning model is complete enough to guide implementation.
+
+### Implementation Status
+
+Current implementation is partial:
+
+- `src/data/founder-beta/roadmap-projection.ts` contains one static 16-week Founder Architect projection.
+- `src/lib/services/founder-beta-service.ts` can return that projection.
+- mission selection uses the projection mission order as a deterministic input.
+
+Current implementation is not yet a Roadmap Projection Engine:
+
+- no projection generation from current state
+- no gap-analysis service
+- no timeline variants for 4/8/24 weeks
+- no 100% coverage map versus 80/20 execution derivation
+- no source-confidence filtering beyond static topic confidence values
+- no roadmap regeneration mechanism
+- no role/capability/weak-area/compensation projection variants
+
+### Gaps Versus Original Strategy
+
+Missing:
+
+- projection rules as data
+- role-specific projection weights
+- timeline-specific topic selection
+- capability gap analysis
+- weak-area and readiness adaptation
+- proof/case-study sequencing
+- explanation of why a topic or mission is included/deferred
+
+### Canonical V2 Data Structures
+
+Required implementation structures:
+
+```txt
+RoadmapProjectionInput
+  currentRole
+  targetRole
+  targetCompensation
+  timelineWeeks
+  availableHoursPerWeek
+  weakAreaCapabilityIds
+  weakAreaTopicIds
+  readinessSnapshot
+
+ProjectionRule
+  id
+  ruleType
+  priority
+  appliesWhen
+  effect
+
+RoadmapProjection
+  id
+  inputHash
+  targetRole
+  timeline
+  capabilitySequence
+  topicSequence
+  proofMilestones
+  missionCandidates
+  deferredItems
+  explanation
+
+RoadmapItem
+  capabilityId
+  skillId
+  topicId
+  missionType
+  proofType
+  priority
+  reason
+```
+
+### Required Relationships
+
+```txt
+Roadmap -> Capability
+Roadmap -> Skill
+Roadmap -> Topic
+Roadmap -> Source Confidence
+Roadmap -> Mission Candidate
+Roadmap -> Readiness Gap
+Roadmap -> Proof Milestone
+```
+
+### Founder Architect Path Requirement
+
+The first fully-supported projection must be:
+
+```txt
+founder-architect-beta-16-week
+```
+
+It must project from the Capability Graph and Master Syllabus instead of owning content.
+
+Required variants after the default:
+
+- 4-week Interview Sprint
+- 8-week Accelerated
+- 24-week Comprehensive
+
+### Implementation Order After V2 Finalization
+
+1. Convert static projection into projection input + generated output shape.
+2. Add projection rules for hard blockers, confidence, timeline, weak areas, and proof milestones.
+3. Add gap-analysis service.
+4. Generate Founder Architect 16-week projection from graph/syllabus data.
+5. Add timeline variants.
+6. Keep `/founder-beta` using stable static output until generated output matches tests.

@@ -657,3 +657,125 @@ Before recommending active Solution Architect applications, EngineeringOS must c
 - What threshold score should each hard gate use: 3.0/4, 3.25/4, or capability-specific thresholds?
 - Should the 10-20 diagnostic questions be role-specific from day one or shared across Architect/Lead/EM-aware support?
 - Which exact artifacts are required before each of the 3 locked case studies is considered interview-ready?
+
+## V2 Foundation Audit Addendum
+
+Date: 2026-06-06
+
+### Planning Status
+
+This document is the canonical Capability Graph V2 model. The planning model is complete enough to guide implementation.
+
+### Implementation Status
+
+Current implementation is partial:
+
+- `src/types/founder-beta.ts` defines capability, skill, topic, mission, proof, readiness, roadmap, source, and offer-signal contracts.
+- `src/data/founder-beta/capabilities.ts` seeds 7 Founder Beta capabilities and 7 skills.
+- `src/lib/services/founder-beta-service.ts` exposes deterministic query access.
+
+Current implementation is not yet a complete Capability Graph engine:
+
+- no full 35-capability founder beta graph
+- no role-specific capability weight table for all target roles
+- no explicit capability dependency graph service
+- no skill readiness model
+- no proof-completion state per capability
+- no graph traversal or gap-analysis service
+- no canonical integration with the broader existing syllabus catalog
+
+### Gaps Versus Original Strategy
+
+Missing:
+
+- full `Role -> Capability -> Skill -> Topic -> Task -> Proof` graph for the Founder Architect Path
+- complete capability-to-source mapping with review status
+- capability dependency traversal
+- capability blockers
+- capability readiness rollup from topic/proof/interview/recency evidence
+- support for all target roles as projections, while keeping Solution Architect primary
+
+### Canonical V2 Data Structures
+
+Required implementation structures:
+
+```txt
+Capability
+  id
+  name
+  category
+  targetRoleWeights
+  readinessThreshold
+  dependencyCapabilityIds
+  skillIds
+  sourceIds
+  missionTypes
+  proofTypes
+  blockerRules
+
+Skill
+  id
+  capabilityId
+  name
+  topicIds
+  proofTypes
+  readinessDimensions
+
+CapabilityDependency
+  capabilityId
+  prerequisiteCapabilityIds
+  reason
+
+RoleCapabilityWeight
+  roleId
+  capabilityId
+  weight
+  requiredForHardGate
+```
+
+### Required Relationships
+
+```txt
+Capability -> Skill -> Topic -> Mission -> Proof -> Readiness
+Capability -> Source
+Capability -> Roadmap Projection
+Capability -> Weak Area
+Capability -> Hard Gate
+```
+
+### Founder Architect Path Requirement
+
+The first fully-supported graph must be:
+
+```txt
+Founder Architect Path
+Primary: Solution Architect
+Secondary: EM-aware Lead Backend
+Timeline: 16 weeks
+Outcome: 70-80+ LPA Product/GCC readiness
+```
+
+Minimum required capability groups:
+
+- System Design / HLD
+- AWS / Cloud Architecture
+- Distributed Systems
+- Node.js Backend
+- Databases
+- Security
+- Observability / Reliability
+- DSA, senior backend interview level
+- Behavioral & Communication
+- Architecture Reviews
+- Architecture Case Studies
+- Career Assets
+- Offer Readiness
+
+### Implementation Order After V2 Finalization
+
+1. Expand static Founder Beta capability graph to the required Architect path.
+2. Add role capability weights and dependency data.
+3. Add capability graph query service.
+4. Add capability gap-analysis service.
+5. Connect graph output to Master Syllabus topic mappings.
+6. Use capability gaps as inputs to roadmap projection and mission selection.

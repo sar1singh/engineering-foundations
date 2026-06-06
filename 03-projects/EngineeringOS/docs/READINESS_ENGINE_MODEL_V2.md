@@ -571,3 +571,130 @@ Do not implement readiness logic before this review.
 - What readiness and confidence thresholds should trigger automatic roadmap regeneration?
 - Should hard gates use weighted rolling scores or latest proof scores?
 - Who reviews proof during founder beta: self-evaluation only, Sarwan manual review, or later AI-assisted review?
+
+## V2 Foundation Audit Addendum
+
+Date: 2026-06-06
+
+### Planning Status
+
+This document is the canonical Readiness Engine V2 model. The planning model is complete enough to guide implementation.
+
+### Implementation Status
+
+Current implementation is partial:
+
+- `src/data/founder-beta/readiness-rules.ts` defines topic weights, proof score labels, hard gates, and offer signals.
+- `src/lib/services/founder-beta-readiness-service.ts` calculates topic, capability, role, hard-gate, and offer readiness from typed inputs.
+- `/founder-beta` treats readiness values as manual draft estimates.
+
+Current implementation is not yet the full Readiness Engine:
+
+- no persisted proof attempts
+- no evaluated proof scoring UX
+- no topic readiness state by topic/user
+- no skill readiness
+- no confidence model beyond input/output fields
+- no readiness decay
+- no automatic weak-area detection
+- no case-study completion rubric
+- no evidence-backed offer readiness
+
+### Gaps Versus Original Strategy
+
+Missing:
+
+- proof-first readiness state
+- topic readiness by Knowledge, Practice, Interview, Implementation per topic
+- skill readiness rollup
+- capability readiness with blockers
+- role readiness generated from full capability weights
+- interview readiness by round
+- offer readiness by assets/pipeline/compensation
+- confidence and decay rules
+- hard-gate explanations based on proof evidence
+
+### Canonical V2 Data Structures
+
+Required implementation structures:
+
+```txt
+ProofAttempt
+  id
+  missionId
+  topicId
+  capabilityId
+  proofType
+  score
+  rationale
+  artifactRef
+  createdAt
+
+TopicReadiness
+  topicId
+  knowledge
+  practice
+  interview
+  implementation
+  confidence
+  evidenceRefs
+
+CapabilityReadiness
+  capabilityId
+  score
+  confidence
+  blockerIds
+  evidenceRefs
+
+ReadinessSnapshot
+  topicReadiness
+  capabilityReadiness
+  roleReadiness
+  interviewReadiness
+  offerReadiness
+  hardGateStatus
+```
+
+### Required Relationships
+
+```txt
+Readiness -> Proof
+Readiness -> Topic
+Readiness -> Skill
+Readiness -> Capability
+Readiness -> Role
+Readiness -> Mission Result
+Readiness -> Offer Signal
+Readiness -> Roadmap Regeneration
+```
+
+### Founder Architect Path Requirement
+
+The first evaluated readiness path must support:
+
+- Architect Readiness
+- AWS Readiness
+- System Design Readiness
+- Behavioral Readiness
+- Communication Readiness
+- Resume Readiness
+- Architecture Case Study Readiness
+- senior backend DSA interview readiness
+
+Hard gates remain:
+
+- Architect Readiness `>= 75`
+- AWS Readiness `>= 70`
+- Behavioral Readiness `>= 70`
+- Communication Readiness `>= 70`
+- Resume Readiness `>= 80`
+- at least 3 completed architecture case studies
+
+### Implementation Order After V2 Finalization
+
+1. Add proof attempt contracts and static rubrics.
+2. Add topic readiness state shape.
+3. Add skill and capability readiness rollups.
+4. Add hard-gate explanation output.
+5. Add proof scoring UX only after the model is ready.
+6. Keep manual readiness estimates separate until evaluated readiness is evidence-backed.

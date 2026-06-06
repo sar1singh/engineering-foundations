@@ -26,7 +26,7 @@ Avoid UI polish before the mission/readiness loop works.
 
 Current phase:
 
-- Founder Beta Onboarding Save + Validation Hardening is complete.
+- EngineeringOS V2 Foundation Review is complete.
 
 Completed founder beta implementation:
 
@@ -40,10 +40,20 @@ Completed founder beta implementation:
 - Persistence hardening and exit criteria.
 - Onboarding initialization preview.
 - Onboarding save and explicit overwrite confirmation.
+- Onboarding validation review.
+- Minimal `/onboarding` handoff to the existing `/founder-beta` initializer.
+- Founder validation run plan.
+- Founder validation instrumentation review.
+- Founder Beta exit criteria.
+- Post-validation decision tree.
+- Proof scoring UX plan.
+- Evaluated readiness plan.
+- Founder Beta completion roadmap.
+- V2 foundation audit addenda and review.
 
 Next recommended phase:
 
-- Founder Beta Onboarding Validation Review and Initialization Integration Planning.
+- EngineeringOS V2 Foundation Implementation Phase 1.
 
 Current guardrail:
 
@@ -100,6 +110,9 @@ Status:
 - Founder Beta Persistence Phase 1 hardening completed on 2026-06-05 with contract audit docs, validation-mode review, exit criteria, reset/missing-file/malformed-file/schema-version tests, and read-time schema fallback. Phase 1 is complete for local founder validation.
 - Founder Beta onboarding initialization preview added on 2026-06-05 to show how available minutes, day mode, weak areas, and manual readiness estimates would initialize progress and derive Today Plan output without saving by default.
 - Founder Beta onboarding save confirmation added on 2026-06-05. First save is allowed when no local progress exists; existing saved `founder-local` progress requires explicit overwrite confirmation. Saved data remains normalized progress input only.
+- Founder Beta validation run planning completed on 2026-06-06 with a 7-day and 14-day founder validation workflow, daily `/founder-beta` usage expectations, manual update rules, usefulness/confusion signals, validation checklist, and post-validation decision gates.
+- Founder Beta validation preparation and completion roadmap planning completed on 2026-06-06 with instrumentation review, final exit criteria, post-validation decision tree, proof scoring UX plan, evaluated readiness plan, and completion roadmap. Validation has not occurred yet.
+- EngineeringOS V2 Foundation Review completed on 2026-06-06. The review found that V2 planning is canonical, but implementation is incomplete. Founder Validation should pause until the Founder Architect Capability Graph, Master Syllabus V2, Roadmap Projection, Daily Mission, and Readiness foundations are implemented more completely.
 
 Build order:
 
@@ -360,7 +373,7 @@ Do not expand to:
 Next task:
 
 ```txt
-Founder Beta Onboarding Validation Review and Initialization Integration Planning
+EngineeringOS V2 Foundation Implementation Phase 1
 ```
 
 Scope:
@@ -372,17 +385,33 @@ Scope:
 - No dynamic roadmap generation.
 - No source ingestion runtime.
 - No derived-output persistence.
+- No new UI unless the V2 foundation implementation requires a tiny verification surface.
 
 Recommended output:
 
 ```txt
-docs/FOUNDER_BETA_ONBOARDING_VALIDATION_REVIEW.md
+Founder Architect Capability Graph Completion
 ```
 
-Then decide whether to:
+Implement the underlying V2 knowledge system before resuming Founder Validation.
 
-- keep onboarding initialization inside `/founder-beta`, or
-- integrate the existing preview/save flow into the app's `/onboarding` route.
+Required planning context:
+
+- `docs/ENGINEERINGOS_V2_FOUNDATION_REVIEW.md`
+- `docs/CAPABILITY_GRAPH_MODEL_V2.md`
+- `docs/MASTER_SYLLABUS_MODEL_V2.md`
+- `docs/ROADMAP_PROJECTION_MODEL_V2.md`
+- `docs/DAILY_MISSION_MODEL_V2.md`
+- `docs/READINESS_ENGINE_MODEL_V2.md`
+
+Recommended sequence:
+
+1. Expand Founder Architect capability graph.
+2. Add role weights and dependency data.
+3. Add capability graph query/gap services.
+4. Complete Founder Architect Master Syllabus V2 topic mappings.
+5. Implement roadmap projection rules over the graph/syllabus.
+6. Generate mission candidates and readiness foundations.
 
 ## Success Definition For First Vertical Slice
 

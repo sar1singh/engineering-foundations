@@ -2782,7 +2782,7 @@
 - Added a `How To Continue In New Chat` section to the master continuation context.
 - Updated `docs/IMPLEMENTATION_STATUS.md` with the current Founder Beta onboarding validation state.
 - Updated `docs/IMPLEMENTATION_PHASE_PLAN_V1.md` so the current recommended task is no longer the already-completed static seed-data phase.
-- Confirmed the next recommended phase is Founder Beta Onboarding Validation Review and Initialization Integration Planning.
+- Confirmed the then-next recommended phase was Founder Beta onboarding validation review and integration planning; this has since been completed.
 
 ### Synchronization Findings
 
@@ -2794,3 +2794,146 @@
 
 - Docs-only synchronization.
 - No code, Prisma, UI, route, persistence, AI, scraping, auth, payment, deployment, or dependency changes were made.
+
+## 2026-06-06 - Founder Beta Onboarding Validation Review and Minimal Integration
+
+### Completed
+
+- Inspected the active Founder Beta implementation:
+  - `/founder-beta`
+  - `FounderBetaManualProgressPanel`
+  - `FounderBetaOnboardingInitializationPreview`
+  - progress adapter
+  - facade
+  - persistence service and repository
+  - `/api/founder-beta/progress`
+  - Founder Beta E2E spec
+- Created `docs/FOUNDER_BETA_ONBOARDING_VALIDATION_REVIEW.md`.
+- Confirmed overwrite protection is correct for local founder validation.
+- Confirmed saved local progress remains normalized input only.
+- Confirmed Today Plan, readiness, gates, roadmap projection, missions, and next actions remain derived.
+- Added a minimal `/onboarding` handoff section that links to the existing `/founder-beta` initializer.
+- Added focused E2E coverage that `/onboarding` renders the Founder Beta initializer handoff.
+
+### Decisions
+
+- Implementation was safe because it does not duplicate the preview form, progress adapter, facade, repository, or persistence route.
+- `/founder-beta` remains the only Founder Beta save/overwrite surface.
+- `/onboarding` only points the founder into the existing Founder Beta initializer.
+
+### Deferred
+
+- Prisma.
+- Auth.
+- AI evaluation.
+- Source ingestion runtime.
+- Dynamic roadmaps.
+- Multi-user SaaS.
+- Derived-output persistence.
+
+### Next Action
+
+- Founder Beta Founder Validation Run Planning.
+
+## 2026-06-06 - Founder Beta Founder Validation Run Planning
+
+### Completed
+
+- Created `docs/FOUNDER_BETA_VALIDATION_RUN_PLAN.md`.
+- Defined 7-day and 14-day founder validation run options for `/founder-beta`.
+- Defined the daily usage workflow, what Sarwan should manually update each day, usefulness signals, confusion/prematurity signals, and validation checklist.
+- Locked post-validation decision gates:
+  - improve manual progress UX
+  - add proof scoring UX
+  - add evaluated readiness
+  - add richer onboarding
+  - move persistence to Prisma
+- Updated the canonical continuation context, implementation status, and implementation phase plan.
+
+### Decisions
+
+- No application implementation was done in this milestone.
+- Founder Beta naming remains preserved.
+- Persisted data remains normalized progress input only.
+- Today Plan, readiness snapshot, hard gates, roadmap projection, primary mission, optional missions, and next actions remain derived.
+- Prisma, AI evaluation, source ingestion, dynamic roadmaps, auth, payments, deployment, and multi-user SaaS remain deferred until founder validation produces evidence.
+
+### Validation
+
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+
+### Next Action
+
+- Founder Beta Validation Run Execution and Results Review.
+
+## 2026-06-06 - Founder Beta Validation Preparation and Completion Roadmap Planning
+
+### Completed
+
+- Created `docs/FOUNDER_BETA_VALIDATION_INSTRUMENTATION_REVIEW.md`.
+- Created `docs/FOUNDER_BETA_EXIT_CRITERIA_FINAL.md`.
+- Created `docs/FOUNDER_BETA_POST_VALIDATION_DECISION_TREE.md`.
+- Created `docs/FOUNDER_BETA_PROOF_SCORING_UX_PLAN.md`.
+- Created `docs/FOUNDER_BETA_EVALUATED_READINESS_PLAN.md`.
+- Created `docs/FOUNDER_BETA_COMPLETION_ROADMAP.md`.
+- Updated the canonical continuation context, implementation status, and implementation phase plan.
+
+### Decisions
+
+- Validation has not occurred yet.
+- No validation results were fabricated.
+- No application implementation was done in this milestone.
+- Founder Beta naming remains preserved.
+- Persisted state remains normalized Founder Beta progress input only.
+- Today Plan, readiness snapshot, hard gates, roadmap projection, primary mission, optional missions, and next actions remain derived.
+- Prisma, AI evaluation implementation, source ingestion, dynamic roadmaps, auth, deployment, payments, multi-user SaaS, and new persistence models remain deferred.
+
+### Validation
+
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+
+### Next Action
+
+- Founder Beta Validation Run Execution and Results Review.
+
+## 2026-06-06 - EngineeringOS V2 Foundation Review
+
+### Completed
+
+- Re-read the canonical project memory and status docs.
+- Audited the V2 model docs against current Founder Beta implementation.
+- Added V2 foundation audit addenda to:
+  - `docs/CAPABILITY_GRAPH_MODEL_V2.md`
+  - `docs/MASTER_SYLLABUS_MODEL_V2.md`
+  - `docs/ROADMAP_PROJECTION_MODEL_V2.md`
+  - `docs/DAILY_MISSION_MODEL_V2.md`
+  - `docs/READINESS_ENGINE_MODEL_V2.md`
+- Created `docs/ENGINEERINGOS_V2_FOUNDATION_REVIEW.md`.
+- Updated the master continuation context, implementation status, and implementation phase plan.
+
+### Findings
+
+- V2 planning models are canonical and complete enough to guide implementation.
+- Current implementation is a narrow Founder Beta framework/static slice, not the complete EngineeringOS knowledge system.
+- Original EngineeringOS vision implementation is approximately 35%.
+- Founder Validation is premature if treated as validation of the full vision.
+- The next implementation phase should return to the original strategy sequence and complete the V2 foundation first.
+
+### Decisions
+
+- Do not continue Founder Validation work yet.
+- Preserve Founder Beta naming.
+- Preserve locked strategy decisions.
+- Do not add Prisma, AI evaluation implementation, source ingestion implementation, auth, deployment, payments, SaaS features, or new persistence models.
+- Keep persisted state limited to normalized Founder Beta progress input.
+
+### Validation
+
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+
+### Next Action
+
+- EngineeringOS V2 Foundation Implementation Phase 1: Founder Architect Capability Graph Completion.

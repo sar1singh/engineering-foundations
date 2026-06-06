@@ -18,20 +18,20 @@
 
 Current phase:
 
-- Founder Beta Onboarding Save + Validation Hardening is complete.
+- EngineeringOS V2 Foundation Review is complete.
 
 Active implementation area:
 
-- `/founder-beta` local founder validation.
-- Onboarding initialization preview.
-- Normalized progress input persistence.
-- Save/load/reset and explicit overwrite protection.
-- Derived Today Plan, readiness, gates, missions, and next actions.
+- V2 foundation implementation preparation.
+- Founder Architect Capability Graph Completion.
+- Founder Architect Master Syllabus V2 completion.
+- Roadmap Projection, Daily Mission, and Readiness Engine foundation.
+- Existing `/founder-beta` framework remains available but should not be treated as validation of the full EngineeringOS knowledge system.
 
 Next recommended phase:
 
-- Founder Beta Onboarding Validation Review and Initialization Integration Planning.
-- Review the current `/founder-beta` onboarding preview/save flow, then plan the smallest dedicated onboarding entrypoint or integration path.
+- EngineeringOS V2 Foundation Implementation Phase 1.
+- Start with Founder Architect Capability Graph Completion before resuming Founder Validation.
 
 Major constraints:
 
@@ -229,6 +229,49 @@ Founder Beta onboarding save confirmation update:
 - Added overwrite protection when saved `founder-local` progress exists; onboarding preview now requires explicit confirmation before replacing saved local progress.
 - Confirmation copy states: `This will replace your saved local Founder Beta progress. Today Plan and readiness will be recalculated.`
 - Onboarding preview saves only normalized progress input through the existing progress persistence route/service; Today Plan, readiness, gates, and missions remain derived.
+
+Founder Beta onboarding validation integration update:
+
+- Added `docs/FOUNDER_BETA_ONBOARDING_VALIDATION_REVIEW.md`.
+- Confirmed the current onboarding preview/save flow is safe for founder validation.
+- Confirmed overwrite protection is correct for local-founder use.
+- Confirmed saved progress remains normalized input only and derived outputs remain unpersisted.
+- Added a minimal `/onboarding` handoff section that points to the existing `/founder-beta` initializer.
+- Did not move or duplicate the Founder Beta preview form into `/onboarding`.
+- Did not add Prisma, auth, server actions, AI evaluation, source ingestion, dynamic roadmaps, or derived-output persistence.
+
+Founder Beta validation run planning update:
+
+- Added `docs/FOUNDER_BETA_VALIDATION_RUN_PLAN.md`.
+- Defined 7-day and 14-day founder validation run options for `/founder-beta`.
+- Defined the daily usage workflow, manual update expectations, usefulness signals, confusion/prematurity signals, validation checklist, and post-validation decision gates.
+- Reconfirmed that Prisma, AI evaluation, source ingestion, dynamic roadmaps, auth, payments, deployment, multi-user SaaS, and derived-output persistence remain deferred until validation is complete.
+
+Founder Beta validation preparation and completion roadmap update:
+
+- Added `docs/FOUNDER_BETA_VALIDATION_INSTRUMENTATION_REVIEW.md`.
+- Added `docs/FOUNDER_BETA_EXIT_CRITERIA_FINAL.md`.
+- Added `docs/FOUNDER_BETA_POST_VALIDATION_DECISION_TREE.md`.
+- Added `docs/FOUNDER_BETA_PROOF_SCORING_UX_PLAN.md`.
+- Added `docs/FOUNDER_BETA_EVALUATED_READINESS_PLAN.md`.
+- Added `docs/FOUNDER_BETA_COMPLETION_ROADMAP.md`.
+- Defined current observable validation signals, missing manual metrics, final Founder Beta completion conditions, post-validation paths, and the future proof-scoring/evaluated-readiness sequence.
+- Explicitly confirmed validation has not occurred yet and no validation results should be fabricated.
+
+EngineeringOS V2 foundation review update:
+
+- Added audit addenda to:
+  - `docs/CAPABILITY_GRAPH_MODEL_V2.md`
+  - `docs/MASTER_SYLLABUS_MODEL_V2.md`
+  - `docs/ROADMAP_PROJECTION_MODEL_V2.md`
+  - `docs/DAILY_MISSION_MODEL_V2.md`
+  - `docs/READINESS_ENGINE_MODEL_V2.md`
+- Added `docs/ENGINEERINGOS_V2_FOUNDATION_REVIEW.md`.
+- Confirmed the V2 planning models are canonical, but the V2 implementation is incomplete.
+- Estimated original EngineeringOS vision implementation at approximately 35%.
+- Identified the current Founder Beta implementation as a narrow static framework slice, not the complete underlying knowledge system.
+- Determined Founder Validation is premature if treated as validation of the full EngineeringOS vision.
+- Set the next implementation phase to Founder Architect Capability Graph Completion.
 
 ## Completed Phases
 
@@ -448,7 +491,7 @@ Current QA contract status: `npm run test:quality` passes. Phase 44 and Phase 45
 
 Production readiness verdict: not ready for production deployment. The app is ready for controlled local/internal alpha only. Beta remains blocked by production auth, database-backed user state, deployment observability, backup/restore planning, Playwright/visual QA, calibrated evaluator reports, and hardened safe code execution.
 
-Next recommended phase: Founder Beta Onboarding Validation Review and Initialization Integration Planning. Real auth provider implementation, managed Postgres migration execution, external monitoring, dynamic roadmaps, AI evaluation, source ingestion runtime, and multi-user SaaS remain deferred until the founder beta local workflow is validated.
+Next recommended phase: Founder Beta Validation Run Execution and Results Review. Real auth provider implementation, managed Postgres migration execution, external monitoring, dynamic roadmaps, AI evaluation, source ingestion runtime, and multi-user SaaS remain deferred until the founder beta local workflow is validated.
 
 ## Phase 57 Founder Success UX
 
