@@ -26,7 +26,7 @@ Avoid UI polish before the mission/readiness loop works.
 
 Current phase:
 
-- EngineeringOS V2 Foundation Review is complete.
+- EngineeringOS V2 Foundation Implementation Phase 1 is complete.
 
 Completed founder beta implementation:
 
@@ -50,10 +50,12 @@ Completed founder beta implementation:
 - Evaluated readiness plan.
 - Founder Beta completion roadmap.
 - V2 foundation audit addenda and review.
+- V2 Foundation Phase 1 static Founder Architect knowledge expansion.
 
 Next recommended phase:
 
-- EngineeringOS V2 Foundation Implementation Phase 1.
+- EngineeringOS V2 Foundation Implementation Phase 2.
+- Build static projection/gap/mission/readiness services over the expanded Founder Architect graph before resuming Founder Validation.
 
 Current guardrail:
 
@@ -113,6 +115,7 @@ Status:
 - Founder Beta validation run planning completed on 2026-06-06 with a 7-day and 14-day founder validation workflow, daily `/founder-beta` usage expectations, manual update rules, usefulness/confusion signals, validation checklist, and post-validation decision gates.
 - Founder Beta validation preparation and completion roadmap planning completed on 2026-06-06 with instrumentation review, final exit criteria, post-validation decision tree, proof scoring UX plan, evaluated readiness plan, and completion roadmap. Validation has not occurred yet.
 - EngineeringOS V2 Foundation Review completed on 2026-06-06. The review found that V2 planning is canonical, but implementation is incomplete. Founder Validation should pause until the Founder Architect Capability Graph, Master Syllabus V2, Roadmap Projection, Daily Mission, and Readiness foundations are implemented more completely.
+- EngineeringOS V2 Foundation Implementation Phase 1 completed on 2026-06-06. The static Founder Architect knowledge foundation now includes 14 capabilities, 32 skills, 100 master topics, 64 curated sources, expanded source/proof mappings, and integrity tests across the Founder Beta graph. Founder Validation remains paused until the expanded graph is connected to projection/gap/mission/readiness services.
 
 Build order:
 
@@ -373,7 +376,7 @@ Do not expand to:
 Next task:
 
 ```txt
-EngineeringOS V2 Foundation Implementation Phase 1
+EngineeringOS V2 Foundation Implementation Phase 2
 ```
 
 Scope:
@@ -390,10 +393,10 @@ Scope:
 Recommended output:
 
 ```txt
-Founder Architect Capability Graph Completion
+Founder Architect Projection, Gap, Mission, and Readiness Services
 ```
 
-Implement the underlying V2 knowledge system before resuming Founder Validation.
+Implement service/query behavior over the expanded V2 knowledge system before resuming Founder Validation.
 
 Required planning context:
 
@@ -406,12 +409,12 @@ Required planning context:
 
 Recommended sequence:
 
-1. Expand Founder Architect capability graph.
-2. Add role weights and dependency data.
-3. Add capability graph query/gap services.
-4. Complete Founder Architect Master Syllabus V2 topic mappings.
-5. Implement roadmap projection rules over the graph/syllabus.
-6. Generate mission candidates and readiness foundations.
+1. Add capability graph query and gap-analysis service over the expanded static graph.
+2. Add roadmap projection rules that select from canonical topics without duplicating content.
+3. Generate mission candidates from capability/topic/proof relationships.
+4. Expand daily mission selection to use generated candidates where safe.
+5. Connect readiness rollups to the expanded topic/capability graph.
+6. Keep persisted founder progress as normalized input only and keep all outputs derived.
 
 ## Success Definition For First Vertical Slice
 

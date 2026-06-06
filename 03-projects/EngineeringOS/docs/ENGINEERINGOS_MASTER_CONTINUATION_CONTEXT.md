@@ -17,9 +17,9 @@ Maintenance rule:
 
 Current phase:
 
-- EngineeringOS V2 Foundation Review is complete.
+- EngineeringOS V2 Foundation Implementation Phase 1 is complete.
 - The active product surface is `/founder-beta`.
-- The active implementation area is V2 foundation implementation preparation: completing the underlying Capability Graph, Master Syllabus, Roadmap Projection, Daily Mission, and Readiness knowledge system before resuming Founder Validation.
+- The active implementation area is V2 foundation service preparation: connecting the expanded Founder Architect Capability Graph and Master Syllabus to roadmap projection, gap analysis, mission generation, and readiness rollups before resuming Founder Validation.
 
 Completed phases:
 
@@ -44,11 +44,12 @@ Completed phases:
 - Evaluated readiness planning.
 - Founder Beta completion roadmap.
 - V2 foundation audit across Capability Graph, Master Syllabus, Roadmap Projection, Daily Mission, and Readiness Engine.
+- V2 Foundation Phase 1 static Founder Architect knowledge expansion.
 
 Next recommended phase:
 
-- EngineeringOS V2 Foundation Implementation Phase 1.
-- Start with Founder Architect Capability Graph Completion, then complete Founder Architect Master Syllabus V2, Roadmap Projection, Mission Generation, and Readiness Foundation before resuming Founder Validation.
+- EngineeringOS V2 Foundation Implementation Phase 2.
+- Start with static projection/gap/mission/readiness services over the expanded Founder Architect graph before resuming Founder Validation.
 
 Major constraints:
 
@@ -256,6 +257,7 @@ Current limitations:
 - Progress is local-only and file-backed.
 - Onboarding-to-progress initialization is available only through the existing `/founder-beta` preview/save flow and minimal `/onboarding` handoff.
 - Real founder validation has not occurred yet.
+- V2 Foundation Phase 1 expanded the static Founder Architect knowledge base, but generated roadmap projection, gap analysis, mission candidate generation, and graph-backed readiness services still need deeper implementation.
 - No AI evaluation.
 - No dynamic roadmap generation.
 - No runtime source ingestion.
@@ -351,21 +353,20 @@ Multi-user SaaS:
 
 Current phase:
 
-- EngineeringOS V2 Foundation Review is complete.
+- EngineeringOS V2 Foundation Implementation Phase 1 is complete.
 
 Completed phase:
 
-- Local file-backed persistence, save/load/reset UI wiring, persistence hardening, onboarding initialization preview, onboarding save/overwrite confirmation, onboarding validation review, minimal `/onboarding` handoff, founder validation run planning, instrumentation review, exit criteria, decision tree, proof scoring/evaluated readiness planning, completion roadmap, and V2 foundation review.
+- Local file-backed persistence, save/load/reset UI wiring, persistence hardening, onboarding initialization preview, onboarding save/overwrite confirmation, onboarding validation review, minimal `/onboarding` handoff, founder validation run planning, instrumentation review, exit criteria, decision tree, proof scoring/evaluated readiness planning, completion roadmap, V2 foundation review, and V2 Foundation Phase 1 static Founder Architect knowledge expansion.
 
 Next recommended phase:
 
-- EngineeringOS V2 Foundation Implementation Phase 1.
+- EngineeringOS V2 Foundation Implementation Phase 2.
 
 Recommended implementation start point:
 
 - Do not continue Founder Validation yet.
-- Implement Founder Architect Capability Graph Completion first.
-- Expand the static Founder Beta capability graph, role weights, dependencies, and gap-analysis service while preserving Founder Beta naming.
+- Implement Founder Architect projection, gap, mission, and readiness services over the expanded static graph.
 - Continue saving only normalized progress input; keep Today Plan, readiness, gates, missions, and recommendations derived.
 
 ## 9. Implementation Progress Log
@@ -486,6 +487,15 @@ Recommended implementation start point:
 - Determined Founder Validation is premature if treated as validation of the full vision.
 - Set next recommended phase to EngineeringOS V2 Foundation Implementation Phase 1: Founder Architect Capability Graph Completion.
 
+2026-06-06 EngineeringOS V2 Foundation Implementation Phase 1:
+
+- Expanded the Founder Architect static capability graph to 14 capabilities and 32 skills.
+- Expanded the Founder Architect Master Syllabus V2 static map to 100 topics across backend engineering, Node.js production backend, security, HLD, distributed systems, databases, reliability/observability, AWS/cloud architecture, LLD, senior-backend DSA, behavioral/communication, delivery/leadership, architecture case studies, career assets, and offer readiness.
+- Expanded the static source catalog to 64 curated sources.
+- Updated roadmap projection inputs to use the expanded static capability/topic set.
+- Added integrity tests for capability, skill, topic, source, roadmap, mission, proof, and hard-gate references.
+- Founder Validation remains paused until Phase 2 connects the expanded graph to projection, gap, mission, and readiness services.
+
 ## 10. Constraints
 
 Must not do without explicit user direction:
@@ -531,7 +541,7 @@ Use this exact order for future Codex sessions:
 3. Read `docs/IMPLEMENTATION_PHASE_PLAN_V1.md` for current guardrails and phase order.
 4. Inspect local `git status --short` before editing.
 5. If working on Founder Beta, inspect `/founder-beta`, the founder beta services, the progress repository/service, and `tests/e2e/founder-beta.spec.ts`.
-6. Continue from the current phase: EngineeringOS V2 Foundation Implementation Phase 1.
+6. Continue from the current phase: EngineeringOS V2 Foundation Implementation Phase 2.
 7. Do not restart architecture or replace the founder beta model.
 8. Keep persisted state limited to normalized progress input.
 9. Run focused tests for touched code plus `npm run typecheck` and `npm run lint` when practical.

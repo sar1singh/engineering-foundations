@@ -18,20 +18,20 @@
 
 Current phase:
 
-- EngineeringOS V2 Foundation Review is complete.
+- EngineeringOS V2 Foundation Implementation Phase 1 is complete.
 
 Active implementation area:
 
-- V2 foundation implementation preparation.
-- Founder Architect Capability Graph Completion.
-- Founder Architect Master Syllabus V2 completion.
-- Roadmap Projection, Daily Mission, and Readiness Engine foundation.
+- Founder Architect static knowledge foundation.
+- Founder Architect Capability Graph and Master Syllabus V2 expansion.
+- Source mapping and proof mapping integrity.
+- Roadmap Projection, Daily Mission, and Readiness Engine foundations remain derived from static data.
 - Existing `/founder-beta` framework remains available but should not be treated as validation of the full EngineeringOS knowledge system.
 
 Next recommended phase:
 
-- EngineeringOS V2 Foundation Implementation Phase 1.
-- Start with Founder Architect Capability Graph Completion before resuming Founder Validation.
+- EngineeringOS V2 Foundation Implementation Phase 2.
+- Start with static roadmap projection rules, mission candidate generation, and gap/readiness query services over the expanded Founder Architect graph before resuming Founder Validation.
 
 Major constraints:
 
@@ -272,6 +272,17 @@ EngineeringOS V2 foundation review update:
 - Identified the current Founder Beta implementation as a narrow static framework slice, not the complete underlying knowledge system.
 - Determined Founder Validation is premature if treated as validation of the full EngineeringOS vision.
 - Set the next implementation phase to Founder Architect Capability Graph Completion.
+
+EngineeringOS V2 Foundation Implementation Phase 1 update:
+
+- Expanded the Founder Architect static capability graph from the original narrow slice into 14 capabilities and 32 skills.
+- Expanded the Founder Architect Master Syllabus V2 static topic map to 100 high-priority topics across backend engineering, Node.js production backend, security, HLD, distributed systems, databases, reliability/observability, AWS/cloud architecture, LLD, senior-backend DSA, behavioral/communication, delivery/leadership, architecture case studies, career assets, and offer readiness.
+- Expanded the static source catalog to 64 curated sources covering AWS official references, Node.js/MDN/PostgreSQL/Redis docs, Google SRE, system-design resources, roadmap sources, DSA/interview references, Staff/EM references, career assets, job-market signals, and compensation/negotiation signals.
+- Reframed Backend Engineering and Node.js Production Backend as one canonical founder-beta backend capability to keep the Phase 1 capability range focused.
+- Updated the Founder Architect roadmap projection to include the expanded canonical capability set and all P0/P1 Founder Architect topics as projection inputs.
+- Added `src/lib/services/founder-beta-knowledge-integrity.test.ts` to verify capability, skill, topic, source, roadmap, mission, proof, and hard-gate references remain internally consistent.
+- Founder Validation remains paused as validation of the full EngineeringOS knowledge system until V2 Foundation Phase 2 completes roadmap projection and mission/readiness services over the expanded graph.
+- Runtime ingestion, discovery agents/subagents, AI evaluation, Prisma migration, auth, SaaS, deployment, dynamic roadmap generation, and derived-output persistence remain deferred.
 
 ## Completed Phases
 

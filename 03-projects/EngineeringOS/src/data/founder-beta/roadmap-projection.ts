@@ -1,4 +1,10 @@
 import type { RoadmapProjection } from "@/types/founder-beta";
+import { founderBetaCapabilities } from "@/data/founder-beta/capabilities";
+import { founderBetaMasterTopics } from "@/data/founder-beta/master-topics";
+
+const founderArchitectTopicIds = founderBetaMasterTopics
+  .filter((topic) => topic.roadmapPriority === "p0" || topic.roadmapPriority === "p1")
+  .map((topic) => topic.id);
 
 export const founderArchitectBetaRoadmapProjection: RoadmapProjection = {
   id: "founder-architect-beta-16-week",
@@ -7,28 +13,8 @@ export const founderArchitectBetaRoadmapProjection: RoadmapProjection = {
   hoursPerWeek: 10,
   primaryRole: "solution-architect",
   secondaryRole: "em-aware-lead-backend",
-  capabilityIds: [
-    "cap-system-design-hld",
-    "cap-aws-cloud-architecture",
-    "cap-node-backend",
-    "cap-databases",
-    "cap-behavioral-communication",
-    "cap-career-assets",
-    "cap-offer-readiness"
-  ],
-  topicIds: [
-    "topic-api-design",
-    "topic-caching",
-    "topic-rate-limiting",
-    "topic-load-balancing",
-    "topic-queues",
-    "topic-database-indexing",
-    "topic-redis-caching",
-    "topic-aws-well-architected",
-    "topic-resume-positioning",
-    "topic-behavioral-star-stories",
-    "topic-engineeringos-architecture-case-study"
-  ],
+  capabilityIds: founderBetaCapabilities.map((capability) => capability.id),
+  topicIds: founderArchitectTopicIds,
   missionIds: [
     "mission-learn-aws-well-architected",
     "mission-practice-api-design",
