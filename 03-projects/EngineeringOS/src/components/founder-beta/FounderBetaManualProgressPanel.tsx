@@ -23,16 +23,11 @@ export function FounderBetaManualProgressPanel({
 }) {
   const stableInitialProgress = useMemo(() => initialProgress, [initialProgress]);
   const [progressInput, setProgressInput] = useState<FounderBetaProgressInput>(initialProgress);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "reset" | "error">("idle");
+  const isHydrated = useHydrationState();
   const plan = founderBetaFacadeService.getFounderBetaPlanFromProgress(progressInput);
   const { todayPlan, readinessSnapshot, primaryMission, optionalMissions, nextActions, validationWarnings } = plan;
   const failedHardGates = readinessSnapshot.hardGates.filter((gate) => !gate.passed);
-
-  useEffect(() => {
-    const hydrationTimer = window.setTimeout(() => setIsHydrated(true), 0);
-    return () => window.clearTimeout(hydrationTimer);
-  }, []);
 
   return (
     <section className="space-y-6">
@@ -90,11 +85,24 @@ export function FounderBetaManualProgressPanel({
             >
               {saveStatus === "saving" ? "Saving..." : "Save local progress"}
             </button>
+            <button
+              className="rounded-md border border-red-300 px-3 py-2 text-sm font-semibold text-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={!isHydrated || saveStatus === "saving"}
+              type="button"
+              onClick={() => resetLocalProgress(setProgressInput, setSaveStatus)}
+            >
+              Reset local progress
+            </button>
           </div>
         </div>
         {saveStatus === "saved" ? (
           <p className="mt-3 rounded-md border border-teal-200 bg-teal-50 p-3 text-sm font-semibold text-teal-800">
             Local progress saved
+          </p>
+        ) : null}
+        {saveStatus === "reset" ? (
+          <p className="mt-3 rounded-md border border-teal-200 bg-teal-50 p-3 text-sm font-semibold text-teal-800">
+            Local progress reset
           </p>
         ) : null}
         {saveStatus === "error" ? (
@@ -304,7 +312,7 @@ function ReadinessInput({ label, value, onChange }: { label: string; value: numb
 
 async function saveLocalProgress(
   progressInput: FounderBetaProgressInput,
-  setSaveStatus: (status: "idle" | "saving" | "saved" | "error") => void
+  setSaveStatus: (status: "idle" | "saving" | "saved" | "reset" | "error") => void
 ) {
   setSaveStatus("saving");
 
@@ -325,6 +333,40 @@ async function saveLocalProgress(
   } catch {
     setSaveStatus("error");
   }
+}
+
+async function resetLocalProgress(
+  setProgressInput: (progressInput: FounderBetaProgressInput) => void,
+  setSaveStatus: (status: "idle" | "saving" | "saved" | "reset" | "error") => void
+) {
+  setSaveStatus("saving");
+
+  try {
+    const response = await fetch("/api/founder-beta/progress", {
+      method: "DELETE"
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to reset founder beta progress.");
+    }
+
+    setProgressInput(getDefaultProgressInput());
+    setSaveStatus("reset");
+  } catch {
+    setSaveStatus("error");
+  }
+}
+
+function getDefaultProgressInput(): FounderBetaProgressInput {
+  return {
+    completedMissionIds: [],
+    completedTopicIds: [],
+    weakAreaCapabilityIds: [],
+    weakAreaTopicIds: [],
+    manualReadinessScores: {},
+    availableMinutes: 60,
+    dayMode: "weekday"
+  };
 }
 
 function DraftSection({ title, description, children }: { title: string; description: string; children: ReactNode }) {
@@ -415,4 +457,15 @@ function toggleId(ids: string[], id: string, checked: boolean): string[] {
   }
 
   return ids.filter((item) => item !== id);
+}
+
+function useHydrationState(): boolean {
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    const hydrationTimer = window.setTimeout(() => setIsHydrated(true), 0);
+    return () => window.clearTimeout(hydrationTimer);
+  }, []);
+
+  return isHydrated;
 }

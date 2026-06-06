@@ -62,32 +62,40 @@ export class FileFounderBetaProgressRepository implements FounderBetaProgressRep
     };
 
     store.progressByUserId[input.userId] = progress;
-    await fs.mkdir(path.dirname(this.filePath), { recursive: true });
-    await fs.writeFile(this.filePath, `${JSON.stringify(store, null, 2)}\n`, "utf8");
+    await this.writeStore(store);
     return progress;
   }
 
   async clearProgress(userId: string): Promise<void> {
     const store = await this.readStore();
     delete store.progressByUserId[userId];
-    await fs.mkdir(path.dirname(this.filePath), { recursive: true });
-    await fs.writeFile(this.filePath, `${JSON.stringify(store, null, 2)}\n`, "utf8");
+    await this.writeStore(store);
   }
 
   private async readStore(): Promise<FounderBetaProgressStore> {
     try {
       const raw = await fs.readFile(this.filePath, "utf8");
-      const parsed = JSON.parse(raw) as Partial<FounderBetaProgressStore>;
-      return {
-        progressByUserId: parsed.progressByUserId ?? {}
-      };
+      if (!raw.trim()) {
+        return { progressByUserId: {} };
+      }
+
+      return normalizeStore(JSON.parse(raw));
     } catch (error) {
-      if (isFileMissingError(error)) {
+      if (isFileMissingError(error) || error instanceof SyntaxError) {
         return { progressByUserId: {} };
       }
 
       throw error;
     }
+  }
+
+  private async writeStore(store: FounderBetaProgressStore): Promise<void> {
+    const directory = path.dirname(this.filePath);
+    const tempFilePath = path.join(directory, `${path.basename(this.filePath)}.${process.pid}.tmp`);
+
+    await fs.mkdir(directory, { recursive: true });
+    await fs.writeFile(tempFilePath, `${JSON.stringify(store, null, 2)}\n`, "utf8");
+    await fs.rename(tempFilePath, this.filePath);
   }
 }
 
@@ -135,6 +143,98 @@ export function toFounderBetaProgressInput(progress: FounderBetaPersistedProgres
     dayMode: progress.dayMode,
     preferredMissionTypes: progress.preferredMissionTypes
   };
+}
+
+function normalizeStore(input: unknown): FounderBetaProgressStore {
+  if (!isRecord(input)) {
+    return { progressByUserId: {} };
+  }
+
+  const progressByUserIdInput = input.progressByUserId;
+  if (!isRecord(progressByUserIdInput)) {
+    return { progressByUserId: {} };
+  }
+
+  const progressByUserId = Object.entries(progressByUserIdInput).reduce<Record<string, FounderBetaPersistedProgress>>(
+    (result, [userId, progress]) => {
+      const normalized = normalizeStoredProgress(userId, progress);
+
+      if (normalized) {
+        result[userId] = normalized;
+      }
+
+      return result;
+    },
+    {}
+  );
+
+  return { progressByUserId };
+}
+
+function normalizeStoredProgress(userId: string, input: unknown): FounderBetaPersistedProgress | null {
+  if (!isRecord(input)) {
+    return null;
+  }
+
+  const schemaVersion = typeof input.schemaVersion === "number" ? input.schemaVersion : FOUNDER_BETA_PROGRESS_SCHEMA_VERSION;
+
+  // Future schema versions should be migrated explicitly here before being accepted.
+  if (schemaVersion > FOUNDER_BETA_PROGRESS_SCHEMA_VERSION) {
+    return null;
+  }
+
+  return {
+    schemaVersion: FOUNDER_BETA_PROGRESS_SCHEMA_VERSION,
+    userId: typeof input.userId === "string" ? input.userId : userId,
+    completedMissionIds: normalizeStringArray(input.completedMissionIds),
+    skippedMissionIds: normalizeStringArray(input.skippedMissionIds),
+    completedTopicIds: normalizeStringArray(input.completedTopicIds),
+    weakAreaCapabilityIds: normalizeStringArray(input.weakAreaCapabilityIds),
+    weakAreaTopicIds: normalizeStringArray(input.weakAreaTopicIds),
+    manualReadinessScores: isRecord(input.manualReadinessScores) ? input.manualReadinessScores : {},
+    proofScores: normalizeProofScoreRecord(input.proofScores),
+    availableMinutes: typeof input.availableMinutes === "number" ? input.availableMinutes : undefined,
+    dayMode: input.dayMode === "weekend" ? "weekend" : "weekday",
+    preferredMissionTypes: normalizeStringArray(input.preferredMissionTypes).filter(isMissionType),
+    createdAt: typeof input.createdAt === "string" ? input.createdAt : new Date(0).toISOString(),
+    updatedAt: typeof input.updatedAt === "string" ? input.updatedAt : new Date(0).toISOString()
+  };
+}
+
+function normalizeStringArray(input: unknown): string[] {
+  return Array.isArray(input) ? input.filter((item): item is string => typeof item === "string") : [];
+}
+
+function normalizeProofScoreRecord(input: unknown): Record<string, ProofScore> {
+  if (!isRecord(input)) {
+    return {};
+  }
+
+  return Object.entries(input).reduce<Record<string, ProofScore>>((result, [proofId, score]) => {
+    if (typeof score === "number" && Number.isInteger(score) && score >= 0 && score <= 5) {
+      result[proofId] = score as ProofScore;
+    }
+
+    return result;
+  }, {});
+}
+
+function isMissionType(input: string): input is MissionType {
+  return [
+    "learn",
+    "practice",
+    "implement",
+    "interview",
+    "behavioral",
+    "career-asset",
+    "revision",
+    "weak-area-repair",
+    "architecture-case-study"
+  ].includes(input);
+}
+
+function isRecord(input: unknown): input is Record<string, unknown> {
+  return typeof input === "object" && input !== null;
 }
 
 function isFileMissingError(error: unknown): boolean {

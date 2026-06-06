@@ -8,6 +8,12 @@ This document outlines the implementation phases for EngineeringOS after archite
 
 It does not implement code, modify Prisma, build UI, or create TypeScript files. It defines the recommended order of work.
 
+Canonical project memory:
+
+- Future sessions must read `docs/ENGINEERINGOS_MASTER_CONTINUATION_CONTEXT.md` first.
+- That file is the authoritative continuation source for product vision, locked decisions, implementation progress, current phase, and next recommended phase.
+- Update it after every major planning or implementation milestone.
+
 Implementation principle:
 
 ```txt
@@ -15,6 +21,33 @@ Build the founder beta vertical slice first.
 Avoid broad platform work.
 Avoid UI polish before the mission/readiness loop works.
 ```
+
+## Current State Snapshot
+
+Current phase:
+
+- Founder Beta Onboarding Save + Validation Hardening is complete.
+
+Completed founder beta implementation:
+
+- Static founder beta data contracts and seed data.
+- Query, readiness, mission selection, orchestration, progress adapter, facade, and contract tests.
+- Read-only founder beta API and `/founder-beta` page.
+- Demo and weak-area modes.
+- Local manual progress panel.
+- File-backed local persistence for normalized progress input.
+- Save/load/reset UI wiring.
+- Persistence hardening and exit criteria.
+- Onboarding initialization preview.
+- Onboarding save and explicit overwrite confirmation.
+
+Next recommended phase:
+
+- Founder Beta Onboarding Validation Review and Initialization Integration Planning.
+
+Current guardrail:
+
+- Continue using normalized progress input as the only saved Founder Beta state. Keep Today Plan, readiness, gates, roadmaps, missions, and next actions derived.
 
 ## Phase 0: Implementation Guardrails
 
@@ -62,6 +95,11 @@ Status:
 - Founder Beta persistence implementation plan added on 2026-06-05. The plan locks persistence to normalized progress input only, keeps Today Plan/readiness/gates/roadmaps derived, and confirms persistence can begin as the next narrow phase while onboarding, dynamic roadmaps, AI evaluation, and source ingestion remain deferred.
 - Founder Beta Persistence Phase 1 implemented on 2026-06-05 with a file-backed local repository abstraction, in-memory test repository, and persistence service for normalized founder beta progress input only. Prisma remains deferred; derived Today Plan, readiness output, hard gates, roadmap projection, and mission recommendations are not persisted.
 - Founder Beta Persistence Phase 1 UI wiring added on 2026-06-05. `/founder-beta` now loads saved local founder progress when present, otherwise falls back to default/demo/weak-area fixtures, and exposes an explicit `Save local progress` action that persists normalized progress input only.
+- Founder Beta persisted-load E2E verification added on 2026-06-05 to confirm `/founder-beta` reloads saved local progress input and still renders derived Today Plan output without asserting or persisting derived recommendations.
+- Founder Beta reset-local-save action added on 2026-06-05 so founder validation runs can clear saved `founder-local` progress and return to the default derived Today Plan without Prisma, auth, dynamic roadmap generation, AI, scraping, source ingestion, or derived-output persistence.
+- Founder Beta Persistence Phase 1 hardening completed on 2026-06-05 with contract audit docs, validation-mode review, exit criteria, reset/missing-file/malformed-file/schema-version tests, and read-time schema fallback. Phase 1 is complete for local founder validation.
+- Founder Beta onboarding initialization preview added on 2026-06-05 to show how available minutes, day mode, weak areas, and manual readiness estimates would initialize progress and derive Today Plan output without saving by default.
+- Founder Beta onboarding save confirmation added on 2026-06-05. First save is allowed when no local progress exists; existing saved `founder-local` progress requires explicit overwrite confirmation. Saved data remains normalized progress input only.
 
 Build order:
 
@@ -317,34 +355,34 @@ Do not expand to:
 - AI evaluation.
 - Large syllabus expansion.
 
-## Recommended First Implementation Task
+## Current Recommended Implementation Task
 
-Start with:
+Next task:
 
 ```txt
-Create founder beta canonical data contracts and static seed data.
+Founder Beta Onboarding Validation Review and Initialization Integration Planning
 ```
 
 Scope:
 
-- No UI.
 - No Prisma.
-- No route changes.
-- No scraping.
+- No auth.
 - No AI.
+- No scraping.
+- No dynamic roadmap generation.
+- No source ingestion runtime.
+- No derived-output persistence.
 
-Expected files later:
+Recommended output:
 
 ```txt
-src/data/capabilities/
-src/data/syllabus/
-src/data/sources/
-src/data/roadmaps/
-src/data/missions/
-src/data/readiness/
+docs/FOUNDER_BETA_ONBOARDING_VALIDATION_REVIEW.md
 ```
 
-These should be created only when implementation is explicitly requested.
+Then decide whether to:
+
+- keep onboarding initialization inside `/founder-beta`, or
+- integrate the existing preview/save flow into the app's `/onboarding` route.
 
 ## Success Definition For First Vertical Slice
 

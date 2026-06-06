@@ -20,3 +20,17 @@ export async function POST(request: Request) {
     nextActions: plan.nextActions
   });
 }
+
+export async function DELETE() {
+  await founderBetaProgressPersistenceService.clearFounderBetaProgress();
+  const plan = await founderBetaProgressPersistenceService.getFounderBetaPlanFromPersistedProgress();
+
+  return NextResponse.json({
+    validationWarnings: [],
+    todayPlan: plan.todayPlan,
+    readinessSnapshot: plan.readinessSnapshot,
+    primaryMission: plan.primaryMission,
+    optionalMissions: plan.optionalMissions,
+    nextActions: plan.nextActions
+  });
+}

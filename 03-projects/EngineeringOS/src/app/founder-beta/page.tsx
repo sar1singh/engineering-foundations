@@ -2,6 +2,7 @@ import {
   FounderBetaManualProgressPanel,
   type FounderBetaInitialMode
 } from "@/components/founder-beta/FounderBetaManualProgressPanel";
+import { FounderBetaOnboardingInitializationPreview } from "@/components/founder-beta/FounderBetaOnboardingInitializationPreview";
 import {
   founderBetaDemoProgress,
   founderBetaWeakAreaProgress
@@ -19,11 +20,14 @@ export default async function FounderBetaPage({ searchParams }: { searchParams?:
   const initialProgress = persistedProgress ? toFounderBetaProgressInput(persistedProgress) : getFallbackProgress(initialMode);
 
   return (
-    <FounderBetaManualProgressPanel
-      initialMode={initialMode}
-      initialProgress={initialProgress}
-      isPersistedInitialProgress={Boolean(persistedProgress)}
-    />
+    <div className="space-y-6">
+      <FounderBetaOnboardingInitializationPreview hasSavedProgress={Boolean(persistedProgress)} />
+      <FounderBetaManualProgressPanel
+        initialMode={initialMode}
+        initialProgress={initialProgress}
+        isPersistedInitialProgress={Boolean(persistedProgress)}
+      />
+    </div>
   );
 }
 

@@ -2,6 +2,8 @@
 
 > Strategy reset on 2026-06-04: EngineeringOS is now positioned as a Career Transformation Operating System for Engineers. Existing implementation remains valuable, but future work should follow `docs/PRODUCT_STRATEGY.md`, `docs/BETA_MVP_STRATEGY.md`, and `docs/NEXT_MVP_BUILD_SEQUENCE.md`. Older course/dashboard-first assumptions are superseded where they conflict with the revised MVP strategy.
 
+> Canonical project memory: future sessions must read `docs/ENGINEERINGOS_MASTER_CONTINUATION_CONTEXT.md` first. That file is the authoritative handoff for product vision, locked decisions, architecture, implementation progress, current phase, and next recommended phase.
+
 ## Revised Product Direction
 
 - Capability Graph is the core engine, not courses.
@@ -11,6 +13,31 @@
 - Topic readiness requires Knowledge, Practice, Interview, and Implementation scores.
 - Learning progress, interview readiness, and offer readiness must remain separate.
 - MVP priority is one complete founder beta path before broader syllabus or UI expansion.
+
+## Current State Snapshot
+
+Current phase:
+
+- Founder Beta Onboarding Save + Validation Hardening is complete.
+
+Active implementation area:
+
+- `/founder-beta` local founder validation.
+- Onboarding initialization preview.
+- Normalized progress input persistence.
+- Save/load/reset and explicit overwrite protection.
+- Derived Today Plan, readiness, gates, missions, and next actions.
+
+Next recommended phase:
+
+- Founder Beta Onboarding Validation Review and Initialization Integration Planning.
+- Review the current `/founder-beta` onboarding preview/save flow, then plan the smallest dedicated onboarding entrypoint or integration path.
+
+Major constraints:
+
+- Do not persist derived outputs.
+- Do not add Prisma migrations, auth, AI evaluation, scraping, dynamic roadmap generation, source ingestion runtime, or multi-user SaaS work in the next phase.
+- Keep `founder-beta` naming and file-backed local storage for founder validation.
 
 ## Founder Beta Vertical Slice Start
 
@@ -164,6 +191,44 @@ Founder Beta Persistence Phase 1 UI wiring update:
 - Save writes through a minimal founder beta progress POST route and the existing progress persistence service.
 - The UI shows `Local progress saved` after a successful save and keeps the copy `Saved locally. Not synced. Not final evaluated readiness.`
 - Persisted data remains limited to normalized progress input; Today Plan, readiness snapshot, hard gates, roadmap projection, primary/optional missions, next actions, and static founder beta data remain derived and unpersisted.
+
+Founder Beta persisted-load verification update:
+
+- Added E2E coverage that saves local founder beta progress, reloads `/founder-beta`, and verifies the saved input values are loaded.
+- The test also verifies Primary Mission and Readiness Snapshot still render after reload, keeping Today Plan output derived from saved input rather than persisted as source-of-truth state.
+- No Prisma, auth, AI, scraping, dynamic roadmap generation, source ingestion, UI redesign, or derived-output persistence was added.
+
+Founder Beta reset-local-save update:
+
+- Added a minimal `Reset local progress` action on `/founder-beta`.
+- Reset clears saved `founder-local` progress through the existing founder beta progress route and persistence service.
+- The manual panel shows `Local progress reset`, returns draft inputs to default values, and continues deriving Today Plan output from current input.
+- E2E coverage now saves progress, reloads to confirm the saved value, resets local progress, reloads again, and verifies default values and Primary Mission return.
+- No Prisma, auth, AI, scraping, dynamic roadmap generation, source ingestion, UI redesign, or derived-output persistence was added.
+
+Founder Beta Persistence Phase 1 hardening update:
+
+- Added `docs/FOUNDER_BETA_VALIDATION_MODE_REVIEW.md`.
+- Added `docs/FOUNDER_BETA_PERSISTENCE_EXIT_CRITERIA.md`.
+- Audited the founder beta persistence contract and confirmed only normalized progress input is saved.
+- Added lightweight read-time schema-version fallback for local progress records with missing schema versions.
+- Hardened file-backed reads so missing, empty, malformed, and unsupported local progress records fail safely to empty progress.
+- Expanded focused persistence tests for clear/reset, missing file fallback, malformed file fallback, and missing schema-version fallback.
+- Persistence Phase 1 is complete for local founder validation. Prisma, auth, onboarding, dynamic roadmaps, AI evaluation, and source ingestion remain deferred.
+
+Founder Beta onboarding initialization preview update:
+
+- Added a local-only onboarding initialization preview section to `/founder-beta`.
+- The preview accepts available minutes, day mode, weak areas, and manual readiness estimates.
+- The preview reuses the existing founder beta progress adapter and facade to derive a Today Plan preview without saving, overwriting, Prisma, auth, AI, scraping, or dynamic roadmap generation.
+- The preview is clearly labeled `Preview only. Does not overwrite saved progress.`
+
+Founder Beta onboarding save confirmation update:
+
+- Added explicit `Save onboarding progress` behavior for the onboarding initialization preview when no saved local progress exists.
+- Added overwrite protection when saved `founder-local` progress exists; onboarding preview now requires explicit confirmation before replacing saved local progress.
+- Confirmation copy states: `This will replace your saved local Founder Beta progress. Today Plan and readiness will be recalculated.`
+- Onboarding preview saves only normalized progress input through the existing progress persistence route/service; Today Plan, readiness, gates, and missions remain derived.
 
 ## Completed Phases
 
@@ -383,7 +448,7 @@ Current QA contract status: `npm run test:quality` passes. Phase 44 and Phase 45
 
 Production readiness verdict: not ready for production deployment. The app is ready for controlled local/internal alpha only. Beta remains blocked by production auth, database-backed user state, deployment observability, backup/restore planning, Playwright/visual QA, calibrated evaluator reports, and hardened safe code execution.
 
-Next recommended phase: continue Phases 52-56 hardening. Highest priorities are real auth provider implementation, managed Postgres migration execution, external monitoring provider wiring, onboarding/progress API-client adoption, and one full founder manual testing week.
+Next recommended phase: Founder Beta Onboarding Validation Review and Initialization Integration Planning. Real auth provider implementation, managed Postgres migration execution, external monitoring, dynamic roadmaps, AI evaluation, source ingestion runtime, and multi-user SaaS remain deferred until the founder beta local workflow is validated.
 
 ## Phase 57 Founder Success UX
 

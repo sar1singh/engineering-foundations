@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 
 import {
+  FileFounderBetaProgressRepository,
   FOUNDER_BETA_LOCAL_USER_ID,
   InMemoryFounderBetaProgressRepository
 } from "@/lib/repositories/founder-beta-progress-repository";
@@ -98,6 +102,25 @@ describe("FounderBetaProgressPersistenceService", () => {
     expect(result.progress.dayMode).toBe("weekend");
   });
 
+  it("clears saved progress without persisting derived output", async () => {
+    const service = createService();
+
+    await service.saveFounderBetaProgress({
+      completedMissionIds: ["mission-practice-api-design"],
+      manualReadinessScores: {
+        architectReadiness: 80
+      }
+    });
+
+    await service.clearFounderBetaProgress();
+    const loaded = await service.getStoredFounderBetaProgress();
+    const plan = await service.getFounderBetaPlanFromPersistedProgress();
+
+    expect(loaded).toBeNull();
+    expect(plan.normalizedInput.completedMissionIds).toEqual([]);
+    expect(plan.readinessSnapshot.architectReadiness).toBe(0);
+  });
+
   it("derives facade output from loaded progress instead of persisting it", async () => {
     const service = createService();
 
@@ -130,6 +153,56 @@ describe("FounderBetaProgressPersistenceService", () => {
   });
 });
 
+describe("FileFounderBetaProgressRepository", () => {
+  it("returns null when the progress file is missing", async () => {
+    const repository = new FileFounderBetaProgressRepository(await createTempProgressPath());
+
+    await expect(repository.getProgress(FOUNDER_BETA_LOCAL_USER_ID)).resolves.toBeNull();
+  });
+
+  it("falls back safely when the progress file is malformed", async () => {
+    const filePath = await createTempProgressPath();
+    await writeFile(filePath, "{", "utf8");
+    const repository = new FileFounderBetaProgressRepository(filePath);
+
+    await expect(repository.getProgress(FOUNDER_BETA_LOCAL_USER_ID)).resolves.toBeNull();
+  });
+
+  it("migrates a missing schema version to the current schema version", async () => {
+    const filePath = await createTempProgressPath();
+    await writeFile(
+      filePath,
+      JSON.stringify({
+        progressByUserId: {
+          [FOUNDER_BETA_LOCAL_USER_ID]: {
+            userId: FOUNDER_BETA_LOCAL_USER_ID,
+            completedMissionIds: ["mission-practice-api-design"],
+            manualReadinessScores: {
+              architectReadiness: 80
+            },
+            proofScores: {},
+            dayMode: "weekend",
+            preferredMissionTypes: ["learn"]
+          }
+        }
+      }),
+      "utf8"
+    );
+    const repository = new FileFounderBetaProgressRepository(filePath);
+
+    const progress = await repository.getProgress(FOUNDER_BETA_LOCAL_USER_ID);
+
+    expect(progress?.schemaVersion).toBe(1);
+    expect(progress?.completedMissionIds).toEqual(["mission-practice-api-design"]);
+    expect(progress?.dayMode).toBe("weekend");
+  });
+});
+
 function createService() {
   return new FounderBetaProgressPersistenceService(new InMemoryFounderBetaProgressRepository());
+}
+
+async function createTempProgressPath(): Promise<string> {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "founder-beta-progress-"));
+  return path.join(directory, "progress.json");
 }
