@@ -107,5 +107,45 @@ export const founderBetaOfferReadinessSignals: OfferReadinessSignal[] = [
     readinessArea: "compensation",
     status: "in-progress",
     notes: "Floor: 60 LPA. Target: 70-80 LPA. Stretch: 90+ LPA."
+  },
+  {
+    id: "signal-technical-readiness",
+    label: "Technical Readiness",
+    readinessArea: "technical",
+    threshold: 70,
+    status: "in-progress",
+    notes: "Covers DSA, distributed systems, cloud patterns, and low-level design depth."
+  },
+  {
+    id: "signal-leadership-readiness",
+    label: "Leadership Readiness",
+    readinessArea: "leadership",
+    threshold: 60,
+    status: "in-progress",
+    notes: "Requires stories of influence, mentoring, org-wide impact, and technical strategy."
+  },
+  {
+    id: "signal-communication-readiness",
+    label: "Communication Readiness",
+    readinessArea: "communication",
+    threshold: 60,
+    status: "in-progress",
+    notes: "Requires written proposal samples and verbal presentation readiness for stakeholder contexts."
+  },
+  {
+    id: "signal-architecture-readiness",
+    label: "Architecture Readiness",
+    readinessArea: "architecture",
+    threshold: 65,
+    status: "in-progress",
+    notes: "Requires trade-off articulation, design patterns, and scalability reasoning."
+  },
+  {
+    id: "signal-project-depth-readiness",
+    label: "Project Depth Readiness",
+    readinessArea: "project-depth",
+    threshold: 60,
+    status: "in-progress",
+    notes: "Requires deep domain context and measurable impact narratives from significant projects."
   }
 ];

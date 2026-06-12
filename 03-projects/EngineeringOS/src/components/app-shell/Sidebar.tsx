@@ -8,14 +8,17 @@ import {
   Brain,
   ChevronDown,
   Compass,
+  FileText,
   Gauge,
   GitBranch,
+  Globe,
   GraduationCap,
   LayoutDashboard,
   Library,
   ListChecks,
   LogIn,
   MessageSquareText,
+  Search,
   Settings,
   ShieldCheck,
   SlidersHorizontal,
@@ -38,6 +41,9 @@ const navGroups = [
     items: [
       { label: "Today", href: "/today", icon: Sparkles },
       { label: "Founder Beta", href: "/founder-beta", icon: Sparkles },
+      { label: "Ingestion Preview", href: "/founder-beta/ingestion-preview", icon: FileText },
+      { label: "Agent Discovery", href: "/founder-beta/agent-discovery-preview", icon: Search },
+      { label: "Runtime Fetch", href: "/founder-beta/runtime-fetch-preview", icon: Globe },
       { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
       { label: "Progress", href: "/progress", icon: BarChart3 },
       { label: "Weak Areas", href: "/weak-areas", icon: ListChecks }
@@ -57,6 +63,7 @@ const navGroups = [
     items: [
       { label: "Practice Lab", href: "/practice/implement-counter-with-closure", icon: BookOpen },
       { label: "Interview Rounds", href: "/interview-rounds", icon: MessageSquareText },
+      { label: "Interview Simulator", href: "/founder-beta/interview", icon: MessageSquareText },
       { label: "Answer Builders", href: "/answer-builders", icon: Wrench }
     ]
   },

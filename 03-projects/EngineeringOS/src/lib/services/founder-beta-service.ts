@@ -10,7 +10,7 @@ import {
   founderBetaSourceCatalog,
   founderBetaTopicSourceMappings
 } from "@/data/founder-beta";
-import type { MissionType } from "@/types/founder-beta";
+import type { MissionType, SourceReference, SourceTier } from "@/types/founder-beta";
 
 export class FounderBetaService {
   getFounderBetaPath() {
@@ -31,6 +31,10 @@ export class FounderBetaService {
 
   getFounderBetaTopics() {
     return founderBetaMasterTopics;
+  }
+
+  getFounderBetaSkills() {
+    return founderBetaSkills;
   }
 
   getTopicById(id: string) {
@@ -69,6 +73,14 @@ export class FounderBetaService {
     return founderBetaDailyMissions.filter((mission) => mission.missionType === type);
   }
 
+  getMissionsByTopicId(topicId: string) {
+    return founderBetaDailyMissions.filter((mission) => mission.topicId === topicId);
+  }
+
+  getSkillById(id: string) {
+    return founderBetaSkills.find((skill) => skill.id === id) ?? null;
+  }
+
   getReadinessRules() {
     return founderBetaReadinessRules;
   }
@@ -88,6 +100,39 @@ export class FounderBetaService {
 
   getOfferReadinessSignals() {
     return founderBetaOfferReadinessSignals;
+  }
+
+  // ── Phase 6B: Resource / Source Navigation Helpers ──
+
+  getTopicsForSource(sourceId: string) {
+    return founderBetaMasterTopics.filter((topic) => topic.sourceIds.includes(sourceId));
+  }
+
+  getSourcesByCapability(capabilityId: string): SourceReference[] {
+    const topicIds = founderBetaMasterTopics
+      .filter((topic) => topic.capabilityIds.includes(capabilityId))
+      .flatMap((topic) => topic.sourceIds);
+    const uniqueSourceIds = [...new Set(topicIds)];
+    return uniqueSourceIds
+      .map((id) => founderBetaSourceCatalog.find((s) => s.id === id))
+      .filter((s): s is SourceReference => s !== undefined);
+  }
+
+  getSourcesByCategory(category: string): SourceReference[] {
+    return founderBetaSourceCatalog.filter((source) => source.category === category);
+  }
+
+  getHighPrioritySources(tier?: SourceTier): SourceReference[] {
+    const targetTier = tier ?? "tier-1";
+    return founderBetaSourceCatalog.filter((source) => source.tier === targetTier);
+  }
+
+  getSourceCategories(): string[] {
+    return [...new Set(founderBetaSourceCatalog.map((s) => s.category))].sort();
+  }
+
+  getAllSources(): SourceReference[] {
+    return founderBetaSourceCatalog;
   }
 }
 

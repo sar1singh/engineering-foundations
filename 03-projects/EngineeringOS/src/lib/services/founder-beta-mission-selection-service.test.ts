@@ -38,7 +38,7 @@ describe("FounderBetaMissionSelectionService", () => {
     expect(optionalMissions.length).toBeLessThanOrEqual(2);
     expect(optionalMissions.map((mission) => mission.id)).toEqual([
       "mission-interview-caching-tradeoffs",
-      "mission-behavioral-star-ownership"
+      "mission-behavioral-failure-story"
     ]);
   });
 
@@ -49,7 +49,26 @@ describe("FounderBetaMissionSelectionService", () => {
       "mission-learn-aws-well-architected",
       "mission-interview-caching-tradeoffs",
       "mission-behavioral-star-ownership",
-      "mission-career-resume-positioning"
+      "mission-career-resume-positioning",
+      "mission-practice-js-closures-scope",
+      "mission-practice-js-event-loop",
+      "mission-practice-secure-api-review",
+      "mission-learn-container-security-review",
+      "mission-practice-slo-error-budget",
+      "mission-practice-incident-review",
+      "mission-practice-cost-optimization",
+      "mission-behavioral-conflict-resolution",
+      "mission-behavioral-story-tailoring",
+      "mission-behavioral-follow-up-prep",
+      "mission-behavioral-failure-story",
+      "mission-career-personal-brand-audit",
+      "mission-behavioral-staff-scope",
+      "mission-resume-impact-review",
+      "mission-leadership-story-depth",
+      "mission-stakeholder-communication",
+      "mission-project-depth-narrative",
+      "mission-technical-deep-dive",
+      "mission-architecture-tradeoff-analysis"
     ]);
   });
 

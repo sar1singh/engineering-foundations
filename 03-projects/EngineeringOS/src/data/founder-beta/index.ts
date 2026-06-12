@@ -10,3 +10,6 @@ export {
   topicReadinessWeights
 } from "@/data/founder-beta/readiness-rules";
 export { founderBetaSourceCatalog } from "@/data/founder-beta/source-catalog";
+export { dsaSkills } from "@/data/founder-beta/dsa-skills";
+export { dsaProblemBank } from "@/data/founder-beta/dsa-problem-bank";
+export { MOCK_INGESTION_CANDIDATES } from "@/data/founder-beta/ingestion-mock-candidates";

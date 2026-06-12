@@ -36,7 +36,7 @@ describe("FounderBetaFacadeService", () => {
     expect(result.normalizedInput.completedTopicIds).toEqual(["topic-api-design"]);
     expect(result.normalizedInput.availableMinutes).toBe(90);
     expect(result.normalizedInput.dayMode).toBe("weekend");
-    expect(result.todayPlan.primaryMission?.id).toBe("mission-implement-rate-limiter");
+    expect(result.todayPlan.primaryMission?.id).toBe("mission-arch-vpc-tgw-review");
   });
 
   it("returns warnings for unknown IDs", () => {

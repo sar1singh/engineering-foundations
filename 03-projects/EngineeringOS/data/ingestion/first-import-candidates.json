@@ -1,0 +1,112 @@
+[
+  {
+    "candidateUrl": "https://www.confluent.io/blog/event-driven-architecture-patterns/",
+    "candidateId": "candidate-001",
+    "title": "Event-Driven Architecture Patterns",
+    "sourceType": "engineering-blog",
+    "category": "Distributed Systems",
+    "description": "Comprehensive guide to event-driven architecture patterns including event sourcing, CQRS, and saga orchestration.",
+    "tier": "tier-1",
+    "reliability": "high",
+    "overrideDuplicateRisk": false
+  },
+  {
+    "candidateUrl": "https://aws.amazon.com/blogs/architecture/",
+    "candidateId": "candidate-002",
+    "title": "AWS Architecture Blog",
+    "sourceType": "engineering-blog",
+    "category": "AWS / Cloud Architecture",
+    "description": "Official AWS architecture blog with real-world case studies and architectural patterns.",
+    "tier": "tier-1",
+    "reliability": "high",
+    "overrideDuplicateRisk": true
+  },
+  {
+    "candidateUrl": "https://github.com/donnemartin/system-design-primer",
+    "candidateId": "candidate-003",
+    "title": "System Design Primer",
+    "sourceType": "github-repository",
+    "category": "System Design",
+    "description": "Comprehensive system design resource covering scalability, load balancing, caching, and data partitioning.",
+    "tier": "tier-1",
+    "reliability": "high",
+    "overrideDuplicateRisk": false
+  },
+  {
+    "candidateUrl": "https://martinfowler.com/articles/microservices.html",
+    "candidateId": "candidate-004",
+    "title": "Microservices Guide by Martin Fowler",
+    "sourceType": "engineering-blog",
+    "category": "Distributed Systems",
+    "description": "In-depth analysis of microservices architecture, trade-offs, and organizational implications.",
+    "tier": "tier-1",
+    "reliability": "high",
+    "overrideDuplicateRisk": false
+  },
+  {
+    "candidateUrl": "https://www.infoq.com/articles/architecting-for-scale/",
+    "candidateId": "candidate-005",
+    "title": "Architecting for Scale",
+    "sourceType": "engineering-blog",
+    "category": "System Design",
+    "description": "Principles of building scalable systems: horizontal scaling, database sharding, and async processing.",
+    "tier": "tier-2",
+    "reliability": "medium",
+    "overrideDuplicateRisk": false
+  },
+  {
+    "candidateUrl": "https://cloud.google.com/architecture/security-foundations",
+    "candidateId": "candidate-006",
+    "title": "Google Cloud Security Foundations Guide",
+    "sourceType": "official-docs",
+    "category": "Cloud Security",
+    "description": "Google Cloud security best practices covering identity, network security, data protection, and compliance.",
+    "tier": "tier-1",
+    "reliability": "high",
+    "overrideDuplicateRisk": false
+  },
+  {
+    "candidateUrl": "https://www.youtube.com/playlist?list=PLQnljOFTspQVMeBmWI2CxW4bL7P8yCPvD",
+    "candidateId": "candidate-007",
+    "title": "Distributed Systems Lecture Series",
+    "sourceType": "engineering-blog",
+    "category": "Distributed Systems",
+    "description": "Video lecture series on distributed systems fundamentals: consensus, replication, and fault tolerance.",
+    "tier": "tier-2",
+    "reliability": "high",
+    "overrideDuplicateRisk": false
+  },
+  {
+    "candidateUrl": "https://www.oreilly.com/library/view/software-architecture-hard/9781492086888/",
+    "candidateId": "candidate-008",
+    "title": "Software Architecture: The Hard Parts",
+    "sourceType": "book",
+    "category": "Software Architecture",
+    "description": "Modern trade-off analysis for distributed architecture decisions including data ownership, consistency, and coupling.",
+    "tier": "tier-1",
+    "reliability": "high",
+    "overrideDuplicateRisk": false
+  },
+  {
+    "candidateUrl": "https://developer.mozilla.org/en-US/docs/Web/Performance",
+    "candidateId": "candidate-009",
+    "title": "MDN Web Performance Guide",
+    "sourceType": "official-docs",
+    "category": "Web Performance",
+    "description": "Comprehensive documentation on web performance optimization, metrics, and best practices.",
+    "tier": "tier-1",
+    "reliability": "high",
+    "overrideDuplicateRisk": true
+  },
+  {
+    "candidateUrl": "https://www.manning.com/books/event-driven-microservices",
+    "candidateId": "candidate-010",
+    "title": "Event-Driven Microservices",
+    "sourceType": "book",
+    "category": "Distributed Systems",
+    "description": "Hands-on guide to building event-driven microservices with Kafka, Kubernetes, and cloud-native patterns.",
+    "tier": "tier-2",
+    "reliability": "medium",
+    "overrideDuplicateRisk": false
+  }
+]

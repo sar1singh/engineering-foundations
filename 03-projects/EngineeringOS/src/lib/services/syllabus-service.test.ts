@@ -330,7 +330,14 @@ describe("SyllabusService", () => {
       "Feed System HLD",
       "Booking System HLD",
       "Payment System HLD",
-      "Notification System HLD"
+      "Notification System HLD",
+      "Search and Autocomplete HLD",
+      "File Storage HLD",
+      "Metrics and Observability HLD",
+      "Ecommerce Checkout HLD",
+      "Ride Sharing HLD",
+      "Video Streaming HLD",
+      "Distributed Rate Limiter HLD"
     ]);
     for (const topic of caseStudies) {
       expect(topic.theory).toContain("AWS deployment variant");
@@ -345,7 +352,7 @@ describe("SyllabusService", () => {
 
     expect(topics.map((topic) => topic.title)).toContain("Multi-AZ Architecture");
     expect(topics.map((topic) => topic.title)).toContain("Cost Optimization");
-    expect(topics).toHaveLength(12);
+    expect(topics).toHaveLength(13);
     for (const topic of topics) {
       expect(topic.references.map((reference) => reference.title)).toContain("AWS Well-Architected Framework");
       expect(topic.references.map((reference) => reference.title)).toContain("AWS Architecture Center");
