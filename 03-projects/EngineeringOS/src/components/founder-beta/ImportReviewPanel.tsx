@@ -9,6 +9,7 @@ import {
   generateApplicationPlan,
   summarizeImportPackage,
 } from "@/lib/services/import-review-service";
+import { generateCanonicalPatchProposal, serializeCanonicalPatchProposal } from "@/lib/services/canonical-graph-patch-service";
 import type { ApprovedImportPackage, ImportReviewItem } from "@/types/import-review";
 import type { ApprovedImportCandidate } from "@/types/ingestion-patch";
 import type { PatchEntry } from "@/types/ingestion-patch";
@@ -146,6 +147,11 @@ export function ImportReviewPanel({
 
   const plan = useMemo(
     () => (pkg ? generateApplicationPlan(pkg) : null),
+    [pkg]
+  );
+
+  const proposal = useMemo(
+    () => (pkg && pkg.approvedEntries.length > 0 ? generateCanonicalPatchProposal(pkg) : null),
     [pkg]
   );
 
@@ -303,6 +309,87 @@ export function ImportReviewPanel({
               </ul>
             </div>
           ) : null}
+        </div>
+      ) : null}
+
+      {proposal ? (
+        <div className="rounded-lg border border-indigo-200 bg-white p-4 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="text-sm font-semibold text-gray-900">
+              Canonical Patch Proposal
+            </h3>
+            <span className="rounded bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">
+              {proposal.review.approvalStatus}
+            </span>
+          </div>
+          <p className="mt-1 text-xs font-medium text-amber-700">
+            Human review required before graph update.
+          </p>
+
+          <div className="mt-3 grid gap-3 sm:grid-cols-4">
+            <div className="rounded border border-gray-200 bg-gray-50 p-2">
+              <p className="text-[10px] text-gray-500">Sources</p>
+              <p className="text-lg font-bold text-gray-900">{proposal.summary.sourceAdds}</p>
+            </div>
+            <div className="rounded border border-gray-200 bg-gray-50 p-2">
+              <p className="text-[10px] text-gray-500">Topics</p>
+              <p className="text-lg font-bold text-gray-900">{proposal.summary.topicAdds}</p>
+            </div>
+            <div className="rounded border border-gray-200 bg-gray-50 p-2">
+              <p className="text-[10px] text-gray-500">Conflicts</p>
+              <p className="text-lg font-bold text-gray-900">{proposal.summary.conflictCount}</p>
+            </div>
+            <div className="rounded border border-gray-200 bg-gray-50 p-2">
+              <p className="text-[10px] text-gray-500">Missions</p>
+              <p className="text-lg font-bold text-gray-900">{proposal.summary.affectedMissionIds.length}</p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div>
+              <p className="text-xs font-medium text-gray-500">Sources</p>
+              {proposal.entries.filter((entry) => entry.type === "source").map((entry) => (
+                <p key={entry.entryId} className="mt-1 text-xs text-gray-700">
+                  {entry.source.title} ({entry.entryId})
+                </p>
+              ))}
+            </div>
+            <div>
+              <p className="text-xs font-medium text-gray-500">Topics</p>
+              {proposal.entries.filter((entry) => entry.type === "topic").map((entry) => (
+                <p key={entry.entryId} className="mt-1 text-xs text-gray-700">
+                  {entry.topic.name} ({entry.entryId})
+                </p>
+              ))}
+            </div>
+          </div>
+
+          {proposal.summary.affectedCapabilityIds.length > 0 || proposal.summary.affectedSkillIds.length > 0 ? (
+            <div className="mt-4">
+              <p className="text-xs font-medium text-gray-500">Graph Impact</p>
+              <p className="mt-1 text-xs text-gray-700">
+                Capabilities: {proposal.summary.affectedCapabilityIds.join(", ") || "none"}
+              </p>
+              <p className="mt-1 text-xs text-gray-700">
+                Skills: {proposal.summary.affectedSkillIds.join(", ") || "none"}
+              </p>
+            </div>
+          ) : null}
+
+          {proposal.conflicts.length > 0 ? (
+            <div className="mt-4 rounded border border-red-200 bg-red-50 p-2">
+              <p className="text-xs font-semibold text-red-700">Conflicts</p>
+              {proposal.conflicts.map((item, index) => (
+                <p key={`${item.entryId}-${item.field}-${index}`} className="mt-1 text-xs text-red-600">
+                  [{item.severity}] {item.message}
+                </p>
+              ))}
+            </div>
+          ) : null}
+
+          <pre className="mt-4 max-h-72 overflow-auto rounded bg-gray-900 p-3 text-[11px] text-green-300">
+            {serializeCanonicalPatchProposal(proposal)}
+          </pre>
         </div>
       ) : null}
 

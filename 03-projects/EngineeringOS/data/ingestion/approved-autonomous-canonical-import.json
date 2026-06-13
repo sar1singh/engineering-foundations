@@ -1,0 +1,178 @@
+{
+  "id": "autonomous-approved-import-pack-12d",
+  "title": "Pack 12D First Autonomous Approved Canonical Import",
+  "description": "Three autonomous discovery candidates approved by human review for canonical graph insertion. All entries validated through the autonomous discovery pipeline, review bridge, batch patch output, and canonical graph apply services.",
+  "approvedAt": "2026-06-13T12:00:00.000Z",
+  "approvedBy": "sarwan",
+  "candidates": [
+    {
+      "candidateId": "aws:seed-aws-eventbridge-pipes",
+      "sourceAgent": "aws-discovery-agent",
+      "seedId": "seed-aws-eventbridge-pipes",
+      "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html",
+      "title": "Amazon EventBridge Pipes",
+      "sourceType": "official-docs",
+      "category": "AWS / Cloud Architecture",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "aws-eventbridge-pipes",
+      "proposedTopicId": "topic-aws-eventbridge-pipes",
+      "proposedTopicName": "AWS EventBridge Pipes",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Amazon EventBridge Pipes is a specific AWS integration pattern not covered by the existing generic EventBridge docs source. Adds practical EDA implementation guidance for the Architect path.",
+      "humanApprovalEvidence": [
+        "URL is official AWS documentation (docs.aws.amazon.com)",
+        "No existing catalog source covers EventBridge Pipes specifically",
+        "Adds to cap-aws-cloud-architecture, a primary architect capability",
+        "SourceType official-docs aligns with tier-1 reliability standards",
+        "No duplicate URL or source ID detected against current catalog"
+      ]
+    },
+    {
+      "candidateId": "backend:seed-backend-grpc-concepts",
+      "sourceAgent": "backend-discovery-agent",
+      "seedId": "seed-backend-grpc-concepts",
+      "url": "https://grpc.io/docs/what-is-grpc/core-concepts/",
+      "title": "gRPC Core Concepts",
+      "sourceType": "official-docs",
+      "category": "Backend Engineering",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "grpc-core-concepts",
+      "proposedTopicId": "topic-grpc-core-concepts",
+      "proposedTopicName": "gRPC Core Concepts",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Existing grpc-docs source provides general documentation entry point, but core concepts page is the definitive reference for gRPC contract-first API design. No dedicated gRPC topic exists in the syllabus.",
+      "humanApprovalEvidence": [
+        "URL is official gRPC documentation (grpc.io)",
+        "Existing source grpc-docs covers general docs, not core concepts specifically",
+        "No gRPC topic exists in master topics — this fills a known gap",
+        "Covers cap-low-level-design and cap-node-backend, both architect-relevant",
+        "Source type official-docs with tier-1 classification"
+      ]
+    },
+    {
+      "candidateId": "backend:seed-backend-nodejs-diagnostics",
+      "sourceAgent": "backend-discovery-agent",
+      "seedId": "seed-backend-nodejs-diagnostics",
+      "url": "https://nodejs.org/en/learn/diagnostics",
+      "title": "Node.js Diagnostics Guide",
+      "sourceType": "official-docs",
+      "category": "Backend Engineering",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "nodejs-diagnostics-guide",
+      "proposedTopicId": "topic-nodejs-diagnostics",
+      "proposedTopicName": "Node.js Diagnostics & Production Observability",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Official Node.js diagnostics guide covering production debugging, profiling, and observability. Complements the existing node-testing source and fills a Node.js production observability topic gap.",
+      "humanApprovalEvidence": [
+        "URL is official Node.js documentation (nodejs.org)",
+        "No existing source covers Node.js diagnostics specifically",
+        "Existing node-testing source covers testing only, not diagnostics",
+        "cap-node-backend is a primary architect capability with skill-node-observability",
+        "Source type official-docs with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ]
+    }
+  ],
+  "entries": {
+    "sources": [
+      {
+        "type": "source",
+        "operation": "add",
+        "sourceId": "aws-eventbridge-pipes",
+        "title": "Amazon EventBridge Pipes",
+        "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html",
+        "sourceType": "official-docs",
+        "category": "AWS / Cloud Architecture",
+        "tier": "tier-1",
+        "reliability": "high",
+        "founderBetaRelevance": "EventBridge Pipes provides point-to-point integration between event sources and targets with optional filtering and enrichment, a key serverless integration pattern for AWS architects."
+      },
+      {
+        "type": "source",
+        "operation": "add",
+        "sourceId": "grpc-core-concepts",
+        "title": "gRPC Core Concepts",
+        "url": "https://grpc.io/docs/what-is-grpc/core-concepts/",
+        "sourceType": "official-docs",
+        "category": "Backend Engineering",
+        "tier": "tier-1",
+        "reliability": "high",
+        "founderBetaRelevance": "gRPC core concepts including service definitions, message types, RPC lifecycle, streaming, and HTTP/2 transport — essential for API contract design and inter-service communication patterns."
+      },
+      {
+        "type": "source",
+        "operation": "add",
+        "sourceId": "nodejs-diagnostics-guide",
+        "title": "Node.js Diagnostics Guide",
+        "url": "https://nodejs.org/en/learn/diagnostics",
+        "sourceType": "official-docs",
+        "category": "Backend Engineering",
+        "tier": "tier-1",
+        "reliability": "high",
+        "founderBetaRelevance": "Official Node.js diagnostics guide covering debugging, profiling, memory analysis, performance monitoring, and production troubleshooting for Node.js applications."
+      }
+    ],
+    "topics": [
+      {
+        "type": "topic",
+        "operation": "add",
+        "topicId": "topic-aws-eventbridge-pipes",
+        "topicName": "AWS EventBridge Pipes",
+        "domainId": "domain-aws-cloud",
+        "capabilityIds": ["cap-aws-cloud-architecture"],
+        "skillIds": ["skill-aws-data-messaging"],
+        "sourceIds": ["aws-eventbridge-pipes", "aws-eventbridge-docs"],
+        "description": "EventBridge Pipes enables point-to-point event integration between sources (SQS, DynamoDB Streams, Kinesis) and targets with optional filtering, enrichment, and transformation — a core serverless integration pattern."
+      },
+      {
+        "type": "topic",
+        "operation": "add",
+        "topicId": "topic-grpc-core-concepts",
+        "topicName": "gRPC Core Concepts",
+        "domainId": "domain-lld",
+        "capabilityIds": ["cap-low-level-design", "cap-node-backend"],
+        "skillIds": ["skill-lld-api-modeling", "skill-api-contract-design"],
+        "sourceIds": ["grpc-core-concepts", "grpc-docs"],
+        "description": "gRPC is a high-performance RPC framework using Protocol Buffers and HTTP/2. Core concepts include service definitions, unary/server-streaming/client-streaming/bidirectional-streaming RPCs, deadlines, metadata, and authentication."
+      },
+      {
+        "type": "topic",
+        "operation": "add",
+        "topicId": "topic-nodejs-diagnostics",
+        "topicName": "Node.js Diagnostics & Production Observability",
+        "domainId": "domain-nodejs",
+        "capabilityIds": ["cap-node-backend"],
+        "skillIds": ["skill-node-observability"],
+        "sourceIds": ["nodejs-diagnostics-guide"],
+        "description": "Node.js diagnostics covers production debugging, CPU profiling, heap analysis, memory leak detection, async trace debugging, and performance monitoring using built-in tools like inspector, trace events, and diagnostic reports."
+      }
+    ]
+  },
+  "graphChanges": {
+    "sourcesToAdd": ["aws-eventbridge-pipes", "grpc-core-concepts", "nodejs-diagnostics-guide"],
+    "topicsToAdd": ["topic-aws-eventbridge-pipes", "topic-grpc-core-concepts", "topic-nodejs-diagnostics"],
+    "filesToUpdate": ["src/data/founder-beta/source-catalog.ts", "src/data/founder-beta/master-topics.ts"]
+  },
+  "rollbackNotes": [
+    "Remove source \"aws-eventbridge-pipes\" from source catalog.",
+    "Remove source \"grpc-core-concepts\" from source catalog.",
+    "Remove source \"nodejs-diagnostics-guide\" from source catalog.",
+    "Remove topic \"topic-aws-eventbridge-pipes\" from master topics.",
+    "Remove topic \"topic-grpc-core-concepts\" from master topics.",
+    "Remove topic \"topic-nodejs-diagnostics\" from master topics.",
+    "Re-run graph integrity tests after rollback.",
+    "Source count reverts from 225 to 222, topic count from 259 to 256."
+  ],
+  "verificationChecks": [
+    "Proposed source IDs do not conflict with existing source catalog IDs.",
+    "Proposed topic IDs do not conflict with existing master topic IDs.",
+    "Proposed URLs do not exactly match any existing catalog URL.",
+    "All capability IDs reference valid capabilities.",
+    "All skill IDs reference valid skills.",
+    "All topic sourceIds include at least the newly imported source.",
+    "Related topics reference topics that exist in the master topics list."
+  ]
+}

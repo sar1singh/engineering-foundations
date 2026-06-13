@@ -1,6 +1,6 @@
 # EngineeringOS Master Continuation Context
 
-Date: 2026-06-12 (Packs 8A-8D, 9A-9E, 10A-10I, 11A, 11B, 11C, 11D, 11E complete)
+Date: 2026-06-13 (Packs 8A-8D, 9A-9E, 10A-10I, 11A-11I, 12A-12F, 13A complete)
 
 ## Purpose
 
@@ -17,7 +17,7 @@ Maintenance rule:
 
 Current phase:
 
-- **STATUS: PACKS 8A-8D, 9A-9E, 10A-10I, 11A, 11B, 11C, 11D, 11E COMPLETE** (2026-06-12)
+- **STATUS: PACKS 8A-8D, 9A-9E, 10A-10I, 11A-11I, 12A-12F, 13A COMPLETE** (2026-06-13)
 - All V2 Foundation phases (1 through 8G) and Roadmap Pack 1 (DSA + JS Internals + Node.js Depth), Roadmap Pack 2 (System Design + LLD + Architecture Case Studies), and Roadmap Pack 3 (Security + Testing/QA + Containerization/Docker + Real-Time Systems) are complete.
 - **Roadmap Pack 1 — DSA + JS Internals + Node.js Depth (completed 2026-06-10):** added 6 sources (v8-docs, js-you-dont-know-js, js-javascript-info, vitest-docs, typescript-docs, node-testing), 4 skills under cap-node-backend (skill-js-language-core, skill-js-async-programming, skill-js-testing-frameworks, skill-node-advanced-runtime), 22 topics (7 JS Language Core, 3 JS Async, 3 JS Testing, 7 Node Advanced Runtime, 2 TypeScript), 3 missions (JS closures practice, JS event loop trace, Worker thread pool). Fixed pre-existing nonexistent topic references (topic-websockets, topic-geohashing). Updated typecheck/lint counts (0 errors/19 pre-existing warnings).
 - **Roadmap Pack 2 — System Design + LLD + Architecture Case Studies (completed 2026-06-10):** added 6 sources (ddd-strategic-design, db-migration-patterns, resilience4j-patterns, architecture-decision-records, engineering-blog-real-time, distributed-systems-patterns), 25 topics (3 DDD, 3 Resilience Patterns, 6 Advanced System Design, 4 LLD/API Deep, 2 Observability in Design, 7 System Design Case Studies, 2 Architecture Governance), 4 missions (domain modeling, circuit breaker, URL shortener HLD, monitoring system case study). No new skills needed. Fixed nonexistent source reference (aws-dms-docs → aws-builders-library). Updated content-registry GATE 5, knowledge-integrity, and founder-beta-service tests.
@@ -47,12 +47,14 @@ Current phase:
 - **Pack 11C — Multi-Agent Discovery Queue & Batch Processing (2026-06-12):** created `src/types/runtime-discovery-queue.ts` — `RuntimeDiscoveryQueueItem`, `RuntimeDiscoveryQueueStatus` (queued, running, completed, failed, duplicate-risk, review-required), `RuntimeDiscoveryBatchRequest`, `RuntimeDiscoveryBatchResult`, `RuntimeDiscoveryQueueSummary`. Created `src/lib/services/runtime-discovery-queue-service.ts` — `validateBatchInput()` (max 5 URLs, no duplicates, valid http(s) format), `createQueueFromUrls()`, `processQueueItem()` (runs `runRuntimeSubAgentPipeline` per URL, maps result to status), `processDiscoveryQueue()` (sequential batch processing, no parallelism), `summarizeQueue()`, `resetQueueItem()`. Created `src/components/founder-beta/RuntimeDiscoveryQueuePanel.tsx` — textarea for entering up to 5 URLs, submittedBy/sourceType/consent controls, Run Batch / Reset buttons, per-item expandable status cards with pipeline mini-view and result details, summary bar showing counts by status. Updated `DiscoveryAgentPreview.tsx` — added `<hr>` separator and `<RuntimeDiscoveryQueuePanel />` below the single-URL form. Updated `DiscoveryAgentPreview.test.tsx` — fixed test selectors for duplicate form controls (getAllByDisplayValue). 22 new queue service tests (8 validateBatchInput, 2 createQueueFromUrls, 3 processQueueItem, 5 processDiscoveryQueue, 2 summarizeQueue, 2 resetQueueItem). Typecheck 0 errors, lint 0 errors, 1020 pass / 8 pre-existing Playwright E2E infra failures / 15 pre-existing test failures. 0 regressions.
 - **Pack 11D — Multi-Agent Review Queue Integration + Approved Batch Patch Preview (2026-06-12):** created `src/lib/services/runtime-discovery-review-bridge.ts` — `extractReviewableCandidatesFromBatch()` (filters review-required items only), `convertQueueItemToImportReviewItem()` (maps queue item to ApprovedImportCandidate for patch generator), `createBatchImportReviewPackage()` (generates patch via `generatePatchFromApprovedCandidates`, wraps in `createImportReviewPackage`), `generateBatchPatchPreview()` (generates ImportPatch without review package wrapper), `summarizeBatchReviewBridge()` (counts reviewable/excluded/override stats), `summarizeBatchReviewPackage()` (delegates to `summarizeImportPackage`). Rules enforced: only completed/review-required items enter review, failed/blocked items excluded, duplicate-risk items require explicit `overrideDuplicateRisk` flag, every item remains human approval required, no writes. Updated `RuntimeDiscoveryQueuePanel.tsx` — added `BatchReviewSection` child component showing bridge summary (reviewable count, excluded failed/duplicate-risk/not-processed), override checkbox for duplicate-risk items, "Send Completed to Import Review" button, import review package preview with entry/pending/approved counts, conflicts display, patch preview JSON, no-write warning. Created `src/lib/services/runtime-discovery-review-bridge.test.ts` — 23 tests covering extractReviewableCandidatesFromBatch (5), convertQueueItemToImportReviewItem (4), summarizeBatchReviewBridge (4), createBatchImportReviewPackage (4), generateBatchPatchPreview (4), summarizeBatchReviewPackage (2). Typecheck 0 errors, lint 0 errors, 1043 pass (23 new) / 8 pre-existing Playwright E2E infra failures / 15 pre-existing test failures. 0 regressions.
 - **Pack 11E — Approved Batch Import Patch Application (2026-06-12):** created `src/lib/services/approved-batch-patch-output-service.ts` — `createApprovedBatchPatch()` (filters approved entries from `ApprovedImportPackage`, produces full output with rollback notes, warnings, conflicts, and summary), `validateApprovedBatchPatch()` (validates output structure and errors/warnings), `serializeApprovedBatchPatch()` (deterministic JSON serialization), `createPatchOutputFilename()` (returns `approved-batch-import-patch.preview.json`), `summarizeApprovedBatchPatch()` (returns summary object). Rules: only approved entries included, rejected/pending excluded, duplicate-risk blocked at bridge level (not duplicated), includes conflicts and rollback notes, no canonical writes. Updated `RuntimeDiscoveryQueuePanel.tsx` — per-entry approve/reject buttons in the review package view, approval state tracked via `currentPackage` state using `approvePatchEntry`/`rejectPatchEntry`, "Generate Batch Patch Preview" button (enabled only when entries are approved), batch patch output preview section with approved/pending/rejected counts, warnings, rollback notes, serialized JSON output, and "This does not modify the graph" warning. Created `src/lib/services/approved-batch-patch-output-service.test.ts` — 23 tests covering: approved entries included, non-approved excluded, duplicate-risk blocked unless override, conflicts included, rollback notes generated, warnings for empty output, stable serialization, deterministic filename, no canonical writes. Created `docs/APPROVED_BATCH_IMPORT_PATCH_OUTPUT_V1.md`. Updated 4 canonical docs. Typecheck 0 errors, lint 0 errors, 1066 pass (23 new) / 8 pre-existing Playwright E2E infra failures / 15 pre-existing test failures. 0 regressions.
+- **Pack 12F — Autonomous Import Wave 2 + Coverage Gap Discovery (completed 2026-06-13):** created coverage gap discovery service with 5 functions (detectAutonomousCoverageGaps, rankCoverageGaps, matchSeedsToCoverageGaps, createGapDrivenImportPlan, summarizeGapDrivenPlan). Selected 9 gap-driven candidates (2 AWS, 2 System Design, 3 Backend, 2 Career). Applied 9 sources (237→246) and 9 topics (271→280). Created audit doc and tests (21 gap discovery + 19 fixture tests). Typecheck 0 errors, lint 0 errors, 1196 pass / 8 pre-existing Playwright E2E infra failures. 0 regressions.
+- **Pack 13A — Gap-Driven Ingestion Engine + Syllabus Gap Sub-Agents (completed 2026-06-13):** created `src/types/gap-driven-ingestion.ts` with 10 gap types (SyllabusGapType) and 7 supporting types. Created 6 gap sub-agents in `src/lib/services/gap-agents/` (Coverage, Source Diversity, Proof Coverage, Mission Coverage, Interview Coverage, Readiness Coverage). Created `src/lib/services/gap-driven-ingestion-engine.ts` orchestrator with 8 exported functions: runGapSubAgents, discoverKnowledgeGraphGaps, scoreKnowledgeGraphGap, prioritizeKnowledgeGraphGaps, routeGapToDiscoveryAgent, matchSeedsToGap, buildGapDrivenIngestionPlan, summarizeGapDrivenPlan. Created `src/components/founder-beta/GapDrivenIngestionPreview.tsx` and `src/app/founder-beta/gap-driven-ingestion/page.tsx`. 24 engine tests + 10 component tests = 34 new tests. No graph writes, no autonomous approval, no persistence. Created `docs/GAP_DRIVEN_INGESTION_ENGINE_V1.md`. Updated all canonical docs. Typecheck 0 errors, lint 0 errors, 1270 pass / 8 pre-existing Playwright E2E infra failures. 0 regressions.
 - Phase 7B: Gap Remediation & Quality Pass (2026-06-09): merged 75 DSA problem bank topics, added sources to 10 topics, 10 quality gates.
 - Phase 1-6C, 2A, 2B, 3, 4, 5, 6A/B/C, 7A/B: all completed per prior records.
-- The founder architect capability graph is now **15 caps, 70 skills (51 inline + 19 DSA), 256 topics, 221 sources, 43 missions**.
-- All 221 sources are referenced by at least one topic.
-- The active product surface also includes `/founder-beta/topic-mapping`, `/founder-beta/discovery-agent` (Pack 10I/11A additions).
-- Packs 9A–11E complete the manual URL runtime fetch pipeline through sub-agent orchestration: contracts → validation → dry-run fetch → candidate preview → duplicate detection → 5-state review queue → ingestion agent → sub-agent ingestion pipeline → patch generator → import review → topic mapping V1 → discovery agent MVP → sub-agent pipeline (5 independent agents: Validation → Metadata → Candidate → Duplicate → Review) → batch queue → review bridge → per-entry approval → patch output.
+- The founder architect capability graph is now **15 caps, 70 skills (51 inline + 19 DSA), 280 topics, 246 sources, 43 missions**.
+- All 246 sources are referenced by at least one topic.
+- The active product surface also includes `/founder-beta/topic-mapping`, `/founder-beta/discovery-agent`, `/founder-beta/gap-driven-ingestion` (Pack 10I/11A/13A additions).
+- Packs 9A–13A complete the ingestion pipeline through gap-driven discovery and sub-agent orchestration: gap detection → scoring → prioritization → seed matching → candidate recommendation → review → patch → import.
 
 Completed phases:
 
@@ -84,10 +86,10 @@ Completed phases:
 
 Current work mode:
 
-- **Packs 9A–11E Complete** — Sub-agent pipeline replaces monolithic discovery agent. Batch queue → import review bridge → per-entry approval → patch output pipeline complete. All session-only, no persistence, no catalog writes, no autonomous publishing.
+- **Packs 12F–13A Complete** — Coverage gap discovery (Pack 12F) discovered syllabus gaps, selected and applied 9 gap-driven candidates. Gap-Driven Ingestion Engine (Pack 13A) provides 6 gap sub-agents, scoring/prioritization/seed matching orchestrator, and preview UI. All session-only, no persistence, no catalog writes, no autonomous publishing.
 - **NOTE:** `manual-url-real-fetch.ts` MISSING on disk — all agents use dry-run adapter.
 - Runtime agents, AI evaluation, scraping, external API calls, persistence, and autonomous writes remain deferred.
-- Next recommended phase: **Pack 11F — Approved Batch Graph Import** (apply approved batch patch output to in-memory graph data structures in a deterministic, previewable way).
+- Next recommended phase: **Pack 13B — Autonomous Gap Resolution Wave 1** (take top-ranked gaps and perform a small approved import batch).
 
 Major constraints:
 
@@ -767,7 +769,7 @@ Use this exact order for future Codex sessions:
 3. Read `docs/IMPLEMENTATION_PHASE_PLAN_V1.md` for current guardrails and phase order.
 4. Inspect local `git status --short` before editing.
 5. If working on Founder Beta, inspect `/founder-beta`, the founder beta services, the progress repository/service, and `tests/e2e/founder-beta.spec.ts`.
-6. Continue from the current phase: **Packs 9A-11F Complete**. Next: **Pack 11G**.
+6. Continue from the current phase: **Pack 12C Complete**. Next: **Pack 12D - First Autonomous Approved Import**.
 7. Do not restart architecture or replace the founder beta model.
 8. Keep persisted state limited to normalized progress input.
 9. Run focused tests for touched code plus `npm run typecheck` and `npm run lint` when practical.
@@ -784,3 +786,143 @@ Use this exact order for future Codex sessions:
 - Added `src/lib/services/in-memory-graph-import-service.test.ts`.
 - Safety: no canonical graph writes, no master-topic writes, no source-catalog writes, no persistence, no crawling, no autonomous publish.
 - Recommended next: Pack 11G - Controlled Canonical Graph Import Patch.
+
+## 2026-06-13 - Pack 11F Baseline Stabilization
+
+- Fixed `IngestionAgentPreview.tsx` lint error caused by reading a ref during render.
+- Audited Pack 11F baseline failures:
+  - `content-registry.test.ts` source counts were stale after legitimate catalog growth from 217 to 221.
+  - `founder-beta-mission-selection-service.test.ts` deterministic expected list was stale after `mission-cloud-security-review` addition.
+  - `import-review-service.test.ts` used a first-import candidate that is now legitimately already in the catalog, producing an empty patch.
+- Updated stale tests only; no product behavior changes except safe state-backed candidate metadata in the ingestion preview UI.
+- Added `docs/PACK11F_BASELINE_STABILIZATION.md`.
+- Service/count/import-review focused tests now pass.
+- Remaining accepted issue: Playwright E2E specs are still collected incorrectly by Vitest during `npm run test`.
+- Pack 11G is safe to start after this baseline.
+
+## 2026-06-13 - Pack 11G: Controlled Canonical Graph Import Patch
+
+- Added `src/types/canonical-graph-patch.ts`.
+- Added `src/lib/services/canonical-graph-patch-service.ts`.
+- Added deterministic canonical graph patch proposal generation from `ApprovedImportPackage`.
+- Proposal includes source adds, topic adds, capability references, skill references, affected missions, duplicate checks, conflicts, summary, and serialized JSON.
+- Human review gate is mandatory: `reviewRequired = true`, `approvalStatus = pending`.
+- Updated import review surfaces to show Canonical Patch Proposal, graph impact, conflicts, and review warning.
+- No Apply button added.
+- Added `src/lib/services/canonical-graph-patch-service.test.ts`.
+- Added `docs/CANONICAL_GRAPH_PATCH_PROPOSAL_V1.md`.
+- Safety: no canonical graph mutation, no automatic writes, no persistence, no publish.
+- Recommended next: Pack 11H - Human Approved Canonical Graph Apply.
+
+## 2026-06-13 - Pack 11H: Human Approved Canonical Graph Apply
+
+- Created `data/ingestion/approved-canonical-graph-patch.json`.
+- Added `src/lib/services/canonical-graph-apply-service.ts`.
+- Added `src/lib/services/canonical-graph-apply-service.test.ts`.
+- Service provides `validateHumanApprovedPatch()`, `applyCanonicalGraphPatchInMemory()`, `generateCanonicalApplyPlan()`, `summarizeCanonicalApply()`, and `validatePostApplyGraph()`.
+- Service performs no file writes.
+- Manually applied the approved static graph patch:
+  - added source `aws-prescriptive-guidance-saga`
+  - added topic `topic-cloud-saga-orchestration`
+- Updated source count tests to 222.
+- Added `docs/HUMAN_APPROVED_CANONICAL_GRAPH_APPLY_AUDIT.md`.
+- Current graph counts: 222 sources, 257 topics, capabilities unchanged, skills unchanged, missions unchanged.
+- Safety: human approval recorded, no autonomous apply, no publish, no persistence, no crawling, no AI evaluation.
+- Recommended next: Pack 11I - Canonical Import Regression Audit + Sub-Agent Ingestion Closure.
+
+## 2026-06-13 - Pack 11I Lightweight Regression Audit + Pack 12A Autonomous Discovery Agent MVP
+
+- Added `docs/PACK11I_REGRESSION_AUDIT.md` covering discovery pipeline, review pipeline, patch generation, canonical apply, and graph integrity after Pack 11H.
+- Added deterministic discovery seed packs under `src/data/discovery-seeds/` for system design, AWS, and backend sources.
+- Added `src/lib/services/autonomous-discovery-agent.ts` with seed discovery, category filtering, duplicate filtering, deterministic summary generation, and Pack 11B pipeline integration.
+- Added `/founder-beta/autonomous-discovery` and `AutonomousDiscoveryPreview.tsx`.
+- Every discovered item flows through Validation -> Metadata -> Candidate -> Duplicate -> Review and enters review-required status.
+- Added service and component tests for seed discovery, filtering, deterministic output, review-required status, trace integration, and no graph writes.
+- Added `docs/AUTONOMOUS_DISCOVERY_AGENT_V1.md`.
+- Safety: no scraping, no crawling, no graph writes, no autonomous approval, no publish, no persistence.
+- Recommended next: Pack 12B - Multi-Source Discovery Agents.
+
+## 2026-06-13 - Pack 12B Multi-Source Discovery Agents
+
+- Added `src/types/multi-source-discovery-agent.ts`.
+- Added Career/Staff Engineering discovery seeds.
+- Added four source-specific deterministic discovery agents:
+  - AWS Discovery Agent
+  - System Design Discovery Agent
+  - Backend Discovery Agent
+  - Career/Staff Engineering Discovery Agent
+- Added `src/lib/services/multi-source-discovery-orchestrator.ts` with single-agent execution, selected-agent execution, cross-agent duplicate URL warnings, and aggregate summaries.
+- Updated `/founder-beta/autonomous-discovery` with source-agent selector, per-agent candidate counts, independent trace summaries, duplicate warnings, and review-required candidate display.
+- Added `src/lib/services/multi-source-discovery-orchestrator.test.ts`.
+- Updated `AutonomousDiscoveryPreview.test.tsx`.
+- Added `docs/MULTI_SOURCE_DISCOVERY_AGENTS_V1.md`.
+- Safety: no scraping, crawling, browser automation, external API calls, graph writes, autonomous approval, publish path, persistence, Prisma, auth, SaaS, deployment, or AI evaluation.
+- Focused Pack 12B tests passed, 24/24.
+- Typecheck passed. Lint passed with warnings only. Full Vitest run: 1131 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+- Recommended next: Pack 12C - Autonomous Discovery Review Queue + Batch Patch Bridge.
+
+## 2026-06-13 - Pack 12C Autonomous Discovery Review Queue + Batch Patch Bridge
+
+- Added `src/lib/services/autonomous-discovery-review-bridge.ts`.
+- Added extraction of reviewable candidates from multi-source agent results.
+- Added conversion from agent candidates to existing approved import candidate shape.
+- Added autonomous import review package creation through the existing import review service.
+- Added autonomous batch patch preview through the approved patch generator and approved batch patch output service.
+- Added in-memory graph import preview through the existing in-memory graph import service.
+- Updated `/founder-beta/autonomous-discovery` with Send Agent Candidates to Review Queue, review package preview, patch preview, in-memory import preview, duplicate/conflict summaries, and no-write warnings.
+- Added `src/lib/services/autonomous-discovery-review-bridge.test.ts`.
+- Safety: duplicate-risk candidates remain review-visible and flagged; failed candidates are excluded; review package entries remain pending; no approval, publish, persistence, or graph writes.
+- Focused Pack 12C tests passed, 27/27.
+- Typecheck passed. Lint passed with warnings only. Full Vitest run: 1142 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+- Recommended next: Pack 12D - First Autonomous Approved Import.
+
+## 2026-06-13 - This Session: Approved Batch Graph Import Bridge (approved-batch-graph-import-service)
+
+- Created `src/lib/services/approved-batch-graph-import-service.ts` — bridge from `ApprovedBatchPatchOutput` → `CanonicalGraphPatchProposal` → `applyCanonicalGraphPatchInMemory()`.
+  - `convertBatchPatchOutputToProposal()`: maps approved `PatchEntry[]` to `CanonicalGraphPatchEntry[]` with full `SourceReference`/`MasterTopic` construction, defaults for topic metadata, and approved review status.
+  - `applyApprovedBatchGraphImport()`: converts and applies in one call through the existing canonical-graph-apply-service.
+- Created `src/lib/services/approved-batch-graph-import-service.test.ts` — 16 tests covering: source/topic entry conversion, proposal structure, review status, in-memory apply with correct counts, empty output handling, apply plan generation, entry data preservation, multi-candidate apply, deterministic summary, and no canonical writes.
+- Updated canonical docs: ENGINEERINGOS_MASTER_CONTINUATION_CONTEXT.md, IMPLEMENTATION_STATUS.md, IMPLEMENTATION_PHASE_PLAN_V1.md, AI_SESSION_LOG.md.
+- All 1158 tests pass (16 new). Typecheck 0 errors, lint 0 errors. 0 regressions (8 pre-existing Playwright E2E infra failures).
+- Pipeline chain now complete: queue service → bridge service → per-entry approval → output service → batch graph import bridge → canonical graph apply → serialized in-memory result.
+- Next step remains: **Pack 12D — First Autonomous Approved Import**.
+
+## 2026-06-13 - Pack 12D First Autonomous Approved Canonical Import
+
+- Selected 3 approved autonomous discovery seeds (aws-eventbridge-pipes, grpc-core-concepts, nodejs-diagnostics-guide).
+- Created `data/ingestion/approved-autonomous-canonical-import.json` — golden fixture with full human approval evidence.
+- Created `src/lib/services/approved-autonomous-canonical-import.test.ts` — 16 tests (fixture structure, post-apply verification, pipeline validation).
+- Manually applied: added 3 sources (source-catalog.ts: 222→225) and 3 topics (master-topics.ts: 256→259).
+- Created `docs/FIRST_AUTONOMOUS_APPROVED_CANONICAL_IMPORT_AUDIT.md`.
+- Validated pipeline end-to-end through batch graph import bridge → canonical graph apply.
+- Updated test count assertions (content-registry.test.ts, founder-beta-service.test.ts, knowledge-integrity.test.ts).
+- Typecheck 0 errors, lint 0 errors. 1175 tests pass. 0 regressions (8 pre-existing Playwright E2E failures).
+
+## 2026-06-13 - ID Derivation Fix: proposedSourceId/proposedTopicId Propagation
+
+- **Audit discovered a divergence:** `deriveSourceId()` and `deriveTopicId()` in approved-import-patch-generator.ts generated IDs from URL/title alone, ignoring proposed IDs from seeds/fixtures. This caused the pipeline to produce different IDs than what was manually applied.
+- **Fix:** Added `proposedSourceId?: string` and `proposedTopicId?: string` to `ApprovedImportCandidate` type.
+- Added optional proposed ID fields to `DiscoverySeed` type.
+- Updated `buildSourceEntry()` to use `proposedSourceId ?? deriveSourceId(url, title)`.
+- Updated topic entry creation to use `proposedTopicId ?? deriveTopicId(title)`.
+- Updated `convertAgentCandidateToReviewItem()` in autonomous discovery review bridge to pass through seed's proposed IDs.
+- Added 4 new tests verifying proposed ID precedence and fallback behavior.
+- Typecheck 0 errors, lint 0 errors. **1178 tests pass** (4 new). 0 regressions (8 pre-existing Playwright E2E failures).
+
+## 2026-06-13 - Pack 12D Closure — Autonomous Import Regression Audit
+
+- Created `docs/PACK12D_AUTONOMOUS_IMPORT_CLOSURE_AUDIT.md` — full pipeline audit, ID propagation matrix, duplicate detection verification (10 checkpoints), rollback safety audit, test coverage summary.
+- Confirmed all 3 fixture entries have matching proposed → generated → final graph IDs.
+- Recommended next: **Pack 12E — Autonomous Import Scale-Up Batch 1** (add proposed IDs to 10+ seeds, run scale-up import, validate).
+
+## 2026-06-13 - Pack 12E Autonomous Import Scale-Up Batch 1
+
+- Added `proposedSourceId`/`proposedTopicId` to all 40 discovery seeds across 4 seed files (aws-seeds.ts, system-design-seeds.ts, backend-seeds.ts, career-seeds.ts).
+- Created `data/ingestion/approved-autonomous-import-batch-1.json` — 12 approved candidates across AWS (4), System Design (3), Backend (3), and Career (2).
+- Created `src/lib/services/approved-autonomous-import-batch-1.test.ts` — 17 tests (fixture structure, pipeline validation, ID preservation, duplicate detection, determinism).
+- Applied 12 sources to source-catalog.ts (225→237) and 12 topics to master-topics.ts (259→271).
+- Updated test count assertions (content-registry.test.ts, founder-beta-service.test.ts).
+- Created `docs/AUTONOMOUS_IMPORT_SCALE_UP_BATCH1_AUDIT.md` — full audit with imported candidates, rejected/deferred list, ID propagation matrix, graph integrity checks, rollback path.
+- Typecheck 0 errors, lint 0 errors. 17 new tests pass. **1195 tests pass** (1178 + 17). 0 regressions (8 pre-existing Playwright E2E failures).
+- Pipeline proven on 12-candidate batch: stable IDs, graph integrity preserved, duplicate protection intact, rollback path documented.
+- Recommended next: **Pack 12F — Autonomous Import Wave 2 + Coverage Gap Discovery** (use discovery agents to identify actual syllabus gaps).

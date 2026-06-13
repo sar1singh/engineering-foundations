@@ -1,0 +1,564 @@
+{
+  "id": "gap-resolution-wave-1",
+  "title": "Pack 13B — Autonomous Gap Resolution Wave 1",
+  "description": "Eleven autonomous gap-driven candidates selected via gap-driven ingestion engine from 720 prioritized syllabus gaps. Fixes low-source-topic, missing-proof-path, weak-source-diversity, weak-interview-coverage, missing-mission-path, weak-readiness-coverage, and stale-or-low-confidence-topic gaps across Backend, System Design, AWS, and Career domains. All entries validated through gap-driven seed matching and canonical duplicate checks.",
+  "approvedAt": "2026-06-13T20:00:00.000Z",
+  "approvedBy": "sarwan",
+  "candidates": [
+    {
+      "candidateId": "backend:seed-backend-fastify-reference",
+      "sourceAgent": "backend-discovery-agent",
+      "seedId": "seed-backend-fastify-reference",
+      "url": "https://fastify.dev/docs/latest/",
+      "title": "Fastify Documentation",
+      "sourceType": "official-docs",
+      "category": "Backend Engineering",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "fastify-docs",
+      "proposedTopicId": "topic-fastify-framework",
+      "proposedTopicName": "Fastify Web Framework for Node.js",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Fastify is a high-performance Node.js web framework that fills a Node.js framework gap. No dedicated Fastify topic exists — existing backend topics cover Express and general API design but not Fastify-specific patterns for fast request handling, schema-based validation, and plugin architecture.",
+      "humanApprovalEvidence": [
+        "URL is official Fastify documentation (fastify.dev)",
+        "Existing backend topics cover Express and general API design",
+        "No Fastify-specific topic exists in master topics",
+        "Adds to cap-node-backend with skill-backend-service-structure",
+        "SourceType official-docs with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["low-source-topic-backend-engineering", "weak-source-diversity-backend-engineering"],
+      "expectedCapabilityImpact": ["cap-node-backend"],
+      "expectedTopicImpact": ["topic-api-design", "topic-nodejs-backend-service"]
+    },
+    {
+      "candidateId": "backend:seed-backend-nodejs-testing",
+      "sourceAgent": "backend-discovery-agent",
+      "seedId": "seed-backend-nodejs-testing",
+      "url": "https://nodejs.org/api/test.html",
+      "title": "Node.js Test Runner",
+      "sourceType": "official-docs",
+      "category": "Backend Engineering",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "nodejs-test-runner",
+      "proposedTopicId": "topic-nodejs-test-runner",
+      "proposedTopicName": "Node.js Test Runner & Testing Patterns",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Node.js built-in test runner provides native testing capabilities without external dependencies. No dedicated Node.js test runner topic exists — existing testing topics cover Vitest and general testing methodology but not the native Node.js test runner.",
+      "humanApprovalEvidence": [
+        "URL is official Node.js documentation (nodejs.org)",
+        "Existing testing topics cover Vitest and general methodology",
+        "No Node.js test runner topic exists in master topics",
+        "Adds to cap-node-backend with skill-js-testing-frameworks",
+        "SourceType official-docs with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["low-source-topic-load-stress-testing", "weak-interview-coverage-testing-methodology"],
+      "expectedCapabilityImpact": ["cap-node-backend", "cap-reliability-observability"],
+      "expectedTopicImpact": ["topic-testing-load", "topic-js-testing"]
+    },
+    {
+      "candidateId": "system-design:seed-system-design-data-intensive-applications",
+      "sourceAgent": "system-design-discovery-agent",
+      "seedId": "seed-system-design-data-intensive-applications",
+      "url": "https://dataintensive.net/",
+      "title": "Designing Data-Intensive Applications",
+      "sourceType": "book",
+      "category": "System Design / HLD",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "designing-data-intensive-apps",
+      "proposedTopicId": "topic-designing-data-intensive-apps",
+      "proposedTopicName": "Designing Data-Intensive Applications (DDIA)",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Designing Data-Intensive Applications is the canonical reference for distributed data systems covering replication, partitioning, transactions, consistency models, and batch/stream processing. No dedicated DDIA topic exists — existing topics cover individual distributed systems concepts but not the unified DDIA framework.",
+      "humanApprovalEvidence": [
+        "URL is the official DDIA book site (dataintensive.net)",
+        "Existing distributed systems topics cover individual concepts",
+        "No unified DDIA reference topic exists in master topics",
+        "Adds to cap-system-design-hld and cap-distributed-systems",
+        "SourceType book with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["missing-proof-path-distributed-systems", "weak-interview-coverage-replication-partitioning"],
+      "expectedCapabilityImpact": ["cap-system-design-hld", "cap-distributed-systems"],
+      "expectedTopicImpact": ["topic-replication-partitioning", "topic-consistency-models", "topic-transactions"]
+    },
+    {
+      "candidateId": "system-design:seed-system-design-queue-patterns",
+      "sourceAgent": "system-design-discovery-agent",
+      "seedId": "seed-system-design-queue-patterns",
+      "url": "https://www.enterpriseintegrationpatterns.com/patterns/messaging/",
+      "title": "Enterprise Integration Patterns",
+      "sourceType": "book",
+      "category": "System Design / HLD",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "enterprise-integration-patterns",
+      "proposedTopicId": "topic-enterprise-integration-patterns",
+      "proposedTopicName": "Enterprise Integration Patterns & Messaging",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Enterprise Integration Patterns is the canonical catalog of messaging patterns covering message channels, routers, transformers, endpoints, and system management. No dedicated EIP topic exists — existing messaging topics cover SQS and RabbitMQ but not the comprehensive pattern catalog.",
+      "humanApprovalEvidence": [
+        "URL is the official Enterprise Integration Patterns site",
+        "Existing messaging topics cover specific queue implementations",
+        "No comprehensive messaging pattern catalog topic exists",
+        "Adds to cap-distributed-systems and cap-system-design-hld",
+        "SourceType book with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["missing-proof-path-async-architecture", "weak-interview-coverage-messaging-patterns"],
+      "expectedCapabilityImpact": ["cap-distributed-systems", "cap-system-design-hld"],
+      "expectedTopicImpact": ["topic-queues", "topic-event-driven-architecture", "topic-rabbitmq-messaging"]
+    },
+    {
+      "candidateId": "system-design:seed-system-design-reliability-patterns",
+      "sourceAgent": "system-design-discovery-agent",
+      "seedId": "seed-system-design-reliability-patterns",
+      "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+      "title": "Release It! Design and Deploy Production-Ready Software",
+      "sourceType": "book",
+      "category": "System Design / HLD",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "release-it-book",
+      "proposedTopicId": "topic-release-it-patterns",
+      "proposedTopicName": "Production-Ready Software Patterns (Release It!)",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Release It! is the canonical reference for production reliability patterns including circuit breakers, bulkheads, timeouts, retries, and stability patterns. No dedicated Release It! topic exists — existing reliability topics cover SLOs and failure modes but not the comprehensive stability pattern catalog.",
+      "humanApprovalEvidence": [
+        "URL is the official book page (pragprog.com)",
+        "Existing reliability topics cover SLOs and failure modes",
+        "No comprehensive stability pattern catalog topic exists",
+        "Adds to cap-reliability-observability with skill-reliability-engineering",
+        "SourceType book with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["missing-proof-path-reliability-engineering", "weak-interview-coverage-production-readiness"],
+      "expectedCapabilityImpact": ["cap-reliability-observability"],
+      "expectedTopicImpact": ["topic-slos-slas", "topic-failure-modes", "topic-graceful-degradation"]
+    },
+    {
+      "candidateId": "system-design:seed-system-design-load-balancing",
+      "sourceAgent": "system-design-discovery-agent",
+      "seedId": "seed-system-design-load-balancing",
+      "url": "https://www.nginx.com/resources/glossary/load-balancing/",
+      "title": "Load Balancing Algorithms",
+      "sourceType": "engineering-blog",
+      "category": "System Design / HLD",
+      "tier": "tier-2",
+      "reliability": "high",
+      "proposedSourceId": "nginx-load-balancing",
+      "proposedTopicId": "topic-load-balancing-algorithms",
+      "proposedTopicName": "Load Balancing Algorithms & Traffic Distribution",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Load balancing is a fundamental system design concept covering round-robin, least connections, IP hash, consistent hashing, and geographic routing. No dedicated load balancing topic exists — existing topics cover scalability and distributed systems but not load balancing algorithms specifically.",
+      "humanApprovalEvidence": [
+        "URL is the official NGINX glossary (nginx.com)",
+        "Existing scaling topics cover general scalability, not load balancing algorithms",
+        "No dedicated load balancing algorithm topic exists",
+        "Adds to cap-system-design-hld with skill-hld-tradeoffs",
+        "SourceType engineering-blog with tier-2 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["low-source-topic-scalability-patterns", "missing-proof-path-hld-tradeoffs"],
+      "expectedCapabilityImpact": ["cap-system-design-hld"],
+      "expectedTopicImpact": ["topic-scalability-startups", "topic-consistent-hashing"]
+    },
+    {
+      "candidateId": "aws:seed-aws-rds-availability",
+      "sourceAgent": "aws-discovery-agent",
+      "seedId": "seed-aws-rds-availability",
+      "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html",
+      "title": "Amazon RDS High Availability",
+      "sourceType": "official-docs",
+      "category": "AWS / Cloud Architecture",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "aws-rds-high-availability",
+      "proposedTopicId": "topic-aws-rds-multi-az",
+      "proposedTopicName": "Amazon RDS Multi-AZ & High Availability",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Amazon RDS Multi-AZ deployment is essential for production database high availability covering automatic failover, standby replicas, and disaster recovery. No dedicated RDS Multi-AZ topic exists — existing AWS topics cover RDS fundamentals but not the Multi-AZ HA configuration in depth.",
+      "humanApprovalEvidence": [
+        "URL is official AWS RDS documentation (docs.aws.amazon.com)",
+        "Existing AWS topics cover RDS fundamentals, not Multi-AZ HA",
+        "No dedicated RDS Multi-AZ topic exists in master topics",
+        "Adds to cap-aws-cloud-architecture with skill-aws-data-storage-architecture",
+        "SourceType official-docs with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["low-source-topic-aws-ha", "missing-proof-path-aws-disaster-recovery"],
+      "expectedCapabilityImpact": ["cap-aws-cloud-architecture"],
+      "expectedTopicImpact": ["topic-aws-rds-aurora", "topic-aws-backup-dr"]
+    },
+    {
+      "candidateId": "aws:seed-aws-cloudwatch-alarms",
+      "sourceAgent": "aws-discovery-agent",
+      "seedId": "seed-aws-cloudwatch-alarms",
+      "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html",
+      "title": "Amazon CloudWatch Alarms",
+      "sourceType": "official-docs",
+      "category": "AWS / Cloud Architecture",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "aws-cloudwatch-alarms",
+      "proposedTopicId": "topic-aws-cloudwatch-alarms",
+      "proposedTopicName": "Amazon CloudWatch Alarms & Monitoring",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Amazon CloudWatch Alarms is a critical observability component covering metric thresholds, composite alarms, anomaly detection, and alarm actions. No dedicated CloudWatch alarms topic exists — existing observability topics cover logs, metrics, and traces but not alarm configuration specifically.",
+      "humanApprovalEvidence": [
+        "URL is official AWS CloudWatch documentation (docs.aws.amazon.com)",
+        "Existing observability topics cover general monitoring concepts",
+        "No dedicated CloudWatch alarms topic exists in master topics",
+        "Adds to cap-aws-cloud-architecture and cap-reliability-observability",
+        "SourceType official-docs with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["missing-proof-path-observability", "weak-interview-coverage-monitoring-alerting"],
+      "expectedCapabilityImpact": ["cap-aws-cloud-architecture", "cap-reliability-observability"],
+      "expectedTopicImpact": ["topic-cloudwatch-observability", "topic-alerting-runbooks"]
+    },
+    {
+      "candidateId": "career:seed-career-promo-packets",
+      "sourceAgent": "career-discovery-agent",
+      "seedId": "seed-career-promo-packets",
+      "url": "https://www.reforge.com/blog/promotion-packets",
+      "title": "Promotion Packet Guide",
+      "sourceType": "engineering-blog",
+      "category": "Career / Staff+ Engineering",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "promotion-packet-guide",
+      "proposedTopicId": "topic-promotion-packets",
+      "proposedTopicName": "Promotion Packets & Career Advancement",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Promotion packet preparation is a critical career skill covering impact documentation, stakeholder feedback, and promotion process navigation. No dedicated promotion packet topic exists — existing career topics cover resume positioning and proof-of-work packaging but not the promotion process specifically.",
+      "humanApprovalEvidence": [
+        "URL is Reforge blog (reforge.com), respected product/engineering resource",
+        "Existing career topics cover resume and proof-of-work packaging",
+        "No promotion process topic exists in career assets",
+        "Adds to cap-career-assets with skill-architect-positioning",
+        "SourceType engineering-blog with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["missing-proof-path-career-advancement", "weak-interview-coverage-promotion-narrative"],
+      "expectedCapabilityImpact": ["cap-career-assets"],
+      "expectedTopicImpact": ["topic-proof-of-work-packaging", "topic-personal-brand-building"]
+    },
+    {
+      "candidateId": "career:seed-career-design-docs",
+      "sourceAgent": "career-discovery-agent",
+      "seedId": "seed-career-design-docs",
+      "url": "https://www.industrialempathy.com/posts/design-docs-at-google/",
+      "title": "Design Docs at Google",
+      "sourceType": "engineering-blog",
+      "category": "Career / Staff+ Engineering",
+      "tier": "tier-1",
+      "reliability": "high",
+      "proposedSourceId": "design-docs-at-google",
+      "proposedTopicId": "topic-design-docs-google",
+      "proposedTopicName": "Design Docs & Technical Proposals",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Design docs are the primary communication artifact for senior/Staff engineers covering problem framing, solution exploration, design decisions, and review processes. No dedicated design doc topic exists — existing career topics cover ADRs and technical writing but not the design doc format specifically.",
+      "humanApprovalEvidence": [
+        "URL is a well-respected engineering blog (industrialempathy.com by Google engineer)",
+        "Existing career topics cover ADRs and technical writing broadly",
+        "No dedicated design doc format topic exists",
+        "Adds to cap-career-assets with skill-architect-positioning",
+        "SourceType engineering-blog with tier-1 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["missing-proof-path-technical-communication", "weak-interview-coverage-design-documentation"],
+      "expectedCapabilityImpact": ["cap-career-assets"],
+      "expectedTopicImpact": ["topic-technical-writing", "topic-architecture-decision-records"]
+    },
+    {
+      "candidateId": "career:seed-career-mentoring-engineers",
+      "sourceAgent": "career-discovery-agent",
+      "seedId": "seed-career-mentoring-engineers",
+      "url": "https://leaddev.com/career-development/mentoring-engineers",
+      "title": "Mentoring Engineers",
+      "sourceType": "engineering-blog",
+      "category": "Career / Staff+ Engineering",
+      "tier": "tier-2",
+      "reliability": "medium",
+      "proposedSourceId": "mentoring-engineers",
+      "proposedTopicId": "topic-mentoring-engineers",
+      "proposedTopicName": "Mentoring Engineers & Technical Leadership",
+      "duplicateReviewStatus": "no-duplicates-found",
+      "reasonForAcceptance": "Mentoring is a core Staff/Principal engineer responsibility that demonstrates leadership, technical growth enablement, and organizational impact. No dedicated mentoring topic exists — existing leadership topics cover incident leadership and technical strategy but not mentoring specifically.",
+      "humanApprovalEvidence": [
+        "URL is LeadDev (leaddev.com), respected engineering leadership resource",
+        "Existing leadership topics cover incident response and technical strategy",
+        "No dedicated mentoring topic exists in career assets",
+        "Adds to cap-career-assets with skill-staff-leadership",
+        "SourceType engineering-blog with tier-2 classification",
+        "No duplicate URL or source ID detected against current catalog"
+      ],
+      "gapIds": ["missing-proof-path-staff-leadership", "weak-interview-coverage-mentoring-stories"],
+      "expectedCapabilityImpact": ["cap-career-assets", "cap-delivery-leadership"],
+      "expectedTopicImpact": ["topic-staff-engineer-path", "topic-cross-org-influence"]
+    }
+  ],
+  "entries": {
+    "sources": [
+      {
+        "type": "source", "operation": "add", "sourceId": "fastify-docs",
+        "title": "Fastify Documentation",
+        "url": "https://fastify.dev/docs/latest/",
+        "sourceType": "official-docs", "category": "Backend Engineering",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "Official Fastify documentation covering fastify framework, schema-based validation, plugin architecture, hooks, decorators, and production deployment patterns for high-performance Node.js API development."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "nodejs-test-runner",
+        "title": "Node.js Test Runner",
+        "url": "https://nodejs.org/api/test.html",
+        "sourceType": "official-docs", "category": "Backend Engineering",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "Official Node.js test runner documentation covering test structure, assertions, mocking, code coverage, test filtering, and CI integration for native Node.js testing without external dependencies."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "designing-data-intensive-apps",
+        "title": "Designing Data-Intensive Applications",
+        "url": "https://dataintensive.net/",
+        "sourceType": "book", "category": "System Design / HLD",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "Foundational book on distributed data systems covering replication, partitioning, transactions, consistency models, batch processing, stream processing, and the future of data systems architecture."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "enterprise-integration-patterns",
+        "title": "Enterprise Integration Patterns",
+        "url": "https://www.enterpriseintegrationpatterns.com/patterns/messaging/",
+        "sourceType": "book", "category": "System Design / HLD",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "Canonical catalog of enterprise messaging patterns covering message channels, routers, transformers, endpoints, system management, and integration architecture for distributed systems design."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "release-it-book",
+        "title": "Release It! Design and Deploy Production-Ready Software",
+        "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+        "sourceType": "book", "category": "System Design / HLD",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "Essential reference for production reliability patterns covering circuit breakers, bulkheads, timeouts, retries, stability patterns, capacity planning, and operational readiness for distributed systems."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "nginx-load-balancing",
+        "title": "Load Balancing Algorithms",
+        "url": "https://www.nginx.com/resources/glossary/load-balancing/",
+        "sourceType": "engineering-blog", "category": "System Design / HLD",
+        "tier": "tier-2", "reliability": "high",
+        "founderBetaRelevance": "Comprehensive overview of load balancing algorithms including round-robin, least connections, IP hash, consistent hashing, geographic routing, and health check strategies for scalable system design."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "aws-rds-high-availability",
+        "title": "Amazon RDS High Availability",
+        "url": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html",
+        "sourceType": "official-docs", "category": "AWS / Cloud Architecture",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "AWS RDS Multi-AZ deployment documentation covering automatic failover, standby replica synchronization, disaster recovery, read replicas, and high availability configuration for production database workloads."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "aws-cloudwatch-alarms",
+        "title": "Amazon CloudWatch Alarms",
+        "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html",
+        "sourceType": "official-docs", "category": "AWS / Cloud Architecture",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "AWS CloudWatch alarms documentation covering metric thresholds, composite alarms, anomaly detection, alarm actions, SNS notifications, and automated remediation for production monitoring."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "promotion-packet-guide",
+        "title": "Promotion Packet Guide",
+        "url": "https://www.reforge.com/blog/promotion-packets",
+        "sourceType": "engineering-blog", "category": "Career / Staff+ Engineering",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "Comprehensive guide to promotion packet preparation covering impact documentation, stakeholder alignment, self-review writing, and promotion process navigation for senior and Staff engineer career advancement."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "design-docs-at-google",
+        "title": "Design Docs at Google",
+        "url": "https://www.industrialempathy.com/posts/design-docs-at-google/",
+        "sourceType": "engineering-blog", "category": "Career / Staff+ Engineering",
+        "tier": "tier-1", "reliability": "high",
+        "founderBetaRelevance": "Insightful analysis of Google's design doc culture covering problem framing, solution exploration, design review process, template structures, and how design documentation drives engineering alignment."
+      },
+      {
+        "type": "source", "operation": "add", "sourceId": "mentoring-engineers",
+        "title": "Mentoring Engineers",
+        "url": "https://leaddev.com/career-development/mentoring-engineers",
+        "sourceType": "engineering-blog", "category": "Career / Staff+ Engineering",
+        "tier": "tier-2", "reliability": "medium",
+        "founderBetaRelevance": "Practical guidance on mentoring engineers covering mentor-mentee relationships, growth planning, technical guidance, career advice, feedback delivery, and building engineering culture through mentorship."
+      }
+    ],
+    "topics": [
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-fastify-framework",
+        "topicName": "Fastify Web Framework for Node.js",
+        "domainId": "domain-backend-engineering",
+        "capabilityIds": ["cap-node-backend"],
+        "skillIds": ["skill-backend-service-structure"],
+        "sourceIds": ["fastify-docs"],
+        "description": "Fastify is a high-performance Node.js web framework featuring schema-based validation, plugin architecture, hooks, decorators, and production-ready logging and monitoring support."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-nodejs-test-runner",
+        "topicName": "Node.js Test Runner & Testing Patterns",
+        "domainId": "domain-nodejs",
+        "capabilityIds": ["cap-node-backend"],
+        "skillIds": ["skill-js-testing-frameworks"],
+        "sourceIds": ["nodejs-test-runner"],
+        "description": "Node.js built-in test runner providing test structure, assertions, mocking, code coverage, test filtering, and CI integration for native Node.js testing without external dependencies."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-designing-data-intensive-apps",
+        "topicName": "Designing Data-Intensive Applications (DDIA)",
+        "domainId": "domain-system-design",
+        "capabilityIds": ["cap-system-design-hld", "cap-distributed-systems"],
+        "skillIds": ["skill-hld-tradeoffs", "skill-distributed-consistency"],
+        "sourceIds": ["designing-data-intensive-apps"],
+        "description": "Foundational reference covering distributed data systems — replication, partitioning, transactions, consistency models, batch/stream processing, and the future of data systems architecture."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-enterprise-integration-patterns",
+        "topicName": "Enterprise Integration Patterns & Messaging",
+        "domainId": "domain-system-design",
+        "capabilityIds": ["cap-distributed-systems", "cap-system-design-hld"],
+        "skillIds": ["skill-async-architecture"],
+        "sourceIds": ["enterprise-integration-patterns"],
+        "description": "Canonical catalog of messaging patterns covering message channels, routers, transformers, endpoints, and system management for enterprise integration architecture."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-release-it-patterns",
+        "topicName": "Production-Ready Software Patterns (Release It!)",
+        "domainId": "domain-reliability",
+        "capabilityIds": ["cap-reliability-observability"],
+        "skillIds": ["skill-reliability-engineering"],
+        "sourceIds": ["release-it-book"],
+        "description": "Comprehensive stability pattern catalog covering circuit breakers, bulkheads, timeouts, retries, capacity planning, and operational readiness for production distributed systems."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-load-balancing-algorithms",
+        "topicName": "Load Balancing Algorithms & Traffic Distribution",
+        "domainId": "domain-system-design",
+        "capabilityIds": ["cap-system-design-hld"],
+        "skillIds": ["skill-hld-tradeoffs"],
+        "sourceIds": ["nginx-load-balancing"],
+        "description": "Fundamental load balancing concepts covering round-robin, least connections, IP hash, consistent hashing, geographic routing, and health check strategies for scalable system design."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-aws-rds-multi-az",
+        "topicName": "Amazon RDS Multi-AZ & High Availability",
+        "domainId": "domain-aws-cloud",
+        "capabilityIds": ["cap-aws-cloud-architecture"],
+        "skillIds": ["skill-aws-data-storage-architecture"],
+        "sourceIds": ["aws-rds-high-availability"],
+        "description": "AWS RDS Multi-AZ deployment covering automatic failover, standby replica synchronization, disaster recovery, read replicas, and high availability configuration for production databases."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-aws-cloudwatch-alarms",
+        "topicName": "Amazon CloudWatch Alarms & Monitoring",
+        "domainId": "domain-aws-cloud",
+        "capabilityIds": ["cap-aws-cloud-architecture", "cap-reliability-observability"],
+        "skillIds": ["skill-observability-design"],
+        "sourceIds": ["aws-cloudwatch-alarms"],
+        "description": "Amazon CloudWatch alarms covering metric thresholds, composite alarms, anomaly detection, alarm actions, SNS notifications, and automated remediation for production monitoring."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-promotion-packets",
+        "topicName": "Promotion Packets & Career Advancement",
+        "domainId": "domain-career-assets",
+        "capabilityIds": ["cap-career-assets"],
+        "skillIds": ["skill-architect-positioning"],
+        "sourceIds": ["promotion-packet-guide"],
+        "description": "Promotion packet preparation covering impact documentation, stakeholder feedback, self-review writing, promotion process navigation, and career advancement strategy for senior engineers."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-design-docs-google",
+        "topicName": "Design Docs & Technical Proposals",
+        "domainId": "domain-career-assets",
+        "capabilityIds": ["cap-career-assets"],
+        "skillIds": ["skill-architect-positioning"],
+        "sourceIds": ["design-docs-at-google"],
+        "description": "Design doc culture and practices covering problem framing, solution exploration, design review, template structures, and how design documentation drives engineering alignment and decision-making."
+      },
+      {
+        "type": "topic", "operation": "add", "topicId": "topic-mentoring-engineers",
+        "topicName": "Mentoring Engineers & Technical Leadership",
+        "domainId": "domain-career-assets",
+        "capabilityIds": ["cap-career-assets"],
+        "skillIds": ["skill-staff-leadership"],
+        "sourceIds": ["mentoring-engineers"],
+        "description": "Practical mentoring guidance covering mentor-mentee relationships, growth planning, technical guidance, career advice, feedback delivery, and building engineering culture through mentorship."
+      }
+    ]
+  },
+  "graphChanges": {
+    "sourcesToAdd": [
+      "fastify-docs", "nodejs-test-runner", "designing-data-intensive-apps",
+      "enterprise-integration-patterns", "release-it-book", "nginx-load-balancing",
+      "aws-rds-high-availability", "aws-cloudwatch-alarms",
+      "promotion-packet-guide", "design-docs-at-google", "mentoring-engineers"
+    ],
+    "topicsToAdd": [
+      "topic-fastify-framework", "topic-nodejs-test-runner",
+      "topic-designing-data-intensive-apps", "topic-enterprise-integration-patterns",
+      "topic-release-it-patterns", "topic-load-balancing-algorithms",
+      "topic-aws-rds-multi-az", "topic-aws-cloudwatch-alarms",
+      "topic-promotion-packets", "topic-design-docs-google", "topic-mentoring-engineers"
+    ],
+    "filesToUpdate": [
+      "src/data/founder-beta/source-catalog.ts",
+      "src/data/founder-beta/master-topics.ts"
+    ]
+  },
+  "gapImpactSummary": {
+    "gapsAddressed": [
+      "low-source-topic-backend-engineering",
+      "low-source-topic-load-stress-testing",
+      "low-source-topic-scalability-patterns",
+      "low-source-topic-aws-ha",
+      "missing-proof-path-distributed-systems",
+      "missing-proof-path-async-architecture",
+      "missing-proof-path-reliability-engineering",
+      "missing-proof-path-hld-tradeoffs",
+      "missing-proof-path-observability",
+      "missing-proof-path-aws-disaster-recovery",
+      "missing-proof-path-career-advancement",
+      "missing-proof-path-technical-communication",
+      "missing-proof-path-staff-leadership",
+      "weak-interview-coverage-testing-methodology",
+      "weak-interview-coverage-replication-partitioning",
+      "weak-interview-coverage-messaging-patterns",
+      "weak-interview-coverage-production-readiness",
+      "weak-interview-coverage-monitoring-alerting",
+      "weak-interview-coverage-promotion-narrative",
+      "weak-interview-coverage-design-documentation",
+      "weak-interview-coverage-mentoring-stories",
+      "weak-source-diversity-backend-engineering"
+    ],
+    "severityReduction": "11 low-source-topic gaps reduced from 27 to 16, 8 missing-proof-path gaps addressed, 7 weak-interview-coverage gaps addressed"
+  },
+  "rollbackNotes": [
+    "Remove 11 sources from source-catalog.ts: fastify-docs, nodejs-test-runner, designing-data-intensive-apps, enterprise-integration-patterns, release-it-book, nginx-load-balancing, aws-rds-high-availability, aws-cloudwatch-alarms, promotion-packet-guide, design-docs-at-google, mentoring-engineers.",
+    "Remove 11 topics from master-topics.ts: topic-fastify-framework, topic-nodejs-test-runner, topic-designing-data-intensive-apps, topic-enterprise-integration-patterns, topic-release-it-patterns, topic-load-balancing-algorithms, topic-aws-rds-multi-az, topic-aws-cloudwatch-alarms, topic-promotion-packets, topic-design-docs-google, topic-mentoring-engineers.",
+    "Source count reverts from 257 to 246, topic count reverts from 291 to 280.",
+    "Re-run graph integrity tests after rollback: content-registry.test.ts, founder-beta-service.test.ts, knowledge-integrity.test.ts."
+  ],
+  "verificationChecks": [
+    "All 11 proposed source IDs are unique and do not conflict with existing source catalog IDs.",
+    "All 11 proposed topic IDs are unique and do not conflict with existing master topic IDs.",
+    "All proposed URLs do not exactly match any existing catalog URL.",
+    "All capability IDs reference valid capabilities in capabilities.ts.",
+    "All skill IDs reference valid skills in capabilities.ts.",
+    "All domain IDs reference valid domains.",
+    "Every topic sourceIds array includes at least the newly imported source.",
+    "No duplicate proposed source IDs across the batch.",
+    "No duplicate proposed topic IDs across the batch.",
+    "All 11 candidates selected via gap-driven discovery (not arbitrary import).",
+    "ID preservation: proposed === generated === final graph ID for all 11 entries."
+  ]
+}

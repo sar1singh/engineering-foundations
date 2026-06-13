@@ -80,6 +80,44 @@ describe("buildSourceEntry", () => {
     const entry = buildSourceEntry(badTypeCandidate);
     expect(entry.sourceType).toBe("engineering-blog");
   });
+
+  it("uses proposedSourceId when provided", () => {
+    const candidate: ApprovedImportCandidate = {
+      ...validCandidate,
+      candidateUrl: "https://example.com/some-long-url-path-that-would-produce-ugly-id",
+      proposedSourceId: "my-custom-source-id",
+    };
+    const entry = buildSourceEntry(candidate);
+    expect(entry.sourceId).toBe("my-custom-source-id");
+  });
+
+  it("falls back to deriveSourceId when proposedSourceId is absent", () => {
+    const entry = buildSourceEntry(validCandidate);
+    expect(entry.sourceId).toBeTruthy();
+    expect(entry.sourceId).not.toBe("");
+  });
+});
+
+describe("generatePatchFromApprovedCandidates with proposed IDs", () => {
+  it("uses proposedTopicId when provided", () => {
+    const candidate: ApprovedImportCandidate = {
+      ...validCandidate,
+      proposedTopicId: "topic-my-custom-topic",
+    };
+    const patch = generatePatchFromApprovedCandidates([candidate]);
+    const topicEntries = patch.entries.filter((e) => e.type === "topic");
+    expect(topicEntries.length).toBe(1);
+    expect(topicEntries[0].type === "topic" ? topicEntries[0].topicId : "").toBe("topic-my-custom-topic");
+  });
+
+  it("falls back to deriveTopicId when proposedTopicId is absent", () => {
+    const patch = generatePatchFromApprovedCandidates([validCandidate]);
+    const topicEntries = patch.entries.filter((e) => e.type === "topic");
+    expect(topicEntries.length).toBe(1);
+    if (topicEntries[0].type === "topic") {
+      expect(topicEntries[0].topicId).toContain("topic-");
+    }
+  });
 });
 
 describe("checkForConflict", () => {

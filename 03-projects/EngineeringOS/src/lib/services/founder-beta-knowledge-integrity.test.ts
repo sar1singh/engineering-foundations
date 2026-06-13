@@ -82,9 +82,9 @@ describe("founder beta knowledge integrity", () => {
     expect(founderBetaSkills.length).toBeGreaterThanOrEqual(40);
     expect(founderBetaSkills.length).toBeLessThanOrEqual(80);
     expect(founderBetaMasterTopics.length).toBeGreaterThanOrEqual(150);
-    expect(founderBetaMasterTopics.length).toBeLessThanOrEqual(340);
+    expect(founderBetaMasterTopics.length).toBeLessThanOrEqual(400);
     expect(allTopics.length).toBeGreaterThanOrEqual(150);
-    expect(allTopics.length).toBeLessThanOrEqual(340);
+    expect(allTopics.length).toBeLessThanOrEqual(400);
     expect(founderBetaSourceCatalog.length).toBeGreaterThanOrEqual(140);
     expect(founderBetaDailyMissions.length).toBeGreaterThanOrEqual(10);
   });

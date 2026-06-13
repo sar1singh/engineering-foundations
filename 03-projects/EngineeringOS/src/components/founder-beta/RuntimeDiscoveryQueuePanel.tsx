@@ -12,6 +12,8 @@ import { createApprovedBatchPatch, serializeApprovedBatchPatch } from "@/lib/ser
 import type { ApprovedBatchPatchOutput } from "@/lib/services/approved-batch-patch-output-service";
 import { applyPatchToInMemoryGraph, summarizeGraphImport } from "@/lib/services/in-memory-graph-import-service";
 import type { GraphImportResult } from "@/lib/services/in-memory-graph-import-service";
+import { generateCanonicalPatchProposal, serializeCanonicalPatchProposal } from "@/lib/services/canonical-graph-patch-service";
+import type { CanonicalGraphPatchProposal } from "@/types/canonical-graph-patch";
 import type { ApprovedImportPackage } from "@/types/import-review";
 import type { ImportPatch } from "@/types/ingestion-patch";
 
@@ -201,6 +203,7 @@ export default function RuntimeDiscoveryQueuePanel() {
   const [batchPatchOutput, setBatchPatchOutput] = useState<ApprovedBatchPatchOutput | null>(null);
   const [showPatchOutput, setShowPatchOutput] = useState(false);
   const [graphImportPreview, setGraphImportPreview] = useState<GraphImportResult | null>(null);
+  const [canonicalPatchProposal, setCanonicalPatchProposal] = useState<CanonicalGraphPatchProposal | null>(null);
 
   const toggleExpanded = useCallback((id: string) => {
     setExpandedIds((prev) => {
@@ -244,6 +247,7 @@ export default function RuntimeDiscoveryQueuePanel() {
     setShowPatchOutput(false);
     setBatchPatchOutput(null);
     setGraphImportPreview(null);
+    setCanonicalPatchProposal(null);
   }, [items, overrideDuplicateRisk]);
 
   const handleApproveEntry = useCallback((entryIndex: number) => {
@@ -266,12 +270,18 @@ export default function RuntimeDiscoveryQueuePanel() {
     setBatchPatchOutput(output);
     setShowPatchOutput(true);
     setGraphImportPreview(null);
+    setCanonicalPatchProposal(null);
   }, [currentPackage]);
 
   const handleGenerateGraphImportPreview = useCallback(() => {
     if (!batchPatchOutput) return;
     setGraphImportPreview(applyPatchToInMemoryGraph(batchPatchOutput));
   }, [batchPatchOutput]);
+
+  const handleGenerateCanonicalPatchProposal = useCallback(() => {
+    if (!currentPackage) return;
+    setCanonicalPatchProposal(generateCanonicalPatchProposal(currentPackage));
+  }, [currentPackage]);
 
   const handleReset = useCallback(() => {
     setItems([]);
@@ -287,6 +297,7 @@ export default function RuntimeDiscoveryQueuePanel() {
     setBatchPatchOutput(null);
     setShowPatchOutput(false);
     setGraphImportPreview(null);
+    setCanonicalPatchProposal(null);
   }, []);
 
   const canRun = urlText.trim().length > 0 && consent && !running;
@@ -424,6 +435,7 @@ export default function RuntimeDiscoveryQueuePanel() {
           patchPreview={patchPreview}
           batchPatchOutput={batchPatchOutput}
           graphImportPreview={graphImportPreview}
+          canonicalPatchProposal={canonicalPatchProposal}
           showReviewSection={showReviewSection}
           showPatchOutput={showPatchOutput}
           overrideDuplicateRisk={overrideDuplicateRisk}
@@ -433,6 +445,7 @@ export default function RuntimeDiscoveryQueuePanel() {
           onRejectEntry={handleRejectEntry}
           onGeneratePatchOutput={handleGeneratePatchOutput}
           onGenerateGraphImportPreview={handleGenerateGraphImportPreview}
+          onGenerateCanonicalPatchProposal={handleGenerateCanonicalPatchProposal}
         />
       )}
     </div>
@@ -447,6 +460,7 @@ function BatchReviewSection({
   patchPreview,
   batchPatchOutput,
   graphImportPreview,
+  canonicalPatchProposal,
   showReviewSection,
   showPatchOutput,
   overrideDuplicateRisk,
@@ -456,6 +470,7 @@ function BatchReviewSection({
   onRejectEntry,
   onGeneratePatchOutput,
   onGenerateGraphImportPreview,
+  onGenerateCanonicalPatchProposal,
 }: {
   items: RuntimeDiscoveryQueueItem[];
   bridgeSummary: BatchReviewSummary | null;
@@ -464,6 +479,7 @@ function BatchReviewSection({
   patchPreview: ImportPatch | null;
   batchPatchOutput: ApprovedBatchPatchOutput | null;
   graphImportPreview: GraphImportResult | null;
+  canonicalPatchProposal: CanonicalGraphPatchProposal | null;
   showReviewSection: boolean;
   showPatchOutput: boolean;
   overrideDuplicateRisk: boolean;
@@ -473,6 +489,7 @@ function BatchReviewSection({
   onRejectEntry: (index: number) => void;
   onGeneratePatchOutput: () => void;
   onGenerateGraphImportPreview: () => void;
+  onGenerateCanonicalPatchProposal: () => void;
 }) {
   const bridgeSummaryLocal = bridgeSummary || summarizeBatchReviewBridge(items, overrideDuplicateRisk);
   const hasReviewable = bridgeSummaryLocal.hasReviewableItems;
@@ -645,6 +662,45 @@ function BatchReviewSection({
                     <p key={index} className="text-[10px] text-blue-700">{note}</p>
                   ))}
                 </div>
+              </div>
+            )}
+
+            <button
+              onClick={onGenerateCanonicalPatchProposal}
+              className="rounded border border-indigo-300 bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-100"
+            >
+              Canonical Patch Proposal
+            </button>
+
+            {canonicalPatchProposal && (
+              <div className="rounded border border-indigo-200 bg-indigo-50 p-2">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-semibold text-indigo-800">Canonical Patch Proposal</p>
+                  <span className="rounded bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                    {canonicalPatchProposal.review.approvalStatus}
+                  </span>
+                </div>
+                <p className="mt-1 text-[10px] font-medium text-amber-700">
+                  Human review required before graph update.
+                </p>
+                <div className="mt-2 grid grid-cols-2 gap-2 text-[10px] text-indigo-700">
+                  <p>Sources: {canonicalPatchProposal.summary.sourceAdds}</p>
+                  <p>Topics: {canonicalPatchProposal.summary.topicAdds}</p>
+                  <p>Conflicts: {canonicalPatchProposal.summary.conflictCount}</p>
+                  <p>Missions: {canonicalPatchProposal.summary.affectedMissionIds.length}</p>
+                </div>
+                {canonicalPatchProposal.conflicts.length > 0 && (
+                  <div className="mt-2 space-y-0.5">
+                    {canonicalPatchProposal.conflicts.map((item, index) => (
+                      <p key={`${item.entryId}-${item.field}-${index}`} className="text-[10px] text-red-600">
+                        [{item.severity}] {item.message}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                <pre className="mt-2 max-h-52 overflow-auto rounded bg-gray-900 p-2 text-[10px] text-green-300">
+                  {serializeCanonicalPatchProposal(canonicalPatchProposal)}
+                </pre>
               </div>
             )}
           </div>

@@ -1,149 +1,51 @@
-import type {
-  RealFetchPipelineResult,
-  FetchAgentTrace,
-  FetchBoundaryResult,
-  NormalizationResult,
-  MetadataExtractionResult,
-  SemanticDuplicateResult,
-  ContentQualityResult,
-  CandidateGenerationResult,
-} from "@/types/runtime-fetch-agent";
+// src/lib/services/real-fetch-orchestrator.ts
+import { SourceFamilyProfile } from './runtime-fetch-source-profiles';
+import { fetchDocumentContent } from './document-fetcher';
+import { normalizeDocumentContent } from './normalization-engine';
+import { runBatchDuplicateCollapseAgent } from './batch-duplicate-collapse-agent';
+import { runEducationalClusteringAgent } from './educational-clustering-agent';
+import { runTopicOverlapAnalysis } from './topic-overlap-agent';
+import { extractSyllabusFamily } from './syllabus-family-agent';
+import { buildReviewBatchPackage } from './review-batch-builder';
 
-import { runFetchBoundaryAgent } from "./runtime-fetch-agents/fetch-boundary-agent";
-import { runHtmlNormalizationAgent } from "./runtime-fetch-agents/html-normalization-agent";
-import { runMetadataExtractionAgent } from "./runtime-fetch-agents/metadata-extraction-agent";
-import { runSemanticDuplicateAgent } from "./runtime-fetch-agents/semantic-duplicate-agent";
-import { runContentQualityAgent } from "./runtime-fetch-agents/content-quality-agent";
-import { runCandidateGenerationAgent } from "./runtime-fetch-agents/candidate-generation-agent";
+export async function realFetchOrchestrator(sourceFamily: string): Promise<void> {
+  // 1. Load source family profile
+  const profile = SourceFamilyProfile[sourceFamily];
+  if (!profile) throw new Error(`No source family profile for ${sourceFamily}`);
 
-function makeTrace(
-  agentType: FetchAgentTrace["agentType"],
-  startTime: number,
-  success: boolean,
-  warnings: string[],
-  errors: string[]
-): FetchAgentTrace {
-  return {
-    agentType,
-    startedAt: new Date(startTime).toISOString(),
-    completedAt: new Date().toISOString(),
-    elapsedMs: Date.now() - startTime,
-    success,
-    warnings,
-    errors,
-  };
-}
+  // 2. Deterministic discovery & controlled fetch
+  const rawDocuments = await fetchDocumentContent(profile);
 
-import type { ManualUrlSubmission } from "@/lib/services/manual-url-fetch-contracts";
-import { runRealHttpFetch } from "./real-fetch";
+  // 3. Content normalization
+  const normalizedDocs = await normalizeDocumentContent(rawDocuments);
 
-async function fetchUrlContent(url: string, submission: ManualUrlSubmission): Promise<string> {
-  const result = await runRealHttpFetch(url, submission);
-  if (result.fetchStatus !== "success" || !result.rawTextPreview) {
-    throw new Error(result.errors?.join("; ") || "Fetch failed");
-  }
-  return result.rawTextPreview;
-}
+  // 4. Metadata extraction
+  // (already handled in normalization step)
 
-export async function runRealFetchPipeline(url: string, submission: ManualUrlSubmission): Promise<RealFetchPipelineResult> {
-  const pipelineStart = Date.now();
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  const traces: FetchAgentTrace[] = [];
+  // 5. Duplicate collapse
+  const duplicateResult = await runBatchDuplicateCollapseAgent(normalizedDocs);
 
-  let boundary: FetchBoundaryResult | null = null;
-  let normalization: NormalizationResult | null = null;
-  let metadata: MetadataExtractionResult | null = null;
-  let duplicate: SemanticDuplicateResult | null = null;
-  let quality: ContentQualityResult | null = null;
-  let candidate: CandidateGenerationResult | null = null;
+  // 6. Educational clustering
+  const clusterResult = await runEducationalClusteringAgent(normalizedDocs);
 
-  const boundaryStart = Date.now();
-  boundary = runFetchBoundaryAgent(url);
-  traces.push(makeTrace("fetch-boundary-agent", boundaryStart, boundary.success, boundary.warnings, boundary.errors));
-  if (!boundary.success) {
-    return {
-      success: false, trace: traces, boundary, normalization, metadata, duplicate, quality, candidate,
-      errors: boundary.errors, warnings, startedAt: new Date(pipelineStart).toISOString(),
-      completedAt: new Date().toISOString(), durationMs: Date.now() - pipelineStart,
-    };
-  }
+  // 7. Topic overlap analysis
+  const overlapResult = await runTopicOverlapAnalysis(normalizedDocs);
 
-  const rawHtml = await fetchUrlContent(url, submission);
+  // 8. Syllabus extraction
+  const syllabusResult = await extractSyllabusFamily(normalizedDocs);
 
-  const normStart = Date.now();
-  normalization = runHtmlNormalizationAgent(rawHtml);
-  traces.push(makeTrace("html-normalization-agent", normStart, normalization.success, normalization.warnings, normalization.errors));
-  if (!normalization.success || !normalization.content) {
-    return {
-      success: false, trace: traces, boundary, normalization, metadata, duplicate, quality, candidate,
-      errors: normalization.errors, warnings, startedAt: new Date(pipelineStart).toISOString(),
-      completedAt: new Date().toISOString(), durationMs: Date.now() - pipelineStart,
-    };
-  }
+  // 9. Review batch generation
+  const reviewBatch = await buildReviewBatchPackage({
+    sourceFamily,
+    rawDocuments,
+    normalizedDocs,
+    duplicateResult,
+    clusterResult,
+    overlapResult,
+    syllabusResult
+  });
 
-  const metaStart = Date.now();
-  metadata = runMetadataExtractionAgent(normalization.content, url);
-  traces.push(makeTrace("metadata-extraction-agent", metaStart, metadata.success, metadata.warnings, metadata.errors));
-  if (!metadata.success || !metadata.metadata) {
-    return {
-      success: false, trace: traces, boundary, normalization, metadata, duplicate, quality, candidate,
-      errors: metadata.errors, warnings, startedAt: new Date(pipelineStart).toISOString(),
-      completedAt: new Date().toISOString(), durationMs: Date.now() - pipelineStart,
-    };
-  }
-
-  const dupStart = Date.now();
-  duplicate = runSemanticDuplicateAgent(normalization.content, url);
-  traces.push(makeTrace("semantic-duplicate-agent", dupStart, duplicate.success, duplicate.warnings, duplicate.errors));
-  if (!duplicate.success) {
-    return {
-      success: false, trace: traces, boundary, normalization, metadata, duplicate, quality, candidate,
-      errors: duplicate.errors, warnings, startedAt: new Date(pipelineStart).toISOString(),
-      completedAt: new Date().toISOString(), durationMs: Date.now() - pipelineStart,
-    };
-  }
-
-  const qualStart = Date.now();
-  quality = runContentQualityAgent(normalization.content, metadata.metadata, duplicate.duplicateInfo ?? undefined);
-  traces.push(makeTrace("content-quality-agent", qualStart, quality.success, quality.warnings, quality.errors));
-  if (!quality.success || !quality.quality) {
-    return {
-      success: false, trace: traces, boundary, normalization, metadata, duplicate, quality, candidate,
-      errors: quality.errors, warnings, startedAt: new Date(pipelineStart).toISOString(),
-      completedAt: new Date().toISOString(), durationMs: Date.now() - pipelineStart,
-    };
-  }
-
-  const candStart = Date.now();
-  candidate = runCandidateGenerationAgent(
-    normalization.content, metadata.metadata, quality.quality,
-    duplicate.duplicateInfo ?? undefined, url
-  );
-  traces.push(makeTrace("candidate-generation-agent", candStart, candidate.success, candidate.warnings, candidate.errors));
-
-  if (candidate.attribution) {
-    warnings.push("Fetch attribution: fetchAgentVersion=" + candidate.attribution.fetchAgentVersion);
-    warnings.push("Content hash: " + candidate.attribution.contentHash);
-  }
-
-  warnings.push("Pipeline completed successfully");
-  warnings.push("All candidates require human review before import");
-  warnings.push("No graph writes performed");
-
-  return {
-    success: true,
-    trace: traces,
-    boundary,
-    normalization,
-    metadata,
-    duplicate,
-    quality,
-    candidate,
-    errors,
-    warnings,
-    startedAt: new Date(pipelineStart).toISOString(),
-    completedAt: new Date().toISOString(),
-    durationMs: Date.now() - pipelineStart,
-  };
+  console.log(`✅ Ingestion pipeline completed for ${sourceFamily}`);
+  console.log(`Duplicates collapsed: ${duplicateResult.collapsedDocuments.length}`);
+  console.log(`Review batch generated: ${reviewBatch.reviewRequired}`);
 }

@@ -1,0 +1,128 @@
+{
+  "id": "canonical-graph-patch-pack-11h-approved",
+  "packageId": "import-pkg-pack-11h-approved",
+  "patchId": "patch-pack-11h-approved",
+  "title": "Pack 11H Human Approved Canonical Graph Patch",
+  "entries": [
+    {
+      "type": "source",
+      "operation": "add",
+      "entryId": "aws-prescriptive-guidance-saga",
+      "source": {
+        "id": "aws-prescriptive-guidance-saga",
+        "title": "Saga Pattern - AWS Prescriptive Guidance",
+        "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/saga.html",
+        "sourceType": "official-docs",
+        "category": "AWS / Distributed Systems",
+        "tier": "tier-1",
+        "reliability": "high",
+        "founderBetaRelevance": "AWS guidance for saga orchestration, compensating transactions, and distributed workflow consistency."
+      },
+      "duplicateChecks": {
+        "duplicateId": false,
+        "duplicateUrl": false
+      }
+    },
+    {
+      "type": "topic",
+      "operation": "add",
+      "entryId": "topic-cloud-saga-orchestration",
+      "topic": {
+        "id": "topic-cloud-saga-orchestration",
+        "name": "Cloud Saga Orchestration",
+        "domainId": "domain-distributed-systems",
+        "capabilityIds": [
+          "cap-distributed-systems",
+          "cap-aws-cloud-architecture"
+        ],
+        "skillIds": [
+          "skill-async-architecture",
+          "skill-aws-data-messaging"
+        ],
+        "sourceIds": [
+          "aws-prescriptive-guidance-saga",
+          "aws-step-functions-docs",
+          "aws-builders-library"
+        ],
+        "prerequisiteTopicIds": [
+          "topic-saga-workflows",
+          "topic-event-driven-architecture"
+        ],
+        "relatedTopicIds": [
+          "topic-outbox-pattern",
+          "topic-step-functions-design",
+          "topic-event-driven-architecture"
+        ],
+        "successorTopicIds": [],
+        "alternativeTopicIds": [],
+        "interviewImportance": "high",
+        "roadmapPriority": "p1",
+        "estimatedStudyMinutes": 60,
+        "estimatedPracticeMinutes": 120,
+        "proofTypes": [
+          "hld",
+          "aws-design",
+          "architecture-review"
+        ],
+        "readinessMetrics": [
+          "knowledge",
+          "practice",
+          "interview",
+          "implementation"
+        ],
+        "missionTypes": [
+          "learn",
+          "implement",
+          "interview",
+          "architecture-case-study"
+        ],
+        "confidenceScore": 0.76
+      },
+      "capabilityReferences": [],
+      "skillReferences": [],
+      "sourceIds": [
+        "aws-prescriptive-guidance-saga",
+        "aws-step-functions-docs",
+        "aws-builders-library"
+      ],
+      "affectedMissions": [],
+      "duplicateChecks": {
+        "duplicateId": false
+      }
+    }
+  ],
+  "conflicts": [],
+  "warnings": [
+    "Human-approved fixture for Pack 11H controlled canonical graph apply."
+  ],
+  "summary": {
+    "packageId": "import-pkg-pack-11h-approved",
+    "totalApprovedEntries": 2,
+    "sourceAdds": 1,
+    "topicAdds": 1,
+    "conflictCount": 0,
+    "warningCount": 1,
+    "affectedCapabilityIds": [
+      "cap-aws-cloud-architecture",
+      "cap-distributed-systems"
+    ],
+    "affectedSkillIds": [
+      "skill-async-architecture",
+      "skill-aws-data-messaging"
+    ],
+    "affectedMissionIds": [],
+    "hasBlockingConflicts": false
+  },
+  "review": {
+    "reviewRequired": true,
+    "approvalStatus": "approved",
+    "reviewer": "sarwan",
+    "reviewedAt": "2026-06-13T00:00:00.000Z",
+    "notes": [
+      "Human approved for Pack 11H controlled canonical graph apply.",
+      "Scope limited to one source and one topic.",
+      "No autonomous publish or database persistence authorized."
+    ]
+  },
+  "generatedAt": "2026-06-13T00:00:00.000Z"
+}

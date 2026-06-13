@@ -420,14 +420,17 @@ Do not expand to:
 Next task:
 
 ```txt
-Pack 11G: Controlled Canonical Graph Import Patch.
+Pack 12D: First Autonomous Approved Import.
 ```
 
 Scope:
 
-- Controlled patch generation only.
-- Preserve review and explicit approval boundaries.
-- Keep Pack 11F in-memory preview as the validation gate before canonical edits.
+- Select a tiny autonomous discovery candidate batch for explicit human approval.
+- Produce the first autonomous approved import package.
+- Preserve patch proposal, in-memory import preview, and human review boundaries.
+- Preserve Validation -> Metadata -> Candidate -> Duplicate -> Review for every discovered candidate.
+- Keep graph patch proposal human-review-gated.
+- Preserve explicit human approval boundaries before any graph update.
 - No autonomous publish.
 - No crawling.
 - No Prisma.
@@ -439,10 +442,34 @@ Scope:
 
 Latest completed:
 
-- Pack 11F: Approved Batch Graph Import, in-memory only.
-- Added deterministic preview service, validation report, rollback plan, UI preview, and docs.
+- Pack 12C: Autonomous Discovery Review Queue + Batch Patch Bridge.
+- Added autonomous discovery review bridge, review package preview, patch preview, in-memory graph import preview, UI bridge controls, and tests.
+- This session: Approved Batch Graph Import Bridge (approved-batch-graph-import-service). 16 new tests.
+- This session: Pack 12D — First Autonomous Approved Canonical Import. 3 sources + 3 topics applied. 16 new tests.
+- This session: ID Derivation Fix — proposedSourceId/proposedTopicId propagation across all ingestion paths. 4 new tests.
+- This session: Pack 12D Closure Audit — full pipeline audit, ID propagation matrix, duplicate detection verification, rollback safety. Closure doc created.
 
-## Success Definition For First Vertical Slice
+Latest completed:
+
+- Pack 12E: Autonomous Import Scale-Up Batch 1.
+- Added proposed IDs to all 40 discovery seeds.
+- Created batch-1 fixture with 12 approved candidates (4 AWS / 3 System Design / 3 Backend / 2 Career).
+- 17 new pipeline validation tests.
+- Applied 12 sources (225→237) and 12 topics (259→271).
+- Created scale-up audit doc.
+- 1195 tests pass. 0 regressions.
+
+Next task:
+
+```txt
+Pack 12F: Autonomous Import Wave 2 + Coverage Gap Discovery.
+```
+
+Scope:
+
+- Use discovery agents to identify actual syllabus coverage gaps.
+- Prioritize future imports based on gap analysis rather than arbitrary selection.
+- No crawling, scraping, autonomous publish, Prisma, auth, or deployment.
 
 The first implementation slice succeeds when EngineeringOS can:
 

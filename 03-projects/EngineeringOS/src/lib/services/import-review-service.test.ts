@@ -11,11 +11,21 @@ import {
 import { generatePatchFromApprovedCandidates } from "./approved-import-patch-generator";
 import { founderBetaSourceCatalog } from "@/data/founder-beta";
 import { founderBetaMasterTopics } from "@/data/founder-beta/master-topics";
-import { founderBetaCapabilities, founderBetaSkills } from "@/data/founder-beta";
 import type { ApprovedImportCandidate } from "@/types/ingestion-patch";
 import firstImportCandidates from "../../../data/ingestion/first-import-candidates.json";
 
 const mockCandidates: ApprovedImportCandidate[] = (firstImportCandidates as ApprovedImportCandidate[]);
+const reviewCandidate: ApprovedImportCandidate = {
+  candidateUrl: "https://example.com/import-review-service-baseline",
+  candidateId: "import-review-service-baseline",
+  title: "Import Review Service Baseline",
+  sourceType: "engineering-blog",
+  category: "System Design",
+  description: "Stable synthetic candidate for import review service tests.",
+  tier: "tier-2",
+  reliability: "medium",
+  overrideDuplicateRisk: false,
+};
 
 describe("createImportReviewPackage", () => {
   it("creates a package from a generated patch", () => {
@@ -30,7 +40,7 @@ describe("createImportReviewPackage", () => {
   });
 
   it("sets all items to pending initially", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
 
     for (const item of pkg.reviewItems) {
@@ -49,7 +59,7 @@ describe("createImportReviewPackage", () => {
     const sourceLenBefore = founderBetaSourceCatalog.length;
     const topicsLenBefore = founderBetaMasterTopics.length;
 
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     createImportReviewPackage(patch);
 
     expect(founderBetaSourceCatalog.length).toBe(sourceLenBefore);
@@ -59,7 +69,7 @@ describe("createImportReviewPackage", () => {
 
 describe("reviewPatchEntry", () => {
   it("returns the review item for a valid entry index", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const item = reviewPatchEntry(pkg, 0);
 
@@ -68,7 +78,7 @@ describe("reviewPatchEntry", () => {
   });
 
   it("returns null for an invalid entry index", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const item = reviewPatchEntry(pkg, 999);
 
@@ -78,7 +88,7 @@ describe("reviewPatchEntry", () => {
 
 describe("approvePatchEntry", () => {
   it("marks an entry as approved", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const updated = approvePatchEntry(pkg, 0);
 
@@ -86,7 +96,7 @@ describe("approvePatchEntry", () => {
   });
 
   it("includes approved entries in approvedEntries", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const updated = approvePatchEntry(pkg, 0);
 
@@ -94,7 +104,7 @@ describe("approvePatchEntry", () => {
   });
 
   it("preserves review notes", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const updated = approvePatchEntry(pkg, 0, "Looks good");
 
@@ -102,7 +112,7 @@ describe("approvePatchEntry", () => {
   });
 
   it("updates reviewedAt timestamp on approve", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const updated = approvePatchEntry(pkg, 0);
 
@@ -112,7 +122,7 @@ describe("approvePatchEntry", () => {
 
 describe("rejectPatchEntry", () => {
   it("marks an entry as rejected", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const updated = rejectPatchEntry(pkg, 0);
 
@@ -120,7 +130,7 @@ describe("rejectPatchEntry", () => {
   });
 
   it("includes rejected entries in rejectedEntries", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const updated = rejectPatchEntry(pkg, 0);
 
@@ -128,7 +138,7 @@ describe("rejectPatchEntry", () => {
   });
 
   it("stores rejection reason", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const updated = rejectPatchEntry(pkg, 0, "Duplicate content");
 
@@ -168,7 +178,7 @@ describe("detectImportConflicts", () => {
 
 describe("generateApplicationPlan", () => {
   it("returns an application plan from the package", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const approved = approvePatchEntry(pkg, 0);
     const plan = generateApplicationPlan(approved);
@@ -180,7 +190,7 @@ describe("generateApplicationPlan", () => {
   });
 
   it("lists capabilities impacted", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const approvals = approvePatchEntry(pkg, 0);
     const plan = generateApplicationPlan(approvals);
@@ -189,7 +199,7 @@ describe("generateApplicationPlan", () => {
   });
 
   it("lists skills impacted", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const approvals = approvePatchEntry(pkg, 0);
     const plan = generateApplicationPlan(approvals);
@@ -200,7 +210,7 @@ describe("generateApplicationPlan", () => {
 
 describe("summarizeImportPackage", () => {
   it("returns summary with correct initial counts", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const summary = summarizeImportPackage(pkg);
 
@@ -212,7 +222,7 @@ describe("summarizeImportPackage", () => {
   });
 
   it("updates counts after approve", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const approved = approvePatchEntry(pkg, 0);
     const summary = summarizeImportPackage(approved);
@@ -222,7 +232,7 @@ describe("summarizeImportPackage", () => {
   });
 
   it("updates counts after reject", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const rejected = rejectPatchEntry(pkg, 0);
     const summary = summarizeImportPackage(rejected);
@@ -233,7 +243,7 @@ describe("summarizeImportPackage", () => {
 
 describe("deterministic output", () => {
   it("generates the same package for the same input", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg1 = createImportReviewPackage(patch);
     const pkg2 = createImportReviewPackage(patch);
 
@@ -244,7 +254,7 @@ describe("deterministic output", () => {
   });
 
   it("output is JSON-serializable", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     const serialized = JSON.stringify(pkg);
 
@@ -257,7 +267,7 @@ describe("deterministic output", () => {
 
 describe("application plan generation", () => {
   it("includes sourcesToAdd for approved sources", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     let approved = pkg;
 
@@ -272,7 +282,7 @@ describe("application plan generation", () => {
   });
 
   it("includes topicsToAdd for approved topics", () => {
-    const patch = generatePatchFromApprovedCandidates([mockCandidates[0]]);
+    const patch = generatePatchFromApprovedCandidates([reviewCandidate]);
     const pkg = createImportReviewPackage(patch);
     let approved = pkg;
 

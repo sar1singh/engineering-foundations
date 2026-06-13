@@ -13,7 +13,7 @@ describe("ContentRegistryService", () => {
 
     it("returns correct total counts", () => {
       expect(registry.totalTopics).toBeGreaterThan(0);
-      expect(registry.totalSources).toBe(217);
+      expect(registry.totalSources).toBe(246);
       expect(registry.totalCapabilities).toBeGreaterThan(0);
       expect(registry.totalSkills).toBeGreaterThan(0);
     });
@@ -87,7 +87,7 @@ describe("ContentRegistryService", () => {
     });
 
     it("reports source coverage by type, tier, and category", () => {
-      expect(coverage.sourceCoverage.totalSources).toBe(217);
+      expect(coverage.sourceCoverage.totalSources).toBe(246);
       expect(Object.keys(coverage.sourceCoverage.byType).length).toBeGreaterThan(0);
       expect(Object.keys(coverage.sourceCoverage.byTier).length).toBeGreaterThan(0);
       expect(Object.keys(coverage.sourceCoverage.byCategory).length).toBeGreaterThan(0);

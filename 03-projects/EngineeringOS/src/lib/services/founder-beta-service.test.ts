@@ -118,7 +118,7 @@ describe("FounderBetaService", () => {
   it("getAllSources returns the full source catalog", () => {
     const all = founderBetaService.getAllSources();
 
-    expect(all.length).toBe(221);
+    expect(all.length).toBe(246);
     expect(all[0].id).toBe("aws-well-architected");
   });
 

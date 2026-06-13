@@ -18,7 +18,7 @@
 
 Current phase:
 
-- **STATUS: PACKS 8A-8D, 9A-9E, 10A-10I, 11A, 11B, 11C, 11D, 11E COMPLETE** (2026-06-12)
+- **STATUS: PACKS 8A-8D, 9A-9E, 10A-10I, 11A-11I, 12A-12F, 13A COMPLETE** (2026-06-13)
 - **Pack 10I — Sub-Agent Topic Mapping V1 (completed 2026-06-11):** created `src/data/founder-beta/topic-mapping-candidates.ts` — 10 deterministic mapping candidates (5 architecture, 5 DSA) with source > topic > skill > capability chains and manual confidence scoring. Created `src/lib/services/topic-mapping-service.ts` — `computeTopicMapping()`, `computeSkillMapping()`, `computeCapabilityMapping()` with fuzzy title matching, sourceType matching, and deterministic scoring. Created `src/lib/services/topic-mapping-service.test.ts` — 26 tests. Created `src/components/founder-beta/TopicMappingPreview.tsx` — UI with source list, topic mapping, skill/capability suggestions. Created `src/app/founder-beta/topic-mapping/page.tsx`. Updated `founderBetaSourceCatalog` — added 4 new sources (confluent-eda-patterns, aws-dynamodb-gsi, aws-eventbridge-scheduler, aws-lambda-snapstart), count 217→221. Updated `founderBetaTopics` — added 4 new topics, count 252→256. Updated `founderBetaMissions` — added 4 new missions, count 41→43. Updated content-registry.test.ts, founder-beta-service.test.ts. Typecheck 0 errors, lint 0 errors, 917 pass / 8 pre-existing Playwright E2E infra failures. 0 regressions.
 - **Pack 11A — Runtime Discovery Agent MVP (completed 2026-06-12):** created `src/types/discovery-agent.ts` — 8 types (DiscoveryAgentInput, DiscoveryAgentOutput, DiscoveryAgentTrace, DiscoveryAgentTraceStep, DiscoveryAgentStep, DiscoveryAgentStatus, DiscoveryMetadata, DiscoveryCandidateResult). Created `src/lib/services/runtime-discovery-agent.ts` — `runDiscoveryAgent()` with 6-step pipeline: validate-url, fetch, extract-metadata, generate-candidate, duplicate-detection, prepare-review. Full per-step trace with timestamps/duration/status/warnings/errors. Created `src/lib/services/runtime-discovery-agent.test.ts` — 14 tests. Created `src/components/founder-beta/DiscoveryAgentPreview.tsx` — React UI with URL input, sourceType/consent/submittedBy controls, Run Discovery button, trace timeline (6 steps with badges), metadata card, candidate card, duplicate status card, review queue card, approval badge, no publish controls. Created `src/app/founder-beta/discovery-agent/page.tsx`. Created `src/components/founder-beta/DiscoveryAgentPreview.test.tsx` — 32 component tests. Typecheck 0 errors, lint 0 errors in new files (pre-existing warnings only). 931 pass / 8 pre-existing Playwright E2E infra failures. 0 regressions.
 - **Pack 11B — Runtime Sub-Agent Pipeline (completed 2026-06-12):** created `src/types/runtime-sub-agent.ts` — 6 types (RuntimeSubAgentType, 5 agent types, RuntimeSubAgentInput/Output discriminators, RuntimeSubAgentTrace, PipelineResult, RuntimeSubAgentFailure). Created `src/lib/services/runtime-sub-agents/validation-agent.ts`, `metadata-agent.ts`, `candidate-agent.ts`, `duplicate-agent.ts`, `review-agent.ts` — each returns `{ success, warnings, errors, elapsedMs, output }`, no shared state, no exceptions. Created `src/lib/services/runtime-sub-agent-orchestrator.ts` — `runRuntimeSubAgentPipeline()` orchestrates validation → fetch → metadata → candidate → duplicate → review with stop-on-failure and full PipelineResult. Created `src/lib/services/runtime-sub-agent-safety.test.ts` — 7 safety assertions (no catalog/topic writes, no approval bypass, no input mutation). Updated `DiscoveryAgentPreview.tsx` — visual pipeline with 5 agent step cards (numbered, pass/fail, elapsed time, warnings/errors). 56 new tests (8+9+4+5+6 agent + 17 orchestrator + 7 safety). Updated `DiscoveryAgentPreview.test.tsx` — 30 tests for new pipeline. Typecheck 0 errors, lint 0 errors in new files. 998 pass / 8 pre-existing Playwright E2E infra failures / 15 pre-existing test failures. 0 regressions.
@@ -1113,3 +1113,266 @@ Safety:
 Next:
 
 - Pack 11G — Controlled Canonical Graph Import Patch.
+
+## Pack 11F Baseline Stabilization
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Fixed `IngestionAgentPreview.tsx` React refs lint error without changing ingestion behavior.
+- Audited 15 service/count/import-review failures from the Pack 11F baseline.
+- Fixed stale source-count expectations after legitimate catalog growth to 221 sources.
+- Fixed stale mission-selection expectation after legitimate `mission-cloud-security-review` addition.
+- Fixed stale import-review fixture by using a unique synthetic candidate for review workflow tests.
+- Added `PACK11F_BASELINE_STABILIZATION.md`.
+
+Current baseline:
+
+- Pack 11F targeted tests pass.
+- Service/count/import-review focused baseline passes.
+- Typecheck passes.
+- Lint passes with warnings only.
+- Full Vitest service/unit test count: 1089 passing tests.
+- Remaining accepted full-suite issue: Playwright E2E specs are collected by Vitest under `npm run test`.
+
+Pack 11G readiness:
+
+- Safe to start after this baseline, with Pack 11F in-memory preview preserved as the validation gate.
+
+## Pack 11G Controlled Canonical Graph Import Patch
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Added canonical graph patch proposal types.
+- Added `canonical-graph-patch-service.ts`.
+- Added proposal generation, validation, conflict detection, summary, and serialization functions.
+- Proposal includes topics to add, sources to add, capability references, skill references, affected missions, duplicate checks, conflicts, and summary.
+- Enforced human review gate: `reviewRequired = true`, `approvalStatus = pending`.
+- Updated import review UI and batch review UI to display Canonical Patch Proposal with no apply button.
+- Added service tests and `CANONICAL_GRAPH_PATCH_PROPOSAL_V1.md`.
+
+Safety:
+
+- No graph mutation.
+- No automatic writes.
+- No apply function.
+- No persistence, crawling, AI evaluation, Prisma, auth, SaaS, or deployment.
+
+Next:
+
+- Pack 11H — Human Approved Canonical Graph Apply.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed with warnings only.
+- Canonical graph patch service tests passed, 8/8.
+- Full Vitest run: 1097 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+
+## Pack 11H Human Approved Canonical Graph Apply
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Added approved patch fixture at `data/ingestion/approved-canonical-graph-patch.json`.
+- Added `canonical-graph-apply-service.ts`.
+- Added validation, in-memory apply, apply plan, summary, and post-apply validation helpers.
+- Added canonical apply service tests.
+- Manually applied the approved fixture to canonical static graph files:
+  - `source-catalog.ts`: added `aws-prescriptive-guidance-saga`
+  - `master-topics.ts`: added `topic-cloud-saga-orchestration`
+- Updated source-count tests to 222.
+- Added `HUMAN_APPROVED_CANONICAL_GRAPH_APPLY_AUDIT.md`.
+
+Current graph:
+
+- 222 sources.
+- 257 topics.
+- Capabilities unchanged.
+- Skills unchanged.
+- Missions unchanged.
+
+Safety:
+
+- Human approval required.
+- Service does not write files.
+- No autonomous apply.
+- No agent auto-publish.
+- No persistence, Prisma, auth, SaaS, deployment, AI evaluation, scraping, crawling, or uncontrolled bulk import.
+
+Next:
+
+- Pack 11I — Canonical Import Regression Audit + Sub-Agent Ingestion Closure.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed with warnings only.
+- Focused Pack 11H/count tests passed, 66/66.
+- Full Vitest run: 1107 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+
+## Pack 11I Regression Audit + Pack 12A Autonomous Discovery Agent MVP
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Added lightweight regression audit doc for Packs 11B through 11H.
+- Added deterministic static discovery seeds for system design, AWS, and backend.
+- Added autonomous discovery agent service.
+- Added autonomous discovery UI at `/founder-beta/autonomous-discovery`.
+- Added category selection, queue summary, candidate cards, duplicate status, review-required status, and trace display.
+- Added service and component tests.
+- Added `AUTONOMOUS_DISCOVERY_AGENT_V1.md`.
+
+Safety:
+
+- Seed-backed only.
+- No scraping or crawling.
+- Existing Pack 11B pipeline is used for every candidate.
+- Review required remains mandatory.
+- No graph writes, approvals, applies, publishing, persistence, Prisma, auth, SaaS, deployment, or AI evaluation.
+
+Next:
+
+- Pack 12B — Multi-Source Discovery Agents.
+
+Validation:
+
+- Typecheck passed.
+- Lint passed with warnings only: 0 errors, 32 accepted warnings.
+- Focused Pack 12A tests passed, 14/14.
+- Full Vitest run: 1121 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+
+## Pack 12B Multi-Source Discovery Agents
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Added `src/types/multi-source-discovery-agent.ts`.
+- Added Career/Staff Engineering seed pack.
+- Added source-specific discovery agents for AWS, System Design, Backend, and Career/Staff Engineering.
+- Added `multi-source-discovery-orchestrator.ts`.
+- Added independent source-agent traces.
+- Added cross-agent duplicate URL warning detection.
+- Updated `/founder-beta/autonomous-discovery` UI with source-agent selector, per-agent trace summaries, per-agent candidate counts, duplicate warnings, and review-required summary.
+- Added `multi-source-discovery-orchestrator.test.ts`.
+- Updated `AutonomousDiscoveryPreview.test.tsx`.
+- Added `MULTI_SOURCE_DISCOVERY_AGENTS_V1.md`.
+
+Safety:
+
+- Seed-backed only.
+- No scraping, crawling, browser automation, or external API calls.
+- Existing Pack 11B pipeline is used for every candidate.
+- Review required remains mandatory.
+- No graph writes, approvals, applies, publishing, persistence, Prisma, auth, SaaS, deployment, or AI evaluation.
+
+Next:
+
+- Pack 12C — Autonomous Discovery Review Queue + Batch Patch Bridge.
+
+Validation:
+
+- Focused Pack 12B tests passed, 24/24.
+- Typecheck passed.
+- Lint passed with warnings only: 0 errors, 32 accepted warnings.
+- Full Vitest run: 1131 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+
+## Pack 12C Autonomous Discovery Review Queue + Batch Patch Bridge
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Added `autonomous-discovery-review-bridge.ts`.
+- Added reviewable candidate extraction from multi-source agent results.
+- Added conversion from agent candidates to existing `ApprovedImportCandidate` shape.
+- Added autonomous import review package creation through `import-review-service`.
+- Added autonomous batch patch preview through the approved patch generator and approved batch patch output service.
+- Added in-memory graph import preview through `in-memory-graph-import-service`.
+- Updated `/founder-beta/autonomous-discovery` with Send Agent Candidates to Review Queue, review package preview, patch preview, in-memory import preview, duplicate/conflict summary, and no-write warnings.
+- Added `autonomous-discovery-review-bridge.test.ts`.
+
+Safety:
+
+- Duplicate-risk candidates remain review-visible and flagged.
+- Failed candidates are excluded.
+- Review package entries remain pending; no approval is granted by the bridge.
+- Approved batch output remains empty until human approval.
+- No graph writes, autonomous publish, persistence, Prisma, auth, SaaS, deployment, AI evaluation, scraping, crawling, or browser automation.
+
+Next:
+
+- Pack 12D — First Autonomous Approved Import.
+
+Validation:
+
+- Focused Pack 12C tests passed, 27/27.
+- Typecheck passed.
+- Lint passed with warnings only: 0 errors, 32 accepted warnings.
+- Full Vitest run: 1142 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+
+## This Session: Pack 12D First Autonomous Approved Canonical Import + ID Derivation Fix
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Created `data/ingestion/approved-autonomous-canonical-import.json` — golden fixture with 3 approved seeds, full human approval evidence, and rollback instructions.
+- Created `src/lib/services/approved-autonomous-canonical-import.test.ts` — 16 tests covering fixture structure (4), post-apply verification (4), and pipeline validation (8).
+- Manually applied 3 sources to `source-catalog.ts` (222→225).
+- Manually applied 3 topics to `master-topics.ts` (256→259).
+- Created `docs/FIRST_AUTONOMOUS_APPROVED_CANONICAL_IMPORT_AUDIT.md`.
+- Updated test count assertions in content-registry.test.ts, founder-beta-service.test.ts, and knowledge-integrity.test.ts.
+
+**ID Derivation Fix (per audit findings):**
+- Added `proposedSourceId?` and `proposedTopicId?` to `ApprovedImportCandidate` and `DiscoverySeed` types.
+- Updated `buildSourceEntry()` and topic entry creation to prefer proposed IDs with `derive*()` fallback.
+- Updated `convertAgentCandidateToReviewItem()` to pass through seed's proposed IDs.
+- Added 4 new tests for proposed ID precedence.
+
+**Pack 12D Closure Audit:**
+- Created `docs/PACK12D_AUTONOMOUS_IMPORT_CLOSURE_AUDIT.md` — full pipeline audit with ID propagation matrix for all 3 fixture entries, 10 duplicate detection checkpoints, rollback safety verification, and scope recommendation for Pack 12E.
+
+Validation:
+
+- 22 new tests (16 Pack 12D + 4 ID fix + 2 closure assertions) pass.
+- Typecheck 0 errors. Lint 0 errors.
+- Full Vitest run: 1178 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+- 0 regressions.
+
+Next:
+
+- **Pack 12E — Autonomous Import Scale-Up Batch 1**: add proposed IDs to 10+ discovery seeds, run scale-up import, validate and apply.
+
+
+## This Session: Pack 12E Autonomous Import Scale-Up Batch 1
+
+Status: complete (2026-06-13).
+
+Completed:
+
+- Added `proposedSourceId`/`proposedTopicId` to all 40 discovery seeds across 4 seed files.
+- Created `data/ingestion/approved-autonomous-import-batch-1.json` — 12 candidates (4 AWS, 3 System Design, 3 Backend, 2 Career).
+- Created `src/lib/services/approved-autonomous-import-batch-1.test.ts` — 17 tests.
+- Applied 12 sources to source-catalog.ts (225→237).
+- Applied 12 topics to master-topics.ts (259→271).
+- Updated test count assertions in content-registry.test.ts and founder-beta-service.test.ts.
+- Created `docs/AUTONOMOUS_IMPORT_SCALE_UP_BATCH1_AUDIT.md`.
+
+Validation:
+
+- 17 new pipeline tests pass.
+- Typecheck 0 errors. Lint 0 errors.
+- Full Vitest run: 1195 tests passed; 8 accepted Playwright/Vitest collection failures remain.
+- 0 regressions.
+
+Next:
+
+- **Pack 12F — Autonomous Import Wave 2 + Coverage Gap Discovery**: use discovery agents to identify actual syllabus coverage gaps and prioritize future imports instead of importing arbitrarily.

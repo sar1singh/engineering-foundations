@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { runIngestionAgent } from "@/lib/services/ingestion-agent-service";
 import type { IngestionAgentResult, IngestionSubAgentStep } from "@/types/ingestion-agent";
 import type { ContentSourceType } from "@/types/content-ingestion";
@@ -433,19 +433,17 @@ export function IngestionAgentPreview() {
   const [reviewStates, setReviewStates] = useState<RuntimeFetchReviewState[]>([]);
   const [rejectionInputs, setRejectionInputs] = useState<Record<string, string>>({});
   const [changesInputs, setChangesInputs] = useState<Record<string, string>>({});
-  const candidateInfoRef = useRef<Record<string, { title: string; sourceType: string; category: string; description: string }>>({});
+  const [candidateInfoByUrl, setCandidateInfoByUrl] = useState<Record<string, { title: string; sourceType: string; category: string; description: string }>>({});
 
   const capabilitiesList = founderBetaCapabilities ?? [];
   const skillsList = founderBetaSkills ?? [];
   const filteredSkills = skillsList.filter((s) => !capabilityId || s.capabilityId === capabilityId);
 
-  const summary = useMemo(() => computeQueueSummary(reviewStates), [reviewStates]);
-
   const approvedCandidates = useMemo((): ApprovedImportCandidate[] => {
     return reviewStates
       .filter((rs) => rs.decision === "approved")
       .map((rs) => {
-        const info = candidateInfoRef.current[rs.candidateUrl];
+        const info = candidateInfoByUrl[rs.candidateUrl];
         return {
           candidateUrl: rs.candidateUrl,
           candidateId: rs.candidateId,
@@ -458,7 +456,7 @@ export function IngestionAgentPreview() {
           overrideDuplicateRisk: rs.duplicateWarning ? true : false,
         };
       });
-  }, [reviewStates]);
+  }, [candidateInfoByUrl, reviewStates]);
 
   const patch = useMemo(() => {
     if (approvedCandidates.length === 0) return null;
@@ -478,12 +476,15 @@ export function IngestionAgentPreview() {
     setResult(agentResult);
     setRan(true);
 
-    candidateInfoRef.current[agentResult.candidateUrl] = {
-      title: agentResult.candidateUrl.split("/").pop()?.replace(/[-_]/g, " ") || "Untitled",
-      sourceType: sourceType,
-      category: "General",
-      description: notes.trim() || "Imported via ingestion agent.",
-    };
+    setCandidateInfoByUrl((prev) => ({
+      ...prev,
+      [agentResult.candidateUrl]: {
+        title: agentResult.candidateUrl.split("/").pop()?.replace(/[-_]/g, " ") || "Untitled",
+        sourceType: sourceType,
+        category: "General",
+        description: notes.trim() || "Imported via ingestion agent.",
+      },
+    }));
 
     const duplicateWarning = agentResult.duplicateWarning;
     const newState = createInitialReviewState(agentResult.candidateUrl, {

@@ -2266,5 +2266,261 @@ export const founderBetaSourceCatalog: SourceReference[] = [
     tier: "tier-1",
     reliability: "high",
     founderBetaRelevance: "Google Cloud security best practices covering identity, network security, data protection, and compliance foundations."
+  }),
+
+  // ── Pack 11H: Human Approved Canonical Graph Apply ───────────────────
+  source({
+    id: "aws-prescriptive-guidance-saga",
+    title: "Saga Pattern - AWS Prescriptive Guidance",
+    url: "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/saga.html",
+    sourceType: "official-docs",
+    category: "AWS / Distributed Systems",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "AWS guidance for saga orchestration, compensating transactions, and distributed workflow consistency."
+  }),
+  source({
+    id: "aws-eventbridge-pipes",
+    title: "Amazon EventBridge Pipes",
+    url: "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html",
+    sourceType: "official-docs",
+    category: "AWS / Cloud Architecture",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "EventBridge Pipes provides point-to-point integration between event sources and targets with optional filtering and enrichment, a key serverless integration pattern for AWS architects."
+  }),
+  source({
+    id: "grpc-core-concepts",
+    title: "gRPC Core Concepts",
+    url: "https://grpc.io/docs/what-is-grpc/core-concepts/",
+    sourceType: "official-docs",
+    category: "Backend Engineering",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "gRPC core concepts including service definitions, message types, RPC lifecycle, streaming, and HTTP/2 transport — essential for API contract design and inter-service communication patterns."
+  }),
+  source({
+    id: "nodejs-diagnostics-guide",
+    title: "Node.js Diagnostics Guide",
+    url: "https://nodejs.org/en/learn/diagnostics",
+    sourceType: "official-docs",
+    category: "Backend Engineering",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Official Node.js diagnostics guide covering debugging, profiling, memory analysis, performance monitoring, and production troubleshooting for Node.js applications."
+  }),
+
+  // ── Pack 12E: Autonomous Import Scale-Up Batch 1 ─────────────────
+  source({
+    id: "aws-step-functions-dev-guide",
+    title: "AWS Step Functions Developer Guide",
+    url: "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html",
+    sourceType: "official-docs",
+    category: "AWS / Cloud Architecture",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "AWS Step Functions Developer Guide covering workflow orchestration, state machine design patterns, error handling, and execution management for serverless workflows."
+  }),
+  source({
+    id: "aws-lambda-best-practices",
+    title: "AWS Lambda Best Practices",
+    url: "https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html",
+    sourceType: "official-docs",
+    category: "AWS / Cloud Architecture",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "AWS Lambda best practices covering function configuration, performance optimization, error handling, security, and operational excellence for serverless functions."
+  }),
+  source({
+    id: "aws-ecs-capacity-providers",
+    title: "Amazon ECS Capacity Providers",
+    url: "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html",
+    sourceType: "official-docs",
+    category: "AWS / Cloud Architecture",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Amazon ECS Capacity Providers documentation covering cluster capacity management, Fargate/EC2 launch type strategies, auto-scaling, and capacity planning for container workloads."
+  }),
+  source({
+    id: "aws-serverless-lens",
+    title: "Serverless Lens (Well-Architected)",
+    url: "https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html",
+    sourceType: "official-docs",
+    category: "AWS / Cloud Architecture",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Serverless Applications Lens extending the AWS Well-Architected Framework with serverless-specific design principles, best practices, and architecture review questions."
+  }),
+  source({
+    id: "ddd-aggregate-design-canvas",
+    title: "Aggregate Design Canvas",
+    url: "https://github.com/ddd-crew/aggregate-design-canvas",
+    sourceType: "github-repository",
+    category: "System Design / LLD",
+    tier: "tier-2",
+    reliability: "high",
+    founderBetaRelevance: "DDD Aggregate Design Canvas providing structured templates and heuristics for identifying aggregate boundaries, consistency rules, and domain event modeling in tactical DDD."
+  }),
+  source({
+    id: "microservices-patterns",
+    title: "Microservices Patterns Catalog",
+    url: "https://microservices.io/patterns/index.html",
+    sourceType: "engineering-blog",
+    category: "System Design / HLD",
+    tier: "tier-2",
+    reliability: "medium",
+    founderBetaRelevance: "Comprehensive catalog of microservices architecture patterns including decomposition, communication, data management, observability, and deployment patterns."
+  }),
+  source({
+    id: "microsoft-api-guidelines",
+    title: "Microsoft REST API Guidelines",
+    url: "https://github.com/microsoft/api-guidelines",
+    sourceType: "github-repository",
+    category: "System Design / LLD",
+    tier: "tier-2",
+    reliability: "high",
+    founderBetaRelevance: "Industry-standard REST API design guidelines covering URL structure, versioning, pagination, error responses, naming conventions, and API governance practices."
+  }),
+  source({
+    id: "postgres-performance-tips",
+    title: "PostgreSQL Performance Tips",
+    url: "https://www.postgresql.org/docs/current/performance-tips.html",
+    sourceType: "official-docs",
+    category: "Databases",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Official PostgreSQL performance optimization guide covering query planning, index utilization, memory configuration, vacuum strategies, and execution analysis."
+  }),
+  source({
+    id: "redis-patterns",
+    title: "Redis Patterns & How-Tos",
+    url: "https://redis.io/learn/howtos",
+    sourceType: "official-docs",
+    category: "Databases",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Official Redis how-to guide covering caching patterns, rate limiting, session storage, message queues, real-time data structures, and Redis Cluster configuration."
+  }),
+  source({
+    id: "oauth-security-practices",
+    title: "OAuth 2.0 Security Best Current Practice",
+    url: "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics",
+    sourceType: "official-docs",
+    category: "Backend Engineering",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "IETF specification for OAuth 2.0 security best practices covering token binding, redirect URI validation, CSRF protection, refresh token rotation, and authorization code flow hardening."
+  }),
+  source({
+    id: "staff-engineer-book",
+    title: "Staff Engineer: Leadership Beyond the Management Track",
+    url: "https://staffeng.com/book",
+    sourceType: "book",
+    category: "Career / Staff+ Engineering",
+    tier: "tier-2",
+    reliability: "medium",
+    founderBetaRelevance: "Definitive reference for the staff-plus engineering career path covering scope, strategy, cross-org influence, role navigation, and organizational impact."
+  }),
+  source({
+    id: "engineering-strategy",
+    title: "Engineering Strategy (Lethain)",
+    url: "https://lethain.com/eng-strategies/",
+    sourceType: "engineering-blog",
+    category: "Career / Staff+ Engineering",
+    tier: "tier-3",
+    reliability: "medium",
+    founderBetaRelevance: "Practical guide to creating engineering strategies, aligning teams around technical direction, and driving organizational change through strategic planning."
+  }),
+
+  // ── Pack 12F: Autonomous Import Wave 2 - Coverage Gap Discovery ──
+  source({
+    id: "aws-sqs-visibility-timeout",
+    title: "Amazon SQS Visibility Timeout",
+    url: "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html",
+    sourceType: "official-docs",
+    category: "AWS / Cloud Architecture",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Amazon SQS visibility timeout documentation covering message locking mechanics, timeout management, retry strategies, dead-letter queue integration, and ordering guarantees for reliable distributed message processing."
+  }),
+  source({
+    id: "aws-cqrs-pattern",
+    title: "CQRS Pattern - AWS Prescriptive Guidance",
+    url: "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/cqrs.html",
+    sourceType: "official-docs",
+    category: "AWS / Cloud Architecture",
+    tier: "tier-2",
+    reliability: "high",
+    founderBetaRelevance: "AWS Prescriptive Guidance for CQRS pattern implementation using DynamoDB, SQS, EventBridge, Lambda, and API Gateway — covering event sourcing integration, read model projections, and consistency tradeoffs."
+  }),
+  source({
+    id: "allthingsdistributed-blog",
+    title: "All Things Distributed (Werner Vogels)",
+    url: "https://www.allthingsdistributed.com/",
+    sourceType: "engineering-blog",
+    category: "System Design / HLD",
+    tier: "tier-2",
+    reliability: "medium",
+    founderBetaRelevance: "Real-world scalability patterns and architectural lessons from the AWS CTO covering distributed systems, scalability thinking, database scaling, caching strategies, and operational excellence."
+  }),
+  source({
+    id: "azure-ha-architecture-patterns",
+    title: "Azure Resiliency Framework — HA Architecture Patterns",
+    url: "https://learn.microsoft.com/en-us/azure/architecture/framework/resiliency/overview",
+    sourceType: "official-docs",
+    category: "System Design / HLD",
+    tier: "tier-2",
+    reliability: "high",
+    founderBetaRelevance: "Microsoft Azure Resiliency Framework covering HA architecture patterns — redundancy, failover, health probes, SLA calculation, multi-region deployment, and cloud resilience best practices."
+  }),
+  source({
+    id: "openapi-specification-guide",
+    title: "OpenAPI Specification Guide",
+    url: "https://learn.openapis.org/specification/",
+    sourceType: "official-docs",
+    category: "Backend Engineering",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Official OpenAPI Specification guide covering schema definitions, endpoint modeling, request/response validation, security schemes, API versioning, and tooling for code generation and API testing."
+  }),
+  source({
+    id: "rabbitmq-tutorials",
+    title: "RabbitMQ Tutorials",
+    url: "https://www.rabbitmq.com/tutorials",
+    sourceType: "official-docs",
+    category: "Backend Engineering",
+    tier: "tier-2",
+    reliability: "high",
+    founderBetaRelevance: "Official RabbitMQ tutorials covering exchange types, queue bindings, routing keys, message acknowledgment, publisher confirms, dead letter exchanges, and clustering patterns."
+  }),
+  source({
+    id: "twelve-factor-config",
+    title: "Twelve-Factor App Config",
+    url: "https://12factor.net/config",
+    sourceType: "engineering-blog",
+    category: "Backend Engineering",
+    tier: "tier-2",
+    reliability: "medium",
+    founderBetaRelevance: "Twelve-Factor App methodology for backend services — configuration management, environment separation, stateless processes, backing services, and build/release/run pipeline best practices."
+  }),
+  source({
+    id: "google-tech-writing",
+    title: "Google Technical Writing Courses",
+    url: "https://developers.google.com/tech-writing",
+    sourceType: "official-docs",
+    category: "Career / Staff+ Engineering",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Google Technical Writing courses covering audience analysis, document structure, clarity, conciseness, diagrams, code comments, and API documentation for engineering communication."
+  }),
+  source({
+    id: "amazon-leadership-principles",
+    title: "Amazon Leadership Principles",
+    url: "https://www.amazon.jobs/content/en/our-workplace/leadership-principles",
+    sourceType: "official-docs",
+    category: "Career / Staff+ Engineering",
+    tier: "tier-1",
+    reliability: "high",
+    founderBetaRelevance: "Amazon Leadership Principles framework for behavioral interview preparation — covering STAR story crafting, ownership demonstration, conflict navigation, and leadership impact articulation."
   })
 ];

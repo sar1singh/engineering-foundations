@@ -128,7 +128,7 @@ export function buildSourceEntry(
   return {
     type: "source",
     operation: "add",
-    sourceId: deriveSourceId(candidate.candidateUrl, candidate.title),
+    sourceId: candidate.proposedSourceId ?? deriveSourceId(candidate.candidateUrl, candidate.title),
     title: deriveSourceTitle(candidate.candidateUrl, candidate.title),
     url: candidate.candidateUrl,
     sourceType: reduceToSourceType(candidate.sourceType),
@@ -180,7 +180,7 @@ export function generatePatchFromApprovedCandidates(
     }
 
     if (candidate.title && candidate.title !== "Untitled") {
-      const topicId = deriveTopicId(candidate.title);
+      const topicId = candidate.proposedTopicId ?? deriveTopicId(candidate.title);
       const topicConflict = checkTopicConflict(topicId);
       if (topicConflict) {
         conflicts.push(topicConflict);

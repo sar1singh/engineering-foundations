@@ -68,7 +68,8 @@ describe("FounderBetaMissionSelectionService", () => {
       "mission-stakeholder-communication",
       "mission-project-depth-narrative",
       "mission-technical-deep-dive",
-      "mission-architecture-tradeoff-analysis"
+      "mission-architecture-tradeoff-analysis",
+      "mission-cloud-security-review"
     ]);
   });
 

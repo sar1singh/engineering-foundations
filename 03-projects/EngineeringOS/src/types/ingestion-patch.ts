@@ -14,6 +14,8 @@ export type ApprovedImportCandidate = {
   tier: SourceTier;
   reliability: SourceReliability;
   overrideDuplicateRisk: boolean;
+  proposedSourceId?: string;
+  proposedTopicId?: string;
 };
 
 export type TopicPatchEntry = {
