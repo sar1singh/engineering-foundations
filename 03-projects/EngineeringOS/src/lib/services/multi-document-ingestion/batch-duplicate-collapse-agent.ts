@@ -1,10 +1,55 @@
-// Continue from previous file...
+import {
+  NormalizedDocument,
+  DuplicateGroup,
+  CollapsedDocument,
+  OverlapWarning,
+  EducationalCollision,
+  BatchDuplicateCollapseResult
+} from './types';
+import { createHash } from 'crypto';
+
+function getSourceTrustScore(profile: { trustLevel: 'high' | 'medium' | 'low' }): number {
+  if (profile.trustLevel === 'high') return 100;
+  if (profile.trustLevel === 'medium') return 50;
+  return 10;
+}
+
+function getCanonicalRepresentative(urls: string[], docs: NormalizedDocument[]): string {
+  const sorted = [...urls].sort((a, b) => {
+    const docA = docs.find(d => d.url === a);
+    const docB = docs.find(d => d.url === b);
+    const scoreA = docA ? getSourceTrustScore(docA.sourceProfile) : 0;
+    const scoreB = docB ? getSourceTrustScore(docB.sourceProfile) : 0;
+    if (scoreB !== scoreA) return scoreB - scoreA;
+    return a.length - b.length;
+  });
+  return sorted[0] || '';
+}
+
+function extractCommonTopics(urls: string[], docs: NormalizedDocument[]): string[] {
+  const common = new Set<string>();
+  for (const url of urls) {
+    const doc = docs.find(d => d.url === url);
+    if (doc) {
+      common.add(doc.sourceProfile.educationalCategory);
+    }
+  }
+  return Array.from(common).filter(Boolean);
+}
+
+function calculateTitleSimilarity(title1: string, title2: string): number {
+  if (!title1 || !title2) return 0;
+  const tokens1 = title1.toLowerCase().split(/\s+/).filter(t => t.length > 2);
+  const tokens2 = title2.toLowerCase().split(/\s+/).filter(t => t.length > 2);
+  if (tokens1.length === 0 || tokens2.length === 0) return 0;
+  const common = tokens1.filter(t => tokens2.includes(t));
+  return (common.length * 2) / (tokens1.length + tokens2.length);
+}
 
 function groupByTitleSimilarity(docs: NormalizedDocument[]): DuplicateGroup[] {
   const groups: DuplicateGroup[] = [];
   const processed = new Set<string>();
 
-  // Sort by trust level first
   const sortedDocs = [...docs].sort((a, b) => {
     return getSourceTrustScore(b.sourceProfile) - getSourceTrustScore(a.sourceProfile);
   });
@@ -30,9 +75,9 @@ function groupByTitleSimilarity(docs: NormalizedDocument[]): DuplicateGroup[] {
         groupId: `title-overlap-${group.sort().join(',')}`,
         reason: 'topic-overlap',
         sourceDocuments: group,
-        canonicalRepresentative: getCanonicalRepresentative(group),
+        canonicalRepresentative: getCanonicalRepresentative(group, docs),
         confidenceScore: Math.round(80 + (group.length - 1) * 5),
-        overlappingTopics: extractCommonTopics(group, sortedDocs)
+        overlappingTopics: extractCommonTopics(group, docs)
       });
     }
   }
@@ -40,16 +85,42 @@ function groupByTitleSimilarity(docs: NormalizedDocument[]): DuplicateGroup[] {
   return groups;
 }
 
-function calculateTitleSimilarity(title1: string, title2: string): number {
-  const tokens1 = title1.toLowerCase().split(/\s+/);
-  const tokens2 = title2.toLowerCase().split(/\s+/);
-  const common = tokens1.filter(t => tokens2.includes(t));
-  return (common.length * 2) / (tokens1.length + tokens2.length);
-}
-
 function groupByHeadingOverlap(docs: NormalizedDocument[]): DuplicateGroup[] {
-  // Similar implementation pattern with heading comparison logic
-  return [];
+  const groups: DuplicateGroup[] = [];
+  const processed = new Set<string>();
+
+  for (let i = 0; i < docs.length; i++) {
+    if (processed.has(docs[i].url)) continue;
+    const group: string[] = [docs[i].url];
+
+    for (let j = i + 1; j < docs.length; j++) {
+      if (processed.has(docs[j].url)) continue;
+      const h1 = docs[i].normalizedContent.headings;
+      const h2 = docs[j].normalizedContent.headings;
+      if (h1.length > 0 && h2.length > 0) {
+        const intersection = h1.filter(x => h2.includes(x));
+        const overlap = intersection.length / Math.min(h1.length, h2.length);
+        if (overlap > 0.7) {
+          group.push(docs[j].url);
+          processed.add(docs[j].url);
+        }
+      }
+    }
+
+    if (group.length > 1) {
+      processed.add(docs[i].url);
+      groups.push({
+        groupId: `heading-overlap-${group.sort().join(',')}`,
+        reason: 'roadmap-overlap',
+        sourceDocuments: group,
+        canonicalRepresentative: getCanonicalRepresentative(group, docs),
+        confidenceScore: 85,
+        overlappingTopics: extractCommonTopics(group, docs)
+      });
+    }
+  }
+
+  return groups;
 }
 
 function groupByEducationalCategory(docs: NormalizedDocument[]): DuplicateGroup[] {
@@ -66,17 +137,12 @@ function groupByEducationalCategory(docs: NormalizedDocument[]): DuplicateGroup[
     .filter(([_, urls]) => urls.length > 1)
     .map(([category, urls]) => ({
       groupId: `category-overlap-${category}`,
-      reason: 'educational-collision',
+      reason: 'educational-collision' as const,
       sourceDocuments: urls,
-      canonicalRepresentative: getCanonicalRepresentative(urls),
+      canonicalRepresentative: getCanonicalRepresentative(urls, docs),
       confidenceScore: 70,
       overlappingTopics: [category]
     }));
-}
-
-function groupByKeywordOverlap(docs: NormalizedDocument[]): DuplicateGroup[] {
-  // Implementation with keyword extraction and overlap analysis
-  return [];
 }
 
 function generateCollapsedDocuments(groups: DuplicateGroup[]): CollapsedDocument[] {
@@ -84,7 +150,7 @@ function generateCollapsedDocuments(groups: DuplicateGroup[]): CollapsedDocument
     acc.push(...group.sourceDocuments.map(url => ({
       originalUrl: url,
       collapsedToUrl: group.canonicalRepresentative
-    })));;
+    })));
     return acc;
   }, [] as CollapsedDocument[]);
 }
@@ -100,10 +166,47 @@ function generateOverlapWarnings(groups: DuplicateGroup[]): OverlapWarning[] {
 function generateEducationalCollisions(groups: DuplicateGroup[]): EducationalCollision[] {
   return groups.map(group => ({
     collisionId: `collision-${group.groupId}`,
-    topic: group.overlappingTopics[0],
+    topic: group.overlappingTopics[0] || 'unknown',
     involvedDocuments: group.sourceDocuments,
     overlapScore: group.confidenceScore,
-    collisionType: 'duplicate-topic',
-    recommendation: group.confidenceScore > 90 ? 'merge' : 'review'
+    collisionType: 'duplicate-topic' as const,
+    recommendation: group.confidenceScore > 90 ? ('merge' as const) : ('review' as const)
   }));
+}
+
+export async function runBatchDuplicateCollapseAgent(
+  docs: NormalizedDocument[]
+): Promise<BatchDuplicateCollapseResult> {
+  const startedAt = Date.now();
+  const titleGroups = groupByTitleSimilarity(docs);
+  const headingGroups = groupByHeadingOverlap(docs);
+  const categoryGroups = groupByEducationalCategory(docs);
+
+  const allGroups = [...titleGroups, ...headingGroups, ...categoryGroups];
+
+  const uniqueGroupsMap = new Map<string, DuplicateGroup>();
+  allGroups.forEach(g => uniqueGroupsMap.set(g.groupId, g));
+  const duplicateGroups = Array.from(uniqueGroupsMap.values());
+
+  const collapsedDocuments = generateCollapsedDocuments(duplicateGroups);
+  const overlapWarnings = generateOverlapWarnings(duplicateGroups);
+  const educationalCollisions = generateEducationalCollisions(duplicateGroups);
+
+  const hashInput = JSON.stringify({
+    duplicateGroups: duplicateGroups.map(g => g.groupId).sort(),
+    collapsed: collapsedDocuments.map(c => c.originalUrl).sort()
+  });
+  const deterministicReplayHash = createHash('sha256').update(hashInput).digest('hex');
+
+  return {
+    success: true,
+    duplicateGroups,
+    collapsedDocuments,
+    overlapWarnings,
+    educationalCollisions,
+    deterministicReplayHash,
+    warnings: [],
+    errors: [],
+    elapsedMs: Date.now() - startedAt
+  };
 }

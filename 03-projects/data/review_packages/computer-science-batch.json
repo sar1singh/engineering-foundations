@@ -1,0 +1,33 @@
+{
+  "sourceFamily": "computer-science",
+  "reviewRequired": true,
+  "approvalStatus": "pending",
+  "rawDocumentsCount": 1,
+  "normalizedDocsCount": 1,
+  "duplicateSummary": {
+    "totalGroups": 0,
+    "totalCollapsed": 0
+  },
+  "educationalCollisions": [],
+  "trustSummary": {
+    "https://raw.githubusercontent.com/ossu/computer-science/master/README.md": "high"
+  },
+  "syllabusSummary": {
+    "totalTracks": 1
+  },
+  "clusterSummary": {
+    "totalClusters": 1,
+    "clusters": [
+      {
+        "id": "cluster-computer-science",
+        "name": "Computer science",
+        "docCount": 1
+      }
+    ]
+  },
+  "overlapWarnings": [],
+  "replayTrace": {
+    "timestamp": "2026-06-13T17:40:09.646Z",
+    "replayHash": "98cee6407d9ecd54402f29b64326a779afac654c780ee67a0c8ab3b0146889a2"
+  }
+}

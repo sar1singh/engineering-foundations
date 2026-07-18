@@ -1,0 +1,51 @@
+{
+  "sourceFamily": "official-docs",
+  "reviewRequired": true,
+  "approvalStatus": "pending",
+  "rawDocumentsCount": 3,
+  "normalizedDocsCount": 3,
+  "duplicateSummary": {
+    "totalGroups": 1,
+    "totalCollapsed": 3
+  },
+  "educationalCollisions": [
+    {
+      "collisionId": "collision-category-overlap-official-docs",
+      "topic": "official-docs",
+      "involvedDocuments": [
+        "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html",
+        "https://kubernetes.io/docs/concepts/overview/",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      ],
+      "overlapScore": 70,
+      "collisionType": "duplicate-topic",
+      "recommendation": "review"
+    }
+  ],
+  "trustSummary": {
+    "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html": "high",
+    "https://kubernetes.io/docs/concepts/overview/": "high",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript": "high"
+  },
+  "syllabusSummary": {
+    "totalTracks": 3
+  },
+  "clusterSummary": {
+    "totalClusters": 1,
+    "clusters": [
+      {
+        "id": "cluster-official-docs",
+        "name": "Official docs",
+        "docCount": 3
+      }
+    ]
+  },
+  "overlapWarnings": [
+    "Heading \"tip\" overlaps between: https://docs.aws.amazon.com/lambda/latest/dg/welcome.html, https://docs.aws.amazon.com/lambda/latest/dg/welcome.html",
+    "Heading \"overview\" overlaps between: https://kubernetes.io/docs/concepts/overview/, https://kubernetes.io/docs/concepts/overview/"
+  ],
+  "replayTrace": {
+    "timestamp": "2026-06-13T17:40:10.535Z",
+    "replayHash": "7147985abedfc7c03737855ae646a024b1afefe520574fbc5b487808e132a587"
+  }
+}

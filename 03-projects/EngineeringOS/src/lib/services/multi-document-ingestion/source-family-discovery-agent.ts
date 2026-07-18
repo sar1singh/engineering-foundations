@@ -1,7 +1,13 @@
-import type { SourceProfile } from '@/data/runtime-fetch-source-profiles';
-import type { DocumentReference } from '@/types/multi-document-ingestion';
-import { getSourceProfile } from '@/data/runtime-fetch-source-profiles';
-import { normalizePath } from '@/lib/utils/path-utils';
+import type { SourceProfile } from '../runtime-fetch-source-profiles';
+
+export interface DocumentReference {
+  url: string;
+  sourceProfile: SourceProfile;
+}
+
+function normalizePath(p: string): string {
+  return p.trim();
+}
 
 /**
  * Deterministically expands a source family into a bounded set of document URLs.
@@ -22,9 +28,6 @@ export function discoverFamilyDocuments(
   const matchesBlocked = (p: string) =>
     blocked.some((g) => new RegExp('^' + g.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*') + '$').test(p));
 
-  // In the current implementation we cannot crawl the repo, so we rely on a static
-  // manifest that is part of the source profile. The profile provides an explicit list
-  // of document URLs to include. This satisfies the "no crawling" guarantee.
   const explicitDocs = profile.explicitDocumentUrls ?? [];
   for (const rawUrl of explicitDocs) {
     const normalized = normalizePath(rawUrl);

@@ -84,7 +84,7 @@ export async function runRealHttpFetch(
   }
   
   // Protocol check
-  if (!boundary.allowedProtocols.includes(parsedUrl.protocol as any)) {
+  if (!boundary.allowedProtocols.includes(parsedUrl.protocol as "https:" | "http:")) {
     return {
       fetchStatus: "error",
       errors: [`Protocol ${parsedUrl.protocol} not allowed`],
@@ -210,7 +210,7 @@ export async function runRealHttpFetch(
     
     // Decode the content
     const rawText = new TextDecoder("utf-8").decode(new Uint8Array(
-      // @ts-ignore: Concatenate chunks
+      // @ts-expect-error: Concatenate chunks
       [...chunks].reduce((acc, chunk) => [...acc, ...Array.from(chunk)], [])
     ));
     
@@ -225,7 +225,7 @@ export async function runRealHttpFetch(
            contentType: (contentType ?? undefined) as unknown as string,
 
 
-      title,
+      title: title ?? undefined,
       rawTextPreview: rawText.slice(0, 500), // First 500 chars for preview
       extractedMetadata: {
         wordCount: rawText.trim().split(/\s+/).length,

@@ -1,0 +1,33 @@
+{
+  "sourceFamily": "coding-interview-university",
+  "reviewRequired": true,
+  "approvalStatus": "pending",
+  "rawDocumentsCount": 1,
+  "normalizedDocsCount": 1,
+  "duplicateSummary": {
+    "totalGroups": 0,
+    "totalCollapsed": 0
+  },
+  "educationalCollisions": [],
+  "trustSummary": {
+    "https://raw.githubusercontent.com/jwasham/coding-interview-university/main/README.md": "high"
+  },
+  "syllabusSummary": {
+    "totalTracks": 1
+  },
+  "clusterSummary": {
+    "totalClusters": 1,
+    "clusters": [
+      {
+        "id": "cluster-coding-interview",
+        "name": "Coding interview",
+        "docCount": 1
+      }
+    ]
+  },
+  "overlapWarnings": [],
+  "replayTrace": {
+    "timestamp": "2026-06-13T17:40:11.057Z",
+    "replayHash": "b13751d74c36a859ed81f63819c800c4106673ba6ca011c0d0d1da00308a7af5"
+  }
+}

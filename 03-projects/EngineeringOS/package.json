@@ -1,4 +1,59 @@
-// Add to package.json scripts
-"scripts": {
-  "real-fetch-orchestrator": "ts-node src/lib/services/real-fetch-orchestrator.ts --source-family=system-design-primer"
+{
+  "name": "engineeringos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "EngineeringOS",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "smoke:mock": "node scripts/smoke-routes.mjs",
+    "smoke:prisma": "node scripts/smoke-routes.mjs --prisma",
+    "db:verify-target": "node scripts/verify-postgres-readiness.mjs",
+    "test:e2e": "playwright test",
+    "test": "vitest run",
+    "test:quality": "vitest run src/lib/quality",
+    "typecheck": "tsc --noEmit",
+    "real-fetch-orchestrator": "ts-node src/lib/services/real-fetch-orchestrator.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "latest",
+    "@prisma/client": "^5.22.0",
+    "class-variance-authority": "latest",
+    "clsx": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "reactflow": "latest",
+    "recharts": "latest",
+    "tailwind-merge": "latest"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "latest",
+    "@playwright/test": "^1.60.0",
+    "@tailwindcss/postcss": "latest",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "^6.0.2",
+    "autoprefixer": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "jsdom": "^29.1.1",
+    "postcss": "latest",
+    "prisma": "^5.22.0",
+    "shadcn": "latest",
+    "tailwindcss": "latest",
+    "tsx": "^4.22.3",
+    "typescript": "latest",
+    "vitest": "^4.1.7"
+  }
 }

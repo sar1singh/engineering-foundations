@@ -1,0 +1,48 @@
+{
+  "sourceFamily": "system-design-primer",
+  "reviewRequired": true,
+  "approvalStatus": "pending",
+  "rawDocumentsCount": 2,
+  "normalizedDocsCount": 2,
+  "duplicateSummary": {
+    "totalGroups": 1,
+    "totalCollapsed": 2
+  },
+  "educationalCollisions": [
+    {
+      "collisionId": "collision-category-overlap-system-design",
+      "topic": "system-design",
+      "involvedDocuments": [
+        "https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md",
+        "https://raw.githubusercontent.com/ashishps1/awesome-system-design-resources/master/README.md"
+      ],
+      "overlapScore": 70,
+      "collisionType": "duplicate-topic",
+      "recommendation": "review"
+    }
+  ],
+  "trustSummary": {
+    "https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md": "high",
+    "https://raw.githubusercontent.com/ashishps1/awesome-system-design-resources/master/README.md": "high"
+  },
+  "syllabusSummary": {
+    "totalTracks": 2
+  },
+  "clusterSummary": {
+    "totalClusters": 1,
+    "clusters": [
+      {
+        "id": "cluster-system-design",
+        "name": "System design",
+        "docCount": 2
+      }
+    ]
+  },
+  "overlapWarnings": [
+    "Heading \"source(s) and further reading\" overlaps between: https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md, https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md"
+  ],
+  "replayTrace": {
+    "timestamp": "2026-06-13T17:40:09.293Z",
+    "replayHash": "88cdfeb66e03ecab4effba1b671176290f72dc21e7e1db001f48e62171242105"
+  }
+}

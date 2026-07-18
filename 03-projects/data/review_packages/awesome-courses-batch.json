@@ -1,0 +1,33 @@
+{
+  "sourceFamily": "awesome-courses",
+  "reviewRequired": true,
+  "approvalStatus": "pending",
+  "rawDocumentsCount": 1,
+  "normalizedDocsCount": 1,
+  "duplicateSummary": {
+    "totalGroups": 0,
+    "totalCollapsed": 0
+  },
+  "educationalCollisions": [],
+  "trustSummary": {
+    "https://raw.githubusercontent.com/prakhar1989/awesome-courses/master/README.md": "high"
+  },
+  "syllabusSummary": {
+    "totalTracks": 1
+  },
+  "clusterSummary": {
+    "totalClusters": 1,
+    "clusters": [
+      {
+        "id": "cluster-university-courses",
+        "name": "University courses",
+        "docCount": 1
+      }
+    ]
+  },
+  "overlapWarnings": [],
+  "replayTrace": {
+    "timestamp": "2026-06-13T17:40:11.778Z",
+    "replayHash": "9a8d20098feaf93bfc444f737b2144651d91348aa1ddd3545ef739c03046876e"
+  }
+}

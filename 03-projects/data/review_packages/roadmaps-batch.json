@@ -1,0 +1,33 @@
+{
+  "sourceFamily": "roadmaps",
+  "reviewRequired": true,
+  "approvalStatus": "pending",
+  "rawDocumentsCount": 1,
+  "normalizedDocsCount": 1,
+  "duplicateSummary": {
+    "totalGroups": 0,
+    "totalCollapsed": 0
+  },
+  "educationalCollisions": [],
+  "trustSummary": {
+    "https://roadmap.sh/backend": "medium"
+  },
+  "syllabusSummary": {
+    "totalTracks": 1
+  },
+  "clusterSummary": {
+    "totalClusters": 1,
+    "clusters": [
+      {
+        "id": "cluster-roadmap",
+        "name": "Roadmap",
+        "docCount": 1
+      }
+    ]
+  },
+  "overlapWarnings": [],
+  "replayTrace": {
+    "timestamp": "2026-06-13T17:40:09.737Z",
+    "replayHash": "fb159d902ff828cca0b71155c7d71f6b2b8d206e04a451186dfb12e9439a7909"
+  }
+}
