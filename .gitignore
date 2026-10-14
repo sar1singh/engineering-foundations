@@ -1,0 +1,5 @@
+node_modules/
+.next/
+.tmp-stitch-analysis/
+.DS_Store
+*.log
