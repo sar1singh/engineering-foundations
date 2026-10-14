@@ -16,8 +16,24 @@ export interface ImplementationStep {
   codeOrConfigPattern?: string;
 }
 
+export interface ExternalResourceLink {
+  title: string;
+  url: string;
+  provider: 'AWS Architecture' | 'Martin Fowler' | 'EPAM Systems' | 'RFC / Standard' | 'Microsoft Learn' | 'OWASP' | 'Distributed Systems / DDIA';
+  description: string;
+}
+
+export interface TopicItem {
+  id: string;
+  title: string;
+  keyConcepts: string[];
+  externalLinks?: ExternalResourceLink[];
+}
+
 export interface LearningRoadmap {
   coreTheory: string[];
+  topicsToCover?: TopicItem[];
+  externalLinks?: ExternalResourceLink[];
   recommendedReading: string[];
   implementationMilestones: ImplementationStep[];
   proofArtifact: string;

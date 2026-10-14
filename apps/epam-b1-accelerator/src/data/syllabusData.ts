@@ -1,6 +1,7 @@
 import { CompetencyItem } from '@/types';
 import { LEARNING_ROADMAPS_DATA } from './learningRoadmapsData';
 import { INTERVIEW_EXERCISES_DATA } from './interviewExercisesData';
+import { SKILL_TOPICS_AND_LINKS_DATA } from './skillTopicsAndLinksData';
 
 const BASE_COMPETENCIES: Omit<CompetencyItem, 'learningRoadmap' | 'interviewExercise'>[] = [
   // --- AI (2 competencies) ---
@@ -474,26 +475,36 @@ const BASE_COMPETENCIES: Omit<CompetencyItem, 'learningRoadmap' | 'interviewExer
   }
 ];
 
-export const SYLLABUS_DATA: CompetencyItem[] = BASE_COMPETENCIES.map(item => ({
-  ...item,
-  learningRoadmap: LEARNING_ROADMAPS_DATA[item.id] || {
+export const SYLLABUS_DATA: CompetencyItem[] = BASE_COMPETENCIES.map(item => {
+  const baseRoadmap = LEARNING_ROADMAPS_DATA[item.id] || {
     coreTheory: [],
     recommendedReading: [],
     implementationMilestones: [],
     proofArtifact: ''
-  },
-  interviewExercise: INTERVIEW_EXERCISES_DATA[item.id] || {
-    scenarioTitle: item.title,
-    businessContext: '',
-    architecturalProblem: '',
-    technicalConstraints: [],
-    taskQuestions: [],
-    evaluationRubric: [],
-    modelSolution: {
-      executiveSummary: '',
-      technicalApproach: '',
-      tradeoffDefense: '',
-      diagramOrPattern: ''
+  };
+  const topicsAndLinks = SKILL_TOPICS_AND_LINKS_DATA[item.id];
+
+  return {
+    ...item,
+    learningRoadmap: {
+      ...baseRoadmap,
+      topicsToCover: topicsAndLinks?.topicsToCover || [],
+      externalLinks: topicsAndLinks?.externalLinks || []
+    },
+    interviewExercise: INTERVIEW_EXERCISES_DATA[item.id] || {
+      scenarioTitle: item.title,
+      businessContext: '',
+      architecturalProblem: '',
+      technicalConstraints: [],
+      taskQuestions: [],
+      evaluationRubric: [],
+      modelSolution: {
+        executiveSummary: '',
+        technicalApproach: '',
+        tradeoffDefense: '',
+        diagramOrPattern: ''
+      }
     }
-  }
-}));
+  };
+});
+

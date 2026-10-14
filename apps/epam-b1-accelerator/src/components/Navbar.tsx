@@ -15,18 +15,21 @@ import {
   GraduationCap
 } from 'lucide-react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { TOTAL_TOPICS_COUNT } from '@/data/skillTopicsAndLinksData';
 
 export function Navbar() {
   const pathname = usePathname();
   const [competencyStatus] = useLocalStorage<Record<string, string>>('epam_b1_competencies', {});
+  const [completedTopics] = useLocalStorage<Record<string, boolean>>('epam_b1_completed_topics', {});
   const [flashcardStatus] = useLocalStorage<Record<string, string>>('epam_b1_flashcards', {});
 
   const masteredSkills = Object.values(competencyStatus).filter(v => v === 'mastered').length;
+  const completedTopicsCount = Object.values(completedTopics).filter(Boolean).length;
   const masteredCards = Object.values(flashcardStatus).filter(v => v === 'mastered').length;
 
   const navItems = [
     { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/roadmap', label: 'Roadmap (38)', icon: Milestone },
+    { href: '/roadmap', label: 'Topics & Roadmap', icon: Milestone },
     { href: '/jargon', label: 'Flashcards (30)', icon: Layers },
     { href: '/artifact-builder', label: 'SAD Workbench', icon: FileText },
     { href: '/hld-simulator', label: 'HLD Whiteboard', icon: Cpu },
@@ -84,6 +87,9 @@ export function Navbar() {
           <div className="flex items-center space-x-3">
             <div className="hidden lg:flex items-center space-x-2.5 bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-xs font-bold">
               <Zap className="w-4 h-4 text-amber-400" />
+              <span className="text-zinc-400">Topics:</span>
+              <span className="font-extrabold text-indigo-400">{completedTopicsCount}/{TOTAL_TOPICS_COUNT}</span>
+              <span className="text-zinc-700">|</span>
               <span className="text-zinc-400">Skills:</span>
               <span className="font-extrabold text-emerald-400">{masteredSkills}/38</span>
               <span className="text-zinc-700">|</span>
