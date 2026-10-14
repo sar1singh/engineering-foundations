@@ -9,6 +9,41 @@ export type SkillDomain =
   | 'Cloud' 
   | 'Leadership & Soft';
 
+export interface ImplementationStep {
+  step: number;
+  title: string;
+  description: string;
+  codeOrConfigPattern?: string;
+}
+
+export interface LearningRoadmap {
+  coreTheory: string[];
+  recommendedReading: string[];
+  implementationMilestones: ImplementationStep[];
+  proofArtifact: string;
+}
+
+export interface EvaluationCriterion {
+  criterion: string;
+  weight: string;
+  targetStandard: string;
+}
+
+export interface InterviewExercise {
+  scenarioTitle: string;
+  businessContext: string;
+  architecturalProblem: string;
+  technicalConstraints: string[];
+  taskQuestions: string[];
+  evaluationRubric: EvaluationCriterion[];
+  modelSolution: {
+    executiveSummary: string;
+    technicalApproach: string;
+    tradeoffDefense: string;
+    diagramOrPattern: string;
+  };
+}
+
 export interface CompetencyItem {
   id: string;
   domain: SkillDomain;
@@ -20,6 +55,8 @@ export interface CompetencyItem {
   defenseScript30s: string;
   pitfalls: string[];
   keyQuestions: string[];
+  learningRoadmap: LearningRoadmap;
+  interviewExercise: InterviewExercise;
 }
 
 export type MasteryStatus = 'unmastered' | 'learning' | 'mastered';

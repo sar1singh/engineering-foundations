@@ -1,6 +1,8 @@
 import { CompetencyItem } from '@/types';
+import { LEARNING_ROADMAPS_DATA } from './learningRoadmapsData';
+import { INTERVIEW_EXERCISES_DATA } from './interviewExercisesData';
 
-export const SYLLABUS_DATA: CompetencyItem[] = [
+const BASE_COMPETENCIES: Omit<CompetencyItem, 'learningRoadmap' | 'interviewExercise'>[] = [
   // --- AI (2 competencies) ---
   {
     id: 'ai-genai-sdlc',
@@ -471,3 +473,27 @@ export const SYLLABUS_DATA: CompetencyItem[] = [
     keyQuestions: ['How do you ensure equitable participation during technical design sessions in distributed global teams?', 'How does cognitive diversity improve the resiliency and usability of software architectures?']
   }
 ];
+
+export const SYLLABUS_DATA: CompetencyItem[] = BASE_COMPETENCIES.map(item => ({
+  ...item,
+  learningRoadmap: LEARNING_ROADMAPS_DATA[item.id] || {
+    coreTheory: [],
+    recommendedReading: [],
+    implementationMilestones: [],
+    proofArtifact: ''
+  },
+  interviewExercise: INTERVIEW_EXERCISES_DATA[item.id] || {
+    scenarioTitle: item.title,
+    businessContext: '',
+    architecturalProblem: '',
+    technicalConstraints: [],
+    taskQuestions: [],
+    evaluationRubric: [],
+    modelSolution: {
+      executiveSummary: '',
+      technicalApproach: '',
+      tradeoffDefense: '',
+      diagramOrPattern: ''
+    }
+  }
+}));
