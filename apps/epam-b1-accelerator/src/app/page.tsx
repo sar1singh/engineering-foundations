@@ -17,7 +17,9 @@ import {
   Flame,
   Award,
   Database,
-  CloudRain
+  Check,
+  ChevronRight,
+  ExternalLink
 } from 'lucide-react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { SYLLABUS_DATA } from '@/data/syllabusData';
@@ -54,349 +56,450 @@ export default function DashboardPage() {
      (sadChecksPassed / sadChecksTotal) * 0.3) * 100
   );
 
-  const domains = [
-    { name: 'Solution Arch', count: 7, bar: 'Advanced (Box 3)', color: 'border-indigo-500/30 text-indigo-400 bg-indigo-500/10' },
-    { name: 'Application Arch', count: 7, bar: 'Advanced (Box 3)', color: 'border-blue-500/30 text-blue-400 bg-blue-500/10' },
-    { name: 'Cloud', count: 3, bar: 'Intermediate (Box 2)', color: 'border-cyan-500/30 text-cyan-400 bg-cyan-500/10' },
-    { name: 'SDLC Processes', count: 4, bar: 'Advanced / Inter', color: 'border-amber-500/30 text-amber-400 bg-amber-500/10' },
-    { name: 'Leadership & Soft', count: 11, bar: 'Advanced / B2', color: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10' },
-    { name: 'AI', count: 2, bar: 'Inter / Novice', color: 'border-purple-500/30 text-purple-400 bg-purple-500/10' },
-    { name: 'Business', count: 4, bar: 'Novice (Box 1)', color: 'border-rose-500/30 text-rose-400 bg-rose-500/10' },
+  const domainStats = [
+    { name: 'Solution Arch', count: 7, bar: 'Box 3: Advanced', color: 'border-indigo-500/40 text-indigo-300 bg-indigo-500/15' },
+    { name: 'Application Arch', count: 7, bar: 'Box 3: Advanced', color: 'border-blue-500/40 text-blue-300 bg-blue-500/15' },
+    { name: 'Cloud', count: 3, bar: 'Box 2: Intermediate', color: 'border-cyan-500/40 text-cyan-300 bg-cyan-500/15' },
+    { name: 'SDLC Processes', count: 4, bar: 'Box 3 / Box 2', color: 'border-amber-500/40 text-amber-300 bg-amber-500/15' },
+    { name: 'Leadership & Soft', count: 11, bar: 'Box 3: Advanced / NAT B2', color: 'border-emerald-500/40 text-emerald-300 bg-emerald-500/15' },
+    { name: 'AI', count: 2, bar: 'Box 2 / Box 1', color: 'border-purple-500/40 text-purple-300 bg-purple-500/15' },
+    { name: 'Business', count: 4, bar: 'Box 1: Novice', color: 'border-rose-500/40 text-rose-300 bg-rose-500/15' },
   ];
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Hero Executive Briefing */}
-      <div className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-zinc-950 p-6 sm:p-8">
-        <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-3 max-w-3xl">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                <ShieldCheck className="w-3.5 h-3.5 mr-1" /> EPAM LevelUp Architecture Discipline
+    <div className="space-y-10 pb-20">
+      {/* Executive Command Briefing - Big Screen Typography */}
+      <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900/90 via-zinc-900/60 to-zinc-950 p-8 sm:p-12 shadow-2xl">
+        <div className="absolute top-0 right-0 -mt-12 -mr-12 w-[32rem] h-[32rem] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-8">
+          <div className="space-y-4 max-w-4xl">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                <ShieldCheck className="w-4 h-4 mr-1.5" /> EPAM LevelUp Architecture Discipline
               </span>
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                <Target className="w-3.5 h-3.5 mr-1" /> Level 1 / B1 Full Session
+              <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                <Target className="w-4 h-4 mr-1.5" /> Level 1 / B1 Full Session
               </span>
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                <Clock className="w-3.5 h-3.5 mr-1" /> Target: 30–45 Days Window
+              <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                <Clock className="w-4 h-4 mr-1.5" /> 90-Minute Committee Gate
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
               EPAM B1 Software Architect Accelerator
             </h1>
-            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
-              Autonomous preparation command center for the 90-minute Full Session. Defend the real-world{' '}
-              <strong className="text-zinc-200">Cox Automotive</strong> production artifact (AWS + Node.js + DynamoDB),
-              master all <strong className="text-zinc-200">38 LevelUp competencies</strong>, and practice live HLD whiteboard scenarios.
+            <p className="text-base sm:text-lg text-zinc-300 leading-relaxed">
+              Autonomous preparation command center for the 90-minute Full Session assessment. Defend the real-world{' '}
+              <strong className="text-white font-semibold underline decoration-indigo-500/50 underline-offset-4">Cox Automotive</strong> production artifact (AWS + Node.js + DynamoDB Single-Table),
+              master all <strong className="text-white font-semibold">38 LevelUp competencies</strong>, and practice live HLD whiteboard scenarios.
             </p>
           </div>
 
-          {/* Readiness Gauge Widget */}
-          <div className="flex-shrink-0 flex items-center justify-center bg-zinc-900/90 border border-zinc-800 rounded-xl p-5 shadow-xl">
-            <div className="text-center space-y-1">
+          {/* Readiness Gauge Widget - Large & Clear */}
+          <div className="flex-shrink-0 flex items-center justify-center bg-zinc-950/80 border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div className="text-center space-y-2">
               <div className="relative inline-flex items-center justify-center">
-                <svg className="w-28 h-28 transform -rotate-90">
+                <svg className="w-36 h-36 transform -rotate-90">
                   <circle
-                    cx="56"
-                    cy="56"
-                    r="46"
+                    cx="72"
+                    cy="72"
+                    r="58"
                     stroke="currentColor"
-                    strokeWidth="8"
+                    strokeWidth="10"
                     className="text-zinc-800"
                     fill="transparent"
                   />
                   <circle
-                    cx="56"
-                    cy="56"
-                    r="46"
+                    cx="72"
+                    cy="72"
+                    r="58"
                     stroke="currentColor"
-                    strokeWidth="8"
-                    strokeDasharray={289}
-                    strokeDashoffset={289 - (289 * readinessScore) / 100}
+                    strokeWidth="10"
+                    strokeDasharray={364}
+                    strokeDashoffset={364 - (364 * readinessScore) / 100}
                     strokeLinecap="round"
                     className="text-indigo-500 transition-all duration-1000 ease-out"
                     fill="transparent"
                   />
                 </svg>
                 <div className="absolute flex flex-col items-center">
-                  <span className="text-2xl font-black text-white">{readinessScore}%</span>
-                  <span className="text-[10px] uppercase font-bold text-zinc-500">Readiness</span>
+                  <span className="text-3xl sm:text-4xl font-black text-white">{readinessScore}%</span>
+                  <span className="text-xs uppercase font-extrabold text-zinc-400">Readiness</span>
                 </div>
               </div>
-              <p className="text-xs text-zinc-400 font-medium">B1 Committee Gate</p>
+              <div className="text-sm font-bold text-indigo-300">B1 Committee Gate Score</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3 Core Metric KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* 3 Core Metric KPI Banners */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Competencies Progress */}
-        <Link href="/roadmap" className="group p-5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900/90 hover:border-indigo-500/40 transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <div className="p-2.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-              <Award className="w-5 h-5" />
+        <Link 
+          href="/roadmap" 
+          className="group p-6 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 hover:border-indigo-500/50 transition-all shadow-lg flex flex-col justify-between space-y-4"
+        >
+          <div className="flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+              <Award className="w-6 h-6" />
             </div>
-            <span className="text-xs font-semibold text-zinc-400 group-hover:text-indigo-400 flex items-center gap-1">
-              Inspect Roadmap <ArrowRight className="w-3.5 h-3.5" />
+            <span className="text-sm font-bold text-zinc-400 group-hover:text-indigo-300 flex items-center gap-1.5">
+              Open Roadmap Table <ArrowRight className="w-4 h-4" />
             </span>
           </div>
-          <h3 className="text-lg font-bold text-white mb-1">LevelUp Competencies</h3>
-          <div className="flex items-baseline space-x-2">
-            <span className="text-3xl font-extrabold text-emerald-400">{masteredCompetencies}</span>
-            <span className="text-sm text-zinc-400">/ {totalCompetencies} Mastered</span>
+          <div>
+            <h3 className="text-xl font-bold text-white mb-1">LevelUp Competencies</h3>
+            <div className="flex items-baseline space-x-2">
+              <span className="text-4xl font-black text-emerald-400">{masteredCompetencies}</span>
+              <span className="text-base font-bold text-zinc-400">/ {totalCompetencies} Mastered</span>
+            </div>
+            <div className="mt-4 w-full bg-zinc-800 rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-emerald-500 h-3 rounded-full transition-all duration-500"
+                style={{ width: `${(masteredCompetencies / totalCompetencies) * 100}%` }}
+              />
+            </div>
           </div>
-          <div className="mt-3 w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
-            <div
-              className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${(masteredCompetencies / totalCompetencies) * 100}%` }}
-            />
-          </div>
-          <p className="mt-2 text-xs text-zinc-500 flex justify-between">
-            <span>In progress: {learningCompetencies}</span>
+          <div className="text-sm text-zinc-400 flex justify-between font-medium pt-2 border-t border-zinc-800/80">
+            <span>Practicing: {learningCompetencies}</span>
             <span>Needs work: {totalCompetencies - masteredCompetencies - learningCompetencies}</span>
-          </p>
+          </div>
         </Link>
 
         {/* Distributed Flashcards */}
-        <Link href="/jargon" className="group p-5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900/90 hover:border-cyan-500/40 transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <div className="p-2.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-              <Layers className="w-5 h-5" />
+        <Link 
+          href="/jargon" 
+          className="group p-6 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 hover:border-cyan-500/50 transition-all shadow-lg flex flex-col justify-between space-y-4"
+        >
+          <div className="flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+              <Layers className="w-6 h-6" />
             </div>
-            <span className="text-xs font-semibold text-zinc-400 group-hover:text-cyan-400 flex items-center gap-1">
-              Practice Cards <ArrowRight className="w-3.5 h-3.5" />
+            <span className="text-sm font-bold text-zinc-400 group-hover:text-cyan-300 flex items-center gap-1.5">
+              Practice Cards Matrix <ArrowRight className="w-4 h-4" />
             </span>
           </div>
-          <h3 className="text-lg font-bold text-white mb-1">Architecture Flashcards</h3>
-          <div className="flex items-baseline space-x-2">
-            <span className="text-3xl font-extrabold text-cyan-400">{masteredCards}</span>
-            <span className="text-sm text-zinc-400">/ {totalCards} Cleared</span>
+          <div>
+            <h3 className="text-xl font-bold text-white mb-1">Architecture Flashcards</h3>
+            <div className="flex items-baseline space-x-2">
+              <span className="text-4xl font-black text-cyan-400">{masteredCards}</span>
+              <span className="text-base font-bold text-zinc-400">/ {totalCards} Cleared</span>
+            </div>
+            <div className="mt-4 w-full bg-zinc-800 rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-cyan-500 h-3 rounded-full transition-all duration-500"
+                style={{ width: `${(masteredCards / totalCards) * 100}%` }}
+              />
+            </div>
           </div>
-          <div className="mt-3 w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
-            <div
-              className="bg-cyan-500 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${(masteredCards / totalCards) * 100}%` }}
-            />
-          </div>
-          <p className="mt-2 text-xs text-zinc-500 flex justify-between">
+          <div className="text-sm text-zinc-400 flex justify-between font-medium pt-2 border-t border-zinc-800/80">
             <span>Learning: {learningCards}</span>
             <span>Unreviewed: {totalCards - masteredCards - learningCards}</span>
-          </p>
+          </div>
         </Link>
 
         {/* SAD Artifact Defense */}
-        <Link href="/artifact-builder" className="group p-5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900/90 hover:border-amber-500/40 transition-all">
-          <div className="flex items-center justify-between mb-3">
-            <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
-              <FileText className="w-5 h-5" />
+        <Link 
+          href="/artifact-builder" 
+          className="group p-6 rounded-2xl border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 hover:border-amber-500/50 transition-all shadow-lg flex flex-col justify-between space-y-4"
+        >
+          <div className="flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-amber-500/15 text-amber-400 border border-amber-500/30">
+              <FileText className="w-6 h-6" />
             </div>
-            <span className="text-xs font-semibold text-zinc-400 group-hover:text-amber-400 flex items-center gap-1">
-              Review SAD <ArrowRight className="w-3.5 h-3.5" />
+            <span className="text-sm font-bold text-zinc-400 group-hover:text-amber-300 flex items-center gap-1.5">
+              Inspect SAD Defense <ArrowRight className="w-4 h-4" />
             </span>
           </div>
-          <h3 className="text-lg font-bold text-white mb-1">Production SAD Defense</h3>
-          <div className="flex items-baseline space-x-2">
-            <span className="text-3xl font-extrabold text-amber-400">{sadPercentage}%</span>
-            <span className="text-sm text-zinc-400">Readiness</span>
+          <div>
+            <h3 className="text-xl font-bold text-white mb-1">Production SAD Defense</h3>
+            <div className="flex items-baseline space-x-2">
+              <span className="text-4xl font-black text-amber-400">{sadPercentage}%</span>
+              <span className="text-base font-bold text-zinc-400">Readiness</span>
+            </div>
+            <div className="mt-4 w-full bg-zinc-800 rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-amber-500 h-3 rounded-full transition-all duration-500"
+                style={{ width: `${sadPercentage}%` }}
+              />
+            </div>
           </div>
-          <div className="mt-3 w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
-            <div
-              className="bg-amber-500 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${sadPercentage}%` }}
-            />
+          <div className="text-sm text-zinc-400 font-medium pt-2 border-t border-zinc-800/80">
+            Cox Automotive (2,500 RPS Peak, 3 ADRs, C4 Topology)
           </div>
-          <p className="mt-2 text-xs text-zinc-500">
-            Cox Automotive (2,500 RPS, 3 ADRs, C4 Topology)
-          </p>
         </Link>
       </div>
 
-      {/* 90-Minute Assessment Session Architecture Breakdown */}
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
-        <div className="flex items-center space-x-2 mb-4">
-          <Clock className="w-5 h-5 text-indigo-400" />
-          <h2 className="text-lg font-bold text-white">Full Assessment Session Dynamics (90 Minutes)</h2>
+      {/* Assessment Dynamics - Clean Executive Blueprint Table (No Nested Clutter) */}
+      <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/60 shadow-xl">
+        <div className="p-6 sm:p-8 border-b border-zinc-800 bg-zinc-950/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2 text-indigo-400 font-bold text-sm uppercase tracking-wider">
+              <Clock className="w-5 h-5" />
+              <span>90-Minute Committee Assessment Blueprint</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              Two-Phase Full Session Execution Dynamics
+            </h2>
+          </div>
+          <span className="text-sm text-zinc-400 font-mono self-start sm:self-auto bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-xl">
+            2–3 Senior / Chief Architect Examiners
+          </span>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Part 1 */}
-          <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-950/70 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
-                PART 1: 45 MINUTES
-              </span>
-              <span className="text-xs text-zinc-400 font-mono">Forensic Audit</span>
-            </div>
-            <h3 className="text-base font-bold text-white">Production Artifact (SAD) Defense</h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              The committee of 2–3 Senior and Chief Architects will audit your submitted Solution Architecture Document.
-              They test for authentic authorship, explore why alternatives were rejected, and drill down on NFR feasibility.
-            </p>
-            <ul className="text-xs text-zinc-300 space-y-1.5 pt-2 border-t border-zinc-800/80">
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-                <span>Verify NFR metrics (2,500 RPS, P99 &lt; 150ms, RTO &lt; 15 min, RPO = 0)</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-                <span>Defend 3 core ADRs (DynamoDB vs MySQL, SQS vs Sync REST, Optimistic Locking)</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-                <span>Handle failure modes and cross-examination questions</span>
-              </li>
-            </ul>
-            <div className="pt-2">
-              <Link
-                href="/artifact-builder"
-                className="inline-flex items-center space-x-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300"
-              >
-                <span>Launch SAD Workbench &amp; Defense Engine</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
 
-          {/* Part 2 */}
-          <div className="p-5 rounded-xl border border-zinc-800 bg-zinc-950/70 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                PART 2: 45 MINUTES
-              </span>
-              <span className="text-xs text-zinc-400 font-mono">Live Whiteboarding</span>
-            </div>
-            <h3 className="text-base font-bold text-white">Live High-Level Design (HLD) Scenario</h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              You are assigned an ambiguous business problem. Success is strictly determined by adhering to EPAM’s 4-step framework
-              without jumping prematurely into code or technology names.
-            </p>
-            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-800/80 text-[11px] font-mono">
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                <span className="text-emerald-400 font-bold">Step 1:</span> Clarify FRs &amp; Quantify NFRs
-              </div>
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                <span className="text-emerald-400 font-bold">Step 2:</span> C4 Container Topology
-              </div>
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                <span className="text-emerald-400 font-bold">Step 3:</span> Persistence &amp; Concurrency
-              </div>
-              <div className="p-2 rounded bg-zinc-900 border border-zinc-800">
-                <span className="text-emerald-400 font-bold">Step 4:</span> Failure Modes &amp; Trade-Offs
-              </div>
-            </div>
-            <div className="pt-2">
-              <Link
-                href="/hld-simulator"
-                className="inline-flex items-center space-x-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300"
-              >
-                <span>Launch 4-Step HLD Whiteboard Simulator</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-zinc-800 bg-zinc-950 text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-400">
+                <th className="py-4 px-6">Assessment Phase</th>
+                <th className="py-4 px-6">Core Focus &amp; Format</th>
+                <th className="py-4 px-6">Candidate Deliverables</th>
+                <th className="py-4 px-6">Committee Pass Criteria</th>
+                <th className="py-4 px-6 text-right">Direct Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800 text-sm sm:text-base">
+              {/* Part 1 */}
+              <tr className="hover:bg-zinc-800/30 transition-colors">
+                <td className="py-6 px-6 align-top">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-3 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+                      PART 1 &bull; 45 MIN
+                    </span>
+                    <div className="text-lg font-bold text-white">Production SAD Defense</div>
+                    <div className="text-xs text-zinc-400 font-mono">Forensic Technical Audit</div>
+                  </div>
+                </td>
+                <td className="py-6 px-6 align-top text-zinc-300 leading-relaxed max-w-sm">
+                  Audit of your submitted Cox Automotive Solution Architecture Document. The committee tests authentic authorship, explores rejected architectural alternatives, and interrogates NFR feasibility under stress.
+                </td>
+                <td className="py-6 px-6 align-top text-zinc-300 leading-relaxed">
+                  <ul className="space-y-2">
+                    <li className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      <span>Verify NFR metrics (2,500 RPS, P99 &lt; 150ms, RPO=0)</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      <span>Defend 3 ADRs with explicit Gain vs. Sacrifice</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <Check className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      <span>C4 Level 2 Ingestion &amp; Syndication container flows</span>
+                    </li>
+                  </ul>
+                </td>
+                <td className="py-6 px-6 align-top">
+                  <span className="inline-block px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-bold">
+                    Quantified Trade-off Defense (No Hand-waving)
+                  </span>
+                </td>
+                <td className="py-6 px-6 align-top text-right whitespace-nowrap">
+                  <Link
+                    href="/artifact-builder"
+                    className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-md transition-all"
+                  >
+                    <span>Launch SAD Workbench</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </td>
+              </tr>
+
+              {/* Part 2 */}
+              <tr className="hover:bg-zinc-800/30 transition-colors">
+                <td className="py-6 px-6 align-top">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-3 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                      PART 2 &bull; 45 MIN
+                    </span>
+                    <div className="text-lg font-bold text-white">Live Whiteboarding</div>
+                    <div className="text-xs text-zinc-400 font-mono">Live High-Level Design (HLD)</div>
+                  </div>
+                </td>
+                <td className="py-6 px-6 align-top text-zinc-300 leading-relaxed max-w-sm">
+                  Given an ambiguous real-world client problem (e.g. Flash-Sale Reservation or Multi-Tenant IoT Fleet), candidate must strictly execute EPAM&apos;s 4-step framework on the whiteboard without jumping prematurely to code.
+                </td>
+                <td className="py-6 px-6 align-top text-zinc-300 leading-relaxed">
+                  <ol className="space-y-2 list-decimal list-inside font-medium">
+                    <li><strong className="text-white">Step 1:</strong> Clarify FRs &amp; Quantify NFRs</li>
+                    <li><strong className="text-white">Step 2:</strong> C4 Container Topology</li>
+                    <li><strong className="text-white">Step 3:</strong> Persistence &amp; Concurrency</li>
+                    <li><strong className="text-white">Step 4:</strong> Failure Modes &amp; Blast Radius</li>
+                  </ol>
+                </td>
+                <td className="py-6 px-6 align-top">
+                  <span className="inline-block px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-bold">
+                    Systematic 4-Step Discipline (No Premature Tech)
+                  </span>
+                </td>
+                <td className="py-6 px-6 align-top text-right whitespace-nowrap">
+                  <Link
+                    href="/hld-simulator"
+                    className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md transition-all"
+                  >
+                    <span>Launch HLD Simulator</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* 38 Competencies Domain Coverage */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <BarChart3 className="w-5 h-5 text-indigo-400" />
-            <h2 className="text-lg font-bold text-white">EPAM LevelUp Skills Inventory (38 Competencies)</h2>
+      {/* EPAM LevelUp Skills Inventory - Table View (Replaces 7 Tiny Boxes) */}
+      <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/60 shadow-xl">
+        <div className="p-6 sm:p-8 border-b border-zinc-800 bg-zinc-950/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2 text-indigo-400 font-bold text-sm uppercase tracking-wider">
+              <BarChart3 className="w-5 h-5" />
+              <span>EPAM LevelUp Skills Inventory (38 Total Competencies)</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white">
+              Domain Coverage &amp; Mastery Distribution
+            </h2>
           </div>
-          <Link href="/roadmap" className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-            View All in Roadmap <ArrowRight className="w-3.5 h-3.5" />
+          <Link
+            href="/roadmap"
+            className="inline-flex items-center space-x-2 text-sm font-bold text-indigo-400 hover:text-indigo-300 self-start sm:self-auto bg-indigo-500/10 border border-indigo-500/20 px-4 py-2 rounded-xl transition-all"
+          >
+            <span>Open 38-Competency Master Table</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
-          {domains.map((d) => (
-            <div key={d.name} className="p-3.5 rounded-xl border border-zinc-800 bg-zinc-900/50 flex flex-col justify-between">
-              <div>
-                <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold border ${d.color} mb-2`}>
-                  {d.count} Skills
-                </span>
-                <h4 className="text-xs font-bold text-white truncate" title={d.name}>{d.name}</h4>
-              </div>
-              <p className="text-[10px] text-zinc-400 mt-2 font-mono">{d.bar}</p>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-zinc-800 bg-zinc-950 text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-400">
+                <th className="py-4 px-6">Domain</th>
+                <th className="py-4 px-6">LevelUp Target Bar</th>
+                <th className="py-4 px-6">Total Competencies</th>
+                <th className="py-4 px-6">Mastery Status</th>
+                <th className="py-4 px-6 text-right">Drilldown</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800 text-sm sm:text-base">
+              {domainStats.map((dom) => {
+                const domainCompetencies = SYLLABUS_DATA.filter(c => c.domain === dom.name);
+                const masteredInDomain = domainCompetencies.filter(c => competencyStatus[c.id] === 'mastered').length;
+                const percent = Math.round((masteredInDomain / dom.count) * 100);
+
+                return (
+                  <tr key={dom.name} className="hover:bg-zinc-800/30 transition-colors">
+                    <td className="py-4 px-6 font-bold text-white">
+                      <span className="text-base sm:text-lg">{dom.name}</span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <span className={`inline-block px-3 py-1 rounded-lg text-xs font-extrabold border ${dom.color}`}>
+                        {dom.bar}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6 font-mono text-zinc-300">
+                      {dom.count} Competencies
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="flex items-center space-x-3 max-w-xs">
+                        <div className="flex-1 bg-zinc-800 rounded-full h-2.5 overflow-hidden">
+                          <div
+                            className="bg-emerald-500 h-2.5 rounded-full transition-all"
+                            style={{ width: `${percent}%` }}
+                          />
+                        </div>
+                        <span className="text-xs font-mono font-bold text-emerald-400 whitespace-nowrap">
+                          {masteredInDomain}/{dom.count} ({percent}%)
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-6 text-right">
+                      <Link
+                        href={`/roadmap`}
+                        className="inline-flex items-center space-x-1.5 text-xs sm:text-sm font-bold text-zinc-400 hover:text-white transition-colors"
+                      >
+                        <span>View in Roadmap</span>
+                        <ChevronRight className="w-4 h-4 text-indigo-400" />
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* 4 Interactive Feature Launchpads */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* 4 Primary System Launchpads - Big Screen Readable Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Link
           href="/roadmap"
-          className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800/60 hover:border-indigo-500/40 transition-all flex flex-col justify-between"
+          className="p-6 rounded-3xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-indigo-500/50 transition-all shadow-xl flex flex-col justify-between space-y-4"
         >
-          <div className="space-y-2">
-            <div className="w-9 h-9 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20">
-              <Award className="w-5 h-5" />
+          <div className="space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center border border-indigo-500/30">
+              <Award className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-white text-sm">38-Skill Interactive Roadmap</h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Filter by LevelUp Boxes (Advanced, Intermediate, Novice) with verbatim 30-second defense scripts.
+            <h3 className="font-extrabold text-white text-lg">38-Skill Interactive Table</h3>
+            <p className="text-sm text-zinc-300 leading-relaxed">
+              Explore all competencies via table mode or modal deep-dive with verbatim 30s defense scripts, roadmaps, and client interview exercises.
             </p>
           </div>
-          <span className="text-xs font-semibold text-indigo-400 flex items-center gap-1 mt-4">
-            Enter Roadmap <ArrowRight className="w-3.5 h-3.5" />
+          <span className="text-sm font-bold text-indigo-400 flex items-center gap-1.5 pt-4 border-t border-zinc-800/80">
+            Open Roadmap <ArrowRight className="w-4 h-4" />
           </span>
         </Link>
 
         <Link
           href="/jargon"
-          className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800/60 hover:border-cyan-500/40 transition-all flex flex-col justify-between"
+          className="p-6 rounded-3xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-cyan-500/50 transition-all shadow-xl flex flex-col justify-between space-y-4"
         >
-          <div className="space-y-2">
-            <div className="w-9 h-9 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center border border-cyan-500/20">
-              <Layers className="w-5 h-5" />
+          <div className="space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center border border-cyan-500/30">
+              <Layers className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-white text-sm">30 Distributed Systems Flashcards</h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Interactive 3D flip cards covering CAP, Sagas, Outbox CDC, Bulkheads, Circuit Breakers, and C4.
+            <h3 className="font-extrabold text-white text-lg">30 Architecture Flashcards</h3>
+            <p className="text-sm text-zinc-300 leading-relaxed">
+              Interactive 3D flip deck and architecture matrix covering CAP, Sagas, Outbox CDC, Bulkheads, Circuit Breakers, and C4 levels.
             </p>
           </div>
-          <span className="text-xs font-semibold text-cyan-400 flex items-center gap-1 mt-4">
-            Flip Flashcards <ArrowRight className="w-3.5 h-3.5" />
+          <span className="text-sm font-bold text-cyan-400 flex items-center gap-1.5 pt-4 border-t border-zinc-800/80">
+            Flip Flashcards <ArrowRight className="w-4 h-4" />
           </span>
         </Link>
 
         <Link
           href="/artifact-builder"
-          className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800/60 hover:border-amber-500/40 transition-all flex flex-col justify-between"
+          className="p-6 rounded-3xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-amber-500/50 transition-all shadow-xl flex flex-col justify-between space-y-4"
         >
-          <div className="space-y-2">
-            <div className="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
-              <FileText className="w-5 h-5" />
+          <div className="space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-400 flex items-center justify-center border border-amber-500/30">
+              <FileText className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-white text-sm">SAD Defense Workbench</h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Edit Cox Automotive architecture data, export Markdown artifacts, and test against 6 tough panel questions.
+            <h3 className="font-extrabold text-white text-lg">SAD Defense Workbench</h3>
+            <p className="text-sm text-zinc-300 leading-relaxed">
+              Edit Cox Automotive architecture data, examine NFR metrics table, review ADR decision matrix, and test against 6 tough panel questions.
             </p>
           </div>
-          <span className="text-xs font-semibold text-amber-400 flex items-center gap-1 mt-4">
-            Open Workbench <ArrowRight className="w-3.5 h-3.5" />
+          <span className="text-sm font-bold text-amber-400 flex items-center gap-1.5 pt-4 border-t border-zinc-800/80">
+            Open SAD Workbench <ArrowRight className="w-4 h-4" />
           </span>
         </Link>
 
         <Link
           href="/mock-panel"
-          className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800/60 hover:border-rose-500/40 transition-all flex flex-col justify-between"
+          className="p-6 rounded-3xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-rose-500/50 transition-all shadow-xl flex flex-col justify-between space-y-4"
         >
-          <div className="space-y-2">
-            <div className="w-9 h-9 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center border border-rose-500/20">
-              <MessageSquareCode className="w-5 h-5" />
+          <div className="space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-rose-500/15 text-rose-400 flex items-center justify-center border border-rose-500/30">
+              <MessageSquareCode className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-white text-sm">Committee Mock Examiner</h3>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Simulate cross-examination by Dmitry, Elena, and Marcus with instant 1–4 scale scoring on your answers.
+            <h3 className="font-extrabold text-white text-lg">Committee Mock Examiner</h3>
+            <p className="text-sm text-zinc-300 leading-relaxed">
+              Simulate cross-examination by Dmitry, Elena, and Marcus with instant 1–4 scale scoring on your architectural answers.
             </p>
           </div>
-          <span className="text-xs font-semibold text-rose-400 flex items-center gap-1 mt-4">
-            Start Mock Interview <ArrowRight className="w-3.5 h-3.5" />
+          <span className="text-sm font-bold text-rose-400 flex items-center gap-1.5 pt-4 border-t border-zinc-800/80">
+            Start Mock Interview <ArrowRight className="w-4 h-4" />
           </span>
         </Link>
       </div>

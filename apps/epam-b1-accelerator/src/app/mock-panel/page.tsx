@@ -24,14 +24,14 @@ const INITIAL_MESSAGES: PanelMessage[] = [
     id: 'm-intro',
     sender: 'Dmitry (Chair)',
     avatarColor: 'bg-indigo-600',
-    text: 'Welcome to your EPAM B1 Software Architect Assessment. I am Dmitry, Committee Chair. With me today are Elena, our Cloud & Distributed Systems Chief, and Marcus from Enterprise Governance. We will audit your Cox Automotive Solution Architecture Document and drill into your technical decisions. Whenever you are ready, answer our questions concisely—ideally using an analogy, explicit trade-offs (Gain vs. Sacrifice), and quantitative metrics.',
+    text: 'Welcome to your EPAM B1 Software Architect Assessment session. I am Dmitry, Committee Chair. With me today are Elena, our Chief Architect for Cloud & Distributed Systems, and Marcus from Enterprise Architecture Governance. We will audit your Cox Automotive Solution Architecture Document and drill into your technical decisions. Whenever you are ready, defend your choices concisely—ideally using an analogy, explicit trade-offs (Gain vs. Sacrifice), and quantifiable metrics.',
     timestamp: 'Assessment Start'
   },
   {
     id: 'm-q1',
     sender: 'Dmitry (Chair)',
     avatarColor: 'bg-indigo-600',
-    text: 'Let us begin with your persistence tier in ADR-01. You chose DynamoDB Single-Table design over Aurora MySQL for your vehicle catalog. Automotive data is inherently relational (Dealers, Showrooms, Vehicles, Appraisals). Why force this into a NoSQL single table? How do you perform complex relational searches without JOINs, and what did you sacrifice?',
+    text: 'Let us begin with your persistence tier in ADR-01. You chose DynamoDB Single-Table design over Aurora MySQL for your vehicle catalog. Automotive data is inherently relational (Dealers, Showrooms, Vehicles, Appraisals). Why force this into a NoSQL single table? How do you perform complex relational searches without SQL JOINs, and what did you sacrifice?',
     timestamp: '00:02'
   }
 ];
@@ -40,7 +40,6 @@ export default function MockPanelPage() {
   const [messages, setMessages] = useLocalStorage<PanelMessage[]>('epam_b1_mock_panel_history', INITIAL_MESSAGES);
   const [inputAnswer, setInputAnswer] = useState<string>('');
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
-  const [selectedPresetQuestion, setSelectedPresetQuestion] = useState<string>('');
 
   const questionsPool = [
     {
@@ -85,10 +84,10 @@ export default function MockPanelPage() {
     let feedback = '';
 
     const checks = [
-      { item: 'Quantified metrics or SLAs cited', passed: hasNumbers },
-      { item: 'Clear Gain vs. Sacrifice trade-off articulated', passed: hasTradeoff },
+      { item: 'Quantified metrics or SLAs cited (e.g. 2,500 RPS, P99 < 150ms)', passed: hasNumbers },
+      { item: 'Clear Gain vs. Sacrifice trade-off explicitly articulated', passed: hasTradeoff },
       { item: 'Concrete architectural mechanisms named (DynamoDB, SQS, CQRS, etc.)', passed: hasMechanics },
-      { item: 'Plain-English analogy or conceptual clarity', passed: hasAnalogy }
+      { item: 'Plain-English analogy or conceptual clarity provided', passed: hasAnalogy }
     ];
 
     const passedCount = checks.filter(c => c.passed).length;
@@ -96,7 +95,7 @@ export default function MockPanelPage() {
     if (length < 25) {
       score = 1;
       label = 'Unsatisfactory';
-      feedback = 'Answer is too terse. An architect in a B1 assessment must provide a structured, defensible justification rather than a one-sentence assertion.';
+      feedback = 'Answer is too brief. An architect in a B1 assessment must provide a structured, defensible justification rather than a one-sentence assertion.';
     } else if (passedCount <= 1) {
       score = 1;
       label = 'Unsatisfactory';
@@ -177,85 +176,85 @@ export default function MockPanelPage() {
   };
 
   return (
-    <div className="space-y-6 pb-16 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-5">
-        <div>
-          <div className="flex items-center space-x-2 text-xs font-semibold text-rose-400 uppercase tracking-wider mb-1">
-            <MessageSquareCode className="w-4 h-4" />
+    <div className="space-y-8 pb-20 max-w-6xl mx-auto">
+      {/* Header with High-Impact Typography */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-zinc-800 pb-6">
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2 text-sm font-bold text-rose-400 uppercase tracking-wider">
+            <MessageSquareCode className="w-5 h-5" />
             <span>Committee Defense Simulator</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Mock Committee Examiner (EPAM Systems)
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+            Mock Committee Examiner
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-            Simulate forensic cross-examination before a panel of 3 Senior/Chief Architects. Real-time scoring on a 1–4 scale.
+          <p className="text-sm sm:text-base text-zinc-300 leading-relaxed">
+            Simulate forensic cross-examination before a panel of 3 Senior and Chief Architects. Real-time scoring on a 1–4 scale evaluating analogies, quantifiable SLAs, and trade-off defense.
           </p>
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center space-x-2 self-start sm:self-auto">
+        <div className="flex items-center space-x-3 self-start sm:self-auto">
           <button
             onClick={handleResetSession}
-            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 border border-zinc-800 text-xs font-medium transition-colors"
+            className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-800 text-sm font-bold transition-colors"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-4 h-4" />
             <span>Reset Session</span>
           </button>
         </div>
       </div>
 
       {/* Committee Panel Profiles */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="p-3.5 rounded-xl border border-indigo-500/30 bg-indigo-950/20 flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="p-4 rounded-2xl border border-indigo-500/30 bg-indigo-950/20 flex items-center space-x-3.5 shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-white text-sm shadow-md">
             D
           </div>
           <div className="truncate">
-            <div className="text-xs font-bold text-white">Dmitry (Lead Chair)</div>
-            <div className="text-[10px] text-indigo-300 truncate">Software Architecture Discipline</div>
+            <div className="text-sm font-bold text-white">Dmitry (Lead Chair)</div>
+            <div className="text-xs text-indigo-300 truncate">Software Architecture Discipline</div>
           </div>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-full bg-cyan-600 flex items-center justify-center font-bold text-white text-xs">
+        <div className="p-4 rounded-2xl border border-cyan-500/30 bg-cyan-950/20 flex items-center space-x-3.5 shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-cyan-600 flex items-center justify-center font-black text-white text-sm shadow-md">
             E
           </div>
           <div className="truncate">
-            <div className="text-xs font-bold text-white">Elena (Chief Architect)</div>
-            <div className="text-[10px] text-cyan-300 truncate">Cloud &amp; Distributed Systems</div>
+            <div className="text-sm font-bold text-white">Elena (Chief Architect)</div>
+            <div className="text-xs text-cyan-300 truncate">Cloud &amp; Distributed Systems</div>
           </div>
         </div>
 
-        <div className="p-3.5 rounded-xl border border-purple-500/30 bg-purple-950/20 flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-full bg-purple-600 flex items-center justify-center font-bold text-white text-xs">
+        <div className="p-4 rounded-2xl border border-purple-500/30 bg-purple-950/20 flex items-center space-x-3.5 shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center font-black text-white text-sm shadow-md">
             M
           </div>
           <div className="truncate">
-            <div className="text-xs font-bold text-white">Marcus (Senior Architect)</div>
-            <div className="text-[10px] text-purple-300 truncate">Governance &amp; Enterprise ADRs</div>
+            <div className="text-sm font-bold text-white">Marcus (Senior Architect)</div>
+            <div className="text-xs text-purple-300 truncate">Governance &amp; Enterprise ADRs</div>
           </div>
         </div>
       </div>
 
       {/* Preset Questions Injection Bar */}
-      <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800 flex flex-wrap items-center gap-2">
-        <span className="text-[11px] font-semibold text-zinc-400 mr-1 flex items-center gap-1">
-          <HelpCircle className="w-3.5 h-3.5" /> Prompt Committee with Question:
+      <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex flex-wrap items-center gap-3">
+        <span className="text-xs font-bold text-zinc-400 mr-1 flex items-center gap-1.5 uppercase tracking-wider">
+          <HelpCircle className="w-4 h-4" /> Prompt Committee with Target Question:
         </span>
-        {questionsPool.slice(0, 3).map((q, idx) => (
+        {questionsPool.map((q, idx) => (
           <button
             key={idx}
             onClick={() => injectPresetQuestion(q)}
-            className="px-2.5 py-1 rounded bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-[11px] text-zinc-300 hover:text-white transition-colors"
+            className="px-3 py-1.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 text-xs text-zinc-300 hover:text-white transition-colors font-medium"
           >
-            {q.interrogator.split(' ')[0]}: {q.question.slice(0, 38)}...
+            {q.interrogator.split(' ')[0]}: {q.question.slice(0, 32)}...
           </button>
         ))}
       </div>
 
       {/* Chat Messages Feed */}
-      <div className="space-y-4 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 sm:p-6 min-h-[420px] max-h-[640px] overflow-y-auto">
+      <div className="space-y-6 rounded-3xl border border-zinc-800 bg-zinc-950/80 p-6 sm:p-8 min-h-[460px] max-h-[700px] overflow-y-auto shadow-2xl">
         {messages.map((m) => {
           const isCandidate = m.sender === 'Candidate';
           const isGrade = !!m.grade;
@@ -263,20 +262,20 @@ export default function MockPanelPage() {
           return (
             <div
               key={m.id}
-              className={`flex items-start space-x-3 ${isCandidate ? 'flex-row-reverse space-x-reverse' : ''}`}
+              className={`flex items-start space-x-4 ${isCandidate ? 'flex-row-reverse space-x-reverse' : ''}`}
             >
               {/* Avatar */}
               <div
-                className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold text-white shadow-md ${
+                className={`w-10 h-10 rounded-2xl flex-shrink-0 flex items-center justify-center text-sm font-black text-white shadow-lg ${
                   m.avatarColor || 'bg-zinc-700'
                 }`}
               >
-                {isCandidate ? <User className="w-4 h-4" /> : m.sender[0]}
+                {isCandidate ? <User className="w-5 h-5" /> : m.sender[0]}
               </div>
 
               {/* Message Bubble */}
               <div
-                className={`max-w-[85%] sm:max-w-[80%] rounded-2xl p-4 text-xs leading-relaxed ${
+                className={`max-w-[85%] sm:max-w-[80%] rounded-3xl p-5 sm:p-6 text-sm sm:text-base leading-relaxed shadow-md ${
                   isCandidate
                     ? 'bg-emerald-950/40 border border-emerald-500/30 text-zinc-100'
                     : isGrade
@@ -284,22 +283,22 @@ export default function MockPanelPage() {
                     : 'bg-zinc-900 border border-zinc-800 text-zinc-200'
                 }`}
               >
-                <div className="flex items-center justify-between gap-3 mb-1 text-[10px] text-zinc-400">
-                  <span className="font-bold text-white">{m.sender}</span>
+                <div className="flex items-center justify-between gap-4 mb-2 text-xs text-zinc-400 font-bold">
+                  <span className="text-white">{m.sender}</span>
                   <span className="font-mono">{m.timestamp}</span>
                 </div>
 
-                <p className="whitespace-pre-wrap">{m.text}</p>
+                <p className="whitespace-pre-wrap leading-relaxed">{m.text}</p>
 
                 {/* Rubric Grade Card if present */}
                 {m.grade && (
-                  <div className="mt-3 pt-3 border-t border-zinc-800 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-bold text-zinc-300 uppercase tracking-wider">
-                        Official Assessment Grade:
+                  <div className="mt-4 pt-4 border-t border-zinc-800 space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-zinc-300 uppercase tracking-wider">
+                        Official Assessment Scoring:
                       </span>
                       <span
-                        className={`px-2 py-0.5 rounded text-[11px] font-black uppercase ${
+                        className={`px-3 py-1 rounded-xl text-xs sm:text-sm font-black uppercase ${
                           m.grade.score >= 3
                             ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                             : m.grade.score === 2
@@ -311,15 +310,15 @@ export default function MockPanelPage() {
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                       {m.grade.checklist.map((c, i) => (
-                        <div key={i} className="flex items-center space-x-1.5 text-[11px]">
+                        <div key={i} className="flex items-center space-x-2 text-xs">
                           {c.passed ? (
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+                            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                           ) : (
-                            <AlertCircle className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
+                            <AlertCircle className="w-4 h-4 text-zinc-600 flex-shrink-0" />
                           )}
-                          <span className={c.passed ? 'text-zinc-200' : 'text-zinc-500'}>
+                          <span className={c.passed ? 'text-zinc-200 font-medium' : 'text-zinc-500'}>
                             {c.item}
                           </span>
                         </div>
@@ -333,19 +332,19 @@ export default function MockPanelPage() {
         })}
 
         {isEvaluating && (
-          <div className="flex items-center space-x-2 text-xs text-zinc-400 italic py-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
-            <span>Committee is deliberating and evaluating your architectural defense...</span>
+          <div className="flex items-center space-x-3 text-sm text-zinc-400 italic py-3">
+            <span className="w-3 h-3 rounded-full bg-indigo-500 animate-ping" />
+            <span>Committee is evaluating your architectural response against the B1 rubric...</span>
           </div>
         )}
       </div>
 
       {/* Input Composer */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         <div className="relative">
           <textarea
-            rows={3}
-            placeholder="Type your 30-second committee defense here. Tip: Use an analogy, state numbers (2,500 RPS), explain what you sacrificed, and define failure recovery..."
+            rows={4}
+            placeholder="Type your 30-second committee defense here. Tip: Use an analogy, cite quantitative metrics (2,500 RPS, P99 < 150ms), state what you sacrificed, and define failure recovery..."
             value={inputAnswer}
             onChange={(e) => setInputAnswer(e.target.value)}
             onKeyDown={(e) => {
@@ -353,20 +352,20 @@ export default function MockPanelPage() {
                 handleSendAnswer();
               }
             }}
-            className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3.5 pr-24 text-xs text-zinc-100 placeholder-zinc-500 leading-relaxed focus:outline-none focus:border-indigo-500 transition-colors"
+            className="w-full bg-zinc-950 border border-zinc-800 rounded-2xl p-5 pr-28 text-sm sm:text-base text-zinc-100 placeholder-zinc-500 leading-relaxed focus:outline-none focus:border-indigo-500 transition-colors shadow-lg"
           />
 
           <button
             onClick={handleSendAnswer}
             disabled={!inputAnswer.trim() || isEvaluating}
-            className="absolute right-3 bottom-3.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
+            className="absolute right-4 bottom-4 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:pointer-events-none text-white text-sm font-black transition-all shadow-md flex items-center gap-2"
           >
             <span>Defend</span>
-            <Send className="w-3.5 h-3.5" />
+            <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-[11px] text-zinc-500 text-right">
-          Press <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">Ctrl + Enter</kbd> to submit defense
+        <p className="text-xs text-zinc-500 text-right font-medium">
+          Press <kbd className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 font-mono">Ctrl + Enter</kbd> to submit defense to committee
         </p>
       </div>
     </div>
