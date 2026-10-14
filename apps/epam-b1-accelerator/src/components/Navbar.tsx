@@ -11,7 +11,8 @@ import {
   Cpu, 
   MessageSquareCode, 
   ShieldCheck,
-  Zap
+  Zap,
+  GraduationCap
 } from 'lucide-react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
@@ -30,6 +31,7 @@ export function Navbar() {
     { href: '/artifact-builder', label: 'SAD Workbench', icon: FileText },
     { href: '/hld-simulator', label: 'HLD Whiteboard', icon: Cpu },
     { href: '/mock-panel', label: 'Mock Panel', icon: MessageSquareCode },
+    { href: '/exam', label: 'B1 Exam (25)', icon: GraduationCap },
   ];
 
   return (

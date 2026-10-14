@@ -19,7 +19,8 @@ import {
   Database,
   Check,
   ChevronRight,
-  ExternalLink
+  ExternalLink,
+  GraduationCap
 } from 'lucide-react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { SYLLABUS_DATA } from '@/data/syllabusData';
@@ -28,6 +29,7 @@ import { FLASHCARDS_DATA } from '@/data/flashcardsData';
 export default function DashboardPage() {
   const [competencyStatus] = useLocalStorage<Record<string, string>>('epam_b1_competencies', {});
   const [flashcardStatus] = useLocalStorage<Record<string, string>>('epam_b1_flashcards', {});
+  const [examResult] = useLocalStorage<any>('epam_b1_latest_exam_result', null);
   const [sadStatus] = useLocalStorage<Record<string, boolean>>('epam_b1_sad_checks', {
     nfrsReviewed: true,
     c4TopologyMastered: true,
@@ -131,6 +133,30 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Skill Level Verification Exam Callout Banner */}
+      <div className="relative overflow-hidden rounded-3xl border border-indigo-500/40 bg-gradient-to-r from-indigo-950/60 via-zinc-900 to-zinc-950 p-6 sm:p-8 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-2 max-w-3xl">
+          <div className="flex items-center space-x-2 text-indigo-400 text-xs sm:text-sm font-bold uppercase tracking-wider">
+            <GraduationCap className="w-5 h-5 text-indigo-400" />
+            <span>Autonomous Competency Calibration &bull; 25 Scenarios</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-white">
+            {examResult ? `Latest Assessment: ${examResult.verdict} (${examResult.percentage}%)` : 'Verify Your Skill Level for EPAM B1 Software Architect'}
+          </h2>
+          <p className="text-sm text-zinc-300 leading-relaxed">
+            Take the timed 25-scenario diagnostic exam to verify whether your architectural decisions meet the required <strong className="text-white">Box 3 (Advanced)</strong>, <strong className="text-white">Box 2 (Intermediate)</strong>, and <strong className="text-white">Box 1 (Novice)</strong> thresholds across all 7 domains.
+          </p>
+        </div>
+
+        <Link
+          href="/exam"
+          className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm shadow-lg transition-all self-start md:self-auto whitespace-nowrap"
+        >
+          <span>{examResult ? 'View Scorecard / Retake' : 'Launch Verification Exam'}</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
 
       {/* 3 Core Metric KPI Banners */}
